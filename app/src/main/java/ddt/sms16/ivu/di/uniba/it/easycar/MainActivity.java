@@ -1,65 +1,131 @@
 package ddt.sms16.ivu.di.uniba.it.easycar;
 
-import android.app.DownloadManager;
-import android.support.v7.app.AppCompatActivity;
+import android.app.ListActivity;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.util.Log;
+import android.widget.ListAdapter;
+import android.widget.SimpleAdapter;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.Authenticator;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
+public class MainActivity extends ListActivity {
 
-public class MainActivity extends AppCompatActivity {
+    // URL to get data JSON
+    private static String url = "http://t2j.no-ip.org/ddt/WebService.php";
+
+    // JSON Node names
+    private static final String TAG_UTENTI = "utenti";
+    private static final String TAG_UTENTE_NOME = "nome";
+    private static final String TAG_UTENTE_COGNOME = "cognome";
+    private static final String TAG_UTENTE_DATANASCITA = "dataN";
+    private static final String TAG_UTENTE_EMAIL = "email";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button bottone = (Button) findViewById(R.id.button);
 
+        new GetUsers().execute();
 
-  bottone.setOnClickListener(new View.OnClickListener() {
+    }
 
+    private class GetUsers extends AsyncTask<Void, Void, Void> {
 
-            @Override
-            public void onClick(View v) {
+        // Hashmap per la ListView
+        ArrayList<HashMap<String, String>> listaUtenti;
+        ProgressDialog proDialog;
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
 
+            // Mostro la progress loading Dialog
+            proDialog = new ProgressDialog(MainActivity.this);
+            proDialog.setMessage("Please wait...");
+            proDialog.setCancelable(false);
+            proDialog.show();
+        }
 
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            // Creo un'istanza di WebRequest per effettuare una richiesta al server
+            WebRequest webreq = new WebRequest();
 
-                URL url = null;
+            // Faccio una richiesta all'url dichiarato come variabile di classe e prendo la risposta
+            String jsonStr = webreq.makeWebServiceCall(url, WebRequest.POSTRequest);
 
-                try {
-                    url = new URL("http://t2j.no-ip.org/AAA/WebService.php");
+            Log.d("Response: ", "> " + jsonStr);
 
-                    HttpURLConnection client = null;
+            listaUtenti = ParseJSON(jsonStr);
 
-                    client = (HttpURLConnection) url.openConnection();
-                    client.setRequestMethod("POST");
-                    client.setRequestProperty("nome", "Alfredo");
-                    client.setRequestProperty("cognome", "Alfredo");
-                    client.setDoOutput(true);
+            return null;
+        }
 
-                    Toast.makeText(MainActivity.this, "mi sono collegato bastà", Toast.LENGTH_LONG).show();
-                } catch (Exception e) {
-                    e.printStackTrace();
+        @Override
+        protected void onPostExecute(Void requestresult) {
+            super.onPostExecute(requestresult);
+            // Dismiss the progress dialog
+            if (proDialog.isShowing())
+                proDialog.dismiss();
+            /**
+             * Updating received data from JSON into ListView
+             * */
+            ListAdapter adapter = new SimpleAdapter(
+                    MainActivity.this, listaUtenti,
+                    R.layout.list_item,
+                    new String[]{TAG_UTENTE_NOME, TAG_UTENTE_COGNOME, TAG_UTENTE_EMAIL},
+                    new int[]{R.id.nome, R.id.cognome, R.id.email});
+
+            setListAdapter(adapter);
+
+        }
+    }
+
+    private ArrayList<HashMap<String, String>> ParseJSON(String json) {
+        if (json != null) {
+            try {
+                // Hashmap per la ListView
+                ArrayList<HashMap<String, String>> listaUtenti = new ArrayList<HashMap<String, String>>();
+                JSONObject jsonObj = new JSONObject(json);
+
+                // Prelevo JSON Array node
+                JSONArray utenti = jsonObj.getJSONArray(TAG_UTENTI);
+
+                // Ciclo tutti gli utenti
+                for (int i = 0; i < utenti.length(); i++) {
+                    JSONObject u = utenti.getJSONObject(i);
+
+                    String nome = u.getString(TAG_UTENTE_NOME);
+                    String cognome = u.getString(TAG_UTENTE_COGNOME);
+                    String dataN = u.getString(TAG_UTENTE_DATANASCITA);
+                    String email = u.getString(TAG_UTENTE_EMAIL);
+
+                    // hashmap per il singolo utente
+                    HashMap<String, String> utente = new HashMap<String, String>();
+
+                    System.out.println("----------------- " + nome + " " + cognome + " -----------------");
+                    // aggiungo tutti i campi dell'utente all'HashMap
+                    utente.put(TAG_UTENTE_NOME, nome);
+                    utente.put(TAG_UTENTE_COGNOME, cognome);
+                    utente.put(TAG_UTENTE_DATANASCITA, dataN);
+                    utente.put(TAG_UTENTE_EMAIL, email);
+
+                    // aggiungo il singolo studente alla lista di studenti
+                    listaUtenti.add(utente);
                 }
+                return listaUtenti;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
             }
-
-
-        });
-
-
-
-        //Questo è per TTTJJJ
+        } else {
+            Log.e("ServiceHandler", "No data received from HTTP request");
+            return null;
+        }
     }
 }
