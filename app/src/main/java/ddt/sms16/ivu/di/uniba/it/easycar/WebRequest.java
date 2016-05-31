@@ -54,7 +54,7 @@ public class WebRequest {
             if (requestmethod == POSTRequest) {
                 conn.setRequestMethod("POST");
             } else if (requestmethod == GETRequest) {
-                conn.setRequestMethod("GETRequest");
+                conn.setRequestMethod("GET");
             }
 
             if (params != null) {
@@ -77,6 +77,7 @@ public class WebRequest {
                 writer.close();
                 ostream.close();
             }
+
             int reqresponseCode = conn.getResponseCode();
 
             if (reqresponseCode == HttpsURLConnection.HTTP_OK) {

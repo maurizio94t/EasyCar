@@ -1,29 +1,47 @@
 package ddt.sms16.ivu.di.uniba.it.easycar;
 
-import android.app.ListActivity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.widget.ListAdapter;
-import android.widget.SimpleAdapter;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MainActivity extends ListActivity {
+import ddt.sms16.ivu.di.uniba.it.easycar.fragments.HomeFragment;
+import ddt.sms16.ivu.di.uniba.it.easycar.fragments.OneFragment;
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     // URL to get data JSON
     private static String url = "http://t2j.no-ip.org/ddt/WebService.php";
 
     // JSON Node names
-    private static final String TAG_UTENTI = "utenti";
-    private static final String TAG_UTENTE_NOME = "nome";
-    private static final String TAG_UTENTE_COGNOME = "cognome";
-    private static final String TAG_UTENTE_DATANASCITA = "dataN";
-    private static final String TAG_UTENTE_EMAIL = "email";
+    public static final String TAG_UTENTI = "utenti";
+    public static final String TAG_UTENTE_NOME = "nome";
+    public static final String TAG_UTENTE_COGNOME = "cognome";
+    public static final String TAG_UTENTE_DATANASCITA = "dataN";
+    public static final String TAG_UTENTE_EMAIL = "email";
+
+    // Hashmap per la ListView
+    public static ArrayList<HashMap<String, String>> listaUtenti;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +50,109 @@ public class MainActivity extends ListActivity {
 
         new GetUsers().execute();
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        // Faccio partire il primo Fragment
+        //FragmentTransaction ft = getFragmentManager().beginTransaction();
+        //ft.replace(R.id.fragment_container, new HomeFragment());
+        //ft.commit();
+
+        //navigationView.getMenu().getItem(0).setChecked(true);
     }
 
-    private class GetUsers extends AsyncTask<Void, Void, Void> {
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
 
-        // Hashmap per la ListView
-        ArrayList<HashMap<String, String>> listaUtenti;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        Fragment fragment = null;
+        boolean ok = false;
+
+        int id = item.getItemId();
+        if (id == R.id.nav_home) {
+            fragment = new HomeFragment();
+            ok = true;
+        } else if (id == R.id.nav_one) {
+            fragment = new OneFragment();
+            ok = true;
+        } else if (id == R.id.nav_slideshow) {
+
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        if(ok) {
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.replace(R.id.fragment_container, fragment);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            ft.addToBackStack(null);
+            ft.commit();
+        }
+
+        item.setChecked(true);
+        setTitle(item.getTitle());
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    // AsynkTask
+    private class GetUsers extends AsyncTask<Void, Void, Void> {
         ProgressDialog proDialog;
 
         @Override
@@ -46,7 +161,7 @@ public class MainActivity extends ListActivity {
 
             // Mostro la progress loading Dialog
             proDialog = new ProgressDialog(MainActivity.this);
-            proDialog.setMessage("Please wait...");
+            proDialog.setMessage("Caricamento in corso...");
             proDialog.setCancelable(false);
             proDialog.show();
         }
@@ -75,6 +190,8 @@ public class MainActivity extends ListActivity {
             /**
              * Updating received data from JSON into ListView
              * */
+
+            /*  AL MOMENTO NON ABBIAMO QUI LA LISTA
             ListAdapter adapter = new SimpleAdapter(
                     MainActivity.this, listaUtenti,
                     R.layout.list_item,
@@ -82,7 +199,7 @@ public class MainActivity extends ListActivity {
                     new int[]{R.id.nome, R.id.cognome, R.id.email});
 
             setListAdapter(adapter);
-
+            */
         }
     }
 
@@ -108,7 +225,6 @@ public class MainActivity extends ListActivity {
                     // hashmap per il singolo utente
                     HashMap<String, String> utente = new HashMap<String, String>();
 
-                    System.out.println("----------------- " + nome + " " + cognome + " -----------------");
                     // aggiungo tutti i campi dell'utente all'HashMap
                     utente.put(TAG_UTENTE_NOME, nome);
                     utente.put(TAG_UTENTE_COGNOME, cognome);
