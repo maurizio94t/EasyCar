@@ -20,11 +20,11 @@ public class MainActivity extends AppCompatActivity {
     private static String url = "http://t2j.no-ip.org/ddt/WebService.php";
 
     // JSON Node names
-    public static final String TAG_UTENTI = "utenti";
-    public static final String TAG_UTENTE_NOME = "nome";
-    public static final String TAG_UTENTE_COGNOME = "cognome";
-    public static final String TAG_UTENTE_DATANASCITA = "dataN";
-    public static final String TAG_UTENTE_EMAIL = "email";
+    public static final String TAG_UTENTI = "Utenti";
+    public static final String TAG_UTENTE_NOME = "Nome";
+    public static final String TAG_UTENTE_COGNOME = "Cognome";
+    public static final String TAG_UTENTE_DATANASCITA = "DataDiNascita";
+    public static final String TAG_UTENTE_EMAIL = "Email";
 
     // Hashmap per la ListView
     public static ArrayList<HashMap<String, String>> listaUtenti;
