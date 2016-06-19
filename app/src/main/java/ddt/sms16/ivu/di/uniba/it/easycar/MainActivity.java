@@ -19,12 +19,30 @@ public class MainActivity extends AppCompatActivity {
     // URL to get data JSON
     private static String url = "http://t2j.no-ip.org/ddt/WebService.php";
 
-    // JSON Node names
+    // JSON Node - Campi tabella AutoUtente
+    public static final String TAG_AUTOUTENTE = "AutoUtente";
+    public static final String TAG_AUTOUTENTE_TARGA = "Targa";
+    public static final String TAG_AUTOUTENTE_KW = "KW";
+    public static final String TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE = "AnnoImmatricolazione";
+    public static final String TAG_AUTOUTENTE_FOTO_AUTO = "FotoAuto";
+    public static final String TAG_AUTOUTENTE_UTENTI_EMAIL = "Utenti_Email";
+    public static final String TAG_AUTOUTENTE_MODELLI_ID = "Modelli_id";
+
+    // JSON Node - Campi tabella Manutenzione
+    public static final String TAG_MANUTENZIONI = "Manutenzioni";
+    public static final String TAG_MANUTENZIONI_ID_MANUTENZIONE = "IDManutenzione";
+    public static final String TAG_MANUTENZIONI_DESCRIZIONE = "Descrizione";
+    public static final String TAG_MANUTENZIONI_DATA = "Data";
+    public static final String TAG_MANUTENZIONI_ORDINARIA = "Ordinaria";
+    public static final String TAG_MANUTENZIONI_KM_MANUTENZIONE = "KmManutenzione";
+    public static final String TAG_MANUTENZIONI_TARGA = "Targa";
+
+    // JSON Node - Campi tabella Utenti
     public static final String TAG_UTENTI = "Utenti";
-    public static final String TAG_UTENTE_NOME = "Nome";
-    public static final String TAG_UTENTE_COGNOME = "Cognome";
-    public static final String TAG_UTENTE_DATANASCITA = "DataDiNascita";
-    public static final String TAG_UTENTE_EMAIL = "Email";
+    public static final String TAG_UTENTI_NOME = "Nome";
+    public static final String TAG_UTENTI_COGNOME = "Cognome";
+    public static final String TAG_UTENTI_DATANASCITA = "DataDiNascita";
+    public static final String TAG_UTENTI_EMAIL = "Email";
 
     // Hashmap per la ListView
     public static ArrayList<HashMap<String, String>> listaUtenti;
@@ -87,30 +105,59 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<HashMap<String, String>> ParseJSON(String json) {
         if (json != null) {
             try {
-                // Hashmap per la ListView
-                ArrayList<HashMap<String, String>> listaUtenti = new ArrayList<HashMap<String, String>>();
                 JSONObject jsonObj = new JSONObject(json);
 
-                // Prelevo JSON Array node
-                JSONArray utenti = jsonObj.getJSONArray(TAG_UTENTI);
+                ArrayList<HashMap<String, String>> listaAutoUtente = new ArrayList<HashMap<String, String>>();
+                // Prelevo JSON Array node (AutoUtente)
+                JSONArray autoUtenti = jsonObj.getJSONArray(TAG_AUTOUTENTE);
+                // Ciclo tutte le auto degli utenti
+                for (int i = 0; i < autoUtenti.length(); i++) {
+                    JSONObject u = autoUtenti.getJSONObject(i);
 
+                    String targa = u.getString(TAG_AUTOUTENTE_TARGA);
+                    String kw = u.getString(TAG_AUTOUTENTE_KW);
+                    String annoImmatricolazione = u.getString(TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE);
+                    String foto = u.getString(TAG_AUTOUTENTE_FOTO_AUTO);
+                    String email = u.getString(TAG_AUTOUTENTE_UTENTI_EMAIL);
+                    String idModelli = u.getString(TAG_AUTOUTENTE_MODELLI_ID);
+
+
+                    // hashmap per il singolo utente
+                    HashMap<String, String> autoutente = new HashMap<String, String>();
+
+                    // aggiungo tutti i campi dell'utente all'HashMap
+                    autoutente.put(TAG_AUTOUTENTE_TARGA, targa);
+                    autoutente.put(TAG_AUTOUTENTE_KW, kw);
+                    autoutente.put(TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE, annoImmatricolazione);
+                    autoutente.put(TAG_AUTOUTENTE_FOTO_AUTO, foto);
+                    autoutente.put(TAG_AUTOUTENTE_UTENTI_EMAIL, email);
+                    autoutente.put(TAG_AUTOUTENTE_MODELLI_ID, idModelli);
+
+
+                    // aggiungo il singolo studente alla lista di studenti
+                    listaAutoUtente.add(autoutente);
+                }
+
+                ArrayList<HashMap<String, String>> listaUtenti = new ArrayList<HashMap<String, String>>();
+                // Prelevo JSON Array node (Utenti)
+                JSONArray utenti = jsonObj.getJSONArray(TAG_UTENTI);
                 // Ciclo tutti gli utenti
                 for (int i = 0; i < utenti.length(); i++) {
                     JSONObject u = utenti.getJSONObject(i);
 
-                    String nome = u.getString(TAG_UTENTE_NOME);
-                    String cognome = u.getString(TAG_UTENTE_COGNOME);
-                    String dataN = u.getString(TAG_UTENTE_DATANASCITA);
-                    String email = u.getString(TAG_UTENTE_EMAIL);
+                    String nome = u.getString(TAG_UTENTI_NOME);
+                    String cognome = u.getString(TAG_UTENTI_COGNOME);
+                    String dataN = u.getString(TAG_UTENTI_DATANASCITA);
+                    String email = u.getString(TAG_UTENTI_EMAIL);
 
                     // hashmap per il singolo utente
                     HashMap<String, String> utente = new HashMap<String, String>();
 
                     // aggiungo tutti i campi dell'utente all'HashMap
-                    utente.put(TAG_UTENTE_NOME, nome);
-                    utente.put(TAG_UTENTE_COGNOME, cognome);
-                    utente.put(TAG_UTENTE_DATANASCITA, dataN);
-                    utente.put(TAG_UTENTE_EMAIL, email);
+                    utente.put(TAG_UTENTI_NOME, nome);
+                    utente.put(TAG_UTENTI_COGNOME, cognome);
+                    utente.put(TAG_UTENTI_DATANASCITA, dataN);
+                    utente.put(TAG_UTENTI_EMAIL, email);
 
                     // aggiungo il singolo studente alla lista di studenti
                     listaUtenti.add(utente);
