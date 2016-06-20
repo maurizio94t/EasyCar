@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,12 +19,12 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity {
 
     // URL to get data JSON
-    private static String url = "http://t2j.no-ip.org/ddt/WebService.php";
+    private static String url = "http://t2j.no-ip.org/ddt/WebService.php?email=maur_izzio@live.it";
 
     // JSON Node - Campi tabella AutoUtente
     public static final String TAG_AUTOUTENTE = "AutoUtente";
     public static final String TAG_AUTOUTENTE_TARGA = "Targa";
-    public static final String TAG_AUTOUTENTE_KW = "KW";
+    public static final String TAG_AUTOUTENTE_KM = "KM";
     public static final String TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE = "AnnoImmatricolazione";
     public static final String TAG_AUTOUTENTE_FOTO_AUTO = "FotoAuto";
     public static final String TAG_AUTOUTENTE_UTENTI_EMAIL = "Utenti_Email";
@@ -52,11 +54,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new GetUsers().execute();
+        Button btnAccedi = (Button) findViewById(R.id.btnAccedi);
+        btnAccedi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new GetData().execute();
+            }
+        });
     }
 
     // AsynkTask
-    private class GetUsers extends AsyncTask<Void, Void, Void> {
+    private class GetData extends AsyncTask<Void, Void, Void> {
         ProgressDialog proDialog;
 
         @Override
@@ -76,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             WebRequest webreq = new WebRequest();
 
             // Faccio una richiesta all'url dichiarato come variabile di classe e prendo la risposta
-            String jsonStr = webreq.makeWebServiceCall(url, WebRequest.POSTRequest);
+            String jsonStr = webreq.makeWebServiceCall(url, WebRequest.GETRequest);
 
             Log.d("Response: ", "> " + jsonStr);
 
@@ -115,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject u = autoUtenti.getJSONObject(i);
 
                     String targa = u.getString(TAG_AUTOUTENTE_TARGA);
-                    String kw = u.getString(TAG_AUTOUTENTE_KW);
+                    String km = u.getString(TAG_AUTOUTENTE_KM);
                     String annoImmatricolazione = u.getString(TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE);
                     String foto = u.getString(TAG_AUTOUTENTE_FOTO_AUTO);
                     String email = u.getString(TAG_AUTOUTENTE_UTENTI_EMAIL);
@@ -127,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
                     // aggiungo tutti i campi dell'utente all'HashMap
                     autoutente.put(TAG_AUTOUTENTE_TARGA, targa);
-                    autoutente.put(TAG_AUTOUTENTE_KW, kw);
+                    autoutente.put(TAG_AUTOUTENTE_KM, km);
                     autoutente.put(TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE, annoImmatricolazione);
                     autoutente.put(TAG_AUTOUTENTE_FOTO_AUTO, foto);
                     autoutente.put(TAG_AUTOUTENTE_UTENTI_EMAIL, email);

@@ -1,5 +1,7 @@
 package ddt.sms16.ivu.di.uniba.it.easycar;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
@@ -72,7 +74,7 @@ public class WebRequest {
                     requestresult.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
                 }
                 writer.write(requestresult.toString());
-
+                Log.d("RequestResult: ", "> " + requestresult.toString());
                 writer.flush();
                 writer.close();
                 ostream.close();

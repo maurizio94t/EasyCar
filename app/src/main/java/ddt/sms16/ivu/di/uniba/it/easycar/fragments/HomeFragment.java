@@ -28,7 +28,7 @@ public class HomeFragment extends Fragment {
         ListAdapter adapter = new SimpleAdapter(
                 container.getContext(), MainActivity.listaUtenti,
                 R.layout.list_item,
-                new String[]{MainActivity.TAG_UTENTE_NOME, MainActivity.TAG_UTENTE_COGNOME, MainActivity.TAG_UTENTE_EMAIL},
+                new String[]{MainActivity.TAG_UTENTI_NOME, MainActivity.TAG_UTENTI_COGNOME, MainActivity.TAG_UTENTI_EMAIL},
                 new int[]{R.id.nome, R.id.cognome, R.id.email});
 
         listView.setAdapter(adapter);
