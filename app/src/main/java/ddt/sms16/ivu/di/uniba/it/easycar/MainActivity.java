@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -67,7 +68,11 @@ public class MainActivity extends AppCompatActivity {
         btnAccedi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new GetData("maur_izzio@live.it", "prova").execute();
+                EditText editTxtEmail= (EditText) findViewById(R.id.editTxtEmail);
+                EditText editTxtPsw = (EditText) findViewById(R.id.editTxtPsw);
+
+                new GetData(editTxtEmail.getText().toString(), editTxtPsw.getText().toString()).execute();
+                //new GetData("maur_izzio@live.it", "prova").execute();
             }
         });
     }

@@ -19,7 +19,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/edtTxtEmail"
+        android:id="@+id/editTxtEmail"
         android:layout_marginBottom="50dp"
         android:textAlignment="center" />
 
@@ -32,7 +32,8 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/edtTxtPsw"
+        android:id="@+id/editTxtPsw"
+        android:password="true"
         android:textAlignment="center" />
 
     <Button
