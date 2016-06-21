@@ -1,30 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-    <!-- Label Nome -->
-    <TextView
-        android:id="@+id/nome"
-        android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/foto"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_menu_gallery" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingBottom="2dip"
-        android:paddingTop="6dip"
-        android:text="Nome"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-    <!-- Label Cognome -->
-    <TextView
-        android:id="@+id/cognome"
-        android:text="Cognome"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="2dip" />
-    <!-- Label Email -->
-    <TextView
-        android:id="@+id/email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="left"
-        android:text="email: " />
+        android:layout_weight="0.8"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <!-- Label Nome -->
+        <TextView
+            android:id="@+id/nome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="2dip"
+            android:paddingTop="6dip"
+            android:text="Nome"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+        <!-- Label Cognome -->
+        <TextView
+            android:id="@+id/cognome"
+            android:text="Cognome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="2dip" />
+        <!-- Label Email -->
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="email: " />
+
+    </LinearLayout>
 </LinearLayout>

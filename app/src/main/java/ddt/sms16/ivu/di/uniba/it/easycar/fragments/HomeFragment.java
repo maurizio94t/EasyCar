@@ -12,7 +12,9 @@ import android.widget.SimpleAdapter;
 import ddt.sms16.ivu.di.uniba.it.easycar.MainActivity;
 import ddt.sms16.ivu.di.uniba.it.easycar.R;
 
-
+/**
+ * Created by Maurizio on 01/06/16.
+ */
 public class HomeFragment extends Fragment {
 
     ListView listView;
@@ -26,9 +28,9 @@ public class HomeFragment extends Fragment {
         listView = (ListView) view.findViewById(R.id.listView);
 
         ListAdapter adapter = new SimpleAdapter(
-                container.getContext(), MainActivity.listaUtenti,
+                container.getContext(), MainActivity.listaAutoUtente,
                 R.layout.list_item,
-                new String[]{MainActivity.TAG_UTENTI_NOME, MainActivity.TAG_UTENTI_COGNOME, MainActivity.TAG_UTENTI_EMAIL},
+                new String[]{MainActivity.TAG_AUTOUTENTE_TARGA, MainActivity.TAG_AUTOUTENTE_MODELLI_ID, MainActivity.TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE},
                 new int[]{R.id.nome, R.id.cognome, R.id.email});
 
         listView.setAdapter(adapter);

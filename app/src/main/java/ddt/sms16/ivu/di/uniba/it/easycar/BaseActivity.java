@@ -18,6 +18,9 @@ import android.view.View;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.HomeFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.OneFragment;
 
+/**
+ * Created by Maurizio on 01/06/16.
+ */
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override

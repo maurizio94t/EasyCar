@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Created by Maurizio on 01/06/16.
+ */
 public class MainActivity extends AppCompatActivity {
 
     // URL to get data JSON
@@ -62,6 +65,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        listaAutoUtente = new ArrayList<HashMap<String, String>>();
+        listaManutenzioni = new ArrayList<HashMap<String, String>>();
+
         listaUtenti = new ArrayList<HashMap<String, String>>();
 
         Button btnAccedi = (Button) findViewById(R.id.btnAccedi);
@@ -71,8 +77,8 @@ public class MainActivity extends AppCompatActivity {
                 EditText editTxtEmail= (EditText) findViewById(R.id.editTxtEmail);
                 EditText editTxtPsw = (EditText) findViewById(R.id.editTxtPsw);
 
-                new GetData(editTxtEmail.getText().toString(), editTxtPsw.getText().toString()).execute();
-                //new GetData("maur_izzio@live.it", "prova").execute();
+                //new GetData(editTxtEmail.getText().toString(), editTxtPsw.getText().toString()).execute();
+                new GetData("maur_izzio@live.it", "prova").execute();
             }
         });
     }
@@ -140,35 +146,60 @@ public class MainActivity extends AppCompatActivity {
             try {
                 JSONObject jsonObj = new JSONObject(json);
 
-                ArrayList<HashMap<String, String>> listaAutoUtente = new ArrayList<HashMap<String, String>>();
                 // Prelevo JSON Array node (AutoUtente)
                 JSONArray autoUtenti = jsonObj.getJSONArray(TAG_AUTOUTENTE);
                 // Ciclo tutte le auto degli utenti
                 for (int i = 0; i < autoUtenti.length(); i++) {
-                    JSONObject u = autoUtenti.getJSONObject(i);
+                    JSONObject obj = autoUtenti.getJSONObject(i);
 
-                    String targa = u.getString(TAG_AUTOUTENTE_TARGA);
-                    String km = u.getString(TAG_AUTOUTENTE_KM);
-                    String annoImmatricolazione = u.getString(TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE);
-                    String foto = u.getString(TAG_AUTOUTENTE_FOTO_AUTO);
-                    String email = u.getString(TAG_AUTOUTENTE_UTENTI_EMAIL);
-                    String idModelli = u.getString(TAG_AUTOUTENTE_MODELLI_ID);
+                    String targa = obj.getString(TAG_AUTOUTENTE_TARGA);
+                    String km = obj.getString(TAG_AUTOUTENTE_KM);
+                    String annoImmatricolazione = obj.getString(TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE);
+                    //String foto = obj.getString(TAG_AUTOUTENTE_FOTO_AUTO);
+                    String email = obj.getString(TAG_AUTOUTENTE_UTENTI_EMAIL);
+                    String idModelli = obj.getString(TAG_AUTOUTENTE_MODELLI_ID);
 
-
-                    // hashmap per il singolo utente
                     HashMap<String, String> autoutente = new HashMap<String, String>();
 
-                    // aggiungo tutti i campi dell'utente all'HashMap
+                    // aggiungo tutti i campi dell'aluto all'HashMap
                     autoutente.put(TAG_AUTOUTENTE_TARGA, targa);
                     autoutente.put(TAG_AUTOUTENTE_KM, km);
                     autoutente.put(TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE, annoImmatricolazione);
-                    autoutente.put(TAG_AUTOUTENTE_FOTO_AUTO, foto);
+                    //autoutente.put(TAG_AUTOUTENTE_FOTO_AUTO, foto);
                     autoutente.put(TAG_AUTOUTENTE_UTENTI_EMAIL, email);
                     autoutente.put(TAG_AUTOUTENTE_MODELLI_ID, idModelli);
 
 
-                    // aggiungo il singolo studente alla lista di studenti
+                    // aggiungo la singola auto alla lista di auto dell'utente
                     listaAutoUtente.add(autoutente);
+                }
+
+                // Prelevo JSON Array node (AutoUtente)
+                JSONArray manutenzioni = jsonObj.getJSONArray(TAG_MANUTENZIONI);
+                // Ciclo tutte le manutenzioni dell'utente
+                for (int i = 0; i < manutenzioni.length(); i++) {
+                    JSONObject obj = manutenzioni.getJSONObject(i);
+
+                    String id = obj.getString(TAG_MANUTENZIONI_ID_MANUTENZIONE);
+                    String desc = obj.getString(TAG_MANUTENZIONI_DESCRIZIONE);
+                    String data = obj.getString(TAG_MANUTENZIONI_DATA);
+                    //String ord = obj.getString(TAG_MANUTENZIONI_ORDINARIA);
+                    String km = obj.getString(TAG_MANUTENZIONI_KM_MANUTENZIONE);
+                    String targa = obj.getString(TAG_MANUTENZIONI_TARGA);
+
+                    HashMap<String, String> manutenzione = new HashMap<String, String>();
+
+                    // aggiungo tutti i campi della manutenzione all'HashMap
+                    manutenzione.put(TAG_MANUTENZIONI_ID_MANUTENZIONE, id);
+                    manutenzione.put(TAG_MANUTENZIONI_DESCRIZIONE, desc);
+                    manutenzione.put(TAG_MANUTENZIONI_DATA, data);
+                    //manutenzione.put(TAG_MANUTENZIONI_ORDINARIA, ord);
+                    manutenzione.put(TAG_MANUTENZIONI_KM_MANUTENZIONE, km);
+                    manutenzione.put(TAG_MANUTENZIONI_TARGA, targa);
+
+
+                    // aggiungo la singola manutenzione alla lista di manutenzioni
+                    listaManutenzioni.add(manutenzione);
                 }
 
                 // Prelevo JSON Array node (Utenti)
@@ -191,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
                     utente.put(TAG_UTENTI_DATANASCITA, dataN);
                     utente.put(TAG_UTENTI_EMAIL, email);
 
-                    // aggiungo il singolo studente alla lista di studenti
+                    // aggiungo il singolo utente alla lista di utenti
                     listaUtenti.add(utente);
                 }
                 return true;
