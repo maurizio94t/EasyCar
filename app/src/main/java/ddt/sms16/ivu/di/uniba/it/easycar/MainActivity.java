@@ -15,11 +15,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     // URL to get data JSON
-    private static String url = "http://t2j.no-ip.org/ddt/WebService.php?email=maur_izzio@live.it";
+    private static final String url = "http://t2j.no-ip.org/ddt/WebService.php?email=%s&psw=%s";
 
     // JSON Node - Campi tabella AutoUtente
     public static final String TAG_AUTOUTENTE = "AutoUtente";
@@ -47,6 +48,12 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG_UTENTI_EMAIL = "Email";
 
     // Hashmap per la ListView
+    public static ArrayList<HashMap<String, String>> listaAutoUtente;
+    public static ArrayList<HashMap<String, String>> listaManutenzioni;
+    public static ArrayList<HashMap<String, String>> listaMarche;
+    public static ArrayList<HashMap<String, String>> listaModelli;
+    public static ArrayList<HashMap<String, String>> listaProblemi;
+    public static ArrayList<HashMap<String, String>> listaScadenze;
     public static ArrayList<HashMap<String, String>> listaUtenti;
 
     @Override
@@ -54,11 +61,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        listaUtenti = new ArrayList<HashMap<String, String>>();
+
         Button btnAccedi = (Button) findViewById(R.id.btnAccedi);
         btnAccedi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new GetData().execute();
+                new GetData("maur_izzio@live.it", "prova").execute();
             }
         });
     }
@@ -66,6 +75,13 @@ public class MainActivity extends AppCompatActivity {
     // AsynkTask
     private class GetData extends AsyncTask<Void, Void, Void> {
         ProgressDialog proDialog;
+        private String email;
+        private String psw;
+
+        public GetData(String email, String psw) {
+            this.email = email;
+            this.psw = psw;
+        }
 
         @Override
         protected void onPreExecute() {
@@ -80,15 +96,19 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... arg0) {
+            List<String> args = new ArrayList<String>();
+            args.add(this.email);
+            args.add(this.psw);
+            String urlFormatted = String.format(url, args.toArray());
             // Creo un'istanza di WebRequest per effettuare una richiesta al server
             WebRequest webreq = new WebRequest();
 
             // Faccio una richiesta all'url dichiarato come variabile di classe e prendo la risposta
-            String jsonStr = webreq.makeWebServiceCall(url, WebRequest.GETRequest);
+            String jsonStr = webreq.makeWebServiceCall(urlFormatted, WebRequest.GETRequest);
 
-            Log.d("Response: ", "> " + jsonStr);
+            Log.d("Response: ", "> " + email + jsonStr);
 
-            listaUtenti = ParseJSON(jsonStr);
+            ParseJSON(jsonStr);
 
             return null;
         }
@@ -110,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private ArrayList<HashMap<String, String>> ParseJSON(String json) {
+    private boolean ParseJSON(String json) {
         if (json != null) {
             try {
                 JSONObject jsonObj = new JSONObject(json);
@@ -146,7 +166,6 @@ public class MainActivity extends AppCompatActivity {
                     listaAutoUtente.add(autoutente);
                 }
 
-                ArrayList<HashMap<String, String>> listaUtenti = new ArrayList<HashMap<String, String>>();
                 // Prelevo JSON Array node (Utenti)
                 JSONArray utenti = jsonObj.getJSONArray(TAG_UTENTI);
                 // Ciclo tutti gli utenti
@@ -170,14 +189,14 @@ public class MainActivity extends AppCompatActivity {
                     // aggiungo il singolo studente alla lista di studenti
                     listaUtenti.add(utente);
                 }
-                return listaUtenti;
+                return true;
             } catch (JSONException e) {
                 e.printStackTrace();
-                return null;
+                return false;
             }
         } else {
             Log.e("ServiceHandler", "No data received from HTTP request");
-            return null;
+            return false;
         }
     }
 }
