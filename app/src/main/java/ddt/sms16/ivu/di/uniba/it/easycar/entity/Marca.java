@@ -11,7 +11,6 @@ public class Marca {
 
 
     public Marca(String nome) {
-        this.IDMarca = IDMarca;
         this.nome = nome;
     }
 

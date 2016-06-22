@@ -17,6 +17,7 @@ import android.view.View;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.HomeFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.OneFragment;
+import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment;
 
 /**
  * Created by Maurizio on 01/06/16.
@@ -104,11 +105,12 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             ok = true;
         } else if (id == R.id.nav_slideshow) {
 
+        } else if (id == R.id.nav_problemi) {
+            fragment = new ProblemiFragment();
+            ok = true;
         } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_info) {
 
         }
 

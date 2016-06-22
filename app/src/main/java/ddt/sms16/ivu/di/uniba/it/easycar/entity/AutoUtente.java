@@ -8,15 +8,19 @@ public class AutoUtente {
     private String targa;
     private int km;
     private String annoImmatricolazione;
-    private String Utenti_Email;
-    private Modello Modello_id;
+    private int fotoAuto;
+    private String utente_email;
+    private Modello modello;
+    private boolean selected;
 
-    public AutoUtente(String targa, int km, String cilindrata, String alimentazione, String annoImmatricolazione, String Utenti_Email, Modello Model_id) {
+    public AutoUtente(String targa, int km, String annoImmatricolazione, int fotoAuto, String utente_email, Modello modello, boolean selected) {
         this.targa = targa;
         this.km = km;
         this.annoImmatricolazione = annoImmatricolazione;
-        this.Utenti_Email = Utenti_Email;
-        this.Modello_id = Model_id;
+        this.fotoAuto = fotoAuto;
+        this.utente_email = utente_email;
+        this.modello = modello;
+        this.selected = selected;
 
     }
 
@@ -32,17 +36,29 @@ public class AutoUtente {
         return annoImmatricolazione;
     }
 
-    public String getUtenti_Email() {
-        return Utenti_Email;
+    public int getFotoAutoId() {
+        return fotoAuto;
     }
 
-    public Modello getModello_id() {
-        return Modello_id;
+    public String getUtenti_Email() {
+        return utente_email;
+    }
+
+    public Modello getModello() {
+        return modello;
+    }
+
+    public boolean getSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean sel) {
+        this.selected = sel;
     }
 
     @Override
     public String toString() {
-        return "AutoUtente [targa=" + targa + ", km=" + km + ", anno imm= " + annoImmatricolazione + ", Utente_Email= " + Utenti_Email + ", Model_id= " + Modello_id.getIDModello()
+        return "AutoUtente [targa=" + targa + ", km=" + km + ", anno imm= " + annoImmatricolazione + ", FotoAuto= " + fotoAuto + ", Utente_Email= " + utente_email + ", Modello_id= " + modello.getIDModello()
                 + "]";
     }
 }

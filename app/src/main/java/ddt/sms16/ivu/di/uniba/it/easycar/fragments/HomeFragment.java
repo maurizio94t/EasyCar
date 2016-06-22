@@ -1,6 +1,7 @@
 package ddt.sms16.ivu.di.uniba.it.easycar.fragments;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,19 +10,34 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import java.util.ArrayList;
+
+import ddt.sms16.ivu.di.uniba.it.easycar.CustomAdapter_AutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.MainActivity;
 import ddt.sms16.ivu.di.uniba.it.easycar.R;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Marca;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Modello;
 
 /**
  * Created by Maurizio on 01/06/16.
  */
 public class HomeFragment extends Fragment {
-
-    ListView listView;
-
+    Context thisContext;
+    View view;
+    CustomAdapter_AutoUtente carsAdapter;
+    ListView carsListView;
+    ArrayList<AutoUtente> arrayAutoUtente;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        thisContext = container.getContext();
+        view = inflater.inflate(R.layout.fragment_home, container, false);
+        arrayAutoUtente = new ArrayList<AutoUtente>();
+        arrayAutoUtente.add(new AutoUtente("BZ907PF", 12500, "2016", R.drawable.ic_menu_gallery, "maur_izzio@live.it", new Modello(1,"Panda", "A", "Benzina", "900", "13.3", new Marca("FIAT")), false));
+        arrayAutoUtente.add(new AutoUtente("DX008JM", 15000, "2016", R.drawable.ic_menu_gallery, "maur_izzio@live.it", new Modello(2,"Punto", "A", "Benzina/GPL", "900", "13.3", new Marca("FIAT")), false));
+
+        /*
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
@@ -34,6 +50,24 @@ public class HomeFragment extends Fragment {
                 new int[]{R.id.nome, R.id.cognome, R.id.email});
 
         listView.setAdapter(adapter);
+        */
+
+        //INIZIO
+
+        carsAdapter = new CustomAdapter_AutoUtente(
+                thisContext.getApplicationContext(),
+                R.layout.row_auto,
+                arrayAutoUtente);
+
+        //utilizzo dell'adapter
+        carsListView = (ListView)view.findViewById(R.id.listView);
+        carsListView.setAdapter(carsAdapter);
+
+
+        //click lungo su item
+        registerForContextMenu(carsListView);
+        //FINE
+
 
         return view;
     }
