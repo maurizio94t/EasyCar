@@ -42,5 +42,11 @@
         android:text="Accedi"
         android:id="@+id/btnAccedi"/>
 
+    <Button
+        android:text="prendi foto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bottonPrendiFoto" />
+
 
 </LinearLayout>

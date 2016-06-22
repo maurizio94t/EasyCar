@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<HashMap<String, String>> listaScadenze;
     public static ArrayList<HashMap<String, String>> listaUtenti;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +82,23 @@ public class MainActivity extends AppCompatActivity {
                 new GetData("maur_izzio@live.it", "prova").execute();
             }
         });
+
+        Button bottonePrendiFoto = (Button) findViewById(R.id.bottonPrendiFoto);
+
+        bottonePrendiFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent prendiFoto = new Intent(MainActivity.this, PrendiFoto.class);
+                startActivity(prendiFoto);
+            }
+        });
+
+
+
+
+
+
     }
 
     // AsynkTask
