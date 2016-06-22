@@ -94,6 +94,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         Fragment fragment = null;
+
         boolean ok = false;
 
         int id = item.getItemId();
@@ -101,7 +102,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             fragment = new HomeFragment();
             ok = true;
         } else if (id == R.id.nav_one) {
-            fragment = new OneFragment();
+           fragment = new OneFragment();
             ok = true;
         } else if (id == R.id.nav_slideshow) {
 

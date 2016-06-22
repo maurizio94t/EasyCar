@@ -11,5 +11,6 @@
     <string name="bollo">bollo</string>
     <string name="revisione">revisione</string>
     <string name="tipoLabel">Tipo: </string>
+    <string name="title_activity_prendi_foto">PrendiFoto</string>
 
 </resources>
