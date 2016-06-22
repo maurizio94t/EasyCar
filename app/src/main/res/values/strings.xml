@@ -7,4 +7,9 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="assicurazione">assicurazione</string>
+    <string name="bollo">bollo</string>
+    <string name="revisione">revisione</string>
+    <string name="tipoLabel">Tipo: </string>
+
 </resources>

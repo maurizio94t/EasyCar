@@ -10,7 +10,8 @@ import android.util.Log;
 import java.util.LinkedList;
 import java.util.List;
 
-import ddt.sms16.ivu.di.uniba.it.easycar.entity.Marche;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Marca;
+
 
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
@@ -179,7 +180,7 @@ String CREA_TABELLA_MODELLI="CREATE TABLE  Modelli (\n" +
 
 
 
-    public void aggiungiMarca(Marche marca){
+    public void aggiungiMarca(Marca marca){
         Log.d("aggiungiMarca", marca.toString());
         // 1. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
@@ -202,8 +203,8 @@ String CREA_TABELLA_MODELLI="CREATE TABLE  Modelli (\n" +
 
 
     // Get All Books
-    public List<Marche> getAllMarche() {
-        List<Marche> marche = new LinkedList<Marche>();
+    public List<Marca> getAllMarche() {
+        List<Marca> marche = new LinkedList<Marca>();
 
         // 1. build the query
         String query = "SELECT  * FROM " + TABELLA_MARCHE;
@@ -213,10 +214,10 @@ String CREA_TABELLA_MODELLI="CREATE TABLE  Modelli (\n" +
         Cursor cursor = db.rawQuery(query, null);
 
         // 3. go over each row, build book and add it to list
-        Marche marca = null;
+        Marca marca = null;
         if (cursor.moveToFirst()) {
             do {
-                marca = new Marche(cursor.getString(1));
+                marca = new Marca(cursor.getString(1));
                 marca.setIDMarca(cursor.getInt(0));
 
 

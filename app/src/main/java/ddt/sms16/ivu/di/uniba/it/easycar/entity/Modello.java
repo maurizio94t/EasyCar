@@ -1,0 +1,65 @@
+package ddt.sms16.ivu.di.uniba.it.easycar.entity;
+
+/**
+ * Created by Enrico on 20/06/16.
+ */
+public class Modello {
+
+
+    private int IDModello;
+
+
+    private String nome;
+    private String segmento;
+    private String alimentazione;
+    private String cilindrata;
+    private String kw;
+    private Marca marca_id;
+
+
+    public Modello(int IDModello, String nome, String segmento, String alimentazione, String cilindrata, String kw, Marca marca_id) {
+        this.IDModello = IDModello;
+        this.nome = nome;
+        this.segmento = segmento;
+        this.alimentazione = alimentazione;
+        this.cilindrata = cilindrata;
+        this.kw = kw;
+        this.marca_id = marca_id;
+    }
+
+
+    public Marca getMarca_id() {
+        return marca_id;
+    }
+
+    public int getIDModello() {
+        return IDModello;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getSegmento() {
+        return segmento;
+    }
+
+    public String getAlimentazione() {
+        return alimentazione;
+    }
+
+    public String getCilindrata() {
+        return cilindrata;
+    }
+
+    public String getKw() {
+        return kw;
+    }
+
+    @Override
+    public String toString() {
+        return "Modelli [IDModello=" + IDModello + ", Nome=" + nome + ", segmento=" + segmento + ", alimentazione=" + alimentazione + ", cilindrata=" + cilindrata + ", kw=" + kw + ", marca_id=" + marca_id.getIDMarca() + "]";
+    }
+
+
+}

@@ -3,7 +3,17 @@ package ddt.sms16.ivu.di.uniba.it.easycar.entity;
 /**
  * Created by Enrico on 19/06/16.
  */
-public class Marche {
+public class Marca {
+
+
+    private int IDMarca;
+    private String nome;
+
+
+    public Marca(String nome) {
+        this.IDMarca = IDMarca;
+        this.nome = nome;
+    }
 
     public int getIDMarca() {
         return IDMarca;
@@ -19,16 +29,6 @@ public class Marche {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    private int IDMarca;
-    private String nome;
-
-
-
-    public Marche(String nome){
-    this.IDMarca=IDMarca;
-        this.nome=nome;
     }
 
     @Override
