@@ -21,7 +21,6 @@ import ddt.sms16.ivu.di.uniba.it.easycar.R;
  * Created by Maurizio on 01/06/16.
  */
 public class ProblemiFragment extends Fragment {
-    Context thisContext;
     View view;
 
     ExpandableListAdapter listAdapter;
@@ -31,7 +30,6 @@ public class ProblemiFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        thisContext = container.getContext();
         view = inflater.inflate(R.layout.fragment_problemi, container, false);
 
         // get the listview

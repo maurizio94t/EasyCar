@@ -18,6 +18,7 @@ import android.view.View;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.HomeFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.OneFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment;
+import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ScadenzeFragment;
 
 /**
  * Created by Maurizio on 01/06/16.
@@ -32,6 +33,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,6 +42,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                         .setAction("Action", null).show();
             }
         });
+        */
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -106,6 +109,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             ok = true;
         } else if (id == R.id.nav_slideshow) {
 
+        } else if (id == R.id.nav_scadenze) {
+            fragment = new ScadenzeFragment();
+            ok = true;
         } else if (id == R.id.nav_problemi) {
             fragment = new ProblemiFragment();
             ok = true;
