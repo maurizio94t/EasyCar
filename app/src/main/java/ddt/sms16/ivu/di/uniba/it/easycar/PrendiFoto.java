@@ -52,9 +52,9 @@ public class PrendiFoto extends AppCompatActivity {
             switch (requestCode) {
                 case Utility.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
                     if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        if(userChoosenTask.equals("Take Photo"))
+                        if(userChoosenTask.equals("Fotocamera"))
                             cameraIntent();
-                        else if(userChoosenTask.equals("Choose from Library"))
+                        else if(userChoosenTask.equals("Galleria"))
                             galleryIntent();
                     } else {
                         //code for deny
@@ -64,27 +64,27 @@ public class PrendiFoto extends AppCompatActivity {
         }
 
     private void selectImage() {
-        final CharSequence[] items = { "Take Photo", "Choose from Library",
-                "Cancel" };
+        final CharSequence[] items = { "Fotocamera", "Galleria",
+                "Annulla" };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(PrendiFoto.this);
-        builder.setTitle("Add Photo!");
+        builder.setTitle("Aggiungi foto!");
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 boolean result=Utility.checkPermission(PrendiFoto.this);
 
-                if (items[item].equals("Take Photo")) {
-                    userChoosenTask ="Take Photo";
+                if (items[item].equals("Fotocamera")) {
+                    userChoosenTask ="Fotocamera";
                     if(result)
                         cameraIntent();
 
-                } else if (items[item].equals("Choose from Library")) {
-                    userChoosenTask ="Choose from Library";
+                } else if (items[item].equals("Galleria")) {
+                    userChoosenTask ="Galleria";
                     if(result)
                         galleryIntent();
 
-                } else if (items[item].equals("Cancel")) {
+                } else if (items[item].equals("Annulla")) {
                     dialog.dismiss();
                 }
             }
@@ -125,12 +125,18 @@ public class PrendiFoto extends AppCompatActivity {
 
         File destination = new File(Environment.getExternalStorageDirectory(),
                 System.currentTimeMillis() + ".jpg");
+       // MySQLiteHelper mySQLiteHelper = new MySQLiteHelper();
 
         FileOutputStream fo;
         try {
             destination.createNewFile();
             fo = new FileOutputStream(destination);
             fo.write(bytes.toByteArray());
+
+
+       //     mySQLiteHelper.aggiungiFotoUtente(thumbnail);
+
+
             fo.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();

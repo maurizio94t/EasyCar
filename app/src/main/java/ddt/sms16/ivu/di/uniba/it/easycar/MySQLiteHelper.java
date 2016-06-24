@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import java.util.LinkedList;
@@ -54,7 +55,7 @@ String CREA_TABELLA_MODELLI="CREATE TABLE  Modelli (\n" +
             "  `Targa` TEXT  PRIMARY KEY ,\n" +
             "  `KM` INTEGER  ,\n" +
             "  `AnnoImmatricolazione` TEXT  ,\n" +
-            "  `FotoAuto` BLOB  ,\n" +
+            "  `FotoAuto` BYTE  ,\n" +
             "  `Utenti_Email` TEXT  ,\n" +
             "  `Modelli_id` INTEGER  ,\n" +
 
@@ -171,7 +172,7 @@ String CREA_TABELLA_MODELLI="CREATE TABLE  Modelli (\n" +
 
 
     private static final String TABELLA_MARCHE = "Marche";
-
+    private static final String TABELLA_AUTO_UTENTE = "AutoUtente";
 
     private static final String KEY_NOME = "Nome";
 
@@ -200,6 +201,30 @@ String CREA_TABELLA_MODELLI="CREATE TABLE  Modelli (\n" +
         // 4. close
         db.close();
     }
+
+    public void aggiungiFotoUtente(Bitmap foto){
+
+        // 1. get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // 2. create ContentValues to add key "column"/value
+        ContentValues values = new ContentValues();
+
+        values.put("FotoAuto",foto.toString()); // get title
+
+
+
+        // 3. insert
+        db.insert(TABELLA_AUTO_UTENTE, // table
+                null, //nullColumnHack
+                values); // key/value -> keys = column names/ values = column values
+
+        // 4. close
+        db.close();
+    }
+
+
+
 
 
     // Get All Books
