@@ -7,7 +7,7 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="Home" />
         <item
-            android:id="@+id/nav_one"
+            android:id="@+id/nav_mie_auto"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Mie Auto" />
         <item
