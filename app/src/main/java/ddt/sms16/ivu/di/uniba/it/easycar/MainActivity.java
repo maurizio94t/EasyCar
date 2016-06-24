@@ -18,6 +18,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Marca;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Modello;
+
 /**
  * Created by Maurizio on 01/06/16.
  */
@@ -33,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE = "AnnoImmatricolazione";
     public static final String TAG_AUTOUTENTE_FOTO_AUTO = "FotoAuto";
     public static final String TAG_AUTOUTENTE_UTENTI_EMAIL = "Utenti_Email";
-    public static final String TAG_AUTOUTENTE_MODELLI_ID = "Modelli_id";
+    public static final String TAG_AUTOUTENTE_MODELLO= "Modello";
 
-    // JSON Node - Campi tabella Manutenzione
+    // JSON Node - Campi tabella Manutenzioni
     public static final String TAG_MANUTENZIONI = "Manutenzioni";
     public static final String TAG_MANUTENZIONI_ID_MANUTENZIONE = "IDManutenzione";
     public static final String TAG_MANUTENZIONI_DESCRIZIONE = "Descrizione";
@@ -43,6 +47,23 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG_MANUTENZIONI_ORDINARIA = "Ordinaria";
     public static final String TAG_MANUTENZIONI_KM_MANUTENZIONE = "KmManutenzione";
     public static final String TAG_MANUTENZIONI_TARGA = "Targa";
+
+    // JSON Node - Campi tabella Marca
+    public static final String TAG_MARCHE = "Marche";
+    public static final String TAG_MARCHE_IDMARCA = "IDMarca";
+    public static final String TAG_MARCHE_NOME = "Nome";
+
+    // JSON Node - Campi tabella Modelli
+    public static final String TAG_MODELLI = "Modelli";
+    public static final String TAG_MODELLI_IDMODELLO = "IDModello";
+    public static final String TAG_MODELLI_NOME = "Nome";
+    public static final String TAG_MODELLI_SEGMENTO = "Segmento";
+    public static final String TAG_MODELLI_ALIMENTAZIONE = "Alimentazione";
+    public static final String TAG_MODELLI_CILINDRATA = "Cilindrata";
+    public static final String TAG_MODELLI_KW = "KW";
+    public static final String TAG_MODELLI_MARCA = "Marca";
+
+
 
     // JSON Node - Campi tabella Utenti
     public static final String TAG_UTENTI = "Utenti";
@@ -52,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG_UTENTI_EMAIL = "Email";
 
     // Hashmap per la ListView
-    public static ArrayList<HashMap<String, String>> listaAutoUtente;
+    public static ArrayList<AutoUtente> listaAutoUtente;
     public static ArrayList<HashMap<String, String>> listaManutenzioni;
     public static ArrayList<HashMap<String, String>> listaMarche;
     public static ArrayList<HashMap<String, String>> listaModelli;
@@ -66,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        listaAutoUtente = new ArrayList<HashMap<String, String>>();
+        listaAutoUtente = new ArrayList<AutoUtente>();
         listaManutenzioni = new ArrayList<HashMap<String, String>>();
 
         listaUtenti = new ArrayList<HashMap<String, String>>();
@@ -93,10 +114,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(prendiFoto);
             }
         });
-
-
-
-
 
 
     }
@@ -135,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
             // Faccio una richiesta all'url dichiarato come variabile di classe e prendo la risposta
             String jsonStr = webreq.makeWebServiceCall(urlFormatted, WebRequest.GETRequest);
 
-            Log.d("Response: ", "> " + email + jsonStr);
+            Log.d("Response: ", "> " + jsonStr);
 
             ParseJSON(jsonStr);
 
@@ -165,28 +182,37 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject jsonObj = new JSONObject(json);
 
                 // Prelevo JSON Array node (AutoUtente)
-                JSONArray autoUtenti = jsonObj.getJSONArray(TAG_AUTOUTENTE);
+                JSONArray autoUtentiJSON = jsonObj.getJSONArray(TAG_AUTOUTENTE);
                 // Ciclo tutte le auto degli utenti
-                for (int i = 0; i < autoUtenti.length(); i++) {
-                    JSONObject obj = autoUtenti.getJSONObject(i);
+                for (int i = 0; i < autoUtentiJSON.length(); i++) {
+                    JSONObject autoUtentiObj = autoUtentiJSON.getJSONObject(i);
 
-                    String targa = obj.getString(TAG_AUTOUTENTE_TARGA);
-                    String km = obj.getString(TAG_AUTOUTENTE_KM);
-                    String annoImmatricolazione = obj.getString(TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE);
-                    //String foto = obj.getString(TAG_AUTOUTENTE_FOTO_AUTO);
-                    String email = obj.getString(TAG_AUTOUTENTE_UTENTI_EMAIL);
-                    String idModelli = obj.getString(TAG_AUTOUTENTE_MODELLI_ID);
+                    String targa = autoUtentiObj.getString(TAG_AUTOUTENTE_TARGA);
+                    int km = autoUtentiObj.getInt(TAG_AUTOUTENTE_KM);
+                    String annoImmatricolazione = autoUtentiObj.getString(TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE);
+                    //String foto = autoUtentiObj.getString(TAG_AUTOUTENTE_FOTO_AUTO);
+                    String email = autoUtentiObj.getString(TAG_AUTOUTENTE_UTENTI_EMAIL);
 
-                    HashMap<String, String> autoutente = new HashMap<String, String>();
+                    //get Modello
+                    JSONObject modelloObj = autoUtentiObj.getJSONObject(TAG_AUTOUTENTE_MODELLO);
 
-                    // aggiungo tutti i campi dell'aluto all'HashMap
-                    autoutente.put(TAG_AUTOUTENTE_TARGA, targa);
-                    autoutente.put(TAG_AUTOUTENTE_KM, km);
-                    autoutente.put(TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE, annoImmatricolazione);
-                    //autoutente.put(TAG_AUTOUTENTE_FOTO_AUTO, foto);
-                    autoutente.put(TAG_AUTOUTENTE_UTENTI_EMAIL, email);
-                    autoutente.put(TAG_AUTOUTENTE_MODELLI_ID, idModelli);
+                    int idModello = modelloObj.getInt(TAG_MODELLI_IDMODELLO);
+                    String nomeModello = modelloObj.getString(TAG_MODELLI_NOME);
+                    String segmento = modelloObj.getString(TAG_MODELLI_SEGMENTO);
+                    String alimentazione = modelloObj.getString(TAG_MODELLI_ALIMENTAZIONE);
+                    String cilindrata = modelloObj.getString(TAG_MODELLI_CILINDRATA);
+                    String kw = modelloObj.getString(TAG_MODELLI_KW);
 
+                    //get Marca
+                    JSONObject marcaObj = modelloObj.getJSONObject(TAG_MODELLI_MARCA);
+
+                    int idMarca = marcaObj.getInt(TAG_MARCHE_IDMARCA);
+                    String nomeMarca = marcaObj.getString(TAG_MARCHE_NOME);
+
+                    //costruisco gli oggetti
+                    Marca marca = new Marca(idMarca, nomeMarca);
+                    Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
+                    AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, R.drawable.ic_menu_gallery, email, modello, false);
 
                     // aggiungo la singola auto alla lista di auto dell'utente
                     listaAutoUtente.add(autoutente);

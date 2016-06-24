@@ -5,12 +5,16 @@ package ddt.sms16.ivu.di.uniba.it.easycar.entity;
  */
 public class Marca {
 
-
     private int IDMarca;
     private String nome;
 
 
     public Marca(String nome) {
+        this.nome = nome;
+    }
+
+    public Marca(int IDMarca, String nome) {
+        this.IDMarca = IDMarca;
         this.nome = nome;
     }
 
