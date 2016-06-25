@@ -315,7 +315,7 @@ String CREA_TABELLA_MODELLI="CREATE TABLE  Modelli (\n" +
         AutoUtente autoUtente = null;
         if (cursor.moveToFirst()) {
             do {
-                autoUtente = new AutoUtente(cursor.getString(0),cursor.getInt(1),cursor.getString(2),0,cursor.getString(4),new Modello(0,null,null,null,null,null,null),false);
+                //autoUtente = new AutoUtente(cursor.getString(0),cursor.getInt(1),cursor.getString(2),0,cursor.getString(4),new Modello(0,null,null,null,null,null,null),false);
                 //  int km, String annoImmatricolazione, int fotoAuto, String utente_email, Modello modello, boolean selected
 
 

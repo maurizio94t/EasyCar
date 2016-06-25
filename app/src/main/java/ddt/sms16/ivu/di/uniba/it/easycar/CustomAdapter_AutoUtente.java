@@ -40,7 +40,7 @@ public class CustomAdapter_AutoUtente extends ArrayAdapter<AutoUtente> {
         targa.setText(a.getTarga());
         img.setImageResource(a.getFotoAutoId());
         imgSel.setImageResource(R.drawable.ic_ok);
-        if (a.getSelected()) {
+        if (a.getSelected() == 1) {
             imgSel.setVisibility(View.VISIBLE);
         }
 
