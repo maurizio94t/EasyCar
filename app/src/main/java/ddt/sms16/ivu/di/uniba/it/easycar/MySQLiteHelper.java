@@ -11,7 +11,10 @@ import android.util.Log;
 import java.util.LinkedList;
 import java.util.List;
 
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Marca;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Modello;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Scadenza;
 
 
 public class MySQLiteHelper extends SQLiteOpenHelper {
@@ -173,11 +176,31 @@ String CREA_TABELLA_MODELLI="CREATE TABLE  Modelli (\n" +
 
     private static final String TABELLA_MARCHE = "Marche";
     private static final String TABELLA_AUTO_UTENTE = "AutoUtente";
+    private static final String TABELLA_SCADENZE="Scadenze";
 
     private static final String KEY_NOME = "Nome";
 
 
+    public void aggiungiAutoUtente(AutoUtente auto){
+        Log.d("aggiungiAutoUtente", auto.toString());
+        // 1. get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
 
+        // 2. create ContentValues to add key "column"/value
+        ContentValues values = new ContentValues();
+
+        values.put("Targa", auto.getTarga()); // get title
+
+
+
+        // 3. insert
+        db.insert(TABELLA_AUTO_UTENTE, // table
+                null, //nullColumnHack
+                values); // key/value -> keys = column names/ values = column values
+
+        // 4. close
+        db.close();
+    }
 
 
 
@@ -223,7 +246,27 @@ String CREA_TABELLA_MODELLI="CREATE TABLE  Modelli (\n" +
         db.close();
     }
 
+    public void aggiungiScadenza(Scadenza scadenza){
+        Log.d("aggiungiScadenza", scadenza.toString());
+        // 1. get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
 
+        // 2. create ContentValues to add key "column"/value
+        ContentValues values = new ContentValues();
+        values.put("DataScadenza", scadenza.getDataScadenza());
+        values.put("Descrizione", scadenza.getDescrizione()); // get title
+        values.put("Targa", scadenza.getAuto().getTarga()); // get title
+
+
+
+        // 3. insert
+        db.insert(TABELLA_SCADENZE, // table
+                null, //nullColumnHack
+                values); // key/value -> keys = column names/ values = column values
+
+        // 4. close
+        db.close();
+    }
 
 
 
@@ -258,6 +301,35 @@ String CREA_TABELLA_MODELLI="CREATE TABLE  Modelli (\n" +
     }
 
 
+    public List<AutoUtente> getAllTarghe() {
+        List<AutoUtente> auto = new LinkedList<AutoUtente>();
+
+        // 1. build the query
+        String query = "SELECT  * FROM " + TABELLA_AUTO_UTENTE;
+
+        // 2. get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        // 3. go over each row, build book and add it to list
+        AutoUtente autoUtente = null;
+        if (cursor.moveToFirst()) {
+            do {
+                autoUtente = new AutoUtente(cursor.getString(0),cursor.getInt(1),cursor.getString(2),0,cursor.getString(4),new Modello(0,null,null,null,null,null,null),false);
+                //  int km, String annoImmatricolazione, int fotoAuto, String utente_email, Modello modello, boolean selected
+
+
+
+                // Add book to books
+                auto.add(autoUtente);
+            } while (cursor.moveToNext());
+        }
+
+        Log.d("getAllMarche()", auto.toString());
+
+        // return books
+        return auto;
+    }
 
 
 }

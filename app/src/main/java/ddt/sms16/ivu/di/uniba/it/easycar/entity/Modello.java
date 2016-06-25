@@ -28,6 +28,8 @@ public class Modello {
     }
 
 
+
+
     public Marca getMarca() {
         return marca;
     }

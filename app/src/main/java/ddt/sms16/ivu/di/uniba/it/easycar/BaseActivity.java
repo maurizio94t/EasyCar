@@ -123,6 +123,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
         }
 
+
         if(ok) {
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.replace(R.id.fragment_container, fragment);
