@@ -5,6 +5,7 @@ package ddt.sms16.ivu.di.uniba.it.easycar.entity;
  */
 public class Manutenzione {
 
+
     private int IDManutenzione;
     private String descrizione;
     private String data;
@@ -12,6 +13,14 @@ public class Manutenzione {
     private String kmManutenzione;
     private AutoUtente auto;
 
+    public Manutenzione(String descrizione, String data, int ordinaria, String kmManutenzione, AutoUtente auto) {
+
+        this.descrizione = descrizione;
+        this.data = data;
+        this.ordinaria = ordinaria;
+        this.kmManutenzione = kmManutenzione;
+        this.auto = auto;
+    }
 
     public Manutenzione(int IDManutenzione, String descrizione, String data, int ordinaria, String kmManutenzione, AutoUtente auto) {
         this.IDManutenzione = IDManutenzione;
@@ -20,6 +29,30 @@ public class Manutenzione {
         this.ordinaria = ordinaria;
         this.kmManutenzione = kmManutenzione;
         this.auto = auto;
+    }
+
+    public int getIDManutenzione() {
+        return IDManutenzione;
+    }
+
+    public String getDescrizione() {
+        return descrizione;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public int getOrdinaria() {
+        return ordinaria;
+    }
+
+    public String getKmManutenzione() {
+        return kmManutenzione;
+    }
+
+    public AutoUtente getAuto() {
+        return auto;
     }
 
     @Override

@@ -18,6 +18,14 @@ public class Scadenza {
         this.auto = auto;
 
     }
+
+    public Scadenza(String descrizione, String dataScadenza, AutoUtente auto) {
+        this.descrizione = descrizione;
+        this.dataScadenza = dataScadenza;
+        this.auto = auto;
+
+    }
+
     public int getIDScadenza() {
         return IDScadenza;
     }

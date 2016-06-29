@@ -10,6 +10,9 @@ public class Utente {
     private int foto;
     private String email;
 
+    public Utente(String email){
+        this.email=email;
+    }
     public Utente(String nome, String cognome, String dataN, int foto, String email) {
         this.nome = nome;
         this.cognome = cognome;
@@ -60,6 +63,6 @@ public class Utente {
 
     @Override
     public String toString() {
-        return "Utente[nome='" + nome + ", cognome='" + cognome + ", dataN='" + dataN + ", foto=" + foto + ", email='" + email + "]";
+        return "Utente[nome= " + nome + ", cognome= " + cognome + ", dataN= " + dataN + ", foto=" + foto + ", email= " + email + "]";
     }
 }

@@ -26,7 +26,10 @@ public class AutoUtente {
         this.selected = selected;
 
     }
+    public AutoUtente(String targa) {
+        this.targa = targa;
 
+    }
     public String getTarga() {
         return targa;
     }
@@ -43,7 +46,7 @@ public class AutoUtente {
         return fotoAuto;
     }
 
-    public Utente getUtenti_Email() {
+    public Utente getUtente() {
         return utente;
     }
 

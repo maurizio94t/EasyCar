@@ -35,7 +35,7 @@ public class CustomAdapter_AutoUtente extends ArrayAdapter<AutoUtente> {
         ImageView imgSel = (ImageView) convertView.findViewById(R.id.autoSelected);
 
         AutoUtente a = getItem(position);
-        marca.setText(a.getModello().getMarca().getNome());
+       // marca.setText(a.getModello().getMarca().getNome());
         modello.setText(a.getModello().getNome());
         targa.setText(a.getTarga());
         img.setImageResource(a.getFotoAutoId());

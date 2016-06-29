@@ -26,6 +26,19 @@ public class Modello {
         this.kw = kw;
         this.marca = marca;
     }
+    public Modello(String nome, String segmento, String alimentazione, String cilindrata, String kw, Marca marca) {
+
+        this.nome = nome;
+        this.segmento = segmento;
+        this.alimentazione = alimentazione;
+        this.cilindrata = cilindrata;
+        this.kw = kw;
+        this.marca = marca;
+    }
+    public Modello(int IDModello){
+        this.IDModello = IDModello;
+    }
+
 
 
 
@@ -60,7 +73,7 @@ public class Modello {
 
     @Override
     public String toString() {
-        return "Modelli [IDModello=" + IDModello + ", Nome=" + nome + ", segmento=" + segmento + ", alimentazione=" + alimentazione + ", cilindrata=" + cilindrata + ", kw=" + kw + ", marca=" + marca.getIDMarca() + "]";
+        return "Modelli [IDModello=" + IDModello + ", Nome=" + nome + ", segmento=" + segmento + ", alimentazione=" + alimentazione + ", cilindrata=" + cilindrata + ", kw=" + kw + ", marca=" + marca + "]";
     }
 
 
