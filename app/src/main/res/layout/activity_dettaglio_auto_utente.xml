@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="ddt.sms16.ivu.di.uniba.it.easycar.BaseActivity">
+    tools:context="ddt.sms16.ivu.di.uniba.it.easycar.DettaglioAutoUtente">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -39,8 +39,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="50dp"
-        android:src="@android:drawable/ic_dialog_email"
+        android:src="@drawable/ic_mode_edit_white_24dp"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end" />
 
 </android.support.design.widget.CoordinatorLayout>
+
