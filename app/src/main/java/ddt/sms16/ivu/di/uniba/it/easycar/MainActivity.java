@@ -6,10 +6,19 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,6 +27,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Manutenzione;
@@ -33,7 +43,8 @@ import ddt.sms16.ivu.di.uniba.it.easycar.entity.Utente;
 public class MainActivity extends AppCompatActivity {
 
     // URL to get data JSON
-    private static final String url = "http://t2j.no-ip.org/ddt/WebService.php?email=%s&psw=%s";
+    //private static final String url = "http://t2j.no-ip.org/ddt/WebService.php?email=%s&psw=%s";
+    private static final String url = "http://t2j.no-ip.org/ddt/WebService.php";
 
     // JSON Node - Campo stato login
     public static final String TAG_STATO = "Stato";
@@ -44,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG_AUTOUTENTE_KM = "KM";
     public static final String TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE = "AnnoImmatricolazione";
     public static final String TAG_AUTOUTENTE_FOTO_AUTO = "FotoAuto";
-    public static final String TAG_AUTOUTENTE_MODELLO= "Modello";
+    public static final String TAG_AUTOUTENTE_MODELLO = "Modello";
     public static final String TAG_AUTOUTENTE_SELECTED = "Selected";
 
     // JSON Node - Campi tabella Manutenzioni
@@ -103,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
     public static Utente utente;
 
     public static boolean stato;
+    private String jsonStr;
     private EditText mEditTxtEmail;
     private EditText mEditTxtPsw;
 
@@ -125,14 +137,38 @@ public class MainActivity extends AppCompatActivity {
         btnAccedi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+                StringRequest myReq = new StringRequest(Request.Method.POST,
+                        url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                jsonStr = response;
+                                Log.d("Response", "> OK");
+                                //new GetData(mEditTxtEmail.getText().toString(), mEditTxtPsw.getText().toString()).execute();
+                                new GetData().execute();
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d("Response", "> That didn't work!");
+                            }
+                        }) {
 
-                //new GetData(mEditTxtEmail.getText().toString(), mEditTxtPsw.getText().toString()).execute();
-                new GetData("maur_izzio@live.it", "prova").execute();
+                    protected Map<String, String> getParams() throws com.android.volley.AuthFailureError {
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put("email", "maur_izzio@live.it");
+                        params.put("psw", "prova");
+                        return params;
+                    };
+                };
+                queue.add(myReq);
             }
         });
 
-        Button bottonePrendiFoto = (Button) findViewById(R.id.bottonPrendiFoto);
 
+        Button bottonePrendiFoto = (Button) findViewById(R.id.bottonPrendiFoto);
         bottonePrendiFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,13 +184,6 @@ public class MainActivity extends AppCompatActivity {
     // AsynkTask
     private class GetData extends AsyncTask<Void, Void, Void> {
         ProgressDialog proDialog;
-        private String email;
-        private String psw;
-
-        public GetData(String email, String psw) {
-            this.email = email;
-            this.psw = psw;
-        }
 
         @Override
         protected void onPreExecute() {
@@ -169,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... arg0) {
+            /*
             List<String> args = new ArrayList<String>();
             args.add(this.email);
             args.add(this.psw);
@@ -177,9 +207,10 @@ public class MainActivity extends AppCompatActivity {
             WebRequest webreq = new WebRequest();
 
             // Faccio una richiesta all'url dichiarato come variabile di classe e prendo la risposta
-            String jsonStr = webreq.makeWebServiceCall(urlFormatted, WebRequest.GETRequest);
+            //String jsonStr = webreq.makeWebServiceCall(urlFormatted, WebRequest.GETRequest);
+            */
 
-            Log.d("Response: ", "> " + jsonStr);
+            Log.d("Response", "> " + jsonStr);
 
             ParseJSON(jsonStr);
 
@@ -195,10 +226,10 @@ public class MainActivity extends AppCompatActivity {
             /**
              * Updating received data from JSON into ListView
              * */
-            if(stato) {
-                Intent intent = new Intent(MainActivity.this, BaseActivity.class);
+            if (stato) {
+                Intent intentBaseActivity = new Intent(MainActivity.this, BaseActivity.class);
                 //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
-                startActivity(intent);
+                startActivity(intentBaseActivity);
                 finish();
             } else {
                 View parentLayout = findViewById(R.id.root_view);
@@ -215,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
 
                 stato = jsonObj.getBoolean(TAG_STATO);
 
-                if(!stato) {
+                if (!stato) {
                     return false;
                 }
 
@@ -481,7 +512,7 @@ public class MainActivity extends AppCompatActivity {
                     Marca marca = new Marca(idMarca, nomeMarca);
                     Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
                     AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, R.drawable.ic_menu_gallery, utenteAuto, modello, selected);
-                    Scadenza scadenza = new Scadenza(idScadenza, descrizioneScadenza, dataScadenza,autoutente);
+                    Scadenza scadenza = new Scadenza(idScadenza, descrizioneScadenza, dataScadenza, autoutente);
 
                     // aggiungo il singolo problema alla lista dei problemi
                     listaScadenze.add(scadenza);

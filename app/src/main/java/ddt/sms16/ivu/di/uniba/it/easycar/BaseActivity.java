@@ -3,9 +3,7 @@ package ddt.sms16.ivu.di.uniba.it.easycar;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,9 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
-import ddt.sms16.ivu.di.uniba.it.easycar.fragments.InfoAutoFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.MieAutoFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.OneFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment;
@@ -43,16 +39,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                         .setAction("Action", null).show();
             }
         });
-        */
-
-        /*
-        MainActivity.utente
-        MainActivity.listaAutoUtente
-        MainActivity.listaManutenzioni
-        MainActivity.listaModelli
-        MainActivity.listaMarche
-        MainActivity.listaProblemi
-        MainActivity.listaScadenze
         */
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -131,7 +117,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_info) {
 
         }
-
 
         if(ok) {
             FragmentTransaction ft = getFragmentManager().beginTransaction();

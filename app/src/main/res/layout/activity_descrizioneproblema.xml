@@ -12,8 +12,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Inserisci i dettagli del problema"
         android:id="@+id/textView1"
-        android:paddingBottom="80dp"
-        android:paddingB=""/>
+        android:paddingBottom="80dp" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="3dp"
@@ -28,8 +27,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Seleziona il veicolo"
         android:id="@+id/textView2"
-        android:paddingBottom="80dp"
-        android:paddingB=""/>
+        android:paddingBottom="80dp" />
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="50dp">

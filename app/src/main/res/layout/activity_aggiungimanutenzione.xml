@@ -45,7 +45,7 @@
                     android:layout_height="40dp"
                     android:layout_marginRight="10dp"
                     android:layout_gravity="right|center_vertical"
-                    android:background="@drawable/ic_clear_black_24dp"/>
+                    android:background="@drawable/ic_mode_edit_white_24dp"/>
 
             </FrameLayout>
 
@@ -133,7 +133,7 @@
                     android:layout_height="40dp"
                     android:layout_marginRight="10dp"
                     android:layout_gravity="right|center_vertical"
-                    android:background="@drawable/ic_clear_black_24dp"/>
+                    android:background="@drawable/ic_mode_edit_white_24dp"/>
             </FrameLayout>
 
         </android.support.design.widget.TextInputLayout>
