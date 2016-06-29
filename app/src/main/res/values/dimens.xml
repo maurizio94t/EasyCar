@@ -8,4 +8,7 @@
     <dimen name="fab_margin">16px</dimen>
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="text_size">25dp</dimen>
+    <dimen name="paddingTop">8dp</dimen>
+    <dimen name="paddingLeft">5dp</dimen>
 </resources>
