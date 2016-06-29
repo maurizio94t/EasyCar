@@ -30,7 +30,7 @@
                 android:padding="5dp">
 
                 <EditText
-                    android:id="@+id/calc_txt_Prise"
+                    android:id="@+id/autoTarga"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
@@ -77,7 +77,7 @@
                 android:padding="5dp">
 
                 <EditText
-                    android:id="@+id/modello_auto"
+                    android:id="@+id/email"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
@@ -197,13 +197,28 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:layout_toRightOf="@+id/spinner_marca"
         android:id="@+id/spinner_modello" />
-    <Spinner
-        android:layout_width="match_parent"
+        <Spinner
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:id="@+id/spinner_marca"
+            android:paddingRight="50dp">
+
+        </Spinner>
+    </RelativeLayout>
+    <Button
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/spinner_marca" />
+        android:text="Invia"
+        android:id="@+id/inviaAuto"/>
 
 </LinearLayout>

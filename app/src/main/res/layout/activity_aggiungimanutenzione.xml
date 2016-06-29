@@ -28,7 +28,7 @@
                 android:padding="5dp">
 
                 <EditText
-                    android:id="@+id/calc_txt_Prise"
+                    android:id="@+id/descrizioneManutenzione"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
@@ -117,7 +117,7 @@
                 android:padding="5dp">
 
                 <EditText
-                    android:id="@+id/data_manutenzione"
+                    android:id="@+id/chilometraggio_auto"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
@@ -143,4 +143,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/spinner_veicolo" />
+    <Button
+        android:id="@+id/bottoneAggiungiManutenzione"
+        android:layout_gravity="center"
+        android:text="Invia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </LinearLayout>
