@@ -5,90 +5,152 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="ddt.sms16.ivu.di.uniba.it.easycar.BaseActivity"
+    tools:context="ddt.sms16.ivu.di.uniba.it.easycar.DettaglioAutoUtente"
     tools:showIn="@layout/fragment_detail_auto">
 
-    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:paddingLeft="20dp"
-        android:paddingTop="30dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="30dp"
+        android:paddingBottom="30dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:orientation="vertical">
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
             <TextView
-                android:text="Marca"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:paddingBottom="30dp"
-                android:paddingRight="15dp"/>
+                android:layout_weight="3"
+                android:text="Targa:"
+                android:textSize="25sp" />
+
             <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:id="@+id/txtViewTarga"
+                android:textStyle="bold"
+                android:text="BD908DS"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="Marca:"
+                android:textSize="25sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:id="@+id/txtViewMarca"
                 android:text="Alfa Romeo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textClock"
-                android:layout_column="2" />
-        </TableRow>
+                android:textSize="20sp" />
+        </LinearLayout>
 
-        <TableRow>
-            <TextView
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-                android:text="Modello"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:paddingBottom="30dp"
-                android:paddingRight="15dp"/>
             <TextView
-                android:width="200px"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="Modello:"
+                android:textSize="25sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:id="@+id/txtViewModello"
                 android:text="159"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </TableRow>
+                android:textSize="20sp" />
+        </LinearLayout>
 
-        <TableRow>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
             <TextView
-                android:text="Cilindrata"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:paddingBottom="30dp"
-                android:paddingRight="15dp"/>
+                android:layout_weight="3"
+                android:text="Anno:"
+                android:textSize="25sp" />
+
             <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:id="@+id/txtViewAnno"
+                android:text="1999"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="Cilindrata:"
+                android:textSize="25sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:id="@+id/txtViewCilindrata"
                 android:text="1900cc"
-                android:width="100px"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </TableRow>
+                android:textSize="20sp" />
+        </LinearLayout>
 
-        <TableRow>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
             <TextView
-                android:text="Consumo medio"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:paddingBottom="30dp"
-                android:paddingRight="15dp"/>
+                android:layout_weight="3"
+                android:text="Km attuali:"
+                android:textSize="25sp" />
+
             <TextView
-                android:text="6,3l km/lt"
-                android:width="100px"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </TableRow>
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:id="@+id/txtViewKm"
+                android:text="12500"
+                android:textSize="20sp" />
+        </LinearLayout>
 
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"/>
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
 
-        </TableRow>
 
-    </TableLayout>
+    </LinearLayout>
+
+
 
 </android.support.v4.widget.NestedScrollView>
