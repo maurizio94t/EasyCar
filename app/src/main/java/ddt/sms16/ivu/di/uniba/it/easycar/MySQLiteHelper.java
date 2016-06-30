@@ -308,12 +308,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 
 
-/*
     public List<AutoUtente> getAllAutoUtente() {
         List<AutoUtente> auto = new LinkedList<AutoUtente>();
 
 
-        String query = "SELECT  * FROM " + TABELLA_UTENTE;
+        String query = "SELECT  * FROM " + TABELLA_AUTO_UTENTE;
 
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -324,7 +323,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 autoUtente = new AutoUtente(cursor.getString(0),cursor.getInt(1),cursor.getString(2), 0,new Utente(cursor.getString(3)),new Modello(cursor.getInt(4)),0);
-               Targa TEXT  PRIMARY KEY, KM INTEGER , AnnoImmatricolazione TEXT  , FotoAuto BYTE , Utenti_Email TEXT  , Modelli_id
 
                 auto.add(autoUtente);
             } while (cursor.moveToNext());
@@ -338,7 +336,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         return auto;
     }
-    */
+
 
 
 
@@ -400,6 +398,36 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 
         return modelli;
+    }
+
+    public List<Scadenza> getAllScadenze() {
+        List<Scadenza> scadenze = new LinkedList<Scadenza>();
+
+        // 1. build the query
+        String query = "SELECT  * FROM " + TABELLA_SCADENZE;
+
+        // 2. get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        // 3. go over each row, build book and add it to list
+        Scadenza scadenza = null;
+        if (cursor.moveToFirst()) {
+            do {
+                scadenza = new Scadenza( cursor.getInt(0),cursor.getString(1),cursor.getString(2),new AutoUtente(cursor.getString(3)));
+
+                scadenze.add(scadenza);
+            } while (cursor.moveToNext());
+        }
+        for (Scadenza s : scadenze
+                ) {
+            Log.d("getAllScadenze()", s.toString());
+        }
+
+
+
+
+        return scadenze;
     }
 
     public List<Problema> getAllProblemi() {

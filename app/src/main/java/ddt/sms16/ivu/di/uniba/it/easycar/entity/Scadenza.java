@@ -41,5 +41,8 @@ public class Scadenza {
     public AutoUtente getAuto() {
         return auto;
     }
-
+    @Override
+    public String toString() {
+        return "Scadenza [IDScadenza=" + IDScadenza + ", descrizione=" + descrizione + ", dataScadenza=" + dataScadenza + ",  targa auto=" + auto.getTarga() + "]";
+    }
 }

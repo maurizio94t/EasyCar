@@ -1,8 +1,8 @@
 package ddt.sms16.ivu.di.uniba.it.easycar.fragments;
 
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import ddt.sms16.ivu.di.uniba.it.easycar.AggiuntaScadenza;
 import ddt.sms16.ivu.di.uniba.it.easycar.R;
 
 
@@ -31,6 +32,7 @@ public class ScadenzeFragment extends Fragment {
             public void onClick(View v) {
 
                 Log.d("fragment","funzionaaa");
+                /*
 
                 Fragment fragment = new AggiuntaScadenzaFragment();
 
@@ -39,6 +41,9 @@ public class ScadenzeFragment extends Fragment {
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 ft.addToBackStack(null);
                 ft.commit();
+                */
+                Intent aggiuntaScadenza = new Intent(getActivity(), AggiuntaScadenza.class);
+                startActivity(aggiuntaScadenza);
             }
         });
 

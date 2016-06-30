@@ -107,8 +107,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_scadenze) {
-            fragment = new ScadenzeFragment();
+             fragment = new ScadenzeFragment();
             ok = true;
+
         } else if (id == R.id.nav_problemi) {
             fragment = new ProblemiFragment();
             ok = true;
