@@ -11,4 +11,7 @@
     <dimen name="text_size">25dp</dimen>
     <dimen name="paddingTop">8dp</dimen>
     <dimen name="paddingLeft">5dp</dimen>
+    <dimen name="iconsize">40dp</dimen>
+    <dimen name="paddingLeftForm">10dp</dimen>
+    <dimen name="withEditTextForm">250dp</dimen>
 </resources>

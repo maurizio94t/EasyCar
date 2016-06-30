@@ -2,6 +2,7 @@ package ddt.sms16.ivu.di.uniba.it.easycar;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -113,7 +114,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_problemi) {
             fragment = new ProblemiFragment();
             ok = true;
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.manutenzioni) {
+       Intent aggiuntaManutenzione = new Intent(this, AggiungiManutenzione.class);
+            startActivity(aggiuntaManutenzione);
 
         } else if (id == R.id.nav_info) {
 

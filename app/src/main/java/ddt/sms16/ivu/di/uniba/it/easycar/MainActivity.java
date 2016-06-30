@@ -6,13 +6,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -26,7 +24,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
@@ -123,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         listaAutoUtente = new ArrayList<AutoUtente>();
         listaManutenzioni = new ArrayList<Manutenzione>();
         listaModelli = new ArrayList<Modello>();
@@ -168,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        Button bottonePrendiFoto = (Button) findViewById(R.id.bottonPrendiFoto);
+    /*    Button bottonePrendiFoto = (Button) findViewById(R.id.bottonPrendiFoto);
         bottonePrendiFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -176,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent prendiFoto = new Intent(MainActivity.this, PrendiFoto.class);
                 startActivity(prendiFoto);
             }
-        });
+        });*/
 
 
     }

@@ -15,18 +15,25 @@ import java.util.HashMap;
  * Created by Giuseppe-PC on 29/06/2016.
  */
 public class AggiungiManutenzione extends Activity {
-    Button mInviaManutenzione = (Button) findViewById(R.id.bottoneAggiungiManutenzione);
-    EditText mDescrizioneManutenzione = (EditText)findViewById(R.id.descrizioneManutenzione);
-    EditText mDataScadenza = (EditText)findViewById(R.id.data_scadenza);
-    EditText mChilometraggio = (EditText)findViewById(R.id.chilometraggio_auto);
-    Spinner mSpinnerVeicolo = (Spinner)findViewById(R.id.spinner_veicolo);
+    Button mInviaManutenzione;
+    EditText mDescrizioneManutenzione;
+    EditText mDataScadenza;
+    EditText mChilometraggio;
+    Spinner mSpinnerVeicolo;
+
+
     WebRequest webRequest;
     URL paginaURL;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_aggiungimanutenzione);
+        setContentView(R.layout.fragment_manutenzioni);
+          mInviaManutenzione = (Button) findViewById(R.id.bottoneAggiungiManutenzione);
+          mDescrizioneManutenzione = (EditText)findViewById(R.id.descrizioneManutenzione);
+          mDataScadenza = (EditText)findViewById(R.id.data_scadenza);
+          mChilometraggio = (EditText)findViewById(R.id.chilometraggio_auto);
+          mSpinnerVeicolo = (Spinner)findViewById(R.id.spinner_veicolo);
 
 
         mInviaManutenzione.setOnClickListener(new View.OnClickListener() {

@@ -20,5 +20,6 @@
     <string name="modello"> Inserisci il modello </string>
     <string name="chilometraggio">Inserisci il chilometraggio</string>
     <string name="email">Inserisci la tua e-mail</string>
-    <string name="scadenza">Inserisci lascadenza</string>
+    <string name="scadenza">Inserisci la scadenza</string>
+    <string name="descrizione">Inserisci la descrizione</string>
 </resources>

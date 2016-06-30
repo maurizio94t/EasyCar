@@ -28,13 +28,13 @@
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_manage"
+                android:id="@+id/manutenzioni"
                 android:icon="@drawable/ic_menu_manage"
-                android:title="Tools" />
+                android:title="Manutenzioni" />
             <item
                 android:id="@+id/nav_info"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Info" />
+                android:title="info" />
         </menu>
     </item>
 

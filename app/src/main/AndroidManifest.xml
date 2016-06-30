@@ -20,7 +20,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.ActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,15 +30,19 @@
         <activity
             android:name=".BaseActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".PrendiFoto"
             android:label="@string/title_activity_prendi_foto"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".DettaglioAutoUtente"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AggiuntaScadenza"></activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".AggiungiManutenzione"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme" >
+        </activity>
     </application>
 
 </manifest>
