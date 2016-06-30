@@ -10,9 +10,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Marca;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.MieAutoFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.OneFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment;
@@ -28,19 +30,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
+        //aggiornamente del db locare se c'è connessione
+        //aggiornaDataBaseLocale();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        /*
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        */
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -136,6 +130,25 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void aggiornaDataBaseLocale() {
+        MainActivity.listMarcaLocal = MainActivity.mySQLiteHelper.getAllMarche();
+        boolean trovato = false;
+        for(Marca marcaE : MainActivity.listaMarche) {
+            for(Marca marcaL : MainActivity.listMarcaLocal) {
+                if(marcaE.getIDMarca() == marcaL.getIDMarca()) {
+                    trovato = true;
+                    break;
+                }
+            }
+            if(!trovato) {
+                MainActivity.mySQLiteHelper.aggiungiMarca(marcaE);
+            }
+        }
+
+        // get tutte le AutoUtente
+        MainActivity.listMarcaLocal = MainActivity.mySQLiteHelper.getAllMarche();
     }
 
 }

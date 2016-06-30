@@ -24,6 +24,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
@@ -40,9 +41,8 @@ import ddt.sms16.ivu.di.uniba.it.easycar.entity.Utente;
 public class MainActivity extends AppCompatActivity {
 
     // URL to get data JSON
-    //private static final String url = "http://t2j.no-ip.org/ddt/WebService.php?email=%s&psw=%s";
     private static final String url = "http://t2j.no-ip.org/ddt/WebService.php";
-
+    private static final String urlOperations = "http://t2j.no-ip.org/ddt/WebServiceOperations.php";
     // JSON Node - Campo stato login
     public static final String TAG_STATO = "Stato";
 
@@ -110,6 +110,10 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<Scadenza> listaScadenze;
     public static Utente utente;
 
+    public static MySQLiteHelper mySQLiteHelper;
+    public static List<AutoUtente> listAutoUtenteLocal;
+    public static List<Marca> listMarcaLocal;
+
     public static boolean stato;
     private String jsonStr;
     private EditText mEditTxtEmail;
@@ -128,6 +132,8 @@ public class MainActivity extends AppCompatActivity {
         listaProblemi = new ArrayList<Problema>();
         listaScadenze = new ArrayList<Scadenza>();
 
+        mySQLiteHelper = new MySQLiteHelper(getApplicationContext());
+
         mEditTxtEmail = (EditText) findViewById(R.id.editTxtEmail);
         mEditTxtPsw = (EditText) findViewById(R.id.editTxtPsw);
 
@@ -136,13 +142,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+
                 StringRequest myReq = new StringRequest(Request.Method.POST,
                         url,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
                                 jsonStr = response;
-                                Log.d("Response", "> OK");
+                                Log.d("Response", "> OK FETCH DB");
                                 //new GetData(mEditTxtEmail.getText().toString(), mEditTxtPsw.getText().toString()).execute();
                                 new GetData().execute();
                             }
@@ -162,6 +169,70 @@ public class MainActivity extends AppCompatActivity {
                     };
                 };
                 queue.add(myReq);
+
+
+                // prova
+                StringRequest myReq1 = new StringRequest(Request.Method.POST,
+                        urlOperations,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                Log.d("RespOperations", "> " + response);
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d("RespOperations", "> NON FUNZIONA!");
+                            }
+                        }) {
+
+                    protected Map<String, String> getParams() throws com.android.volley.AuthFailureError {
+                        Map<String, String> params = new HashMap<String, String>();
+                        /*
+                        //insert into AutoUtente
+                        params.put("operation", "c");
+                        params.put("table", "AutoUtente");
+
+                        params.put("targa", "AA000BA");
+                        params.put("km", "12099");
+                        params.put("anno", "1900");
+                        params.put("foto", "");
+                        params.put("utente", "enrico@gmail.com");
+                        params.put("modello", "1315");
+                        */
+
+                        /*
+                        //insert into Manutenzioni
+                        params.put("operation", "c");
+                        params.put("table", "Manutenzioni");
+                        params.put("email", "enrico@gmail.com");
+
+                        params.put("descrizione", "Problema GRAVE");
+                        params.put("data", "20160629");
+                        params.put("ordinaria", "false");
+                        params.put("km", "5000");
+                        params.put("targa", "AA000BA");
+                        */
+
+                        /*
+                        //insert into Problemi
+                        params.put("operation", "c");
+                        params.put("table", "Problemi");
+                        params.put("email", "enrico@gmail.com");
+
+                        params.put("descrizione", "Problema GRAVISSIMO");
+                        params.put("targa", "AA000BA");
+                        */
+
+
+
+                        return params;
+                    }
+
+                    ;
+                };
+                queue.add(myReq1);
             }
         });
 
@@ -196,18 +267,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... arg0) {
-            /*
-            List<String> args = new ArrayList<String>();
-            args.add(this.email);
-            args.add(this.psw);
-            String urlFormatted = String.format(url, args.toArray());
-            // Creo un'istanza di WebRequest per effettuare una richiesta al server
-            WebRequest webreq = new WebRequest();
-
-            // Faccio una richiesta all'url dichiarato come variabile di classe e prendo la risposta
-            //String jsonStr = webreq.makeWebServiceCall(urlFormatted, WebRequest.GETRequest);
-            */
-
             Log.d("Response", "> " + jsonStr);
 
             ParseJSON(jsonStr);

@@ -22,39 +22,11 @@ public class AggiuntaAuto extends Activity {
     private Spinner mSpinnerMarca = (Spinner)findViewById(R.id.spinner_marca);
     private Spinner mSpinnerModello = (Spinner)findViewById(R.id.spinner_modello);
     private Button inviaAggiunta = (Button)findViewById(R.id.inviaAuto);
-    WebRequest webRequest = new WebRequest();
-    URL paginaURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inserimentoauto);
-        inviaAggiunta.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    paginaURL = new URL("http://t2j.no-ip.org/phpmyadmin");
-                }catch (IOException e){
-                    e.getMessage();
-                }
-                if(campiValidi()){
-                    String targa = mTarga.getText().toString();
-                    String email = mEmail.getText().toString();
-                    String anno_immatricolazione = mAnnoimmatricolazione.getText().toString();
-                    String chilometraggio = mChilometraggio.getText().toString();
-                    String marca = mSpinnerMarca.getSelectedItem().toString();
-                    String modello = mSpinnerModello.getSelectedItem().toString();
-                    HashMap<String, String> params = new HashMap<String, String>();
-                    params.put("Targa",targa);
-                    params.put("Email",email);
-                    params.put("AnnoImmatricolazione",anno_immatricolazione);
-                    params.put("Chilometraggio",chilometraggio);
-                    params.put("Marca",marca);
-                    params.put("Modello",modello);
-                    webRequest.makeWebServiceCall(paginaURL.toString(),WebRequest.GETRequest,params);
-                }
-            }
-        });
     }
 
     public boolean campiValidi(){

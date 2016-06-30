@@ -19,33 +19,13 @@ import java.util.HashMap;
 public class AggiuntaProblema extends Activity {
     EditText dettagliProblema;
     Button bottoneIvia;
-    URL paginaURL;
-    WebRequest webRequest = new WebRequest();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_descrizioneproblema);
         dettagliProblema =(EditText) findViewById(R.id.editTextProblema);
         bottoneIvia = (Button) findViewById(R.id.buttonIviaProblema);
-        try {
-            paginaURL = new URL("http://t2j.no-ip.org/phpmyadmin");
-        }catch (IOException e){
-            e.getMessage();
-        }
-        bottoneIvia.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(dettagliProblema.getText().toString().compareTo("")!=0){
-                    String stringaProblema = dettagliProblema.getText().toString();
-                    HashMap<String, String> params = new HashMap<String, String>();
-                    params.put("Problema",stringaProblema);
-                    webRequest.makeWebServiceCall(paginaURL.toString(),2,params);
-                }else{
-                    Toast.makeText(AggiuntaProblema.this,"Descrizione vuota",Toast.LENGTH_SHORT);
-                }
-            }
-        });
-
 
     }
 }
