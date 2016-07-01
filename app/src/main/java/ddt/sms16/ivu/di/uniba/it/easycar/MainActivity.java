@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-
+                //*
                 StringRequest myReq = new StringRequest(Request.Method.POST,
                         url,
                         new Response.Listener<String>() {
@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
                     };
                 };
                 queue.add(myReq);
-
+                //*/
 
                 // prova
                 StringRequest myReq1 = new StringRequest(Request.Method.POST,
@@ -225,6 +225,25 @@ public class MainActivity extends AppCompatActivity {
                         params.put("targa", "AA000BA");
                         */
 
+                        /*
+                        //insert into Scedenze
+                        params.put("operation", "c");
+                        params.put("table", "Scadenze");
+                        params.put("email", "enrico@gmail.com");
+
+                        params.put("descrizione", "Scadenza AAAA");
+                        params.put("data", "20151225");
+                        params.put("targa", "AA000BA");
+                        */
+
+                        //insert into
+                        params.put("operation", "c");
+                        params.put("table", "Scadenze");
+                        params.put("email", "enrico@gmail.com");
+
+                        params.put("descrizione", "Scadenza AAAA");
+                        params.put("data", "20151225");
+                        params.put("targa", "AA000BA");
 
 
                         return params;
