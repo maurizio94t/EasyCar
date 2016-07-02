@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String url = "http://t2j.no-ip.org/ddt/WebService.php";
     private static final String urlOperations = "http://t2j.no-ip.org/ddt/WebServiceOperations.php";
     // JSON Node - Campo stato login
-    public static final String TAG_STATO = "Stato";
+    public static final String TAG_UTENTE_VERIFICATO = "UtenteVerificato";
 
     // JSON Node - Campi tabella AutoUtente
     public static final String TAG_AUTOUTENTE = "AutoUtente";
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
     public static List<AutoUtente> listAutoUtenteLocal;
     public static List<Marca> listMarcaLocal;
 
-    public static boolean stato;
+    public static boolean utenteVerificato;
     private String jsonStr;
     private EditText mEditTxtEmail;
     private EditText mEditTxtPsw;
@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                //*
+
                 StringRequest myReq = new StringRequest(Request.Method.POST,
                         url,
                         new Response.Listener<String>() {
@@ -169,9 +169,9 @@ public class MainActivity extends AppCompatActivity {
                     };
                 };
                 queue.add(myReq);
-                //*/
 
-                // prova
+
+
                 StringRequest myReq1 = new StringRequest(Request.Method.POST,
                         urlOperations,
                         new Response.Listener<String>() {
@@ -236,15 +236,17 @@ public class MainActivity extends AppCompatActivity {
                         params.put("targa", "AA000BA");
                         */
 
-                        //insert into
+                        /*
+                        //insert into Utenti
                         params.put("operation", "c");
-                        params.put("table", "Scadenze");
-                        params.put("email", "enrico@gmail.com");
+                        params.put("table", "Utenti");
 
-                        params.put("descrizione", "Scadenza AAAA");
-                        params.put("data", "20151225");
-                        params.put("targa", "AA000BA");
-
+                        params.put("nome", "Giorgio");
+                        params.put("cognome", "DeMarzo");
+                        params.put("data", "19940614");
+                        params.put("email", "giorgione@gmail.com");
+                        params.put("psw", "gino");
+                        */
 
                         return params;
                     }
@@ -254,7 +256,6 @@ public class MainActivity extends AppCompatActivity {
                 queue.add(myReq1);
             }
         });
-
 
     /*    Button bottonePrendiFoto = (Button) findViewById(R.id.bottonPrendiFoto);
         bottonePrendiFoto.setOnClickListener(new View.OnClickListener() {
@@ -302,7 +303,7 @@ public class MainActivity extends AppCompatActivity {
             /**
              * Updating received data from JSON into ListView
              * */
-            if (stato) {
+            if (utenteVerificato) {
                 Intent intentBaseActivity = new Intent(MainActivity.this, BaseActivity.class);
                 //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
                 startActivity(intentBaseActivity);
@@ -320,9 +321,9 @@ public class MainActivity extends AppCompatActivity {
             try {
                 JSONObject jsonObj = new JSONObject(json);
 
-                stato = jsonObj.getBoolean(TAG_STATO);
+                utenteVerificato = jsonObj.getBoolean(TAG_UTENTE_VERIFICATO);
 
-                if (!stato) {
+                if (!utenteVerificato) {
                     return false;
                 }
 
