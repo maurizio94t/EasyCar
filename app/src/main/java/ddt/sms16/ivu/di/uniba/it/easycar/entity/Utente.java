@@ -9,6 +9,7 @@ public class Utente {
     private String dataN;
     private int foto;
     private String email;
+    private String psw;
 
     public Utente(String email){
         this.email=email;
@@ -19,6 +20,15 @@ public class Utente {
         this.dataN = dataN;
         this.foto = foto;
         this.email = email;
+    }
+
+    public Utente(String nome, String cognome, String dataN, int foto, String email, String psw) {
+        this.nome = nome;
+        this.cognome = cognome;
+        this.dataN = dataN;
+        this.foto = foto;
+        this.email = email;
+        this.psw = psw;
     }
 
     public String getNome() {
@@ -61,8 +71,12 @@ public class Utente {
         this.email = email;
     }
 
+    public String getPsw() {
+        return psw;
+    }
+
     @Override
     public String toString() {
-        return "Utente[nome= " + nome + ", cognome= " + cognome + ", dataN= " + dataN + ", foto=" + foto + ", email= " + email + "]";
+        return "Utente[nome= " + nome + ", cognome= " + cognome + ", dataN= " + dataN + ", foto=" + foto + ", email= " + email + ", psw= " + psw + "]";
     }
 }
