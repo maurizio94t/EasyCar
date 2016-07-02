@@ -1,8 +1,12 @@
 package ddt.sms16.ivu.di.uniba.it.easycar;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -14,10 +18,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-/**
- * Created by Giuseppe-PC on 29/06/2016.
- */
-public class AggiuntaManutenzione extends Activity {
+
+public class AggiuntaManutenzione extends AppCompatActivity {
     Button mInviaManutenzione;
     private EditText mDescrizioneManutenzione;
     private EditText mDataScadenza;
@@ -33,6 +35,19 @@ public class AggiuntaManutenzione extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manutenzioni);
+         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+
+            toolbar.setNavigationIcon(R.drawable.ic_navigate_before_white_24dp);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+
+
 
           mDescrizioneManutenzione = (EditText)findViewById(R.id.descrizioneManutenzione);
           mDataScadenza = (EditText)findViewById(R.id.dataManutenzione);
@@ -150,5 +165,27 @@ public class AggiuntaManutenzione extends Activity {
             return true;
         }
         return false;
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.toolbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.done) {
+            Log.d("done","done");
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
