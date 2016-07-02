@@ -13,5 +13,6 @@
     <dimen name="paddingLeft">5dp</dimen>
     <dimen name="iconsize">40dp</dimen>
     <dimen name="paddingLeftForm">10dp</dimen>
-    <dimen name="withEditTextForm">250dp</dimen>
+    <dimen name="withEditTextForm">240dp</dimen>
+
 </resources>

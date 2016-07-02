@@ -44,6 +44,7 @@
 
         <TextView
             android:text="@string/tipoLabel"
+            android:textColor="@color/colorTextPrimary"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/textView3"
@@ -60,6 +61,7 @@
             android:layout_alignTop="@+id/textView3"
             android:layout_marginTop="165dp"
             android:id="@+id/textView2"
+            android:textColor="@color/colorTextPrimary"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:textSize="24sp" />
@@ -84,6 +86,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginTop="106dp"
+            android:textColor="@color/colorTextPrimary"
             android:id="@+id/textView4"
             android:textSize="24sp" />
 

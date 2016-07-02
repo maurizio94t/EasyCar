@@ -27,6 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:text="Targa:"
+                android:textColor="@color/colorTextPrimary"
                 android:textSize="25sp" />
 
             <TextView
@@ -47,6 +48,7 @@
 
             <TextView
                 android:layout_width="0dp"
+                android:textColor="@color/colorTextPrimary"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:text="Marca:"
@@ -70,6 +72,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
+                android:textColor="@color/colorTextPrimary"
                 android:text="Modello:"
                 android:textSize="25sp" />
 
@@ -91,6 +94,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
+                android:textColor="@color/colorTextPrimary"
                 android:text="Anno:"
                 android:textSize="25sp" />
 
@@ -114,6 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:text="Cilindrata:"
+                android:textColor="@color/colorTextPrimary"
                 android:textSize="25sp" />
 
             <TextView
@@ -135,6 +140,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:text="Km attuali:"
+                android:textColor="@color/colorTextPrimary"
                 android:textSize="25sp" />
 
             <TextView

@@ -100,6 +100,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             fragment = new MieAutoFragment();
             ok = true;
         } else if (id == R.id.nav_slideshow) {
+            Intent aggiuntaAuto = new Intent(this, AggiuntaAuto.class);
+            startActivity(aggiuntaAuto);
 
         } else if (id == R.id.nav_scadenze) {
              fragment = new ScadenzeFragment();
@@ -113,6 +115,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             startActivity(aggiuntaManutenzione);
 
         } else if (id == R.id.nav_info) {
+            Intent registraUtente = new Intent(this, RegistrazioneUtente.class);
+            startActivity(registraUtente);
 
         }
 

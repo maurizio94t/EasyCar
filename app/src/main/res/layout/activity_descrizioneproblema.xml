@@ -12,12 +12,15 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Inserisci i dettagli del problema"
         android:id="@+id/textView1"
-        android:paddingBottom="80dp" />
+   />
+
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:id="@+id/editTextProblema"
+        android:layout_height="150dp"
+        android:id="@+id/Problema"
         android:layout_weight="0.39" />
+
+
     <TextView
         android:layout_width="wrap_content"
         android:paddingTop="@dimen/paddingTop"
@@ -29,14 +32,23 @@
         android:id="@+id/textView2"
         android:paddingBottom="80dp" />
     <Spinner
+        android:id="@+id/spinner_veicolo"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="wrap_content">
 
     </Spinner>
+
+    <TextView
+        android:id="@+id/prova"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="prova"/>
     <Button
-        android:id="@+id/buttonIviaProblema"
-        android:layout_gravity="center"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:text="Invia"/>
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Invia"
+        android:id="@+id/inviaProblema"
+        android:layout_gravity="center_horizontal" />
+
 </LinearLayout>
