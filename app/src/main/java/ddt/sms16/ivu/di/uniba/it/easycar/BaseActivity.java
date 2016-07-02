@@ -10,7 +10,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -111,7 +110,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             fragment = new ProblemiFragment();
             ok = true;
         } else if (id == R.id.manutenzioni) {
-       Intent aggiuntaManutenzione = new Intent(this, AggiungiManutenzione.class);
+       Intent aggiuntaManutenzione = new Intent(this, AggiuntaManutenzione.class);
             startActivity(aggiuntaManutenzione);
 
         } else if (id == R.id.nav_info) {

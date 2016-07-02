@@ -2,9 +2,7 @@ package ddt.sms16.ivu.di.uniba.it.easycar;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -19,12 +17,12 @@ import java.util.Locale;
 /**
  * Created by Giuseppe-PC on 29/06/2016.
  */
-public class AggiungiManutenzione extends Activity {
+public class AggiuntaManutenzione extends Activity {
     Button mInviaManutenzione;
-    EditText mDescrizioneManutenzione;
-    EditText mDataScadenza;
-    EditText mChilometraggio;
-    Spinner mSpinnerVeicolo;
+    private EditText mDescrizioneManutenzione;
+    private EditText mDataScadenza;
+    private EditText mChilometraggio;
+    private Spinner mSpinnerVeicolo;
     int anno, mese, giorno = 0;
     String dataN;
     Calendar myCalendar = Calendar.getInstance();
@@ -79,7 +77,7 @@ public class AggiungiManutenzione extends Activity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    new DatePickerDialog(AggiungiManutenzione.this, date,
+                    new DatePickerDialog(AggiuntaManutenzione.this, date,
                             myCalendar.get(Calendar.YEAR),
                             myCalendar.get(Calendar.MONTH),
                             myCalendar.get(Calendar.DAY_OF_MONTH)).show();

@@ -39,7 +39,7 @@
             android:name=".DettaglioAutoUtente"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AggiungiManutenzione"
+            android:name=".AggiuntaManutenzione"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
             />

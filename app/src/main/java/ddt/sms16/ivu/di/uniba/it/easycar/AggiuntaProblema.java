@@ -18,9 +18,9 @@ import java.util.HashMap;
  * Created by Giuseppe-PC on 29/06/2016.
  */
 public class AggiuntaProblema extends Activity {
-    EditText dettagliProblema;
-    Button bottoneInvia;
-    Spinner spinnerVeicolo;
+    private EditText dettagliProblema;
+    private Button bottoneInvia;
+    private Spinner spinnerVeicolo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

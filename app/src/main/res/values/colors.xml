@@ -7,4 +7,5 @@
     <color name="colorBackground">#007c8c</color>
     <color name="colorTextPrimary">#000000</color>
     <color name="colorManutenzione">#e44800</color>
+    <color name="colorAuto">#CDDC39</color>
 </resources>

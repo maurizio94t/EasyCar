@@ -28,13 +28,13 @@ import ddt.sms16.ivu.di.uniba.it.easycar.entity.Scadenza;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Utente;
 
 public class AggiuntaScadenza extends AppCompatActivity {
-    Calendar myCalendar = Calendar.getInstance();
+    private Calendar myCalendar = Calendar.getInstance();
 
-    EditText editTextDate;
+    private EditText editTextDate;
 
-    String dataN;
-    RadioButton tipoScadenzaRadioGroupSelected;
-    Spinner spinnerTarghe;
+    private String dataN;
+    private RadioButton tipoScadenzaRadioGroupSelected;
+    private Spinner spinnerTarghe;
 
     int anno, mese, giorno = 0;
 
