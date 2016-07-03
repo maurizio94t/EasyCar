@@ -29,16 +29,16 @@ public class AggiuntaProblema extends Activity {
         spinnerVeicolo = (Spinner) findViewById(R.id.spinner_veicolo);
         final EditText problema = (EditText)findViewById(R.id.Problema);
         bottoneInvia = (Button)findViewById(R.id.inviaProblema);
-        final TextView prova = (TextView)findViewById(R.id.prova);
+       // final TextView prova = (TextView)findViewById(R.id.prova);
 
-        bottoneInvia.setOnClickListener(new View.OnClickListener() {
+     /*   bottoneInvia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(controllaCampi())
                 prova.setText("Dati corretti");
                 prova.setText("Dati non corretti");
             }
-        });
+        });*/
     }
 
 

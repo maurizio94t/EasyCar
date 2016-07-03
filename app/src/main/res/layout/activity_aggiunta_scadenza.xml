@@ -1,127 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-
-        <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ddt.sms16.ivu.di.uniba.it.easycar.AggiuntaScadenza">
-
-
-            <Button
-                android:text="AGGIUNGI"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="33dp"
-                android:id="@+id/buttonAggiungiScadenza"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:text="@string/dataLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView2"
-        android:textSize="24sp"
-        android:layout_above="@+id/textView4"
-        android:layout_alignRight="@+id/textView4"
-        android:layout_alignEnd="@+id/textView4"
-        android:layout_marginBottom="93dp" />
-
-    <EditText
-                android:layout_width="@dimen/withEditTextForm"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:ems="10"
-        android:id="@+id/dataScadenza"
-        android:layout_above="@+id/buttonAggiungiScadenza"
-        android:layout_alignLeft="@+id/buttonAggiungiScadenza"
-        android:layout_alignStart="@+id/buttonAggiungiScadenza"
-        android:layout_marginBottom="13dp" />
-
-    <Spinner
-        android:id="@+id/spinnerTarghe"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:drawable/btn_dropdown"
-        android:spinnerMode="dropdown"
-        android:layout_alignBottom="@+id/dataScadenza"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignLeft="@+id/dataScadenza"
-        android:layout_alignStart="@+id/dataScadenza" />
-
-    <TextView
-        android:text="@string/targa"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView4"
-        android:textSize="24sp"
-        android:layout_alignTop="@+id/spinnerTarghe"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginStart="20dp" />
+    android:weightSum="1">
 
     <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:background="@color/colorManutenzione"
-                android:layout_width="match_parent"
-
-                android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true">
-            </android.support.v7.widget.Toolbar>
-
-    <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-
-        android:id="@+id/tipoScadenzaRadioGroup"
-
-        android:layout_alignTop="@+id/textView3"
-        android:layout_alignLeft="@+id/buttonAggiungiScadenza"
-        android:layout_alignStart="@+id/buttonAggiungiScadenza"
-        android:layout_marginLeft="19dp"
-        android:layout_marginStart="19dp">
-
-        <RadioButton android:id="@+id/radio_assicurazione"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/assicurazione"
-            />
-
-        <RadioButton android:id="@+id/radio_bollo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/bollo"
-            />
-
-        <RadioButton android:id="@+id/radio_revisione"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/revisione"
-                    />
-
-            </RadioGroup>
-
-    <TextView
-        android:text="@string/tipoLabel"
+        android:id="@+id/toolbar"
+        android:background="@color/colorManutenzione"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/textView3"
-        android:textSize="24sp"
-        android:layout_marginTop="68dp"
-        android:layout_below="@+id/toolbar"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+
+        android:layout_height="wrap_content">
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingLeft="@dimen/paddingLeftForm"
+        android:paddingTop="@dimen/paddingTop"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/paddingTop">
+
+            <TextView
+                android:id="@+id/autoTarga"
+                android:layout_width="@dimen/withEditTextForm"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:paddingBottom="@dimen/paddingTop"
+                android:gravity="center"
+                android:textSize="@dimen/text_size"
+                android:text="Tipo"
+                />
+
+          <RadioGroup
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:id="@+id/tipoScadenzaRadioGroup">
+              <RadioButton android:id="@+id/radio_assicurazione"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@string/assicurazione"
+                  />
+
+              <RadioButton android:id="@+id/radio_bollo"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@string/bollo"
+                  />
+
+              <RadioButton android:id="@+id/radio_revisione"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@string/revisione"
+                  />
+          </RadioGroup>
+
+        </LinearLayout>
 
 
-</RelativeLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/paddingTop">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_calendar_check_grey600_36dp"
+                android:paddingRight="@dimen/paddingRightIcon"
 
 
+                />
+            <EditText
+                android:id="@+id/dataScadenza"
+                android:layout_width="@dimen/withEditTextForm"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:layout_marginTop="20dp"
+                android:textSize="@dimen/text_size"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/colorAuto"
+                android:hint="@string/data"
+               />
+
+            <Button
+                android:visibility="gone"
+                android:id="@+id/delete_immatricolazione"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="right|center_vertical"
+                android:background="@drawable/ic_clear_black_24dp"/>
+        </LinearLayout>
 
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/paddingTop">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Seleziona la targa"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal" />
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/spinner_targa"
+                android:paddingTop="@dimen/paddingLeftForm"/>
+
+
+        </LinearLayout>
+
+        <Button
+            android:text="AGGIUNGI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="33dp"
+            android:id="@+id/buttonAggiungiScadenza"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+    </LinearLayout>
+</LinearLayout>

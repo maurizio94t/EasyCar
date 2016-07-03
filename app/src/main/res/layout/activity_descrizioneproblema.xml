@@ -3,46 +3,67 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1">
-    <TextView
-        android:layout_width="wrap_content"
-        android:paddingTop="@dimen/paddingTop"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Inserisci i dettagli del problema"
-        android:id="@+id/textView1"
-   />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:id="@+id/Problema"
-        android:layout_weight="0.39" />
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:paddingTop="@dimen/paddingTop"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Seleziona il veicolo"
-        android:id="@+id/textView2"
-        android:paddingBottom="80dp" />
-    <Spinner
-        android:id="@+id/spinner_veicolo"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:background="@color/colorManutenzione"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-    </Spinner>
-
-    <TextView
-        android:id="@+id/prova"
+    </android.support.v7.widget.Toolbar>
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="prova"/>
+        android:paddingLeft="@dimen/paddingLeftForm"
+        android:paddingTop="@dimen/paddingTop">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_comment_text_outline_grey600_24dp"
+            android:layout_gravity="left|center_vertical"
+            android:paddingRight="@dimen/paddingRightIcon"
+            />
+        <EditText
+            android:layout_width="240dp"
+            android:id="@+id/Problema"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:textSize="@dimen/formTextSize"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:hint="Descrizione"
+
+            />
+
+        <Button
+            android:id="@+id/delete_problema"
+            android:visibility="gone"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/ic_clear_black_24dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/paddingLeftForm"
+        android:paddingTop="@dimen/paddingTop">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_car_grey600_24dp"
+            android:paddingRight="@dimen/paddingRightIcon"/>
+
+        <Spinner
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner_veicolo"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+
+    </LinearLayout>
+
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"

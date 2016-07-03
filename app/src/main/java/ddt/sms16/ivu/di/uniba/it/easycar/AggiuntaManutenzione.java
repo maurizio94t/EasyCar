@@ -76,6 +76,13 @@ public class AggiuntaManutenzione extends AppCompatActivity {
             }
         });
 
+        mChilometraggio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancellaChilometraggio.setVisibility(View.VISIBLE);
+            }
+        });
+
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
             @Override
@@ -130,18 +137,18 @@ public class AggiuntaManutenzione extends AppCompatActivity {
             }
         });
 
-        invia.setOnClickListener(new View.OnClickListener() {
+       /* invia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(campiValidi()){
-                    TextView t = (TextView)findViewById(R.id.controllo);
+                    TextView t = (TextView)findViewById(R.id.inviaM);
                     t.setText("Campi validi");
                 }else{
                     TextView t = (TextView)findViewById(R.id.controllo);
                     t.setText("Campi NON validi");
                 }
             }
-        });
+        });*/
     }
 
     private void updateLabel() {

@@ -1,5 +1,6 @@
 package ddt.sms16.ivu.di.uniba.it.easycar;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -31,7 +33,7 @@ public class AggiuntaScadenza extends AppCompatActivity {
     private String dataN;
     private RadioButton tipoScadenzaRadioGroupSelected;
     private Spinner spinnerTarghe;
-
+    private EditText mDataScadenza;
     int anno, mese, giorno = 0;
 
     @Override
@@ -42,7 +44,7 @@ public class AggiuntaScadenza extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        mDataScadenza = (EditText)findViewById(R.id.dataScadenza);
         toolbar.setNavigationIcon(R.drawable.ic_navigate_before_white_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +53,44 @@ public class AggiuntaScadenza extends AppCompatActivity {
             }
         });
 
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                anno = year;
+                mese = monthOfYear;
+                giorno = dayOfMonth;
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel();
+            }
+
+        };
+
+        mDataScadenza.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    new DatePickerDialog(AggiuntaScadenza.this, date,
+                            myCalendar.get(Calendar.YEAR),
+                            myCalendar.get(Calendar.MONTH),
+                            myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                }
+            }
+        });
+        mDataScadenza.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                new DatePickerDialog(AggiuntaScadenza.this, date,
+                        myCalendar.get(Calendar.YEAR),
+                        myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH))
+                        .show();
+            }
+        });
        /*  Utente utenteE = new Utente("Enrico", "d'Elia", "16-04-1994", 0, "e.marzo@gmail.com");
        Utente utenteG = new Utente("Giovanni", "d'Elia", "16-04-1994", 0, "g.marzo@gmail.com");
         Utente utenteM = new Utente("Mario", "d'Elia", "16-04-1994", 0, "m.marzo@gmail.com");
@@ -140,8 +179,7 @@ public class AggiuntaScadenza extends AppCompatActivity {
             targhe[i] = a.getTarga();
             i++;
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, targhe);
-        spinnerTarghe.setAdapter(adapter);
+
 
 
         tipoScadenzaRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
