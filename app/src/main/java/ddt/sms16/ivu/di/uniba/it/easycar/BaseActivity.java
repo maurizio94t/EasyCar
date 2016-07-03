@@ -114,8 +114,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             startActivity(aggiuntaManutenzione);
 
         } else if (id == R.id.nav_info) {
-            Intent registraUtente = new Intent(this, RegistrazioneUtente.class);
-            startActivity(registraUtente);
+            Intent gpsTest = new Intent(this, AndroidGPSTrackingActivity.class);
+            startActivity(gpsTest);
 
         }
 
