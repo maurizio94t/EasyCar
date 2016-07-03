@@ -35,6 +35,10 @@ public class AggiuntaManutenzione extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manutenzioni);
+
+
+
+
          Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

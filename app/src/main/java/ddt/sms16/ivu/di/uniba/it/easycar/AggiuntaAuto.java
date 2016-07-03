@@ -1,21 +1,21 @@
 package ddt.sms16.ivu.di.uniba.it.easycar;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.HashMap;
-
 /**
  * Created by Giuseppe-PC on 29/06/2016.
  */
-public class AggiuntaAuto extends Activity {
+public class AggiuntaAuto extends AppCompatActivity {
     private EditText mTarga ;
     private EditText mEmail ;
     private EditText mAnnoimmatricolazione ;
@@ -27,7 +27,29 @@ public class AggiuntaAuto extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
+
         setContentView(R.layout.activity_inserimentoauto);
+
+
+
+
+
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+
+        toolbar.setNavigationIcon(R.drawable.ic_navigate_before_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         mTarga = (EditText) findViewById(R.id.autoTarga);
         mEmail = (EditText) findViewById(R.id.editTxtEmail);
         mAnnoimmatricolazione = (EditText) findViewById(R.id.anno_immatricolazione);
@@ -101,6 +123,28 @@ public class AggiuntaAuto extends Activity {
             return false;
         }
         return true;
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.toolbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.done) {
+            Log.d("done","done");
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 

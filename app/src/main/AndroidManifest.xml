@@ -42,12 +42,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AggiuntaManutenzione"
-            android:label="@string/app_name"
+            android:label="Aggiunta manutenzione"
             android:theme="@style/AppTheme.NoActionBar"
             />
         <activity
             android:name=".AggiuntaAuto"
-            android:label="AggiuntaAuto"
+            android:label="Aggiunta auto"
             android:theme="@style/AppTheme.NoActionBar"
             />
         <activity
@@ -62,6 +62,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".AggiuntaScadenza"
+            android:label="Aggiunta scadenza"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
        <activity android:name=".AndroidGPSTrackingActivity"
            android:label="GPS"
            android:theme="@style/AppTheme.NoActionBar"></activity>

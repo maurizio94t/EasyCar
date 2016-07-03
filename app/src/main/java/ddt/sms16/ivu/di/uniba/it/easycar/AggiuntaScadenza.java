@@ -1,13 +1,14 @@
 package ddt.sms16.ivu.di.uniba.it.easycar;
 
-import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -20,12 +21,7 @@ import java.util.List;
 import java.util.Locale;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
-import ddt.sms16.ivu.di.uniba.it.easycar.entity.Manutenzione;
-import ddt.sms16.ivu.di.uniba.it.easycar.entity.Marca;
-import ddt.sms16.ivu.di.uniba.it.easycar.entity.Modello;
-import ddt.sms16.ivu.di.uniba.it.easycar.entity.Problema;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Scadenza;
-import ddt.sms16.ivu.di.uniba.it.easycar.entity.Utente;
 
 public class AggiuntaScadenza extends AppCompatActivity {
     private Calendar myCalendar = Calendar.getInstance();
@@ -43,11 +39,24 @@ public class AggiuntaScadenza extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aggiunta_scadenza);
         final MySQLiteHelper mySQLiteHelper = new MySQLiteHelper(AggiuntaScadenza.this);
-        Utente utenteE = new Utente("Enrico", "d'Elia", "16-04-1994", 0, "e.marzo@gmail.com");
-        /*Utente utenteG = new Utente("Giovanni", "d'Elia", "16-04-1994", 0, "g.marzo@gmail.com");
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+
+        toolbar.setNavigationIcon(R.drawable.ic_navigate_before_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+
+       /*  Utente utenteE = new Utente("Enrico", "d'Elia", "16-04-1994", 0, "e.marzo@gmail.com");
+       Utente utenteG = new Utente("Giovanni", "d'Elia", "16-04-1994", 0, "g.marzo@gmail.com");
         Utente utenteM = new Utente("Mario", "d'Elia", "16-04-1994", 0, "m.marzo@gmail.com");
         Utente utenteZ = new Utente("Zeon", "d'Elia", "16-04-1994", 0, "z.marzo@gmail.com");
-*/
+
         Marca marcaFiat = new Marca("Fiat");
         Marca marcaAudi = new Marca("Audi");
 
@@ -56,28 +65,28 @@ public class AggiuntaScadenza extends AppCompatActivity {
 
         AutoUtente autoUtenteE0 = new AutoUtente("BN897MN", 88809, "2013", 0, utenteE, modelloFiatPunto, 0);
         AutoUtente autoUtenteE1 = new AutoUtente("AN889MN", 88809, "2011", 0, utenteE, modelloAudiA4, 0);
-  /*      AutoUtente autoUtenteG = new AutoUtente("MM788EE",454643,"2010",0,utenteG,modelloFiatPunto,0);
+       AutoUtente autoUtenteG = new AutoUtente("MM788EE",454643,"2010",0,utenteG,modelloFiatPunto,0);
         AutoUtente autoUtenteM0 = new AutoUtente("IE456BB",343353,"2009",0,utenteM,modelloFiatPunto,0);
         AutoUtente autoUtenteM1 = new AutoUtente("EN889MN",88809,"2001",0,utenteM,modelloAudiA4,0);
-*/
+
 
         Problema problemaAutoE1 = new Problema("Braccio sinistro", autoUtenteE1);
-        //      Problema problemaAutoG = new Problema("Braccio destro", autoUtenteG);
+             Problema problemaAutoG = new Problema("Braccio destro", autoUtenteG);
 
 
         Manutenzione manutenzione0 = new Manutenzione("cambio olio", "16-09-2010", 0, "7890000", autoUtenteE0);
         Manutenzione manutenzione1 = new Manutenzione("cambio filtri", "16-09-2010", 0, "7890000", autoUtenteE0);
-//        Manutenzione manutenzione2 = new Manutenzione("cambio olio","16-09-2010",0,"4525242",autoUtenteG);
+      Manutenzione manutenzione2 = new Manutenzione("cambio olio","16-09-2010",0,"4525242",autoUtenteG);
 
 
-//        Scadenza scadenza0 = new Scadenza("bollo","12-08-2015",autoUtenteG);
+        Scadenza scadenza0 = new Scadenza("bollo","12-08-2015",autoUtenteG);
 
 
         mySQLiteHelper.aggiungiUtente(utenteE);
-/*        mySQLiteHelper.aggiungiUtente(utenteG);
+        mySQLiteHelper.aggiungiUtente(utenteG);
         mySQLiteHelper.aggiungiUtente(utenteM);
         mySQLiteHelper.aggiungiUtente(utenteZ);
-*/
+
 
         mySQLiteHelper.aggiungiMarca(marcaFiat);
         mySQLiteHelper.aggiungiMarca(marcaAudi);
@@ -89,34 +98,34 @@ public class AggiuntaScadenza extends AppCompatActivity {
 
         mySQLiteHelper.aggiungiAutoUtente(autoUtenteE0);
         mySQLiteHelper.aggiungiAutoUtente(autoUtenteE1);
-  /*      mySQLiteHelper.aggiungiAutoUtente(autoUtenteG);
+      mySQLiteHelper.aggiungiAutoUtente(autoUtenteG);
         mySQLiteHelper.aggiungiAutoUtente(autoUtenteM0);
         mySQLiteHelper.aggiungiAutoUtente(autoUtenteM1);
-*/
+
 
         mySQLiteHelper.aggiungiProblemi(problemaAutoE1);
-        //      mySQLiteHelper.aggiungiProblemi(problemaAutoG);
+               mySQLiteHelper.aggiungiProblemi(problemaAutoG);
 
         mySQLiteHelper.aggiungiManutenzione(manutenzione0);
-//        mySQLiteHelper.aggiungiManutenzione(manutenzione1);
-        //    mySQLiteHelper.aggiungiManutenzione(manutenzione2);
+        mySQLiteHelper.aggiungiManutenzione(manutenzione1);
+           mySQLiteHelper.aggiungiManutenzione(manutenzione2);
 
-//        mySQLiteHelper.aggiungiScadenza(scadenza0);
-
-
+        mySQLiteHelper.aggiungiScadenza(scadenza0);
 
 
-     /*  mySQLiteHelper.getAllUtenti();
+
+
+        mySQLiteHelper.getAllUtenti();
       mySQLiteHelper.getAllMarche();
         mySQLiteHelper.getAllModelli();
      mySQLiteHelper.getAllAutoUtente();
-        */
+
 
         // /prova aggiunta autoUtente
         // mySQLiteHelper.aggiungiAutoUtente(new AutoUtente("BN 456 NM",0,"",0,"",null,false));
         //  int km, String annoImmatricolazione, int fotoAuto, String utente_email, Modello modello, boolean selected
 
-
+*/
         final RadioGroup tipoScadenzaRadioGroup = (RadioGroup) findViewById(R.id.tipoScadenzaRadioGroup);
         Button bottoneAggiungi = (Button) findViewById(R.id.buttonAggiungiScadenza);
         spinnerTarghe = (Spinner) findViewById(R.id.spinnerTarghe);
@@ -148,7 +157,7 @@ public class AggiuntaScadenza extends AppCompatActivity {
 
         editTextDate = (EditText) findViewById(R.id.dataScadenza);
 
-        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+      /*  final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -186,6 +195,7 @@ public class AggiuntaScadenza extends AppCompatActivity {
                         .show();
             }
         });
+        */
 
 
 
@@ -193,7 +203,7 @@ public class AggiuntaScadenza extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                Scadenza scadenza = new Scadenza(tipoScadenzaRadioGroupSelected.getText().toString(), editTextDate.toString(), new AutoUtente(spinnerTarghe.getSelectedItem().toString()));
+                Scadenza scadenza = new Scadenza(tipoScadenzaRadioGroupSelected.getText().toString(),/* editTextDate.toString()*/ "2016-01-01", new AutoUtente(spinnerTarghe.getSelectedItem().toString()));
                 mySQLiteHelper.aggiungiScadenza(scadenza);
                 Toast.makeText(getApplicationContext(), "hai aggiunto una nuova scadenza!", Toast.LENGTH_LONG);
                 mySQLiteHelper.getAllScadenze();
@@ -231,7 +241,28 @@ public class AggiuntaScadenza extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.toolbar, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.done) {
+            Log.d("done","done");
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
 
 

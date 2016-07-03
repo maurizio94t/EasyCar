@@ -4,147 +4,155 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAuto"
-    >
+    android:weightSum="1">
 
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/paddingLeft"
-    android:paddingTop="@dimen/paddingTop"
-    android:orientation="vertical">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:background="@color/colorManutenzione"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content">
+    </android.support.v7.widget.Toolbar>
+
     <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+        android:layout_width="329dp"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/paddingLeft"
+        android:paddingTop="@dimen/paddingTop"
+        android:orientation="vertical">
+        <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-       <!-- <ImageView
+           <!-- <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+              android:src="@drawable/ic_credit_card_grey600_24dp"
+                android:layout_gravity="center"
+                android:paddingRight="@dimen/paddingRightIcon"
+                />-->
+                    <EditText
+                        android:id="@+id/autoTarga"
+                        android:layout_width="@dimen/withEditTextForm"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:layout_marginTop="20dp"
+                        android:textSize="@dimen/text_size"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold"
+                        android:hint="@string/targa"
+                        android:singleLine="true" />
+
+                    <Button
+                        android:visibility="gone"
+                        android:id="@+id/delete_targa"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/ic_clear_black_24dp"
+                        android:layout_alignTop="@+id/autoTarga"
+                        android:layout_toRightOf="@+id/autoTarga"
+                        android:layout_toEndOf="@+id/autoTarga" />
+
+                </LinearLayout>
+
+
+       <LinearLayout
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content">
+
+          <!-- <ImageView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:src="@drawable/ic_calendar_check_grey600_36dp"
+               android:layout_gravity="center"
+               android:paddingRight="@dimen/paddingRightIcon"
+
+               />-->
+                    <EditText
+                        android:id="@+id/anno_immatricolazione"
+                        android:layout_width="@dimen/withEditTextForm"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:layout_marginTop="20dp"
+                        android:textSize="@dimen/text_size"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold"
+                        android:hint="@string/immatricolazione"
+                        android:singleLine="true" />
+
+                    <Button
+                        android:visibility="gone"
+                        android:id="@+id/delete_immatricolazione"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_gravity="right|center_vertical"
+                        android:background="@drawable/ic_clear_black_24dp"/>
+       </LinearLayout>
+
+       <LinearLayout
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content">
+           <ImageView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:src="@drawable/ic_gauge_grey600_24dp"
+               android:layout_gravity="center"
+               android:paddingRight="@dimen/paddingRightIcon"
+
+               />
+                    <EditText
+                        android:id="@+id/chilometraggio_auto"
+                        android:layout_width="@dimen/withEditTextForm"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:layout_marginTop="20dp"
+                        android:textSize="@dimen/text_size"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold"
+                        android:hint="@string/chilometraggio"
+                        android:singleLine="true" />
+
+                    <Button
+                        android:visibility="gone"
+                        android:id="@+id/delete_chilometraggio"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_gravity="right|center_vertical"
+                        android:background="@drawable/ic_clear_black_24dp"/>
+       </LinearLayout>
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-          android:src="@drawable/ic_credit_card_grey600_24dp"
-            android:layout_gravity="center"
-            android:paddingRight="@dimen/paddingRightIcon"
-            />-->
-                <EditText
-                    android:id="@+id/autoTarga"
-                    android:layout_width="@dimen/withEditTextForm"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:layout_marginTop="20dp"
-                    android:textSize="@dimen/text_size"
-                    android:textColor="@color/colorPrimary"
-                    android:textStyle="bold"
-                    android:hint="@string/targa"
-                    android:singleLine="true" />
-
-                <Button
-                    android:visibility="gone"
-                    android:id="@+id/delete_targa"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/ic_clear_black_24dp"
-                    android:layout_alignTop="@+id/autoTarga"
-                    android:layout_toRightOf="@+id/autoTarga"
-                    android:layout_toEndOf="@+id/autoTarga" />
-
-            </LinearLayout>
-
-
-   <LinearLayout
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content">
-
-      <!-- <ImageView
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:src="@drawable/ic_calendar_check_grey600_36dp"
-           android:layout_gravity="center"
-           android:paddingRight="@dimen/paddingRightIcon"
-
-           />-->
-                <EditText
-                    android:id="@+id/anno_immatricolazione"
-                    android:layout_width="@dimen/withEditTextForm"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:layout_marginTop="20dp"
-                    android:textSize="@dimen/text_size"
-                    android:textColor="@color/colorPrimary"
-                    android:textStyle="bold"
-                    android:hint="@string/immatricolazione"
-                    android:singleLine="true" />
-
-                <Button
-                    android:visibility="gone"
-                    android:id="@+id/delete_immatricolazione"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_gravity="right|center_vertical"
-                    android:background="@drawable/ic_clear_black_24dp"/>
-   </LinearLayout>
-
-   <LinearLayout
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content">
-       <ImageView
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:src="@drawable/ic_gauge_grey600_24dp"
-           android:layout_gravity="center"
-           android:paddingRight="@dimen/paddingRightIcon"
-
-           />
-                <EditText
-                    android:id="@+id/chilometraggio_auto"
-                    android:layout_width="@dimen/withEditTextForm"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:layout_marginTop="20dp"
-                    android:textSize="@dimen/text_size"
-                    android:textColor="@color/colorPrimary"
-                    android:textStyle="bold"
-                    android:hint="@string/chilometraggio"
-                    android:singleLine="true" />
-
-                <Button
-                    android:visibility="gone"
-                    android:id="@+id/delete_chilometraggio"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_gravity="right|center_vertical"
-                    android:background="@drawable/ic_clear_black_24dp"/>
-   </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinner_modello"
-        android:paddingBottom="@dimen/paddingRightIcon"/>
+            android:orientation="vertical">
         <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/spinner_marca"
-            android:paddingRight="50dp">
+            android:id="@+id/spinner_modello"
+            android:paddingBottom="@dimen/paddingRightIcon"/>
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner_marca"
+                android:paddingRight="50dp">
 
-        </Spinner>
+            </Spinner>
+        </LinearLayout>
+
+        <Button
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Invia"
+            android:id="@+id/inviaAuto"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/testString"
+            android:layout_gravity="center_horizontal" />
     </LinearLayout>
-
-    <Button
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Invia"
-        android:id="@+id/inviaAuto"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/testString"
-        android:layout_gravity="center_horizontal" />
-</LinearLayout>
 </LinearLayout>
