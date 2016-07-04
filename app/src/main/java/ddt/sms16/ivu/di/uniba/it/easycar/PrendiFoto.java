@@ -18,11 +18,18 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.VideoView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Modello;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Utente;
+
+import static ddt.sms16.ivu.di.uniba.it.easycar.MainActivity.mySQLiteHelper;
 
 public class PrendiFoto extends AppCompatActivity {
 
@@ -76,8 +83,14 @@ public class PrendiFoto extends AppCompatActivity {
 
 
 
+MySQLiteHelper mySQLiteHelper = new MySQLiteHelper(this);
+           /* ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            mImageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] imageInByte = stream.toByteArray();
 
+            //mySQLiteHelper.aggiungiAutoUtente(new AutoUtente("BN 678 MM",55,"2014",imageInByte,new Utente("enrico@gmail.com"),new Modello(1315),0));
 
+              */  mySQLiteHelper.getAllAutoUtente();
         }
     private void setBtnListenerOrDisable(Button btn,Button.OnClickListener onClickListener,String intentName) {
         if (isIntentAvailable(this, intentName)) {
@@ -178,6 +191,16 @@ public class PrendiFoto extends AppCompatActivity {
 		/* Associate the Bitmap to the ImageView */
         mImageView.setImageBitmap(bitmap);
         mImageView.setVisibility(View.VISIBLE);
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        mImageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] imageInByte = stream.toByteArray();
+        Log.d("image",imageInByte.toString());
+
+        mySQLiteHelper.aggiungiAutoUtente(new AutoUtente("BN 678 MM",55,"2014",imageInByte,new Utente("enrico@gmail.com"),new Modello(1315),0));
+
+          mySQLiteHelper.getAllAutoUtente();
+
       //  mVideoView.setVisibility(View.INVISIBLE);
     }
 
@@ -249,7 +272,7 @@ public class PrendiFoto extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         onRestoreInstanceState(savedInstanceState);
         mImageBitmap = savedInstanceState.getParcelable(BITMAP_STORAGE_KEY);
-        mImageView.setImageBitmap(mImageBitmap);
+
         mImageView.setVisibility(
                 savedInstanceState.getBoolean(IMAGEVIEW_VISIBILITY_STORAGE_KEY) ?
                         ImageView.VISIBLE : ImageView.INVISIBLE

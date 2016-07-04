@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,9 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -438,7 +435,7 @@ public class MainActivity extends AppCompatActivity {
                     //costruisco gli oggetti
                     Marca marca = new Marca(idMarca, nomeMarca);
                     Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
-                    AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, R.drawable.ic_menu_gallery, utenteAuto, modello, selected);
+                    AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, /*R.drawable.ic_menu_gallery*/ null, utenteAuto, modello, selected);
 
                     // aggiungo la singola auto alla lista di auto dell'utente
                     listaAutoUtente.add(autoutente);
@@ -497,7 +494,7 @@ public class MainActivity extends AppCompatActivity {
                     //costruisco gli oggetti
                     Marca marca = new Marca(idMarca, nomeMarca);
                     Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
-                    AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, R.drawable.ic_menu_gallery, utenteAuto, modello, selected);
+                    AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, /*R.drawable.ic_menu_gallery*/ null, utenteAuto, modello, selected);
                     Manutenzione manutenzione = new Manutenzione(id, desc, dataS, ord, kmManut, autoutente);
 
                     // aggiungo la singola manutenzione alla lista di manutenzioni
@@ -597,7 +594,7 @@ public class MainActivity extends AppCompatActivity {
                     //costruisco gli oggetti
                     Marca marca = new Marca(idMarca, nomeMarca);
                     Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
-                    AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, R.drawable.ic_menu_gallery, utenteAuto, modello, selected);
+                    AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione,/* R.drawable.ic_menu_gallery*/ null, utenteAuto, modello, selected);
                     Problema problema = new Problema(idProblema, descrizioneProblema, autoutente);
 
                     // aggiungo il singolo problema alla lista dei problemi
@@ -655,7 +652,7 @@ public class MainActivity extends AppCompatActivity {
                     //costruisco gli oggetti
                     Marca marca = new Marca(idMarca, nomeMarca);
                     Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
-                    AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, R.drawable.ic_menu_gallery, utenteAuto, modello, selected);
+                    AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, /*R.drawable.ic_menu_gallery*/null, utenteAuto, modello, selected);
                     Scadenza scadenza = new Scadenza(idScadenza, descrizioneScadenza, dataScadenza, autoutente);
 
                     // aggiungo il singolo problema alla lista dei problemi

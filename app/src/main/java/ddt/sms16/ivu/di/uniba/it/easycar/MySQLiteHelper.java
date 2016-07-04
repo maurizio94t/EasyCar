@@ -94,7 +94,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         values.put("Targa", auto.getTarga()); // get title
         values.put("KM", auto.getKm()); // get title
         values.put("AnnoImmatricolazione", auto.getAnnoImmatricolazione()); // get title
-        values.put("FotoAuto",auto.getFotoAuto());
+        values.put("FotoAuto",  auto.getFotoAuto());
         values.put("Utenti_Email", auto.getUtente().getEmail()); // get title
         values.put("Modelli_id", auto.getModello().getIDModello()); // get title
 
@@ -290,7 +290,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         AutoUtente autoUtente = null;
         if (cursor.moveToFirst()) {
             do {
-                autoUtente = new AutoUtente(cursor.getString(0), cursor.getInt(1), cursor.getString(2), 0, new Utente(cursor.getString(3)), new Modello(cursor.getInt(4)), 0);
+          
+
+                autoUtente = new AutoUtente(cursor.getString(0), cursor.getInt(1), cursor.getString(2),cursor.getBlob(3) , new Utente(cursor.getString(3)), new Modello(cursor.getInt(4)), 0);
 
                 auto.add(autoUtente);
             } while (cursor.moveToNext());

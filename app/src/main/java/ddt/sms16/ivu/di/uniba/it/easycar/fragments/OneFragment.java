@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import ddt.sms16.ivu.di.uniba.it.easycar.MySQLiteHelper;
 import ddt.sms16.ivu.di.uniba.it.easycar.PrendiFoto;
 import ddt.sms16.ivu.di.uniba.it.easycar.R;
 
@@ -28,6 +29,9 @@ public class OneFragment extends Fragment {
 b.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
+
+        MySQLiteHelper mySQLiteHelper = new MySQLiteHelper(getActivity().getApplicationContext());
+        mySQLiteHelper.getAllAutoUtente();
         Intent intent0 = new Intent(getActivity(), PrendiFoto.class);
         startActivity(intent0);
 
