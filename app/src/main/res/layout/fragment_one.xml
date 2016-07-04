@@ -1,11 +1,32 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="ddt.sms16.ivu.di.uniba.it.easycar.fragments.OneFragment">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    tools:context="ddt.sms16.ivu.di.uniba.it.easycar.fragments.OneFragment"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="ONE" />
-</FrameLayout>
+
+
+
+        android:weightSum="1">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            >
+            <Button android:text="@string/aggiungiFoto" android:id="@+id/btnIntend"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+        <ImageView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:visibility="visible"
+            android:id="@+id/imageView1"
+            android:layout_weight="0.25" />
+
+    </LinearLayout>
+

@@ -8,8 +8,11 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
@@ -66,6 +69,7 @@
        <activity android:name=".AndroidGPSTrackingActivity"
            android:label="GPS"
            android:theme="@style/AppTheme.NoActionBar"></activity>
+
     </application>
 
 </manifest>

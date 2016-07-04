@@ -1,8 +1,5 @@
 package ddt.sms16.ivu.di.uniba.it.easycar.entity;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 /**
  * Created by Enrico on 17/06/16.
  */
@@ -42,7 +39,7 @@ public class AutoUtente {
         return annoImmatricolazione;
     }
 
-    public int getFotoAutoId() {
+    public int getFotoAuto() {
         return fotoAuto;
     }
 

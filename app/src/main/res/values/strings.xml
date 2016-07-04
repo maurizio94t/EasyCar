@@ -27,4 +27,7 @@
     <string name="dataNascita">Data di nascita</string>
     <string name="immatricolazione">Anno immatricolazione</string>
     <string name="manutenzione">Manutenzione</string>
+    <string name="aggiungiFoto"> aggiungi foto </string>
+    <string name="album_name"> EasyCar foto</string>
+    <string name="cannot">Cannot</string>
 </resources>
