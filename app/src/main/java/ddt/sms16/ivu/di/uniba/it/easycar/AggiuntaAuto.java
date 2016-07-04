@@ -1,5 +1,6 @@
 package ddt.sms16.ivu.di.uniba.it.easycar;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -8,9 +9,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Created by Giuseppe-PC on 29/06/2016.
@@ -23,7 +29,9 @@ public class AggiuntaAuto extends AppCompatActivity {
     private Spinner mSpinnerMarca ;
     private Spinner mSpinnerModello;
     private Button inviaAuto;
-    TextView test;
+    int anno, mese, giorno = 0;
+    String dataN;
+    Calendar myCalendar = Calendar.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,64 +55,66 @@ public class AggiuntaAuto extends AppCompatActivity {
         mSpinnerMarca = (Spinner)findViewById(R.id.spinner_marca);
         mSpinnerModello = (Spinner)findViewById(R.id.spinner_modello);
         inviaAuto = (Button)findViewById(R.id.inviaAuto);
-        final Button deleteTarga = (Button)findViewById(R.id.delete_targa);
-        final Button deleteImmatricolazione = (Button)findViewById(R.id.delete_immatricolazione);
-        final Button deleteChilometraggio = (Button)findViewById(R.id.delete_chilometraggio);
-        test = (TextView)findViewById(R.id.testString);
 
-        mTarga.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                deleteTarga.setVisibility(View.VISIBLE);
-            }
-        });
 
-        deleteTarga.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mTarga.setText("");
-            }
-        });
-        mChilometraggio.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                deleteChilometraggio.setVisibility(View.VISIBLE);
-            }
-        });
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
-        deleteChilometraggio.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                mChilometraggio.setText("");
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                anno = year;
+                mese = monthOfYear;
+                giorno = dayOfMonth;
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel();
             }
-        });
+
+        };
+
+
         mAnnoimmatricolazione.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                deleteImmatricolazione.setVisibility(View.VISIBLE);
-            }
-        });
-
-        deleteImmatricolazione.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAnnoimmatricolazione.setText("");
-            }
-        });
-
-        inviaAuto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(campiValidi()){
-                    test.setText("Dati corretti");
-                }else{
-
-                    test.setText("Dati non corretti");
+                if (hasFocus) {
+                    new DatePickerDialog(AggiuntaAuto.this, date,
+                            myCalendar.get(Calendar.YEAR),
+                            myCalendar.get(Calendar.MONTH),
+                            myCalendar.get(Calendar.DAY_OF_MONTH)).show();
                 }
             }
         });
-    }
 
+        mAnnoimmatricolazione.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DatePickerDialog(AggiuntaAuto.this, date,
+                        myCalendar.get(Calendar.YEAR),
+                        myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH))
+                        .show();
+            }
+        });
+
+    }
+    private void updateLabel() {
+
+        String myFormat = "dd/MM/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ITALY);
+
+        Calendar today = Calendar.getInstance();
+
+        int anni = today.get(Calendar.YEAR) - myCalendar.get(Calendar.YEAR);
+        if (myCalendar.get(Calendar.MONTH) > today.get(Calendar.MONTH) ||
+                (myCalendar.get(Calendar.MONTH) == today.get(Calendar.MONTH) && myCalendar.get(Calendar.DATE) > today.get(Calendar.DATE))) {
+
+        }
+
+        dataN = sdf.format(myCalendar.getTime());
+        mAnnoimmatricolazione.setText(dataN);
+
+    }
     public boolean campiValidi(){
         //CONTROLLO FUNZIONI SPINNER
         if(mTarga.getText().toString().compareTo("")==0 || mEmail.getText().toString().compareTo("")==0

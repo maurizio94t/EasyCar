@@ -10,6 +10,11 @@
         android:layout_height="wrap_content">
     </android.support.v7.widget.Toolbar>
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/paddingTop">
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/paddingLeftForm"
@@ -22,24 +27,17 @@
             android:paddingRight="@dimen/paddingRightIcon"
             />
         <EditText
-            android:layout_width="240dp"
-            android:id="@+id/Problema"
+            android:layout_width="@dimen/withEditTextForm"            android:id="@+id/Problema"
             android:layout_height="wrap_content"
             android:inputType="text"
-            android:textSize="@dimen/formTextSize"
+            android:textSize="@dimen/text_size"
             android:textColor="@color/colorPrimary"
             android:textStyle="bold"
             android:hint="Descrizione"
 
             />
 
-        <Button
-            android:id="@+id/delete_problema"
-            android:visibility="gone"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/ic_clear_black_24dp"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -50,6 +48,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="@dimen/paddingTopIcon"
             android:src="@drawable/ic_car_grey600_24dp"
             android:paddingRight="@dimen/paddingRightIcon"/>
 
@@ -71,5 +70,5 @@
         android:text="Invia"
         android:id="@+id/inviaProblema"
         android:layout_gravity="center_horizontal" />
-
+    </LinearLayout>
 </LinearLayout>

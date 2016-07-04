@@ -37,8 +37,6 @@ public class AggiuntaManutenzione extends AppCompatActivity {
         setContentView(R.layout.activity_manutenzioni);
 
 
-
-
          Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -58,30 +56,7 @@ public class AggiuntaManutenzione extends AppCompatActivity {
           mChilometraggio = (EditText)findViewById(R.id.chilometraggio_auto);
           mSpinnerVeicolo = (Spinner)findViewById(R.id.spinner_veicolo);
           Button invia = (Button)findViewById(R.id.inviaManutenzione);
-        cancellaDescrizione = (Button)findViewById(R.id.delete_descrizione);
-        cancellaChilometraggio = (Button)findViewById(R.id.delete_chilometri);
 
-
-        mDescrizioneManutenzione.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cancellaDescrizione.setVisibility(View.VISIBLE);
-            }
-        });
-
-        cancellaDescrizione.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDescrizioneManutenzione.setText("");
-            }
-        });
-
-        mChilometraggio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cancellaChilometraggio.setVisibility(View.VISIBLE);
-            }
-        });
 
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
@@ -114,7 +89,7 @@ public class AggiuntaManutenzione extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(getApplicationContext(), date,
+                new DatePickerDialog(AggiuntaManutenzione.this, date,
                         myCalendar.get(Calendar.YEAR),
                         myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH))
@@ -122,20 +97,6 @@ public class AggiuntaManutenzione extends AppCompatActivity {
             }
         });
 
-
-        mChilometraggio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cancellaChilometraggio.setVisibility(View.VISIBLE);
-            }
-        });
-
-        cancellaChilometraggio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mChilometraggio.setText("");
-            }
-        });
 
        /* invia.setOnClickListener(new View.OnClickListener() {
             @Override
