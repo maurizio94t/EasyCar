@@ -1,9 +1,11 @@
 package ddt.sms16.ivu.di.uniba.it.easycar.fragments;
 
 import android.app.Fragment;
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import ddt.sms16.ivu.di.uniba.it.easycar.AggiuntaProblema;
 import ddt.sms16.ivu.di.uniba.it.easycar.ExpandableListAdapter;
 import ddt.sms16.ivu.di.uniba.it.easycar.R;
 
@@ -27,10 +30,10 @@ public class ProblemiFragment extends Fragment {
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_problemi, container, false);
+
 
         // get the listview
         DisplayMetrics metrics = new DisplayMetrics();
@@ -101,8 +104,31 @@ public class ProblemiFragment extends Fragment {
                 return false;
             }
         });
-        return view;
 
+
+
+
+
+        final FloatingActionButton aggiuntaProblemi = (FloatingActionButton)  view.findViewById(R.id.aggingiProblema);
+        aggiuntaProblemi.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                Log.d("fragment","funzionaaa");
+                /*
+
+                Fragment fragment = new AggiuntaScadenzaFragment();
+
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_container, fragment);
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                ft.addToBackStack(null);
+                ft.commit();
+                */
+                Intent aggiuntaProblema = new Intent(getActivity(), AggiuntaProblema.class);
+                startActivity(aggiuntaProblema);
+            }
+        });
+        return view;
 
     }
 

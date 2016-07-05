@@ -1,3 +1,5 @@
+
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -5,16 +7,29 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#f4f4f4" >
+        >
 
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+        android:paddingTop="@dimen/paddingTopFragment"
+    android:id="@+id/linearL">
         <ExpandableListView
             android:id="@+id/lvExp"
             android:layout_height="match_parent"
             android:layout_width="match_parent"/>
-
     </LinearLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/aggingiProblema"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/linearL"
+            android:layout_alignRight="@+id/linearL"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@android:drawable/ic_input_add" />
+    </RelativeLayout>
 </FrameLayout>

@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -34,14 +33,14 @@ public class AggiuntaManutenzione extends AppCompatActivity {
         final Button cancellaChilometraggio;
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manutenzioni);
+        setContentView(R.layout.activity_aggiunta_manutenzioni);
 
 
          Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
-            toolbar.setNavigationIcon(R.drawable.ic_mode_edit_white_24dp);
+            toolbar.setNavigationIcon(R.drawable.ic_navigate_before_white_24dp);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
