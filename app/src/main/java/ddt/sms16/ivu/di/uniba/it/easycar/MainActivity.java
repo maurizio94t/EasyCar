@@ -673,7 +673,7 @@ public class MainActivity extends AppCompatActivity {
                     String psw = u.getString(TAG_UTENTE_PSW);
 
                     // creo l'oggetto del singolo Utente
-                    utente = new Utente(nome, cognome, dataN, R.drawable.ic_menu_gallery, email, psw);
+                    utente = new Utente(nome, cognome, dataN /*, R.drawable.ic_menu_gallery*/, email /*,psw */);
                 }
                 return true;
             } catch (JSONException e) {

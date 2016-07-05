@@ -38,7 +38,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String KEY_NOME = "Nome";
 
 
-    String CREA_TABELLA_UTENTE = "CREATE TABLE Utente (NomeU TEXT , CognomeU TEXT, DataDiNascita TEXT , Email TEXT PRIMARY KEY)";
+    String CREA_TABELLA_UTENTE = "CREATE TABLE Utente (NomeU TEXT , CognomeU TEXT, DataDiNascita TEXT , Email TEXT PRIMARY KEY  )";
     String CREA_TABELLA_MARCHE = "CREATE TABLE Marche (IDMarca INTEGER   PRIMARY KEY  , Nome TEXT)";
     String CREA_TABELLA_MODELLI = "CREATE TABLE  Modelli ( IDModello INTEGER  PRIMARY KEY      , Nome TEXT  , Segmento TEXT  , Alimentazione TEXT  , Cilindrata TEXT , KW TEXT  , Marca_id INTEGER  , FOREIGN KEY (`Marca_id`) REFERENCES  `Marche` (`IDMarca`) ON DELETE NO ACTION ON UPDATE NO ACTION);";
     String CREA_TABELLA_AUTOUTENTE = "CREATE TABLE AutoUtente ( Targa TEXT  PRIMARY KEY, KM INTEGER , AnnoImmatricolazione TEXT  , FotoAuto BLOB , Utenti_Email TEXT  , Modelli_id INTEGER  , FOREIGN KEY (`Utenti_Email`) REFERENCES  `Utenti` (`Email`) ON DELETE NO ACTION ON UPDATE NO ACTION, FOREIGN KEY (`Modelli_id`) REFERENCES  `Modelli` (`IDModello`) ON DELETE NO ACTION ON UPDATE NO ACTION);";
@@ -123,6 +123,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         values.put("CognomeU", utente.getCognome()); // get title
         values.put("DataDiNascita", utente.getDataN()); // get title
         values.put("Email", utente.getEmail()); // get title
+     //   values.put("Psw", utente.getPsw()); // get title
+
 
 
         // 3. insert
@@ -132,6 +134,30 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         // 4. close
         db.close();
+    }
+
+    public Utente prendiUtente(String email) {
+        Utente utente = null;
+
+        // 1. build the query
+        String query = "SELECT  * FROM " + TABELLA_UTENTE+ " WHERE Email= '" + email+"' ";;
+
+        // 2. get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        // 3. go over each row, build book and add it to list
+
+        if (cursor.moveToFirst()) {
+         do {
+                utente = new Utente(cursor.getString(0),cursor.getString(1),cursor.getString(2),cursor.getString(3));
+
+
+            } while (cursor.moveToNext());
+     }
+
+
+        return utente;
     }
 
 

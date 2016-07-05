@@ -22,13 +22,13 @@ public class Utente {
         this.email = email;
     }
 
-    public Utente(String nome, String cognome, String dataN, int foto, String email, String psw) {
+    public Utente(String nome, String cognome, String dataN, String email /*, String psw*/) {
         this.nome = nome;
         this.cognome = cognome;
         this.dataN = dataN;
-        this.foto = foto;
         this.email = email;
-        this.psw = psw;
+     //   this.psw=psw;
+
     }
 
     public String getNome() {
