@@ -28,22 +28,23 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String TABELLA_MARCHE = "Marche";
     private static final String TABELLA_AUTO_UTENTE = "AutoUtente";
     private static final String TABELLA_SCADENZE = "Scadenze";
-    private static final String TABELLA_UTENTE = "Utente";
+    private static final String TABELLA_UTENTI = "Utenti";
     private static final String TABELLA_MODELLI = "Modelli";
     private static final String TABELLA_PROBLEMI = "Problemi";
     private static final String TABELLA_MANUTENZIONI = "Manutenzioni";
 
 
-    /**/ String CREA_TABELLA_UTENTE = "CREATE TABLE Utente (NomeU TEXT , CognomeU TEXT, DataDiNascita TEXT , Email TEXT PRIMARY KEY  )";
-    /**/ String CREA_TABELLA_MARCHE = "CREATE TABLE Marche (IDMarca INTEGER   PRIMARY KEY  , Nome TEXT)";
+    String CREA_TABELLA_UTENTE = "CREATE TABLE Utenti (NomeU TEXT , CognomeU TEXT, DataDiNascita TEXT , Email TEXT PRIMARY KEY  )";
+    String CREA_TABELLA_MARCHE = "CREATE TABLE Marche (IDMarca INTEGER   PRIMARY KEY  , Nome TEXT)";
     String CREA_TABELLA_MODELLI = "CREATE TABLE  Modelli ( IDModello INTEGER  PRIMARY KEY      , Nome TEXT  , Segmento TEXT  , Alimentazione TEXT  , Cilindrata TEXT , KW TEXT  , Marca_id INTEGER  , FOREIGN KEY (`Marca_id`) REFERENCES  `Marche` (`IDMarca`) ON DELETE NO ACTION ON UPDATE NO ACTION);";
-    /**/ String CREA_TABELLA_AUTOUTENTE = "CREATE TABLE AutoUtente ( Targa TEXT  PRIMARY KEY, KM INTEGER , AnnoImmatricolazione TEXT  , Utenti_Email TEXT  , Modelli_id INTEGER  , FOREIGN KEY (`Utenti_Email`) REFERENCES  `Utenti` (`Email`) ON DELETE NO ACTION ON UPDATE NO ACTION, FOREIGN KEY (`Modelli_id`) REFERENCES  `Modelli` (`IDModello`) ON DELETE NO ACTION ON UPDATE NO ACTION);";
+    String CREA_TABELLA_AUTOUTENTE = "CREATE TABLE AutoUtente ( Targa TEXT  PRIMARY KEY, KM INTEGER , AnnoImmatricolazione TEXT  , Utenti_Email TEXT  , Modelli_id INTEGER  , FOREIGN KEY (`Utenti_Email`) REFERENCES  `Utenti` (`Email`) ON DELETE NO ACTION ON UPDATE NO ACTION, FOREIGN KEY (`Modelli_id`) REFERENCES  `Modelli` (`IDModello`) ON DELETE NO ACTION ON UPDATE NO ACTION);";
     String CREA_TABELLA_PROBLEMI = "CREATE TABLE Problemi ( IDProblemi INTEGER   PRIMARY KEY     , Descrizione TEXT, Targa TEXT, FOREIGN KEY (`Targa`) REFERENCES `AutoUtente` (`Targa`) ON DELETE NO ACTION ON UPDATE NO ACTION);";
     String CREA_TABELLA_MANUTENZIONI = "CREATE TABLE Manutenzioni ( IDManutenzione INTEGER  PRIMARY KEY   , Descrizione TEXT  ,Data TEXT  ,Ordinaria INTEGER,  KmManutenzione TEXT , Targa TEXT , FOREIGN KEY (`Targa`) REFERENCES `AutoUtente` (`Targa`)ON DELETE NO ACTION ON UPDATE NO ACTION);";
     String CREA_TABELLA_SCADENZE = "CREATE TABLE Scadenze ( IDScadenza INTEGER PRIMARY KEY     , Descrizione TEXT, DataScadenza TEXT, Targa TEXT, FOREIGN KEY (`Targa`) REFERENCES `AutoUtente` (`Targa`) ON DELETE NO ACTION ON UPDATE NO ACTION);";
 
 
-    public MySQLiteHelper(Context context) {
+
+            public MySQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -123,7 +124,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 
         // 3. insert
-        db.insert(TABELLA_UTENTE, // table
+        db.insert(TABELLA_UTENTI, // table
                 null, //nullColumnHack
                 values); // key/value -> keys = column names/ values = column values
 
@@ -271,11 +272,15 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     }
 
 
+
+
     public List<AutoUtente> getAllAutoUtente() {
         List<AutoUtente> auto = new LinkedList<AutoUtente>();
 
 
-        String query = "SELECT  * FROM " + TABELLA_AUTO_UTENTE;
+        String query =
+
+        "SELECT * FROM "+ TABELLA_AUTO_UTENTE +" JOIN "+ TABELLA_MODELLI+ " ON Modelli_id=IDModello JOIN "+ TABELLA_MARCHE+ " ON Marca_id=IDMarca JOIN " + TABELLA_UTENTI+" ON Utenti_Email=Email ;";
 
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -287,7 +292,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             do {
 
 
-                autoUtente = new AutoUtente(cursor.getString(0), cursor.getInt(1), cursor.getString(2), new Utente(cursor.getString(3)), new Modello(cursor.getInt(4)), 0);
+
+                    autoUtente = new AutoUtente(cursor.getString(0), cursor.getInt(1), cursor.getString(2), new Utente(cursor.getString(14),cursor.getString(15),cursor.getString(16),cursor.getString(17)), new Modello( cursor.getInt(5),cursor.getString(6),cursor.getString(7),cursor.getString(8),cursor.getString(9),cursor.getString(10),new Marca( cursor.getInt(12),cursor.getString(13))),0);
 
                 auto.add(autoUtente);
             } while (cursor.moveToNext());
@@ -306,7 +312,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         List<Utente> utenti = new LinkedList<Utente>();
 
         // 1. build the query
-        String query = "SELECT  * FROM " + TABELLA_UTENTE;
+        String query = "SELECT  * FROM " + TABELLA_UTENTI;
 
         // 2. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
@@ -331,23 +337,31 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return utenti;
     }
 
+
+
     public List<Modello> getAllModelli() {
         List<Modello> modelli = new LinkedList<Modello>();
 
-        // 1. build the query
-        String query = "SELECT  * FROM " + TABELLA_MODELLI;
 
-        // 2. get reference to writable DB
+        String query = "SELECT * FROM " + TABELLA_MODELLI  +" JOIN "+ TABELLA_MARCHE +" ON Marca_id = IDMarca ;";
+       // String query = "SELECT * FROM " + TABELLA_MODELLI +" , " + TABELLA_MARCHE+ " WHERE  Marca_id = IDMarca ;";
+
+
+
+
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-        Log.d("ciao", "sono dentro");
 
-        // 3. go over each row, build book and add it to list
+
+
+
         Modello modello = null;
         if (cursor.moveToFirst()) {
+
             do {
+
                 modello = new Modello(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3),
-                        cursor.getString(4), cursor.getString(5), new Marca(cursor.getInt(6)/*, nome*/));
+                        cursor.getString(4), cursor.getString(5), new Marca(cursor.getInt(7), cursor.getString(8)));
 
                 modelli.add(modello);
             } while (cursor.moveToNext());
@@ -478,6 +492,59 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         // return books
         return auto;
     }
+
+
+    public List<Manutenzione> getAllMManutenzioni() {
+        List<Manutenzione> manutenzioni = new LinkedList<Manutenzione>();
+
+
+        String query =   "SELECT * FROM "+TABELLA_MANUTENZIONI +" NATURAL JOIN "+ TABELLA_AUTO_UTENTE+" JOIN "+TABELLA_MODELLI+ " ON Modelli_id=IDModello JOIN "+TABELLA_MARCHE +" ON Marca_id=IDMarca JOIN "+ TABELLA_UTENTI +" ON Utenti_Email=Email";
+
+
+        // String query = "SELECT * FROM " + TABELLA_MODELLI +" , " + TABELLA_MARCHE+ " WHERE  Marca_id = IDMarca ;";
+/*
+        Manutenzioni ( IDManutenzione INTEGER  PRIMARY KEY   , Descrizione TEXT  ,Data TEXT  ,Ordinaria INTEGER,  KmManutenzione TEXT , Targa TEXT
+         AutoUtente ( Targa TEXT  PRIMARY KEY, KM INTEGER , AnnoImmatricolazione TEXT  , Utenti_Email TEXT  , Modelli_id INTEGER  ,
+          Modelli ( IDModello INTEGER  PRIMARY KEY      , Nome TEXT  , Segmento TEXT  , Alimentazione TEXT  , Cilindrata TEXT , KW TEXT  , Marca_id INTEGER  ,
+          Marche (IDMarca INTEGER   PRIMARY KEY  , Nome TEXT)
+           Utenti (NomeU TEXT , CognomeU TEXT, DataDiNascita TEXT , Email TEXT PRIMARY KEY
+*/
+
+
+
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+
+
+
+        Manutenzione manutenzione = null;
+        if (cursor.moveToFirst()) {
+
+            do {
+                /*
+                int IDManutenzione, String descrizione, String data, int ordinaria, String kmManutenzione, AutoUtente auto
+                String targa, int km, String annoImmatricolazione, Utente utente, Modello modello, int selected
+                String nome, String cognome, String dataN, String email , String psw
+                int IDModello, String nome, String segmento, String alimentazione, String cilindrata, String kw, Marca marca
+                        (int IDMarca, String nome
+
+
+                manutenzione = new Manutenzione(cursor.getInt(1),cursor.getString(2),cursor.getString(3),cursor.getInt(4),cursor.getString(5),new AutoUtente(cursor.getString(0),cursor.getInt(6),cursor.getString(7),new Utente(cursor.getString(9),cursor.getString(12),cursor.getString(13),cursor.getString(9)), new Modello())) );String annoImmatricolazione, Utente utente, Modello modello, int selected
+*/
+                manutenzioni.add(manutenzione);
+            } while (cursor.moveToNext());
+        }
+        for (Manutenzione m : manutenzioni
+                ) {
+            Log.d("getAllManutenzione()", m.toString());
+        }
+
+
+        return manutenzioni;
+    }
+
 
 
 }

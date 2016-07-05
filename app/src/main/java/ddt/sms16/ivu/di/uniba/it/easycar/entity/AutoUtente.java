@@ -58,7 +58,7 @@ public class AutoUtente {
 
     @Override
     public String toString() {
-        return "AutoUtente [targa=" + targa + ", km=" + km + ", anno imm= " + annoImmatricolazione + ", Utente_Email= " + utente + ", Modello_id= " + modello.getIDModello()
+        return "AutoUtente [targa=" + targa + ", km=" + km + ", anno imm= " + annoImmatricolazione + ", Utente_Email= " + utente + ", Modello_id= " + modello.toString()
                 + "]";
     }
 }
