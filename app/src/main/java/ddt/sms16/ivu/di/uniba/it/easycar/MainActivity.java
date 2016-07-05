@@ -446,7 +446,7 @@ public class MainActivity extends AppCompatActivity {
                     //costruisco gli oggetti
                     Marca marca = new Marca(idMarca, nomeMarca);
                     Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
-                    AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, "foto", utenteAuto, modello, selected);
+                    AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione,  utenteAuto, modello, selected);
 
                     // aggiungo la singola auto alla lista di auto dell'utente
                     listaAutoUtente.add(autoutente);
@@ -482,7 +482,7 @@ public class MainActivity extends AppCompatActivity {
                     String email = utenteObj.getString(TAG_UTENTE_EMAIL);
 
                     // creo l'oggetto del singolo Utente
-                    Utente utenteAuto = new Utente(nome, cognome, dataN, "foto", email);
+                    Utente utenteAuto = new Utente(nome, cognome, dataN, email);
 
                     int selected = veicoloObj.getInt(TAG_AUTOUTENTE_SELECTED);
 
@@ -505,7 +505,7 @@ public class MainActivity extends AppCompatActivity {
                     //costruisco gli oggetti
                     Marca marca = new Marca(idMarca, nomeMarca);
                     Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
-                    AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, /*R.drawable.ic_menu_gallery*/ null, utenteAuto, modello, selected);
+                    AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, /*R.drawable.ic_menu_gallery*/ utenteAuto, modello, selected);
                     Manutenzione manutenzione = new Manutenzione(id, desc, dataS, ord, kmManut, autoutente);
 
                     // aggiungo la singola manutenzione alla lista di manutenzioni
@@ -605,7 +605,7 @@ public class MainActivity extends AppCompatActivity {
                     //costruisco gli oggetti
                     Marca marca = new Marca(idMarca, nomeMarca);
                     Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
-                    AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione,/* R.drawable.ic_menu_gallery*/ null, utenteAuto, modello, selected);
+                    AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione,/* R.drawable.ic_menu_gallery*/  utenteAuto, modello, selected);
                     Problema problema = new Problema(idProblema, descrizioneProblema, autoutente);
 
                     // aggiungo il singolo problema alla lista dei problemi
@@ -663,7 +663,7 @@ public class MainActivity extends AppCompatActivity {
                     //costruisco gli oggetti
                     Marca marca = new Marca(idMarca, nomeMarca);
                     Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
-                    AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, /*R.drawable.ic_menu_gallery*/null, utenteAuto, modello, selected);
+                    AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, /*R.drawable.ic_menu_gallery*/ utenteAuto, modello, selected);
                     Scadenza scadenza = new Scadenza(idScadenza, descrizioneScadenza, dataScadenza, autoutente);
 
                     // aggiungo il singolo problema alla lista dei problemi
@@ -681,7 +681,7 @@ public class MainActivity extends AppCompatActivity {
                 String pswUtLog = utenteL.getString(TAG_UTENTE_PSW);
 
                 // creo l'oggetto dell' Utente Loggato
-                utenteLoggato = new Utente(nomeUtLog, cognomeUtLog, dataNUtLog, "foto", emailUtLog ,pswUtLog);
+                utenteLoggato = new Utente(nomeUtLog, cognomeUtLog, dataNUtLog, emailUtLog ,pswUtLog);
 
                 // Prelevo JSON Array node (UtenteLoggato)
                 JSONArray utentiJSON = jsonObj.getJSONArray(TAG_UTENTI);

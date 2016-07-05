@@ -197,7 +197,7 @@ MySQLiteHelper mySQLiteHelper = new MySQLiteHelper(this);
         byte[] imageInByte = stream.toByteArray();
         Log.d("image",imageInByte.toString());
 
-        mySQLiteHelper.aggiungiAutoUtente(new AutoUtente("BN 678 MM",55,"2014",imageInByte,new Utente("enrico@gmail.com"),new Modello(1315),0));
+        mySQLiteHelper.aggiungiAutoUtente(new AutoUtente("BN 678 MM",55,"2014",new Utente("enrico@gmail.com"),new Modello(1315),0));
 
           mySQLiteHelper.getAllAutoUtente();
 
