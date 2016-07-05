@@ -12,6 +12,7 @@ import android.widget.Button;
 import ddt.sms16.ivu.di.uniba.it.easycar.MySQLiteHelper;
 import ddt.sms16.ivu.di.uniba.it.easycar.R;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Manutenzione;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Marca;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Modello;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Utente;
@@ -39,8 +40,8 @@ public class OneFragment extends Fragment {
                 Utente utenteM = new Utente("Mario", "d'Elia", "16-04-1994", "m.marzo@gmail.com");
                 Utente utenteZ = new Utente("Zeon", "d'Elia", "16-04-1994", "z.marzo@gmail.com");
 
-                Marca marcaFiat = new Marca(22,"Fiat");
-                Marca marcaAudi = new Marca(78,"Audi");
+                Marca marcaFiat = new Marca(678,"Fiat");
+                Marca marcaAudi = new Marca(784,"Audi");
 
                 Modello modelloFiatPunto = new Modello(2334,"Punto", "B", "benzina", "1200", "66", marcaFiat);
                 Modello modelloAudiA4 = new Modello(444,"A4", "C", "diesel", "1900", "90", marcaAudi);
@@ -50,6 +51,12 @@ public class OneFragment extends Fragment {
                 AutoUtente autoUtenteG = new AutoUtente("MM788EE",454643,"2010" ,utenteG,modelloFiatPunto,0);
                 AutoUtente autoUtenteM0 = new AutoUtente("IE456BB",343353,"2009" ,utenteM,modelloFiatPunto,0);
                 AutoUtente autoUtenteM1 = new AutoUtente("EN889MN",88809,"2001",utenteM,modelloAudiA4,0);
+
+                Manutenzione manutenzione0 = new Manutenzione(156556,"cambio olio", "16-09-2010", 0, "7890000", autoUtenteE0);
+                Manutenzione manutenzione1 = new Manutenzione(287654,"cambio filtri", "16-09-2010", 0, "7890000", autoUtenteE0);
+                Manutenzione manutenzione2 = new Manutenzione(14432,"cambio olio","16-09-2010",0,"4525242",autoUtenteG);
+
+
                 mySQLiteHelper.aggiungiUtente(utenteE);
                 mySQLiteHelper.aggiungiUtente(utenteG);
                 mySQLiteHelper.aggiungiUtente(utenteM);
@@ -70,10 +77,16 @@ public class OneFragment extends Fragment {
                 mySQLiteHelper.aggiungiAutoUtente(autoUtenteM0);
                 mySQLiteHelper.aggiungiAutoUtente(autoUtenteM1);
 
+                mySQLiteHelper.aggiungiManutenzione(manutenzione0);
+                mySQLiteHelper.aggiungiManutenzione(manutenzione1);
+                mySQLiteHelper.aggiungiManutenzione(manutenzione2);
+
                 mySQLiteHelper.getAllUtenti();
                 mySQLiteHelper.getAllMarche();
                 mySQLiteHelper.getAllModelli();
                 mySQLiteHelper.getAllAutoUtente();
+                mySQLiteHelper.getAllMManutenzioni();
+
 
                /*
 

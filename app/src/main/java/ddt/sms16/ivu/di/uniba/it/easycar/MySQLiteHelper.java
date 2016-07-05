@@ -523,16 +523,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
 
             do {
-                /*
-                int IDManutenzione, String descrizione, String data, int ordinaria, String kmManutenzione, AutoUtente auto
-                String targa, int km, String annoImmatricolazione, Utente utente, Modello modello, int selected
-                String nome, String cognome, String dataN, String email , String psw
-                int IDModello, String nome, String segmento, String alimentazione, String cilindrata, String kw, Marca marca
-                        (int IDMarca, String nome
 
+               manutenzione = new Manutenzione(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getInt(3),cursor.getString(4),new AutoUtente(cursor.getString(6),cursor.getInt(7),cursor.getString(8),new Utente(cursor.getString(20),cursor.getString(21),cursor.getString(22),cursor.getString(10)),new Modello(cursor.getInt(11),cursor.getString(12),cursor.getString(13),cursor.getString(14),cursor.getString(15),cursor.getString(16), new Marca(cursor.getInt(18),cursor.getString(19))),0 )) ;
 
-                manutenzione = new Manutenzione(cursor.getInt(1),cursor.getString(2),cursor.getString(3),cursor.getInt(4),cursor.getString(5),new AutoUtente(cursor.getString(0),cursor.getInt(6),cursor.getString(7),new Utente(cursor.getString(9),cursor.getString(12),cursor.getString(13),cursor.getString(9)), new Modello())) );String annoImmatricolazione, Utente utente, Modello modello, int selected
-*/
                 manutenzioni.add(manutenzione);
             } while (cursor.moveToNext());
         }

@@ -57,6 +57,6 @@ public class Manutenzione {
 
     @Override
     public String toString() {
-        return "Manutenzione [IDManutenzione=" + IDManutenzione + ", descrizione=" + descrizione + ", data=" + data + ", ordinaria=" + ordinaria + ", kmManutenzione=" + kmManutenzione + ", targa auto=" + auto.getTarga() + "]";
+        return "Manutenzione [IDManutenzione=" + IDManutenzione + ", descrizione=" + descrizione + ", data=" + data + ", ordinaria=" + ordinaria + ", kmManutenzione=" + kmManutenzione + ", targa auto=" + auto.toString() + "]";
     }
 }
