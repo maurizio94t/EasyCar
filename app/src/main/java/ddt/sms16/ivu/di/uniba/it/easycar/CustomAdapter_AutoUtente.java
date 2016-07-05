@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
 
@@ -16,10 +17,10 @@ import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
  * Created by Maurizio on 22/06/16.
  */
 public class CustomAdapter_AutoUtente extends ArrayAdapter<AutoUtente> {
-    ArrayList<AutoUtente> lista;
+    List<AutoUtente> lista;
     Context context;
 
-    public CustomAdapter_AutoUtente(Context context, int textViewResourceId, ArrayList<AutoUtente> objects) {
+    public CustomAdapter_AutoUtente(Context context, int textViewResourceId, List<AutoUtente> objects) {
         super(context, textViewResourceId, objects);
         lista = objects;
     }
@@ -47,7 +48,7 @@ public class CustomAdapter_AutoUtente extends ArrayAdapter<AutoUtente> {
         return convertView;
     }
 
-    public ArrayList<AutoUtente> getLista() {
+    public List<AutoUtente> getLista() {
         return lista;
     }
 

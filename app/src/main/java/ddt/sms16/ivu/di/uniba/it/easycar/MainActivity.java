@@ -122,10 +122,14 @@ public class MainActivity extends AppCompatActivity {
     public static Utente utenteLoggato;
 
     public static MySQLiteHelper mySQLiteHelper;
+
     public static List<Marca> listMarcheLocal;
     public static List<Modello> listModelliLocal;
     public static List<Utente> listUtentiLocal;
     public static List<AutoUtente> listAutoUtenteLocal;
+    public static List<Manutenzione> listManutenzioniLocal;
+    public static List<Problema> listProblemiLocal;
+    public static List<Scadenza> listScadenzeLocal;
 
 
     static String pswEncrypted;
@@ -310,6 +314,14 @@ public class MainActivity extends AppCompatActivity {
                         params.put("psw", "gino");
                         */
 
+                        /*
+                        //delete
+                        params.put("operation", "d");
+                        params.put("table", "Manutenzioni");
+
+                        params.put("id", "7");
+                        */
+
                         return params;
                     }
 
@@ -401,7 +413,8 @@ public class MainActivity extends AppCompatActivity {
                 if (!utenteVerificato) {
                     return false;
                 }
-
+                UpdateService.parse(jsonObj);
+                /*
                 // Prelevo JSON Array node (AutoUtente)
                 JSONArray autoUtentiJSON = jsonObj.getJSONArray(TAG_AUTOUTENTE);
                 // Ciclo tutte le auto degli utenti
@@ -423,7 +436,7 @@ public class MainActivity extends AppCompatActivity {
                     String email = utenteObj.getString(TAG_UTENTE_EMAIL);
 
                     // creo l'oggetto del singolo Utente
-                    Utente utenteAuto = new Utente(nome, cognome, dataN, "foto", email);
+                    Utente utenteAuto = new Utente(nome, cognome, dataN, email);
 
                     int selected = autoUtentiObj.getInt(TAG_AUTOUTENTE_SELECTED);
 
@@ -505,7 +518,7 @@ public class MainActivity extends AppCompatActivity {
                     //costruisco gli oggetti
                     Marca marca = new Marca(idMarca, nomeMarca);
                     Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
-                    AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, /*R.drawable.ic_menu_gallery*/ utenteAuto, modello, selected);
+                    AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, utenteAuto, modello, selected);
                     Manutenzione manutenzione = new Manutenzione(id, desc, dataS, ord, kmManut, autoutente);
 
                     // aggiungo la singola manutenzione alla lista di manutenzioni
@@ -582,7 +595,7 @@ public class MainActivity extends AppCompatActivity {
                     String email = utenteObj.getString(TAG_UTENTE_EMAIL);
 
                     // creo l'oggetto del singolo Utente
-                    Utente utenteAuto = new Utente(nome, cognome, dataN, "foto", email);
+                    Utente utenteAuto = new Utente(nome, cognome, dataN, email);
 
                     int selected = autoUtentiObj.getInt(TAG_AUTOUTENTE_SELECTED);
 
@@ -605,7 +618,7 @@ public class MainActivity extends AppCompatActivity {
                     //costruisco gli oggetti
                     Marca marca = new Marca(idMarca, nomeMarca);
                     Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
-                    AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione,/* R.drawable.ic_menu_gallery*/  utenteAuto, modello, selected);
+                    AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione,  utenteAuto, modello, selected);
                     Problema problema = new Problema(idProblema, descrizioneProblema, autoutente);
 
                     // aggiungo il singolo problema alla lista dei problemi
@@ -640,7 +653,7 @@ public class MainActivity extends AppCompatActivity {
                     String email = utenteObj.getString(TAG_UTENTE_EMAIL);
 
                     // creo l'oggetto del singolo Utente
-                    Utente utenteAuto = new Utente(nome, cognome, dataN, "foto", email);
+                    Utente utenteAuto = new Utente(nome, cognome, dataN, email);
 
                     int selected = autoUtentiObj.getInt(TAG_AUTOUTENTE_SELECTED);
 
@@ -663,7 +676,7 @@ public class MainActivity extends AppCompatActivity {
                     //costruisco gli oggetti
                     Marca marca = new Marca(idMarca, nomeMarca);
                     Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
-                    AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, /*R.drawable.ic_menu_gallery*/ utenteAuto, modello, selected);
+                    AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, utenteAuto, modello, selected);
                     Scadenza scadenza = new Scadenza(idScadenza, descrizioneScadenza, dataScadenza, autoutente);
 
                     // aggiungo il singolo problema alla lista dei problemi
@@ -696,9 +709,10 @@ public class MainActivity extends AppCompatActivity {
                     String email = u.getString(TAG_UTENTE_EMAIL);
 
                     // creo l'oggetto del singolo Utente
-                    Utente utente = new Utente(nome, cognome, dataN , "foto", email);
+                    Utente utente = new Utente(nome, cognome, dataN , email);
                     listaUtenti.add(utente);
                 }
+                */
 
                 return true;
             } catch (JSONException e) {

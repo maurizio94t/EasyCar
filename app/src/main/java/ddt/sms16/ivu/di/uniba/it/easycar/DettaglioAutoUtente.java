@@ -29,7 +29,7 @@ public class DettaglioAutoUtente extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if(bundle != null) {
             int posizione = bundle.getInt(MieAutoFragment.EXTRA_POSIZIONE);
-            AutoUtente auto = MainActivity.listaAutoUtente.get(posizione);
+            AutoUtente auto = MainActivity.listAutoUtenteLocal.get(posizione);
 
             toolbar.setTitle(auto.getModello().getMarca().getNome() + " " + auto.getModello().getNome());
             setSupportActionBar(toolbar);

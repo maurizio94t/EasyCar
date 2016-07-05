@@ -50,10 +50,10 @@ public class MieAutoFragment extends Fragment {
         customAdapter = new CustomAdapter_AutoUtente(
                 thisContext.getApplicationContext(),
                 R.layout.row_auto,
-                (ArrayList<AutoUtente>) MainActivity.listAutoUtenteLocal);
+                MainActivity.listAutoUtenteLocal);
 
         //utilizzo dell'adapter
-        listView = (ListView)view.findViewById(R.id.listView);
+        listView = (ListView) view.findViewById(R.id.listView);
         listView.setAdapter(customAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
