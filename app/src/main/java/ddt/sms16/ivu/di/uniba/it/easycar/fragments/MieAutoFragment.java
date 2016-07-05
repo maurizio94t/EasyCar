@@ -11,10 +11,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+
 import ddt.sms16.ivu.di.uniba.it.easycar.DettaglioAutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.CustomAdapter_AutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.MainActivity;
 import ddt.sms16.ivu.di.uniba.it.easycar.R;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
 
 /**
  * Created by Maurizio on 01/06/16.
@@ -47,7 +50,7 @@ public class MieAutoFragment extends Fragment {
         customAdapter = new CustomAdapter_AutoUtente(
                 thisContext.getApplicationContext(),
                 R.layout.row_auto,
-                MainActivity.listaAutoUtente);
+                (ArrayList<AutoUtente>) MainActivity.listAutoUtenteLocal);
 
         //utilizzo dell'adapter
         listView = (ListView)view.findViewById(R.id.listView);

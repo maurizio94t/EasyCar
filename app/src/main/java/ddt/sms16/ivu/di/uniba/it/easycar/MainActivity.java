@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String MyPREFERENCES = "MyPreferences";
 
     // URL to get data JSON
-    private static final String url = "http://t2j.no-ip.org/ddt/WebService.php";
-    private static final String urlOperations = "http://t2j.no-ip.org/ddt/WebServiceOperations.php";
+    public static final String url = "http://t2j.no-ip.org/ddt/WebService.php";
+    public static final String urlOperations = "http://t2j.no-ip.org/ddt/WebServiceOperations.php";
     // JSON Node - Campo stato login
     public static final String TAG_UTENTE_VERIFICATO = "UtenteVerificato";
 
@@ -101,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG_SCADENZE_VEICOLO = "Veicolo";
 
     // JSON Node - Campi tabella Utenti
+    public static final String TAG_UTENTE_LOGGATO = "UtenteLoggato";
+    public static final String TAG_UTENTI = "Utenti";
     public static final String TAG_UTENTE = "Utente";
     public static final String TAG_UTENTE_NOME = "Nome";
     public static final String TAG_UTENTE_COGNOME = "Cognome";
@@ -116,11 +118,15 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<Marca> listaMarche;
     public static ArrayList<Problema> listaProblemi;
     public static ArrayList<Scadenza> listaScadenze;
-    public static Utente utente;
+    public static ArrayList<Utente> listaUtenti;
+    public static Utente utenteLoggato;
 
     public static MySQLiteHelper mySQLiteHelper;
+    public static List<Marca> listMarcheLocal;
+    public static List<Modello> listModelliLocal;
+    public static List<Utente> listUtentiLocal;
     public static List<AutoUtente> listAutoUtenteLocal;
-    public static List<Marca> listMarcaLocal;
+
 
     static String pswEncrypted;
 
@@ -128,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
     private String jsonStr;
     private EditText mEditTxtEmail;
     private EditText mEditTxtPsw;
-    private RequestQueue queue;
+    public static RequestQueue queue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
         listaMarche = new ArrayList<Marca>();
         listaProblemi = new ArrayList<Problema>();
         listaScadenze = new ArrayList<Scadenza>();
+        listaUtenti = new ArrayList<Utente>();
 
         mySQLiteHelper = new MySQLiteHelper(getApplicationContext());
 
@@ -361,17 +368,21 @@ public class MainActivity extends AppCompatActivity {
             if (utenteVerificato) {
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.putBoolean(TAG_UTENTE_VERIFICATO, true);
-                editor.putString(TAG_UTENTE_NOME, utente.getNome());
-                editor.putString(TAG_UTENTE_COGNOME, utente.getCognome());
-                editor.putString(TAG_UTENTE_DATANASCITA, utente.getDataN());
-                editor.putString(TAG_UTENTE_EMAIL, utente.getEmail());
-                editor.putString(TAG_UTENTE_PSW, utente.getPsw());
+                editor.putString(TAG_UTENTE_NOME, utenteLoggato.getNome());
+                editor.putString(TAG_UTENTE_COGNOME, utenteLoggato.getCognome());
+                editor.putString(TAG_UTENTE_DATANASCITA, utenteLoggato.getDataN());
+                editor.putString(TAG_UTENTE_EMAIL, utenteLoggato.getEmail());
+                editor.putString(TAG_UTENTE_PSW, utenteLoggato.getPsw());
                 editor.commit();
 
                 Intent intentBaseActivity = new Intent(MainActivity.this, BaseActivity.class);
                 //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
                 startActivity(intentBaseActivity);
                 finish();
+
+                // Start a service for update Local DB
+                Intent intentService = new Intent(MainActivity.this, UpdateService.class);
+                //startService(intentService);
             } else {
                 View parentLayout = findViewById(R.id.root_view);
                 Snackbar snackbar = Snackbar.make(parentLayout, "Dati non corretti! Riprova..", Snackbar.LENGTH_LONG);
@@ -659,22 +670,36 @@ public class MainActivity extends AppCompatActivity {
                     listaScadenze.add(scadenza);
                 }
 
-                // Prelevo JSON Array node (Utenti)
-                JSONArray ut = jsonObj.getJSONArray(TAG_UTENTE);
+                // Prelevo JSON Array node (UtenteLoggato)
+                JSONObject utenteL = jsonObj.getJSONObject(TAG_UTENTE_LOGGATO);
+
+                String nomeUtLog = utenteL.getString(TAG_UTENTE_NOME);
+                String cognomeUtLog = utenteL.getString(TAG_UTENTE_COGNOME);
+                String dataNUtLog = utenteL.getString(TAG_UTENTE_DATANASCITA);
+                //String foto = utenteL.getString(TAG_UTENTE_FOTO);
+                String emailUtLog = utenteL.getString(TAG_UTENTE_EMAIL);
+                String pswUtLog = utenteL.getString(TAG_UTENTE_PSW);
+
+                // creo l'oggetto dell' Utente Loggato
+                utenteLoggato = new Utente(nomeUtLog, cognomeUtLog, dataNUtLog /*, R.drawable.ic_menu_gallery*/, emailUtLog ,pswUtLog);
+
+                // Prelevo JSON Array node (UtenteLoggato)
+                JSONArray utentiJSON = jsonObj.getJSONArray(TAG_UTENTI);
                 // Ciclo tutti gli utenti
-                for (int i = 0; i < ut.length(); i++) {
-                    JSONObject u = ut.getJSONObject(i);
+                for (int i = 0; i < utentiJSON.length(); i++) {
+                    JSONObject u = utentiJSON.getJSONObject(i);
 
                     String nome = u.getString(TAG_UTENTE_NOME);
                     String cognome = u.getString(TAG_UTENTE_COGNOME);
                     String dataN = u.getString(TAG_UTENTE_DATANASCITA);
                     //String foto = u.getString(TAG_UTENTE_FOTO);
                     String email = u.getString(TAG_UTENTE_EMAIL);
-                    String psw = u.getString(TAG_UTENTE_PSW);
 
                     // creo l'oggetto del singolo Utente
-                    utente = new Utente(nome, cognome, dataN /*, R.drawable.ic_menu_gallery*/, email /*,psw */);
+                    Utente utente = new Utente(nome, cognome, dataN , R.drawable.ic_menu_gallery, email);
+                    listaUtenti.add(utente);
                 }
+
                 return true;
             } catch (JSONException e) {
                 e.printStackTrace();

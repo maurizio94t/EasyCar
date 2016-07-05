@@ -136,6 +136,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    /*
     public Utente prendiUtente(String email) {
         Utente utente = null;
 
@@ -159,6 +160,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         return utente;
     }
+    */
 
 
     public void aggiungiModello(Modello modello) {

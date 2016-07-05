@@ -9,7 +9,9 @@ import android.Manifest;
         import android.content.Context;
         import android.content.DialogInterface;
         import android.content.pm.PackageManager;
-        import android.os.Build;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Build;
         import android.support.v4.app.ActivityCompat;
         import android.support.v4.content.ContextCompat;
         import android.support.v7.app.AlertDialog;
@@ -18,8 +20,7 @@ public class Utility {
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public static boolean checkPermission(final Context context)
-    {
+    public static boolean checkPermission(final Context context) {
         int currentAPIVersion = Build.VERSION.SDK_INT;
         if(currentAPIVersion>=android.os.Build.VERSION_CODES.M)
         {
@@ -48,5 +49,16 @@ public class Utility {
         } else {
             return true;
         }
+    }
+
+    public static boolean checkInternetConnection(Context context) {
+        boolean connected = false;
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            //we are connected to a network
+            connected = true;
+        }
+        return connected;
     }
 }

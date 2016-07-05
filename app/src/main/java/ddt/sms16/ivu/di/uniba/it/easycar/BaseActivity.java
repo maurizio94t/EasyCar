@@ -13,7 +13,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Marca;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Utente;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.MieAutoFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.OneFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment;
@@ -30,7 +33,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_base);
 
         //aggiornamente del db locare se c'è connessione
-        //aggiornaDataBaseLocale();
+        //UpdateService.aggiornaDataBaseLocale();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -110,7 +113,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             fragment = new ProblemiFragment();
             ok = true;
         } else if (id == R.id.manutenzioni) {
-       Intent aggiuntaManutenzione = new Intent(this, AggiuntaManutenzione.class);
+            Intent aggiuntaManutenzione = new Intent(this, AggiuntaManutenzione.class);
             startActivity(aggiuntaManutenzione);
 
         } else if (id == R.id.nav_info) {
@@ -134,24 +137,4 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-    public void aggiornaDataBaseLocale() {
-        MainActivity.listMarcaLocal = MainActivity.mySQLiteHelper.getAllMarche();
-        boolean trovato = false;
-        for(Marca marcaE : MainActivity.listaMarche) {
-            for(Marca marcaL : MainActivity.listMarcaLocal) {
-                if(marcaE.getIDMarca() == marcaL.getIDMarca()) {
-                    trovato = true;
-                    break;
-                }
-            }
-            if(!trovato) {
-                MainActivity.mySQLiteHelper.aggiungiMarca(marcaE);
-            }
-        }
-
-        // get tutte le AutoUtente
-        MainActivity.listMarcaLocal = MainActivity.mySQLiteHelper.getAllMarche();
-    }
-
 }

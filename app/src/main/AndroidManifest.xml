@@ -7,6 +7,7 @@
         android:targetSdkVersion="23" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
@@ -69,6 +70,7 @@
        <activity android:name=".AndroidGPSTrackingActivity"
            android:label="GPS"
            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <service android:name=".UpdateService" />
 
     </application>
 

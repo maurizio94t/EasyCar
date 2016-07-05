@@ -41,7 +41,7 @@ public class AggiuntaManutenzione extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-            toolbar.setNavigationIcon(R.drawable.ic_navigate_before_white_24dp);
+            toolbar.setNavigationIcon(R.drawable.ic_mode_edit_white_24dp);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
