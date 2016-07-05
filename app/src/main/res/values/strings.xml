@@ -30,4 +30,10 @@
     <string name="aggiungiFoto"> aggiungi foto </string>
     <string name="album_name"> EasyCar foto</string>
     <string name="cannot">Cannot</string>
+    <string name="latitude_label">Latitude</string>
+    <string name="longitude_label">Longitude</string>
+
+    <string name="no_location_detected">
+        No location detected. Make sure location is enabled on the device.
+    </string>
 </resources>

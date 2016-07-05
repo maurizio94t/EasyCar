@@ -13,10 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.ArrayList;
-
-import ddt.sms16.ivu.di.uniba.it.easycar.entity.Marca;
-import ddt.sms16.ivu.di.uniba.it.easycar.entity.Utente;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.MieAutoFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.OneFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment;
@@ -117,7 +113,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             startActivity(aggiuntaManutenzione);
 
         } else if (id == R.id.nav_info) {
-            Intent gpsTest = new Intent(this, AndroidGPSTrackingActivity.class);
+            Intent gpsTest = new Intent(this, GPS.class);
             startActivity(gpsTest);
 
         }

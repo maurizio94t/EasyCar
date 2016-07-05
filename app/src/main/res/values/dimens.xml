@@ -18,5 +18,8 @@
     <dimen name="formTextSize">20dp</dimen>
     <dimen name="deleteButtonSize">35dp</dimen>
     <dimen name="paddingTopIcon">20dp</dimen>
+    <dimen name="lat_long_text_size">16sp</dimen>
+
+
 
 </resources>
