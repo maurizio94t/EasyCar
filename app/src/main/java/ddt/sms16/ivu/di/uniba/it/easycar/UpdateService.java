@@ -481,23 +481,22 @@ public class UpdateService extends Service  {//uses Main thread not create in an
         }
         MainActivity.listModelliLocal = MainActivity.mySQLiteHelper.getAllModelli();
 
-        /*
+
         //update Utenti
         MainActivity.listUtentiLocal = MainActivity.mySQLiteHelper.getAllUtenti();
         trovato = false;
-        for(Utente utenteE : MainActivity.listaModelli) {
-            for(Utente utenteL : MainActivity.listModelliLocal) {
-                if(modelloE.getIDModello() == modelloL.getIDModello()) {
+        for(Utente utenteE : MainActivity.listaUtenti) {
+            for(Utente utenteL : MainActivity.listUtentiLocal) {
+                if(utenteE.getEmail().equalsIgnoreCase(utenteL.getEmail())) {
                     trovato = true;
                     break;
                 }
             }
             if(!trovato) {
-                MainActivity.mySQLiteHelper.aggiungiModello(modelloE);
+                MainActivity.mySQLiteHelper.aggiungiUtente(utenteE);
             }
         }
-        MainActivity.listModelliLocal = MainActivity.mySQLiteHelper.getAllModelli();
-        */
+        MainActivity.listUtentiLocal = MainActivity.mySQLiteHelper.getAllUtenti();
 
         //update AutoUtente
         MainActivity.listAutoUtenteLocal = MainActivity.mySQLiteHelper.getAllAutoUtente();

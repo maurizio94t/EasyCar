@@ -33,7 +33,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_base);
 
         //aggiornamente del db locare se c'è connessione
-        //UpdateService.aggiornaDataBaseLocale();
+        UpdateService.aggiornaDataBaseLocale();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
