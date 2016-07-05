@@ -449,6 +449,7 @@ public class UpdateService extends Service  {//uses Main thread not create in an
     public static void aggiornaDataBaseLocale() {
         //aggiungo ai dati in locale i nuovi dati presenti sul DB
 
+
         //update Marche
         MainActivity.listMarcheLocal = MainActivity.mySQLiteHelper.getAllMarche();
         boolean trovato = false;
@@ -465,6 +466,7 @@ public class UpdateService extends Service  {//uses Main thread not create in an
         }
         MainActivity.listMarcheLocal = MainActivity.mySQLiteHelper.getAllMarche();
 
+        /*
         //update Modelli
         MainActivity.listModelliLocal = MainActivity.mySQLiteHelper.getAllModelli();
         trovato = false;
@@ -513,8 +515,7 @@ public class UpdateService extends Service  {//uses Main thread not create in an
             }
         }
         MainActivity.listAutoUtenteLocal = MainActivity.mySQLiteHelper.getAllAutoUtente();
-
-
+        */
 
     }
 
