@@ -8,16 +8,16 @@ public class AutoUtente {
     private String targa;
     private int km;
     private String annoImmatricolazione;
-    private byte[] fotoAuto;
+
     private Utente utente;
     private Modello modello;
     private int selected;
 
-    public AutoUtente(String targa, int km, String annoImmatricolazione, byte[] fotoAuto, Utente utente, Modello modello, int selected) {
+    public AutoUtente(String targa, int km, String annoImmatricolazione, Utente utente, Modello modello, int selected) {
         this.targa = targa;
         this.km = km;
         this.annoImmatricolazione = annoImmatricolazione;
-        this.fotoAuto = fotoAuto;
+
         this.utente = utente;
         this.modello = modello;
         this.selected = selected;
@@ -39,9 +39,6 @@ public class AutoUtente {
         return annoImmatricolazione;
     }
 
-    public byte[] getFotoAuto() {
-        return fotoAuto;
-    }
 
     public Utente getUtente() {
         return utente;
@@ -61,7 +58,7 @@ public class AutoUtente {
 
     @Override
     public String toString() {
-        return "AutoUtente [targa=" + targa + ", km=" + km + ", anno imm= " + annoImmatricolazione + ", FotoAuto= " + fotoAuto.toString() + ", Utente_Email= " + utente + ", Modello_id= " + modello.getIDModello()
+        return "AutoUtente [targa=" + targa + ", km=" + km + ", anno imm= " + annoImmatricolazione + ", Utente_Email= " + utente + ", Modello_id= " + modello.getIDModello()
                 + "]";
     }
 }

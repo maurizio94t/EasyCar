@@ -4,7 +4,6 @@ package ddt.sms16.ivu.di.uniba.it.easycar.fragments;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,8 @@ import android.widget.Button;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.MySQLiteHelper;
 import ddt.sms16.ivu.di.uniba.it.easycar.R;
-import ddt.sms16.ivu.di.uniba.it.easycar.entity.Utente;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Marca;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Modello;
 
 
 public class OneFragment extends Fragment {
@@ -31,6 +31,8 @@ public class OneFragment extends Fragment {
             public void onClick(View v) {
 
                 MySQLiteHelper mySQLiteHelper = new MySQLiteHelper(getActivity().getApplicationContext());
+                mySQLiteHelper.aggiungiModello(new Modello(23,"Enrico","","","","",new Marca("ciao")));
+                mySQLiteHelper.getAllModelli();
                 // mySQLiteHelper.getAllAutoUtente();
                 // Intent intent0 = new Intent(getActivity(), MyCameraActivity.class);
                 //startActivity(intent0);
