@@ -5,14 +5,9 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.IBinder;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -188,7 +183,7 @@ public class UpdateService extends Service  {//uses Main thread not create in an
                     String email = utenteObj.getString(MainActivity.TAG_UTENTE_EMAIL);
 
                     // creo l'oggetto del singolo Utente
-                    Utente utenteAuto = new Utente(nome, cognome, dataN, R.drawable.ic_menu_gallery, email);
+                    Utente utenteAuto = new Utente(nome, cognome, dataN, "foto", email);
 
                     int selected = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_SELECTED);
 
@@ -247,7 +242,7 @@ public class UpdateService extends Service  {//uses Main thread not create in an
                     String email = utenteObj.getString(MainActivity.TAG_UTENTE_EMAIL);
 
                     // creo l'oggetto del singolo Utente
-                    Utente utenteAuto = new Utente(nome, cognome, dataN, R.drawable.ic_menu_gallery, email);
+                    Utente utenteAuto = new Utente(nome, cognome, dataN, "foto", email);
 
                     int selected = veicoloObj.getInt(MainActivity.TAG_AUTOUTENTE_SELECTED);
 
@@ -347,7 +342,7 @@ public class UpdateService extends Service  {//uses Main thread not create in an
                     String email = utenteObj.getString(MainActivity.TAG_UTENTE_EMAIL);
 
                     // creo l'oggetto del singolo Utente
-                    Utente utenteAuto = new Utente(nome, cognome, dataN, R.drawable.ic_menu_gallery, email);
+                    Utente utenteAuto = new Utente(nome, cognome, dataN, "foto", email);
 
                     int selected = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_SELECTED);
 
@@ -405,7 +400,7 @@ public class UpdateService extends Service  {//uses Main thread not create in an
                     String email = utenteObj.getString(MainActivity.TAG_UTENTE_EMAIL);
 
                     // creo l'oggetto del singolo Utente
-                    Utente utenteAuto = new Utente(nome, cognome, dataN, R.drawable.ic_menu_gallery, email);
+                    Utente utenteAuto = new Utente(nome, cognome, dataN, "foto", email);
 
                     int selected = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_SELECTED);
 
@@ -466,7 +461,7 @@ public class UpdateService extends Service  {//uses Main thread not create in an
         }
         MainActivity.listMarcheLocal = MainActivity.mySQLiteHelper.getAllMarche();
 
-        /*
+
         //update Modelli
         MainActivity.listModelliLocal = MainActivity.mySQLiteHelper.getAllModelli();
         trovato = false;
@@ -482,7 +477,6 @@ public class UpdateService extends Service  {//uses Main thread not create in an
             }
         }
         MainActivity.listModelliLocal = MainActivity.mySQLiteHelper.getAllModelli();
-
 
         //update Utenti
         MainActivity.listUtentiLocal = MainActivity.mySQLiteHelper.getAllUtenti();
@@ -515,7 +509,7 @@ public class UpdateService extends Service  {//uses Main thread not create in an
             }
         }
         MainActivity.listAutoUtenteLocal = MainActivity.mySQLiteHelper.getAllAutoUtente();
-        */
+
 
     }
 

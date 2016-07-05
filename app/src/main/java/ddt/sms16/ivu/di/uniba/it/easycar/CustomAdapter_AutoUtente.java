@@ -38,7 +38,7 @@ public class CustomAdapter_AutoUtente extends ArrayAdapter<AutoUtente> {
        // marca.setText(a.getModello().getMarca().getNome());
         modello.setText(a.getModello().getNome());
         targa.setText(a.getTarga());
-        img.setImageResource(Integer.parseInt(a.getFotoAuto().toString()));
+        img.setImageResource(R.drawable.ic_menu_gallery);
         imgSel.setImageResource(R.drawable.ic_ok);
         if (a.getSelected() == 1) {
             imgSel.setVisibility(View.VISIBLE);
