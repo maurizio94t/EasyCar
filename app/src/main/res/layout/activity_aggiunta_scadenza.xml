@@ -41,24 +41,22 @@
           <RadioGroup
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:orientation="horizontal"
+              android:orientation="vertical"
               android:id="@+id/tipoScadenzaRadioGroup">
               <RadioButton android:id="@+id/radio_assicurazione"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:text="@string/assicurazione"
                   />
-
-              <RadioButton android:id="@+id/radio_bollo"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="@string/bollo"
-                  />
-
               <RadioButton android:id="@+id/radio_revisione"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:text="@string/revisione"
+                  />
+              <RadioButton android:id="@+id/radio_bollo"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@string/bollo"
                   />
           </RadioGroup>
 

@@ -19,9 +19,6 @@ import ddt.sms16.ivu.di.uniba.it.easycar.MainActivity;
 import ddt.sms16.ivu.di.uniba.it.easycar.R;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
 
-/**
- * Created by Maurizio on 01/06/16.
- */
 public class MieAutoFragment extends Fragment {
 
     public static final String EXTRA_POSIZIONE = "posizione";

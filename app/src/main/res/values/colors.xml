@@ -8,4 +8,6 @@
     <color name="colorTextPrimary">#000000</color>
     <color name="colorManutenzione">#e44800</color>
     <color name="colorAuto">#CDDC39</color>
+    <color name="addButton">#a12b00</color>
+
 </resources>
