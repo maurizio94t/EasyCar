@@ -1,8 +1,10 @@
 package ddt.sms16.ivu.di.uniba.it.easycar;
 
+import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,11 +20,10 @@ import ddt.sms16.ivu.di.uniba.it.easycar.fragments.OneFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ScadenzeFragment;
 
-/**
- * Created by Maurizio on 01/06/16.
- */
+
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +83,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {

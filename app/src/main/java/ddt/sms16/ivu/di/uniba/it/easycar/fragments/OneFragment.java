@@ -1,8 +1,10 @@
 package ddt.sms16.ivu.di.uniba.it.easycar.fragments;
 
 
+import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ import ddt.sms16.ivu.di.uniba.it.easycar.entity.Scadenza;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Utente;
 
 
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class OneFragment extends Fragment {
 
     Context thisContext;
@@ -104,12 +107,31 @@ public class OneFragment extends Fragment {
                 mySQLiteHelper.getAllScadenze();
                 mySQLiteHelper.getAllProblemi();
 
-
+/*
                 Utente utenteE0 = new Utente("ocirne", "d'Elia", "16-04-1994", "e.marzo@gmail.com");
              mySQLiteHelper.updateUtente(utenteE0);
                 mySQLiteHelper.getAllUtenti();
 
 
+
+
+                AutoUtente autoUtenteG0 = new AutoUtente("MM788EE",454643,"2001" ,utenteG,modelloFiatPunto,0);
+               mySQLiteHelper.updateAutoUtente(autoUtenteG0);
+                mySQLiteHelper.getAllAutoUtente();
+
+                Manutenzione manutenzione00 = new Manutenzione(156556,"motorino avviamento", "16-09-2010", 0, "7890000", autoUtenteE0);
+
+                Problema problemaAutoE11 = new Problema(12,"Braccio", autoUtenteE1);
+                Scadenza scadenza00 = new Scadenza(23,"bolletto","12-08-2015",autoUtenteG);
+
+                //mySQLiteHelper.updateScadenza(scadenza00);
+                //mySQLiteHelper.getAllScadenze();
+               mySQLiteHelper.updateProblema(problemaAutoE11);
+                //    mySQLiteHelper.getAllProblemi();
+
+               mySQLiteHelper.updateMantenzione(manutenzione00);
+                mySQLiteHelper.getAllManutenzioni();
+                */
                /*
 
                Utente utenteE = new Utente("Enrico", "d'Elia", "16-04-1994", "e.marzo@gmail.com");

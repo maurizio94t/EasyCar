@@ -24,7 +24,7 @@ public class Problema {
         this.auto = auto;
 
     }
-    public int getIDProblemi() {
+    public int getIDProblema() {
         return IDProblema;
     }
 

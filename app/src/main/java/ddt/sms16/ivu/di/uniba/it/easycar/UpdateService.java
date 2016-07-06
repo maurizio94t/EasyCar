@@ -21,9 +21,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
@@ -554,7 +552,7 @@ public class UpdateService extends Service  {//uses Main thread not create in an
         for(Problema problemaE : MainActivity.listaProblemi) {
             trovato = false;
             for(Problema problemaL : MainActivity.listProblemiLocal) {
-                if(problemaE.getIDProblemi() == problemaL.getIDProblemi()) {
+                if(problemaE.getIDProblema() == problemaL.getIDProblema()) {
                     trovato = true;
                     break;
                 }
