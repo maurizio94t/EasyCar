@@ -3,7 +3,7 @@ package ddt.sms16.ivu.di.uniba.it.easycar.entity;
 /**
  * Created by Enrico on 20/06/16.
  */
-public class Scadenza {
+public class Scadenza implements Comparable<Scadenza> {
 
     private int IDScadenza;
     private String descrizione;
@@ -36,8 +36,19 @@ public class Scadenza {
     public AutoUtente getAuto() {
         return auto;
     }
+
     @Override
     public String toString() {
         return "Scadenza [IDScadenza=" + IDScadenza + ", descrizione=" + descrizione + ", dataScadenza=" + dataScadenza + ", auto=" + auto.toString() + "]";
+    }
+
+    @Override
+    public int compareTo(Scadenza s) {
+        if(this.descrizione.equals(s.descrizione) &&
+                this.dataScadenza.equalsIgnoreCase(s.dataScadenza) &&
+                this.auto.getTarga().equalsIgnoreCase(s.auto.getTarga()))
+            return 0;
+        else
+            return -1;
     }
 }

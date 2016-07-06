@@ -164,7 +164,7 @@ public class AggiuntaScadenza extends AppCompatActivity {
 */
         final RadioGroup tipoScadenzaRadioGroup = (RadioGroup) findViewById(R.id.tipoScadenzaRadioGroup);
         Button bottoneAggiungi = (Button) findViewById(R.id.buttonAggiungiScadenza);
-        spinnerTarghe = (Spinner) findViewById(R.id.spinnerTarghe);
+        spinnerTarghe = (Spinner) findViewById(R.id.spinner_targa);
 
         List<AutoUtente> auto = mySQLiteHelper.getAllAutoUtente();
 

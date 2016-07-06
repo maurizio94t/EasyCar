@@ -13,20 +13,20 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import ddt.sms16.ivu.di.uniba.it.easycar.AggiuntaAuto;
 import ddt.sms16.ivu.di.uniba.it.easycar.DettaglioAutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.CustomAdapter_AutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.MainActivity;
 import ddt.sms16.ivu.di.uniba.it.easycar.R;
-import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
 
 public class MieAutoFragment extends Fragment {
 
     public static final String EXTRA_POSIZIONE = "posizione";
 
-    Context thisContext;
-    View view;
-    CustomAdapter_AutoUtente customAdapter;
-    ListView listView;
+    private Context thisContext;
+    private View view;
+    private CustomAdapter_AutoUtente customAdapter;
+    private ListView listView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,8 +37,8 @@ public class MieAutoFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-
+                Intent intentAggiuntaAuto = new Intent(getActivity(), AggiuntaAuto.class);
+                startActivity(intentAggiuntaAuto);
             }
         });
 
