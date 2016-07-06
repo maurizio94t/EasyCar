@@ -15,6 +15,8 @@ import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Manutenzione;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Marca;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Modello;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Problema;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Scadenza;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Utente;
 
 
@@ -56,6 +58,10 @@ public class OneFragment extends Fragment {
                 Manutenzione manutenzione1 = new Manutenzione(287654,"cambio filtri", "16-09-2010", 0, "7890000", autoUtenteE0);
                 Manutenzione manutenzione2 = new Manutenzione(14432,"cambio olio","16-09-2010",0,"4525242",autoUtenteG);
 
+                Problema problemaAutoE1 = new Problema(12,"Braccio sinistro", autoUtenteE1);
+                Problema problemaAutoG = new Problema(44,"Braccio destro", autoUtenteG);
+
+
 
                 mySQLiteHelper.aggiungiUtente(utenteE);
                 mySQLiteHelper.aggiungiUtente(utenteG);
@@ -81,11 +87,22 @@ public class OneFragment extends Fragment {
                 mySQLiteHelper.aggiungiManutenzione(manutenzione1);
                 mySQLiteHelper.aggiungiManutenzione(manutenzione2);
 
+
+                Scadenza scadenza0 = new Scadenza(23,"bollo","12-08-2015",autoUtenteG);
+
+                mySQLiteHelper.aggiungiProblemi(problemaAutoE1);
+                mySQLiteHelper.aggiungiProblemi(problemaAutoG);
+
+
+                mySQLiteHelper.aggiungiScadenza(scadenza0);
+
                 mySQLiteHelper.getAllUtenti();
                 mySQLiteHelper.getAllMarche();
                 mySQLiteHelper.getAllModelli();
                 mySQLiteHelper.getAllAutoUtente();
-                mySQLiteHelper.getAllMManutenzioni();
+                mySQLiteHelper.getAllManutenzioni();
+                mySQLiteHelper.getAllScadenze();
+                mySQLiteHelper.getAllProblemi();
 
 
                /*

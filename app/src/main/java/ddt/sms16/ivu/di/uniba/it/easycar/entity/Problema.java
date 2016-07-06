@@ -35,6 +35,6 @@ public class Problema {
     }
 
     public String toString() {
-        return "Problema[IDProblema=" + IDProblema + ", Descrizione=" + descrizione + ", Targa_auto="+auto.getTarga()+"]";
+        return "Problema[IDProblema=" + IDProblema + ", Descrizione=" + descrizione + ", auto="+auto.toString()+"]";
     }
 }

@@ -19,12 +19,7 @@ public class Scadenza {
 
     }
 
-    public Scadenza(String descrizione, String dataScadenza, AutoUtente auto) {
-        this.descrizione = descrizione;
-        this.dataScadenza = dataScadenza;
-        this.auto = auto;
 
-    }
 
     public int getIDScadenza() {
         return IDScadenza;
@@ -43,6 +38,6 @@ public class Scadenza {
     }
     @Override
     public String toString() {
-        return "Scadenza [IDScadenza=" + IDScadenza + ", descrizione=" + descrizione + ", dataScadenza=" + dataScadenza + ",  targa auto=" + auto.getTarga() + "]";
+        return "Scadenza [IDScadenza=" + IDScadenza + ", descrizione=" + descrizione + ", dataScadenza=" + dataScadenza + ", auto=" + auto.toString() + "]";
     }
 }

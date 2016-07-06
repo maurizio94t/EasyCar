@@ -8,14 +8,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -23,7 +21,6 @@ import java.util.List;
 import java.util.Locale;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
-import ddt.sms16.ivu.di.uniba.it.easycar.entity.Scadenza;
 
 public class AggiuntaScadenza extends AppCompatActivity {
     private Calendar myCalendar = Calendar.getInstance();
@@ -240,12 +237,13 @@ public class AggiuntaScadenza extends AppCompatActivity {
         bottoneAggiungi.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-
-                Scadenza scadenza = new Scadenza(tipoScadenzaRadioGroupSelected.getText().toString(),/* editTextDate.toString()*/ "2016-01-01", new AutoUtente(spinnerTarghe.getSelectedItem().toString()));
+/*
+                Scadenza scadenza = new Scadenza(,tipoScadenzaRadioGroupSelected.getText().toString(),  editTextDate.toString()  "2016-01-01", new AutoUtente(spinnerTarghe.getSelectedItem().toString()));
                 mySQLiteHelper.aggiungiScadenza(scadenza);
+
                 Toast.makeText(getApplicationContext(), "hai aggiunto una nuova scadenza!", Toast.LENGTH_LONG);
                 mySQLiteHelper.getAllScadenze();
-
+*/
 
             }
         });

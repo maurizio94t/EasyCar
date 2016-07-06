@@ -67,10 +67,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Drop older books table if existed
+
         db.execSQL("DROP TABLE IF EXISTS Marche");
 
-        // create fresh books table
+
         this.onCreate(db);
     }
     //---------------------------------------------------------------------
@@ -82,53 +82,47 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     public void aggiungiAutoUtente(AutoUtente auto) {
         Log.d("aggiungiAutoUtente", auto.toString());
-        // 1. get reference to writable DB
-        SQLiteDatabase db = this.getWritableDatabase();
+         SQLiteDatabase db = this.getWritableDatabase();
 
-        // 2. create ContentValues to add key "column"/value
-        ContentValues values = new ContentValues();
+         ContentValues values = new ContentValues();
 
-        values.put("Targa", auto.getTarga()); // get title
-        values.put("KM", auto.getKm()); // get title
-        values.put("AnnoImmatricolazione", auto.getAnnoImmatricolazione()); // get title
-
-        values.put("Utenti_Email", auto.getUtente().getEmail()); // get title
-        values.put("Modelli_id", auto.getModello().getIDModello()); // get title
+        values.put("Targa", auto.getTarga());
+        values.put("KM", auto.getKm());
+        values.put("AnnoImmatricolazione", auto.getAnnoImmatricolazione());
+        values.put("Utenti_Email", auto.getUtente().getEmail());
+        values.put("Modelli_id", auto.getModello().getIDModello());
 
 
-        // 3. insert
-        db.insert(TABELLA_AUTO_UTENTE, // table
-                null, //nullColumnHack
-                values); // key/value -> keys = column names/ values = column values
 
-        // 4. close
-        db.close();
+        db.insert(TABELLA_AUTO_UTENTE,
+                null,
+                values);
+
+         db.close();
     }
 
 
     public void aggiungiUtente(Utente utente) {
 
         Log.d("aggiungiUtente", utente.toString());
-        // 1. get reference to writable DB
-        SQLiteDatabase db = this.getWritableDatabase();
+         SQLiteDatabase db = this.getWritableDatabase();
 
-        // 2. create ContentValues to add key "column"/value
-        ContentValues values = new ContentValues();
+         ContentValues values = new ContentValues();
 
 
-        values.put("NomeU", utente.getNome()); // get title
-        values.put("CognomeU", utente.getCognome()); // get title
-        values.put("DataDiNascita", utente.getDataN()); // get title
-        values.put("Email", utente.getEmail()); // get title
-        //   values.put("Psw", utente.getPsw()); // get title
+        values.put("NomeU", utente.getNome());
+        values.put("CognomeU", utente.getCognome());
+        values.put("DataDiNascita", utente.getDataN());
+        values.put("Email", utente.getEmail());
+        //   values.put("Psw", utente.getPsw());
 
 
-        // 3. insert
-        db.insert(TABELLA_UTENTI, // table
-                null, //nullColumnHack
-                values); // key/value -> keys = column names/ values = column values
 
-        // 4. close
+        db.insert(TABELLA_UTENTI,
+                null,
+                values);
+
+
         db.close();
     }
 
@@ -162,26 +156,24 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public void aggiungiModello(Modello modello) {
 
         Log.d("aggiungiModello", modello.toString());
-        // 1. get reference to writable DB
-        SQLiteDatabase db = this.getWritableDatabase();
+          SQLiteDatabase db = this.getWritableDatabase();
 
-        // 2. create ContentValues to add key "column"/value
-        ContentValues values = new ContentValues();
+          ContentValues values = new ContentValues();
 
         values.put("IDModello", modello.getIDModello());
-        values.put("Nome", modello.getNome()); // get title
-        values.put("Segmento", modello.getSegmento()); // get title
-        values.put("Alimentazione", modello.getAlimentazione()); // get title
+        values.put("Nome", modello.getNome());
+        values.put("Segmento", modello.getSegmento());
+        values.put("Alimentazione", modello.getAlimentazione());
+
+        values.put("Cilindrata", modello.getCilindrata());
         values.put("KW", modello.getKw());
         values.put("Marca_id", modello.getMarca().getIDMarca());
 
 
         // 3. insert
-        db.insert(TABELLA_MODELLI, // table
-                null, //nullColumnHack
-                values); // key/value -> keys = column names/ values = column values
-
-        // 4. close
+        db.insert(TABELLA_MODELLI,
+                null,
+                values);
         db.close();
 
 
@@ -250,10 +242,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     public void aggiungiScadenza(Scadenza scadenza) {
         Log.d("aggiungiScadenza", scadenza.toString());
-        // 1. get reference to writable DB
+
         SQLiteDatabase db = this.getWritableDatabase();
 
-        // 2. create ContentValues to add key "column"/value
+
         ContentValues values = new ContentValues();
         values.put("IDScadenza", scadenza.getIDScadenza());
 
@@ -262,12 +254,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         values.put("Targa", scadenza.getAuto().getTarga()); // get title
 
 
-        // 3. insert
-        db.insert(TABELLA_SCADENZE, // table
-                null, //nullColumnHack
-                values); // key/value -> keys = column names/ values = column values
 
-        // 4. close
+        db.insert(TABELLA_SCADENZE, // table
+                null,
+                values);
+
+
         db.close();
     }
 
@@ -311,21 +303,21 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public List<Utente> getAllUtenti() {
         List<Utente> utenti = new LinkedList<Utente>();
 
-        // 1. build the query
+
         String query = "SELECT  * FROM " + TABELLA_UTENTI;
 
-        // 2. get reference to writable DB
+
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
-        // 3. go over each row, build book and add it to list
+
         Utente utente = null;
         if (cursor.moveToFirst()) {
             do {
                 utente = new Utente(cursor.getString(0), cursor.getString(1), cursor.getString(3), cursor.getString(3));
 
 
-                // Add book to books
+
                 utenti.add(utente);
             } while (cursor.moveToNext());
         }
@@ -344,18 +336,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 
         String query = "SELECT * FROM " + TABELLA_MODELLI  +" JOIN "+ TABELLA_MARCHE +" ON Marca_id = IDMarca ;";
-       // String query = "SELECT * FROM " + TABELLA_MODELLI +" , " + TABELLA_MARCHE+ " WHERE  Marca_id = IDMarca ;";
-
-
-
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
-
-
-
-        Modello modello = null;
+         Modello modello = null;
         if (cursor.moveToFirst()) {
 
             do {
@@ -378,18 +363,28 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public List<Scadenza> getAllScadenze() {
         List<Scadenza> scadenze = new LinkedList<Scadenza>();
 
-        // 1. build the query
-        String query = "SELECT  * FROM " + TABELLA_SCADENZE;
 
-        // 2. get reference to writable DB
+        String query =  "SELECT * FROM "+TABELLA_SCADENZE+" NATURAL JOIN "+TABELLA_AUTO_UTENTE+" JOIN "+TABELLA_MODELLI +" ON Modelli_id=IDModello JOIN "+TABELLA_MARCHE +" ON Marca_id=IDMarca JOIN "+TABELLA_UTENTI +" ON Utenti_Email=Email ";
+
+
+
+
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
-        // 3. go over each row, build book and add it to list
+
         Scadenza scadenza = null;
         if (cursor.moveToFirst()) {
             do {
-                scadenza = new Scadenza(cursor.getInt(0), cursor.getString(1), cursor.getString(2), new AutoUtente(cursor.getString(3)));
+
+                 /*
+                   int IDScadenza, String descrizione, String dataScadenza, AutoUtente auto
+                   String targa, int km, String annoImmatricolazione, Utente utente, Modello modello, int selected
+                   String nome, String cognome, String dataN, String email
+                   int IDModello, String nome, String segmento, String alimentazione, String cilindrata, String kw, Marca marca
+                 */
+
+                scadenza = new Scadenza(cursor.getInt(0), cursor.getString(1), cursor.getString(2), new AutoUtente(cursor.getString(3),cursor.getInt(4),cursor.getString(5),new Utente(cursor.getString(17),cursor.getString(18),cursor.getString(19),cursor.getString(20)),new Modello(cursor.getInt(8),cursor.getString(9),cursor.getString(10),cursor.getString(11),cursor.getString(12),cursor.getString(13),new Marca(cursor.getInt(15),cursor.getString(16))),0));
 
                 scadenze.add(scadenza);
             } while (cursor.moveToNext());
@@ -406,20 +401,25 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public List<Problema> getAllProblemi() {
         List<Problema> problemi = new LinkedList<Problema>();
 
-        // 1. build the query
-        String query = "SELECT  * FROM " + TABELLA_PROBLEMI;
 
-        // 2. get reference to writable DB
+        String query = "SELECT * FROM "+TABELLA_PROBLEMI+" NATURAL JOIN "+TABELLA_AUTO_UTENTE+" JOIN "+TABELLA_MODELLI+" ON Modelli_id=IDModello JOIN "+ TABELLA_MARCHE+" ON Marca_id=IDMarca JOIN "+TABELLA_UTENTI+" ON Utenti_Email=Email";
+
+
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
-        // 3. go over each row, build book and add it to list
+
         Problema problema = null;
         if (cursor.moveToFirst()) {
-            do {
-                problema = new Problema(cursor.getInt(0), cursor.getString(1), new AutoUtente(cursor.getString(2)));
 
-                problemi.add(problema);
+
+            do {
+
+                problema = new Problema(cursor.getInt(0), cursor.getString(1), new AutoUtente(cursor.getString(2),cursor.getInt(3),cursor.getString(4),new Utente(cursor.getString(16),cursor.getString(17),cursor.getString(18),cursor.getString(19)), new Modello(cursor.getInt(7),cursor.getString(8),cursor.getString(9),cursor.getString(10),cursor.getString(11),cursor.getString(12),new Marca(cursor.getInt(13),cursor.getString(15)) ),0));
+
+                 problemi.add(problema);
+
+
             } while (cursor.moveToNext());
         }
         for (Problema p : problemi
@@ -434,14 +434,14 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public List<Marca> getAllMarche() {
         List<Marca> marche = new LinkedList<Marca>();
 
-        // 1. build the query
+
         String query = "SELECT  * FROM " + TABELLA_MARCHE;
 
-        // 2. get reference to writable DB
+
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
-        // 3. go over each row, build book and add it to list
+
         Marca marca = null;
         if (cursor.moveToFirst()) {
             do {
@@ -449,7 +449,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 marca.setIDMarca(cursor.getInt(0));
 
 
-                // Add book to books
+
                 marche.add(marca);
             } while (cursor.moveToNext());
         }
@@ -459,7 +459,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         }
 
 
-        // return books
+
         return marche;
     }
 
@@ -467,64 +467,42 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public List<AutoUtente> getAllTarghe() {
         List<AutoUtente> auto = new LinkedList<AutoUtente>();
 
-        // 1. build the query
         String query = "SELECT  * FROM " + TABELLA_AUTO_UTENTE;
 
-        // 2. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
-        // 3. go over each row, build book and add it to list
         AutoUtente autoUtente = null;
         if (cursor.moveToFirst()) {
             do {
                 //autoUtente = new AutoUtente(cursor.getString(0),cursor.getInt(1),cursor.getString(2),0,cursor.getString(4),new Modello(0,null,null,null,null,null,null),false);
                 //  int km, String annoImmatricolazione, int fotoAuto, String utente_email, Modello modello, boolean selected
 
-
-                // Add book to books
-                auto.add(autoUtente);
+            auto.add(autoUtente);
             } while (cursor.moveToNext());
         }
 
         Log.d("getAllMarche()", auto.toString());
 
-        // return books
+
         return auto;
     }
 
 
-    public List<Manutenzione> getAllMManutenzioni() {
+    public List<Manutenzione> getAllManutenzioni() {
         List<Manutenzione> manutenzioni = new LinkedList<Manutenzione>();
 
-
         String query =   "SELECT * FROM "+TABELLA_MANUTENZIONI +" NATURAL JOIN "+ TABELLA_AUTO_UTENTE+" JOIN "+TABELLA_MODELLI+ " ON Modelli_id=IDModello JOIN "+TABELLA_MARCHE +" ON Marca_id=IDMarca JOIN "+ TABELLA_UTENTI +" ON Utenti_Email=Email";
-
-
-        // String query = "SELECT * FROM " + TABELLA_MODELLI +" , " + TABELLA_MARCHE+ " WHERE  Marca_id = IDMarca ;";
-/*
-        Manutenzioni ( IDManutenzione INTEGER  PRIMARY KEY   , Descrizione TEXT  ,Data TEXT  ,Ordinaria INTEGER,  KmManutenzione TEXT , Targa TEXT
-         AutoUtente ( Targa TEXT  PRIMARY KEY, KM INTEGER , AnnoImmatricolazione TEXT  , Utenti_Email TEXT  , Modelli_id INTEGER  ,
-          Modelli ( IDModello INTEGER  PRIMARY KEY      , Nome TEXT  , Segmento TEXT  , Alimentazione TEXT  , Cilindrata TEXT , KW TEXT  , Marca_id INTEGER  ,
-          Marche (IDMarca INTEGER   PRIMARY KEY  , Nome TEXT)
-           Utenti (NomeU TEXT , CognomeU TEXT, DataDiNascita TEXT , Email TEXT PRIMARY KEY
-*/
-
-
-
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
-
-
-
-        Manutenzione manutenzione = null;
+         Manutenzione manutenzione = null;
         if (cursor.moveToFirst()) {
 
             do {
 
-               manutenzione = new Manutenzione(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getInt(3),cursor.getString(4),new AutoUtente(cursor.getString(6),cursor.getInt(7),cursor.getString(8),new Utente(cursor.getString(20),cursor.getString(21),cursor.getString(22),cursor.getString(10)),new Modello(cursor.getInt(11),cursor.getString(12),cursor.getString(13),cursor.getString(14),cursor.getString(15),cursor.getString(16), new Marca(cursor.getInt(18),cursor.getString(19))),0 )) ;
+                manutenzione = new Manutenzione(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getInt(3),cursor.getString(4),new AutoUtente(cursor.getString(5),cursor.getInt(6),cursor.getString(7),new Utente(cursor.getString(19),cursor.getString(20),cursor.getString(21),cursor.getString(8)),new Modello(cursor.getInt(9),cursor.getString(11),cursor.getString(12),cursor.getString(13),cursor.getString(14),cursor.getString(15), new Marca(cursor.getInt(17),cursor.getString(18))),0 )) ;
 
                 manutenzioni.add(manutenzione);
             } while (cursor.moveToNext());
@@ -534,9 +512,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             Log.d("getAllManutenzione()", m.toString());
         }
 
-
-        return manutenzioni;
+         return manutenzioni;
     }
+
+
+
 
 
 

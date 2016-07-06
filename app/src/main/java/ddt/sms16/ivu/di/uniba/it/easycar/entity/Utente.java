@@ -1,8 +1,6 @@
 package ddt.sms16.ivu.di.uniba.it.easycar.entity;
 
-/**
- * Created by Maurizio on 24/06/16.
- */
+
 public class Utente {
     private String nome;
     private String cognome;
