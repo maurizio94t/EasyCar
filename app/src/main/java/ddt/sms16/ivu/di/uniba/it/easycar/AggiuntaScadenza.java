@@ -66,7 +66,7 @@ public class AggiuntaScadenza extends AppCompatActivity {
 
         };
 
-        mDataScadenza.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+       /* mDataScadenza.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -76,7 +76,7 @@ public class AggiuntaScadenza extends AppCompatActivity {
                             myCalendar.get(Calendar.DAY_OF_MONTH)).show();
                 }
             }
-        });
+        });*/
         mDataScadenza.setOnClickListener(new View.OnClickListener() {
 
             @Override

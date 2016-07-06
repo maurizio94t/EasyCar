@@ -16,7 +16,6 @@
     <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-        android:paddingTop="@dimen/paddingTopFragment"
     android:id="@+id/linearL">
         <ExpandableListView
             android:id="@+id/lvExp"
@@ -30,6 +29,7 @@
             android:layout_alignBottom="@+id/linearL"
             android:layout_alignRight="@+id/linearL"
             android:layout_margin="@dimen/fab_margin"
+            android:tint="@color/colorTitle"
             android:src="@android:drawable/ic_input_add" />
     </RelativeLayout>
 </FrameLayout>
