@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
@@ -531,6 +532,54 @@ public class UpdateService extends Service  {//uses Main thread not create in an
             }
         }
         MainActivity.listAutoUtenteLocal = MainActivity.mySQLiteHelper.getAllAutoUtente();
+
+        //update Manutenzioni
+        MainActivity.listManutenzioniLocal = MainActivity.mySQLiteHelper.getAllManutenzioni();
+        for(Manutenzione manutenzioneE : MainActivity.listaManutenzioni) {
+            trovato = false;
+            for(Manutenzione manutenzioneL : MainActivity.listManutenzioniLocal) {
+                if(manutenzioneE.getIDManutenzione() == manutenzioneL.getIDManutenzione()) {
+                    trovato = true;
+                    break;
+                }
+            }
+            if(!trovato) {
+                MainActivity.mySQLiteHelper.aggiungiManutenzione(manutenzioneE);
+            }
+        }
+        MainActivity.listManutenzioniLocal = MainActivity.mySQLiteHelper.getAllManutenzioni();
+
+        //update Problemi
+        MainActivity.listProblemiLocal = MainActivity.mySQLiteHelper.getAllProblemi();
+        for(Problema problemaE : MainActivity.listaProblemi) {
+            trovato = false;
+            for(Problema problemaL : MainActivity.listProblemiLocal) {
+                if(problemaE.getIDProblemi() == problemaL.getIDProblemi()) {
+                    trovato = true;
+                    break;
+                }
+            }
+            if(!trovato) {
+                MainActivity.mySQLiteHelper.aggiungiProblemi(problemaE);
+            }
+        }
+        MainActivity.listProblemiLocal = MainActivity.mySQLiteHelper.getAllProblemi();
+
+        //update Scadenze
+        MainActivity.listScadenzeLocal = MainActivity.mySQLiteHelper.getAllScadenze();
+        for(Scadenza scadenzaE : MainActivity.listaScadenze) {
+            trovato = false;
+            for(Scadenza scadenzaL : MainActivity.listScadenzeLocal) {
+                if(scadenzaE.getIDScadenza() == scadenzaL.getIDScadenza()) {
+                    trovato = true;
+                    break;
+                }
+            }
+            if(!trovato) {
+                MainActivity.mySQLiteHelper.aggiungiScadenza(scadenzaE);
+            }
+        }
+        MainActivity.listScadenzeLocal = MainActivity.mySQLiteHelper.getAllScadenze();
 
     }
 
