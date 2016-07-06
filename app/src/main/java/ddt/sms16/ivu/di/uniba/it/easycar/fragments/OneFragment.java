@@ -105,6 +105,11 @@ public class OneFragment extends Fragment {
                 mySQLiteHelper.getAllProblemi();
 
 
+                Utente utenteE0 = new Utente("ocirne", "d'Elia", "16-04-1994", "e.marzo@gmail.com");
+             mySQLiteHelper.updateUtente(utenteE0);
+                mySQLiteHelper.getAllUtenti();
+
+
                /*
 
                Utente utenteE = new Utente("Enrico", "d'Elia", "16-04-1994", "e.marzo@gmail.com");

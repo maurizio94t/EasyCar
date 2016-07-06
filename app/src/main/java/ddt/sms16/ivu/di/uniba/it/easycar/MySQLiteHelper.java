@@ -34,10 +34,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String TABELLA_MANUTENZIONI = "Manutenzioni";
 
 
+
     String CREA_TABELLA_UTENTE = "CREATE TABLE Utenti (NomeU TEXT , CognomeU TEXT, DataDiNascita TEXT , Email TEXT PRIMARY KEY  )";
     String CREA_TABELLA_MARCHE = "CREATE TABLE Marche (IDMarca INTEGER   PRIMARY KEY  , Nome TEXT)";
     String CREA_TABELLA_MODELLI = "CREATE TABLE  Modelli ( IDModello INTEGER  PRIMARY KEY      , Nome TEXT  , Segmento TEXT  , Alimentazione TEXT  , Cilindrata TEXT , KW TEXT  , Marca_id INTEGER  , FOREIGN KEY (`Marca_id`) REFERENCES  `Marche` (`IDMarca`) ON DELETE NO ACTION ON UPDATE NO ACTION);";
-    String CREA_TABELLA_AUTOUTENTE = "CREATE TABLE AutoUtente ( Targa TEXT  PRIMARY KEY, KM INTEGER , AnnoImmatricolazione TEXT  , Utenti_Email TEXT  , Modelli_id INTEGER  , FOREIGN KEY (`Utenti_Email`) REFERENCES  `Utenti` (`Email`) ON DELETE NO ACTION ON UPDATE NO ACTION, FOREIGN KEY (`Modelli_id`) REFERENCES  `Modelli` (`IDModello`) ON DELETE NO ACTION ON UPDATE NO ACTION);";
+    String CREA_TABELLA_AUTOUTENTE = "CREATE TABLE AutoUtente ( Targa TEXT  PRIMARY KEY, KM INTEGER , AnnoImmatricolazione TEXT  , Selected INTEGER , Utenti_Email TEXT  , Modelli_id INTEGER  , FOREIGN KEY (`Utenti_Email`) REFERENCES  `Utenti` (`Email`) ON DELETE NO ACTION ON UPDATE NO ACTION, FOREIGN KEY (`Modelli_id`) REFERENCES  `Modelli` (`IDModello`) ON DELETE NO ACTION ON UPDATE NO ACTION);";
     String CREA_TABELLA_PROBLEMI = "CREATE TABLE Problemi ( IDProblemi INTEGER   PRIMARY KEY     , Descrizione TEXT, Targa TEXT, FOREIGN KEY (`Targa`) REFERENCES `AutoUtente` (`Targa`) ON DELETE NO ACTION ON UPDATE NO ACTION);";
     String CREA_TABELLA_MANUTENZIONI = "CREATE TABLE Manutenzioni ( IDManutenzione INTEGER  PRIMARY KEY   , Descrizione TEXT  ,Data TEXT  ,Ordinaria INTEGER,  KmManutenzione TEXT , Targa TEXT , FOREIGN KEY (`Targa`) REFERENCES `AutoUtente` (`Targa`)ON DELETE NO ACTION ON UPDATE NO ACTION);";
     String CREA_TABELLA_SCADENZE = "CREATE TABLE Scadenze ( IDScadenza INTEGER PRIMARY KEY     , Descrizione TEXT, DataScadenza TEXT, Targa TEXT, FOREIGN KEY (`Targa`) REFERENCES `AutoUtente` (`Targa`) ON DELETE NO ACTION ON UPDATE NO ACTION);";
@@ -314,7 +315,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         Utente utente = null;
         if (cursor.moveToFirst()) {
             do {
-                utente = new Utente(cursor.getString(0), cursor.getString(1), cursor.getString(3), cursor.getString(3));
+                utente = new Utente(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3));
 
 
 
@@ -402,8 +403,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         List<Problema> problemi = new LinkedList<Problema>();
 
 
-        String query = "SELECT * FROM "+TABELLA_PROBLEMI+" NATURAL JOIN "+TABELLA_AUTO_UTENTE+" JOIN "+TABELLA_MODELLI+" ON Modelli_id=IDModello JOIN "+ TABELLA_MARCHE+" ON Marca_id=IDMarca JOIN "+TABELLA_UTENTI+" ON Utenti_Email=Email";
-
+        //String query = "SELECT * FROM "+TABELLA_PROBLEMI+" NATURAL JOIN "+TABELLA_AUTO_UTENTE+" JOIN "+TABELLA_MODELLI+" ON Modelli_id=IDModello JOIN "+ TABELLA_MARCHE+" ON Marca_id=IDMarca JOIN "+TABELLA_UTENTI+" ON Utenti_Email=Email";
+        Log.d("utente",MainActivity.utenteLoggato.getEmail().toString());
+        String email="'"+MainActivity.utenteLoggato.getEmail()+"'";
+        String query = "SELECT * FROM "+TABELLA_PROBLEMI+"  JOIN "+TABELLA_AUTO_UTENTE+ " ON Problemi.Targa=AutoUtente.Targa WHERE AutoUtente.Utenti_Email="+email;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -414,8 +417,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 
             do {
-
-                problema = new Problema(cursor.getInt(0), cursor.getString(1), new AutoUtente(cursor.getString(2),cursor.getInt(3),cursor.getString(4),new Utente(cursor.getString(16),cursor.getString(17),cursor.getString(18),cursor.getString(19)), new Modello(cursor.getInt(7),cursor.getString(8),cursor.getString(9),cursor.getString(10),cursor.getString(11),cursor.getString(12),new Marca(cursor.getInt(13),cursor.getString(15)) ),0));
+           //     Log.d("get 16",cursor.getString(16));
+             //  problema = new Problema(cursor.getInt(0), cursor.getString(1), new AutoUtente(cursor.getString(2),cursor.getInt(3),cursor.getString(4),new Utente(cursor.getString(16),cursor.getString(17),cursor.getString(18),cursor.getString(19)), new Modello(cursor.getInt(7),cursor.getString(8),cursor.getString(9),cursor.getString(10),cursor.getString(11),cursor.getString(12),new Marca(cursor.getInt(13),cursor.getString(15)) ),0));
+               problema = new Problema(cursor.getInt(0));
+                Log.d("problema: ", String.valueOf(problema.getIDProblemi()));
 
                  problemi.add(problema);
 
@@ -424,7 +429,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         }
         for (Problema p : problemi
                 ) {
-            Log.d("getAllProblemi()", p.toString());
+            Log.d("getAllProblemi()", String.valueOf(p.getIDProblemi()));
         }
 
 
@@ -513,6 +518,21 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         }
 
          return manutenzioni;
+    }
+
+
+    public void updateUtente(Utente utente){
+
+            SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put("NomeU",utente.getNome());
+        cv.put("CognomeU",utente.getCognome());
+        cv.put("DataDiNascita",utente.getDataN());
+
+String email="'"+utente.getEmail()+"'";
+            db.update(TABELLA_UTENTI, cv, "Email="+email, null);
+
     }
 
 

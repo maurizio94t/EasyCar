@@ -9,8 +9,10 @@ public class Problema {
     private String descrizione;
     private AutoUtente auto;
 
-
-    public Problema(int IDProblema, String descrizione, AutoUtente auto) {
+    public Problema(int IDProblema){
+        this.IDProblema=IDProblema;
+    }
+                    public Problema(int IDProblema, String descrizione, AutoUtente auto) {
         this.IDProblema = IDProblema;
         this.descrizione = descrizione;
         this.auto = auto;
