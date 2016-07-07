@@ -265,10 +265,41 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-
-
-
     public List<AutoUtente> getAllAutoUtente() {
+        List<AutoUtente> auto = new LinkedList<AutoUtente>();
+
+        String email="'"+MainActivity.utenteLoggato.getEmail()+"'";
+        String query =
+
+                "SELECT * FROM "+ TABELLA_AUTO_UTENTE +" JOIN "+ TABELLA_MODELLI+ " ON Modelli_id=IDModello JOIN "+ TABELLA_MARCHE+ " ON Marca_id=IDMarca JOIN " + TABELLA_UTENTI+" ON Utenti_Email=Email ";
+
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+
+        AutoUtente autoUtente = null;
+        if (cursor.moveToFirst()) {
+            do {
+
+
+
+                autoUtente = new AutoUtente(cursor.getString(0), cursor.getInt(1), cursor.getString(2), new Utente(cursor.getString(15),cursor.getString(16),cursor.getString(17),cursor.getString(18)), new Modello( cursor.getInt(5),cursor.getString(7),cursor.getString(8),cursor.getString(9),cursor.getString(10),cursor.getString(11),new Marca( cursor.getInt(12),cursor.getString(14))),cursor.getInt(3));
+                auto.add(autoUtente);
+            } while (cursor.moveToNext());
+        }
+        for (AutoUtente a : auto
+                ) {
+            Log.d("getAllAutoUtente()", a.toString());
+        }
+
+
+        return auto;
+    }
+
+
+
+    public List<AutoUtente> getAllMieAutoUtente() {
         List<AutoUtente> auto = new LinkedList<AutoUtente>();
 
         String email="'"+MainActivity.utenteLoggato.getEmail()+"'";
@@ -522,7 +553,7 @@ String email="'"+utente.getEmail()+"'";
     }
 
 
-    //da testare
+
     public void updateAutoUtente(AutoUtente auto){
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -539,7 +570,7 @@ String email="'"+utente.getEmail()+"'";
 
     }
 
-    //da testare
+
 
     public void updateMantenzione(Manutenzione manutenzione){
 
@@ -559,7 +590,7 @@ String email="'"+utente.getEmail()+"'";
 
 
 
-    //da testare
+
 
     public void updateProblema(Problema  problema){
 
@@ -574,7 +605,7 @@ String email="'"+utente.getEmail()+"'";
 
     }
 
-    //da testare
+
 
     public void updateScadenza(Scadenza  scadenza){
 
@@ -587,6 +618,13 @@ String email="'"+utente.getEmail()+"'";
 
         String id="'"+scadenza.getIDScadenza()+"'";
         db.update(TABELLA_SCADENZE, cv, "IDScadenza="+id, null);
+
+    }
+
+    //autoutente, manutenzione , problema e scadenza
+
+
+    public void deleteAutoUtente(AutoUtente autoUtente){
 
     }
 }
