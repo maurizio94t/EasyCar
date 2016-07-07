@@ -106,7 +106,25 @@ public class OneFragment extends Fragment {
                 mySQLiteHelper.getAllManutenzioni();
                 mySQLiteHelper.getAllScadenze();
                 mySQLiteHelper.getAllProblemi();
+            /*    Log.d("getAll","ho eliminato AutoUtente");
+                mySQLiteHelper.deleteAutoUtente(autoUtenteE0);
+                mySQLiteHelper.getAllAutoUtente();
+                Log.d("getAll","ho eliminato AutoUtente, verifica manutenzione");
+                mySQLiteHelper.getAllManutenzioni();
 
+                Log.d("getAll","ho eliminato Manutenzione ID: "  +manutenzione0.getIDManutenzione());
+                mySQLiteHelper.deleteManutezione(manutenzione0);
+                mySQLiteHelper.getAllManutenzioni();
+
+                Log.d("getAll","ho eliminato Problema ID: "  +problemaAutoG.getIDProblema());
+                mySQLiteHelper.deleteProblema(problemaAutoG);
+                mySQLiteHelper.getAllProblemi();
+
+                Log.d("getAll","ho eliminato Scadenza ID: "  +scadenza0.getIDScadenza());
+                mySQLiteHelper.deleteScadenza(scadenza0);
+                mySQLiteHelper.getAllScadenze();
+
+*/
 /*
                 Utente utenteE0 = new Utente("ocirne", "d'Elia", "16-04-1994", "e.marzo@gmail.com");
              mySQLiteHelper.updateUtente(utenteE0);

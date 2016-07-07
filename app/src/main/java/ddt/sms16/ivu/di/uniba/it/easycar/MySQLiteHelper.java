@@ -18,13 +18,16 @@ import ddt.sms16.ivu.di.uniba.it.easycar.entity.Problema;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Scadenza;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Utente;
 
-
+/*
+Classe che comunica col database locale dell'app.
+ */
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
-
+    // Versione del database
     private static final int DATABASE_VERSION = 1;
+    // Nome del database
     private static final String DATABASE_NAME = "EasyCar";
-
+    // Nomi delle tabelle.
     private static final String TABELLA_MARCHE = "Marche";
     private static final String TABELLA_AUTO_UTENTE = "AutoUtente";
     private static final String TABELLA_SCADENZE = "Scadenze";
@@ -33,22 +36,22 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String TABELLA_PROBLEMI = "Problemi";
     private static final String TABELLA_MANUTENZIONI = "Manutenzioni";
 
+    // Variabili contenenti la creazione delle tabelle.
+    private String CREA_TABELLA_UTENTE = "CREATE TABLE Utenti (NomeU TEXT , CognomeU TEXT, DataDiNascita TEXT , Email TEXT PRIMARY KEY  )";
+    private String CREA_TABELLA_MARCHE = "CREATE TABLE Marche (IDMarca INTEGER   PRIMARY KEY  , Nome TEXT)";
+    private String CREA_TABELLA_MODELLI = "CREATE TABLE  Modelli ( IDModello INTEGER  PRIMARY KEY      , Nome TEXT  , Segmento TEXT  , Alimentazione TEXT  , Cilindrata TEXT , KW TEXT  , Marca_id INTEGER  , FOREIGN KEY (`Marca_id`) REFERENCES  `Marche` (`IDMarca`) ON DELETE CASCADE ON UPDATE CASCADE );";
+    private String CREA_TABELLA_AUTOUTENTE = "CREATE TABLE AutoUtente ( Targa TEXT  PRIMARY KEY, KM INTEGER , AnnoImmatricolazione TEXT   , Selected INTEGER   , Utenti_Email TEXT  , Modelli_id INTEGER  , FOREIGN KEY (`Utenti_Email`) REFERENCES  `Utenti` (`Email`) ON DELETE CASCADE ON UPDATE CASCADE , FOREIGN KEY (`Modelli_id`) REFERENCES  `Modelli` (`IDModello`) ON DELETE CASCADE ON UPDATE CASCADE );";
+    private String CREA_TABELLA_PROBLEMI = "CREATE TABLE Problemi ( IDProblema INTEGER   PRIMARY KEY     , Descrizione TEXT, Targa TEXT, FOREIGN KEY (`Targa`) REFERENCES `AutoUtente` (`Targa`) ON DELETE CASCADE ON UPDATE CASCADE );";
+    private String CREA_TABELLA_MANUTENZIONI = "CREATE TABLE Manutenzioni ( IDManutenzione INTEGER  PRIMARY KEY   , Descrizione TEXT  ,Data TEXT  ,Ordinaria INTEGER,  KmManutenzione TEXT , Targa TEXT , FOREIGN KEY (`Targa`) REFERENCES `AutoUtente` (`Targa`) ON DELETE CASCADE ON UPDATE CASCADE );";
+    private String CREA_TABELLA_SCADENZE = "CREATE TABLE Scadenze ( IDScadenza INTEGER PRIMARY KEY     , Descrizione TEXT, DataScadenza TEXT, Targa TEXT, FOREIGN KEY (`Targa`) REFERENCES `AutoUtente` (`Targa`) ON DELETE CASCADE ON UPDATE CASCADE );";
 
 
-    String CREA_TABELLA_UTENTE = "CREATE TABLE Utenti (NomeU TEXT , CognomeU TEXT, DataDiNascita TEXT , Email TEXT PRIMARY KEY  )";
-    String CREA_TABELLA_MARCHE = "CREATE TABLE Marche (IDMarca INTEGER   PRIMARY KEY  , Nome TEXT)";
-    String CREA_TABELLA_MODELLI = "CREATE TABLE  Modelli ( IDModello INTEGER  PRIMARY KEY      , Nome TEXT  , Segmento TEXT  , Alimentazione TEXT  , Cilindrata TEXT , KW TEXT  , Marca_id INTEGER  , FOREIGN KEY (`Marca_id`) REFERENCES  `Marche` (`IDMarca`) ON DELETE CASCADE ON UPDATE CASCADE );";
-    String CREA_TABELLA_AUTOUTENTE = "CREATE TABLE AutoUtente ( Targa TEXT  PRIMARY KEY, KM INTEGER , AnnoImmatricolazione TEXT   , Selected INTEGER   , Utenti_Email TEXT  , Modelli_id INTEGER  , FOREIGN KEY (`Utenti_Email`) REFERENCES  `Utenti` (`Email`) ON DELETE CASCADE ON UPDATE CASCADE , FOREIGN KEY (`Modelli_id`) REFERENCES  `Modelli` (`IDModello`) ON DELETE CASCADE ON UPDATE CASCADE );";
-    String CREA_TABELLA_PROBLEMI = "CREATE TABLE Problemi ( IDProblema INTEGER   PRIMARY KEY     , Descrizione TEXT, Targa TEXT, FOREIGN KEY (`Targa`) REFERENCES `AutoUtente` (`Targa`) ON DELETE CASCADE ON UPDATE CASCADE );";
-    String CREA_TABELLA_MANUTENZIONI = "CREATE TABLE Manutenzioni ( IDManutenzione INTEGER  PRIMARY KEY   , Descrizione TEXT  ,Data TEXT  ,Ordinaria INTEGER,  KmManutenzione TEXT , Targa TEXT , FOREIGN KEY (`Targa`) REFERENCES `AutoUtente` (`Targa`) ON DELETE CASCADE ON UPDATE CASCADE );";
-    String CREA_TABELLA_SCADENZE = "CREATE TABLE Scadenze ( IDScadenza INTEGER PRIMARY KEY     , Descrizione TEXT, DataScadenza TEXT, Targa TEXT, FOREIGN KEY (`Targa`) REFERENCES `AutoUtente` (`Targa`) ON DELETE CASCADE ON UPDATE CASCADE );";
-
-
-
-            public MySQLiteHelper(Context context) {
+    // Costruttore.
+    public MySQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    // Creazione delle tabelle.
     @Override
     public void onCreate(SQLiteDatabase db) {
 
@@ -57,35 +60,21 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         db.execSQL(CREA_TABELLA_MODELLI);
         db.execSQL(CREA_TABELLA_AUTOUTENTE);
         db.execSQL(CREA_TABELLA_PROBLEMI);
-
-
         db.execSQL(CREA_TABELLA_MANUTENZIONI);
         db.execSQL(CREA_TABELLA_SCADENZE);
 
-
     }
-
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        db.execSQL("DROP TABLE IF EXISTS Marche");
-
-
-        this.onCreate(db);
     }
-    //---------------------------------------------------------------------
 
-    /**
-     * CRUD operations (create "add", read "get", update, delete) book + get all books + delete all books
-     */
-
-
+    // Aggiunta di una nuova auto dell'utente.
     public void aggiungiAutoUtente(AutoUtente auto) {
         Log.d("aggiungiAutoUtente", auto.toString());
-         SQLiteDatabase db = this.getWritableDatabase();
-
-         ContentValues values = new ContentValues();
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
 
         values.put("Targa", auto.getTarga());
         values.put("KM", auto.getKm());
@@ -94,136 +83,73 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         values.put("Selected",auto.getSelected());
         values.put("Modelli_id", auto.getModello().getIDModello());
 
-
-
-        db.insert(TABELLA_AUTO_UTENTE,
-                null,
-                values);
-
-         db.close();
+        db.insert(TABELLA_AUTO_UTENTE, null, values);
+        db.close();
     }
-
-
+    // Aggiunta di nuovo utente.
     public void aggiungiUtente(Utente utente) {
-
         Log.d("aggiungiUtente", utente.toString());
-         SQLiteDatabase db = this.getWritableDatabase();
-
-         ContentValues values = new ContentValues();
-
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
 
         values.put("NomeU", utente.getNome());
         values.put("CognomeU", utente.getCognome());
         values.put("DataDiNascita", utente.getDataN());
         values.put("Email", utente.getEmail());
-        //   values.put("Psw", utente.getPsw());
 
-
-
-        db.insert(TABELLA_UTENTI,
-                null,
-                values);
-
-
+        db.insert(TABELLA_UTENTI, null, values);
         db.close();
     }
 
-    /*
-    public Utente prendiUtente(String email) {
-        Utente utente = null;
-
-        // 1. build the query
-        String query = "SELECT  * FROM " + TABELLA_UTENTE+ " WHERE Email= '" + email+"' ";;
-
-        // 2. get reference to writable DB
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-
-        // 3. go over each row, build book and add it to list
-
-        if (cursor.moveToFirst()) {
-         do {
-                utente = new Utente(cursor.getString(0),cursor.getString(1),cursor.getString(2),cursor.getString(3));
-
-
-            } while (cursor.moveToNext());
-     }
-
-
-        return utente;
-    }
-    */
-
-
-    public void aggiungiModello(Modello modello) {
-
-        Log.d("aggiungiModello", modello.toString());
-          SQLiteDatabase db = this.getWritableDatabase();
-
-          ContentValues values = new ContentValues();
-
-        values.put("IDModello", modello.getIDModello());
-        values.put("Nome", modello.getNome());
-        values.put("Segmento", modello.getSegmento());
-        values.put("Alimentazione", modello.getAlimentazione());
-
-        values.put("Cilindrata", modello.getCilindrata());
-        values.put("KW", modello.getKw());
-        values.put("Marca_id", modello.getMarca().getIDMarca());
-
-
-        // 3. insert
-        db.insert(TABELLA_MODELLI,
-                null,
-                values);
-        db.close();
-
-
-    }
-
+    //Aggiunta di una nuova marca di auto.
     public void aggiungiMarca(Marca marca) {
         Log.d("aggiungiMarca", marca.toString());
-
         SQLiteDatabase db = this.getWritableDatabase();
-
 
         ContentValues values = new ContentValues();
         values.put("IDMarca", marca.getIDMarca());
         values.put("Nome", marca.getNome());
 
-
-        db.insert(TABELLA_MARCHE,
-                null,
-                values);
-
-
+        db.insert(TABELLA_MARCHE, null, values);
         db.close();
     }
 
+    // Aggiunta di nuovo modello di auto.
+    public void aggiungiModello(Modello modello) {
+        Log.d("aggiungiModello", modello.toString());
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put("IDModello", modello.getIDModello());
+        values.put("Nome", modello.getNome());
+        values.put("Segmento", modello.getSegmento());
+        values.put("Alimentazione", modello.getAlimentazione());
+        values.put("Cilindrata", modello.getCilindrata());
+        values.put("KW", modello.getKw());
+        values.put("Marca_id", modello.getMarca().getIDMarca());
+
+        db.insert(TABELLA_MODELLI, null, values);
+        db.close();
+    }
+
+    // Aggiunta di un nuovo problema.
     public void aggiungiProblemi(Problema problema) {
         Log.d("aggiungiproblema", problema.toString());
-
         SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues values = new ContentValues();
 
         values.put("IDProblema", problema.getIDProblema());
         values.put("Descrizione", problema.getDescrizione());
         values.put("Targa", problema.getAuto().getTarga());
 
-        db.insert(TABELLA_PROBLEMI,
-                null,
-                values);
-
+        db.insert(TABELLA_PROBLEMI, null, values);
         db.close();
     }
 
-
+    // Aggiunta di una nuova manutenzione.
     public void aggiungiManutenzione(Manutenzione manutenzione) {
         Log.d("aggiungiManutenzione", manutenzione.toString());
-
         SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues values = new ContentValues();
 
         values.put("IDManutenzione", manutenzione.getIDManutenzione());
@@ -233,37 +159,32 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         values.put("KmManutenzione", manutenzione.getKmManutenzione());
         values.put("Targa", manutenzione.getAuto().getTarga());
 
-        db.insert(TABELLA_MANUTENZIONI,
-                null,
-                values);
-
+        db.insert(TABELLA_MANUTENZIONI, null, values);
         db.close();
     }
 
-
-
+    // Aggiunta di una nuova scadenza.
     public void aggiungiScadenza(Scadenza scadenza) {
         Log.d("aggiungiScadenza", scadenza.toString());
-
         SQLiteDatabase db = this.getWritableDatabase();
-
-
         ContentValues values = new ContentValues();
-        values.put("IDScadenza", scadenza.getIDScadenza());
 
+        values.put("IDScadenza", scadenza.getIDScadenza());
         values.put("DataScadenza", scadenza.getDataScadenza());
         values.put("Descrizione", scadenza.getDescrizione());
         values.put("Targa", scadenza.getAuto().getTarga());
 
-
-
-        db.insert(TABELLA_SCADENZE, // table
-                null,
-                values);
-
-
+        db.insert(TABELLA_SCADENZE, null, values);
         db.close();
     }
+
+
+
+
+
+    // da qui
+
+
 
     public List<AutoUtente> getAllAutoUtente() {
         List<AutoUtente> auto = new LinkedList<AutoUtente>();
@@ -389,6 +310,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         }
 
 
+
         return modelli;
     }
 
@@ -485,32 +407,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return marche;
     }
 
-
-    public List<AutoUtente> getAllTarghe() {
-        List<AutoUtente> auto = new LinkedList<AutoUtente>();
-
-        String query = "SELECT  * FROM " + TABELLA_AUTO_UTENTE;
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-
-        AutoUtente autoUtente = null;
-        if (cursor.moveToFirst()) {
-            do {
-                //autoUtente = new AutoUtente(cursor.getString(0),cursor.getInt(1),cursor.getString(2),0,cursor.getString(4),new Modello(0,null,null,null,null,null,null),false);
-                //  int km, String annoImmatricolazione, int fotoAuto, String utente_email, Modello modello, boolean selected
-
-            auto.add(autoUtente);
-            } while (cursor.moveToNext());
-        }
-
-        Log.d("getAllMarche()", auto.toString());
-
-
-        return auto;
-    }
-
-
     public List<Manutenzione> getAllManutenzioni() {
         List<Manutenzione> manutenzioni = new LinkedList<Manutenzione>();
 
@@ -537,40 +433,60 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
          return manutenzioni;
     }
 
-
     public void updateUtente(Utente utente){
 
-            SQLiteDatabase db = this.getWritableDatabase();
-
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put("NomeU",utente.getNome());
         cv.put("CognomeU",utente.getCognome());
         cv.put("DataDiNascita",utente.getDataN());
 
-String email="'"+utente.getEmail()+"'";
-            db.update(TABELLA_UTENTI, cv, "Email="+email, null);
+        String email="'"+utente.getEmail()+"'";
+        db.update(TABELLA_UTENTI, cv, "Email="+email, null);
 
     }
 
+    public void updateMarca(Marca marca){
 
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put("IDMarca", marca.getIDMarca());
+        cv.put("Nome", marca.getNome());
+
+        String idMarca="'"+marca.getIDMarca()+"'";
+        db.update(TABELLA_MARCHE, cv, "IDMarca="+idMarca, null);
+    }
+
+    public void updateModello(Modello modello){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put("IDModello", modello.getIDModello());
+        cv.put("Nome", modello.getNome());
+        cv.put("Segmento", modello.getSegmento());
+        cv.put("Alimentazione", modello.getAlimentazione());
+        cv.put("Cilindrata", modello.getCilindrata());
+        cv.put("KW", modello.getKw());
+        cv.put("Marca_id", modello.getMarca().getIDMarca());
+
+        String idModello="'"+modello.getIDModello()+"'";
+        db.update(TABELLA_MODELLI, cv, "IDModello="+idModello, null);
+    }
 
     public void updateAutoUtente(AutoUtente auto){
 
         SQLiteDatabase db = this.getWritableDatabase();
-
-
         ContentValues cv = new ContentValues();
+
         cv.put("KM",auto.getKm());
         cv.put("AnnoImmatricolazione",auto.getAnnoImmatricolazione());
         cv.put("Modelli_id",auto.getModello().getIDModello());
 
-
         String targa="'"+auto.getTarga()+"'";
         db.update(TABELLA_AUTO_UTENTE, cv, "Targa="+targa, null);
-
     }
-
-
 
     public void updateMantenzione(Manutenzione manutenzione){
 
@@ -587,11 +503,6 @@ String email="'"+utente.getEmail()+"'";
 
     }
 
-
-
-
-
-
     public void updateProblema(Problema  problema){
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -602,10 +513,7 @@ String email="'"+utente.getEmail()+"'";
 
         String id="'"+problema.getIDProblema()+"'";
         db.update(TABELLA_PROBLEMI, cv, "IDProblema="+id, null);
-
     }
-
-
 
     public void updateScadenza(Scadenza  scadenza){
 
@@ -618,13 +526,29 @@ String email="'"+utente.getEmail()+"'";
 
         String id="'"+scadenza.getIDScadenza()+"'";
         db.update(TABELLA_SCADENZE, cv, "IDScadenza="+id, null);
-
     }
 
-    //autoutente, manutenzione , problema e scadenza
-
-
     public void deleteAutoUtente(AutoUtente autoUtente){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String targa = "'"+autoUtente.getTarga()+"'";
+        db.delete(TABELLA_AUTO_UTENTE, " Targa ="+targa , null);
+    }
 
+    public void deleteManutezione(Manutenzione manutenzione){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String idManutenzione = "'"+manutenzione.getIDManutenzione()+"'";
+        db.delete(TABELLA_MANUTENZIONI, " IDManutenzione ="+idManutenzione , null);
+    }
+
+    public void deleteProblema(Problema problema){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String idProblema = "'"+problema.getIDProblema()+"'";
+        db.delete(TABELLA_PROBLEMI, " IDProblema ="+idProblema , null);
+    }
+
+    public void deleteScadenza(Scadenza scadenza){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String IdScadenza = "'"+scadenza.getIDScadenza()+"'";
+        db.delete(TABELLA_SCADENZE, " IDScadenza ="+IdScadenza , null);
     }
 }
