@@ -28,33 +28,43 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     // Nome del database
     private static final String DATABASE_NAME = "EasyCar";
     // Nomi delle tabelle.
-    private static final String TABELLA_MARCHE = "Marche";
-    private static final String TABELLA_AUTO_UTENTE = "AutoUtente";
-    private static final String TABELLA_SCADENZE = "Scadenze";
-    private static final String TABELLA_UTENTI = "Utenti";
-    private static final String TABELLA_MODELLI = "Modelli";
-    private static final String TABELLA_PROBLEMI = "Problemi";
-    private static final String TABELLA_MANUTENZIONI = "Manutenzioni";
+    private String TABELLA_MARCHE;
+    private String TABELLA_AUTO_UTENTE;
+    private String TABELLA_SCADENZE;
+    private String TABELLA_UTENTI;
+    private String TABELLA_MODELLI;
+    private String TABELLA_PROBLEMI;
+    private String TABELLA_MANUTENZIONI;
 
-    // Variabili contenenti la creazione delle tabelle.
-    private String CREA_TABELLA_UTENTE = "CREATE TABLE Utenti (NomeU TEXT , CognomeU TEXT, DataDiNascita TEXT , Email TEXT PRIMARY KEY  )";
-    private String CREA_TABELLA_MARCHE = "CREATE TABLE Marche (IDMarca INTEGER   PRIMARY KEY  , Nome TEXT)";
-    private String CREA_TABELLA_MODELLI = "CREATE TABLE  Modelli ( IDModello INTEGER  PRIMARY KEY      , Nome TEXT  , Segmento TEXT  , Alimentazione TEXT  , Cilindrata TEXT , KW TEXT  , Marca_id INTEGER  , FOREIGN KEY (`Marca_id`) REFERENCES  `Marche` (`IDMarca`) ON DELETE CASCADE ON UPDATE CASCADE );";
-    private String CREA_TABELLA_AUTOUTENTE = "CREATE TABLE AutoUtente ( Targa TEXT  PRIMARY KEY, KM INTEGER , AnnoImmatricolazione TEXT   , Selected INTEGER   , Utenti_Email TEXT  , Modelli_id INTEGER  , FOREIGN KEY (`Utenti_Email`) REFERENCES  `Utenti` (`Email`) ON DELETE CASCADE ON UPDATE CASCADE , FOREIGN KEY (`Modelli_id`) REFERENCES  `Modelli` (`IDModello`) ON DELETE CASCADE ON UPDATE CASCADE );";
-    private String CREA_TABELLA_PROBLEMI = "CREATE TABLE Problemi ( IDProblema INTEGER   PRIMARY KEY     , Descrizione TEXT, Targa TEXT, FOREIGN KEY (`Targa`) REFERENCES `AutoUtente` (`Targa`) ON DELETE CASCADE ON UPDATE CASCADE );";
-    private String CREA_TABELLA_MANUTENZIONI = "CREATE TABLE Manutenzioni ( IDManutenzione INTEGER  PRIMARY KEY   , Descrizione TEXT  ,Data TEXT  ,Ordinaria INTEGER,  KmManutenzione TEXT , Targa TEXT , FOREIGN KEY (`Targa`) REFERENCES `AutoUtente` (`Targa`) ON DELETE CASCADE ON UPDATE CASCADE );";
-    private String CREA_TABELLA_SCADENZE = "CREATE TABLE Scadenze ( IDScadenza INTEGER PRIMARY KEY     , Descrizione TEXT, DataScadenza TEXT, Targa TEXT, FOREIGN KEY (`Targa`) REFERENCES `AutoUtente` (`Targa`) ON DELETE CASCADE ON UPDATE CASCADE );";
 
 
     // Costruttore.
     public MySQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+
+        TABELLA_MARCHE = "Marche";
+        TABELLA_AUTO_UTENTE = "AutoUtente";
+        TABELLA_SCADENZE = "Scadenze";
+        TABELLA_UTENTI = "Utenti";
+        TABELLA_MODELLI = "Modelli";
+        TABELLA_PROBLEMI = "Problemi";
+        TABELLA_MANUTENZIONI = "Manutenzioni";
     }
 
     // Creazione delle tabelle.
     @Override
     public void onCreate(SQLiteDatabase db) {
 
+        // Variabili contenenti la creazione delle tabelle.
+        String CREA_TABELLA_UTENTE = "CREATE TABLE Utenti (NomeU TEXT , CognomeU TEXT, DataDiNascita TEXT , Email TEXT PRIMARY KEY  )";
+        String CREA_TABELLA_MARCHE = "CREATE TABLE Marche (IDMarca INTEGER   PRIMARY KEY  , Nome TEXT)";
+        String CREA_TABELLA_MODELLI = "CREATE TABLE  Modelli ( IDModello INTEGER  PRIMARY KEY      , Nome TEXT  , Segmento TEXT  , Alimentazione TEXT  , Cilindrata TEXT , KW TEXT  , Marca_id INTEGER  , FOREIGN KEY (`Marca_id`) REFERENCES  `Marche` (`IDMarca`) ON DELETE CASCADE ON UPDATE CASCADE );";
+        String CREA_TABELLA_AUTOUTENTE = "CREATE TABLE AutoUtente ( Targa TEXT  PRIMARY KEY, KM INTEGER , AnnoImmatricolazione TEXT   , Selected INTEGER   , Utenti_Email TEXT  , Modelli_id INTEGER  , FOREIGN KEY (`Utenti_Email`) REFERENCES  `Utenti` (`Email`) ON DELETE CASCADE ON UPDATE CASCADE , FOREIGN KEY (`Modelli_id`) REFERENCES  `Modelli` (`IDModello`) ON DELETE CASCADE ON UPDATE CASCADE );";
+        String CREA_TABELLA_PROBLEMI = "CREATE TABLE Problemi ( IDProblema INTEGER   PRIMARY KEY     , Descrizione TEXT, Targa TEXT, FOREIGN KEY (`Targa`) REFERENCES `AutoUtente` (`Targa`) ON DELETE CASCADE ON UPDATE CASCADE );";
+        String CREA_TABELLA_MANUTENZIONI = "CREATE TABLE Manutenzioni ( IDManutenzione INTEGER  PRIMARY KEY   , Descrizione TEXT  ,Data TEXT  ,Ordinaria INTEGER,  KmManutenzione TEXT , Targa TEXT , FOREIGN KEY (`Targa`) REFERENCES `AutoUtente` (`Targa`) ON DELETE CASCADE ON UPDATE CASCADE );";
+        String CREA_TABELLA_SCADENZE = "CREATE TABLE Scadenze ( IDScadenza INTEGER PRIMARY KEY     , Descrizione TEXT, DataScadenza TEXT, Targa TEXT, FOREIGN KEY (`Targa`) REFERENCES `AutoUtente` (`Targa`) ON DELETE CASCADE ON UPDATE CASCADE );";
+
+        // Creazione delle tabelle.
         db.execSQL(CREA_TABELLA_UTENTE);
         db.execSQL(CREA_TABELLA_MARCHE);
         db.execSQL(CREA_TABELLA_MODELLI);
@@ -185,70 +195,50 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     // da qui
 
 
-
+    // Restituisce tutte le auto presenti nel db locale.
     public List<AutoUtente> getAllAutoUtente() {
         List<AutoUtente> auto = new LinkedList<AutoUtente>();
-
-        String email="'"+MainActivity.utenteLoggato.getEmail()+"'";
-        String query =
-
-                "SELECT * FROM "+ TABELLA_AUTO_UTENTE +" JOIN "+ TABELLA_MODELLI+ " ON Modelli_id=IDModello JOIN "+ TABELLA_MARCHE+ " ON Marca_id=IDMarca JOIN " + TABELLA_UTENTI+" ON Utenti_Email=Email ";
-
+        AutoUtente autoUtente;
+        String email;
+        email = "'".concat(MainActivity.utenteLoggato.getEmail()).concat("'");
+        String query = "SELECT * FROM "+ TABELLA_AUTO_UTENTE +" JOIN "+ TABELLA_MODELLI+ " ON Modelli_id=IDModello JOIN "+ TABELLA_MARCHE+ " ON Marca_id=IDMarca JOIN " + TABELLA_UTENTI+" ON Utenti_Email=Email ";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
-
-        AutoUtente autoUtente = null;
         if (cursor.moveToFirst()) {
             do {
-
-
-
                 autoUtente = new AutoUtente(cursor.getString(0), cursor.getInt(1), cursor.getString(2), new Utente(cursor.getString(15),cursor.getString(16),cursor.getString(17),cursor.getString(18)), new Modello( cursor.getInt(5),cursor.getString(7),cursor.getString(8),cursor.getString(9),cursor.getString(10),cursor.getString(11),new Marca( cursor.getInt(12),cursor.getString(14))),cursor.getInt(3));
                 auto.add(autoUtente);
             } while (cursor.moveToNext());
         }
-        for (AutoUtente a : auto
-                ) {
+        for (AutoUtente a : auto) {
             Log.d("getAllAutoUtente()", a.toString());
         }
-
-
         return auto;
     }
 
 
-
+    // Restituisce tutte le auto presenti nel db locale dell'utente loggato.
     public List<AutoUtente> getAllMieAutoUtente() {
         List<AutoUtente> auto = new LinkedList<AutoUtente>();
-
-        String email="'"+MainActivity.utenteLoggato.getEmail()+"'";
-        String query =
-
-        "SELECT * FROM "+ TABELLA_AUTO_UTENTE +" JOIN "+ TABELLA_MODELLI+ " ON Modelli_id=IDModello JOIN "+ TABELLA_MARCHE+ " ON Marca_id=IDMarca JOIN " + TABELLA_UTENTI+" ON Utenti_Email=Email WHERE AutoUtente.Utenti_Email="+email;
-
+        AutoUtente autoUtente;
+        String email;
+        email = "'".concat(MainActivity.utenteLoggato.getEmail()).concat("'");
+        String query = "SELECT * FROM "+ TABELLA_AUTO_UTENTE +" JOIN "+ TABELLA_MODELLI+ " ON Modelli_id=IDModello JOIN "+ TABELLA_MARCHE+ " ON Marca_id=IDMarca JOIN " + TABELLA_UTENTI+" ON Utenti_Email=Email WHERE AutoUtente.Utenti_Email="+email;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
-
-        AutoUtente autoUtente = null;
         if (cursor.moveToFirst()) {
             do {
-
-
-
                 autoUtente = new AutoUtente(cursor.getString(0), cursor.getInt(1), cursor.getString(2), new Utente(cursor.getString(15),cursor.getString(16),cursor.getString(17),cursor.getString(18)), new Modello( cursor.getInt(5),cursor.getString(7),cursor.getString(8),cursor.getString(9),cursor.getString(10),cursor.getString(11),new Marca( cursor.getInt(12),cursor.getString(14))),cursor.getInt(3));
                 auto.add(autoUtente);
             } while (cursor.moveToNext());
         }
-        for (AutoUtente a : auto
-                ) {
+        for (AutoUtente a : auto) {
             Log.d("getAllAutoUtente()", a.toString());
         }
-
-
         return auto;
     }
 

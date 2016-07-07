@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -15,10 +16,17 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
 
@@ -166,7 +174,7 @@ public class AggiuntaScadenza extends AppCompatActivity {
         Button bottoneAggiungi = (Button) findViewById(R.id.buttonAggiungiScadenza);
         spinnerTarghe = (Spinner) findViewById(R.id.spinner_targa);
 
-        List<AutoUtente> auto = mySQLiteHelper.getAllAutoUtente();
+        List<AutoUtente> auto = mySQLiteHelper.getAllMieAutoUtente();
 
 
         String[] targhe = new String[auto.size()];
@@ -177,13 +185,15 @@ public class AggiuntaScadenza extends AppCompatActivity {
             i++;
         }
 
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, targhe);
+        spinnerTarghe.setAdapter(adapter);
 
 
         tipoScadenzaRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 // checkedId is the RadioButton selected
                 tipoScadenzaRadioGroupSelected = (RadioButton) findViewById(checkedId);
-                Log.d("dati", tipoScadenzaRadioGroupSelected.getText().toString());
 
             }
         });
@@ -293,6 +303,18 @@ public class AggiuntaScadenza extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.done) {
+            String tipoScadenza  =tipoScadenzaRadioGroupSelected.getText().toString();
+            String dataScadenza= mDataScadenza.getText().toString();
+            String targa=spinnerTarghe.getSelectedItem().toString();
+
+            aggiungiScadenza(tipoScadenza, dataScadenza, targa);
+
+            Log.d("done", tipoScadenza);
+            Log.d("done", dataScadenza);
+            Log.d("done",targa);
+
+
+
             Log.d("done","done");
             return true;
         }
@@ -301,5 +323,37 @@ public class AggiuntaScadenza extends AppCompatActivity {
     }
 
 
+private void aggiungiScadenza(final String descrizione,final String dataScadenza,final String targa){
 
+    StringRequest myReq = new StringRequest(Request.Method.POST,
+            MainActivity.url,
+            new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.d("Response", "> OK Req");
+                }
+            },
+            new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("Response", "> That didn't work!");
+                }
+            }) {
+
+        protected Map<String, String> getParams() throws com.android.volley.AuthFailureError {
+
+            Map<String, String> params = new HashMap<String, String>();
+            params.put("operation", "c");
+            params.put("table", "Scadenze");
+            params.put("Descrizione", descrizione);
+            params.put("DataScadenza", dataScadenza);
+            params.put("Targa", targa);
+
+
+            return params;
+        };
+    };
+    MainActivity.queue.add(myReq);
+
+}
 }
