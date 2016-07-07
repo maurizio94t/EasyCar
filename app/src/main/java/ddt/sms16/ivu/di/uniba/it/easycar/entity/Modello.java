@@ -3,7 +3,7 @@ package ddt.sms16.ivu.di.uniba.it.easycar.entity;
 /**
  * Created by Enrico on 20/06/16.
  */
-public class Modello {
+public class Modello implements Comparable<Modello> {
 
 
     private int IDModello;
@@ -39,10 +39,6 @@ public class Modello {
         this.IDModello = IDModello;
     }
 
-
-
-
-
     public Marca getMarca() {
         return marca;
     }
@@ -76,5 +72,16 @@ public class Modello {
         return "Modelli [IDModello=" + IDModello + ", Nome=" + nome + ", segmento=" + segmento + ", alimentazione=" + alimentazione + ", cilindrata=" + cilindrata + ", kw=" + kw + ", marca=" + marca.toString()+ "]";
     }
 
-
+    @Override
+    public int compareTo(Modello another) {
+        if(this.nome.equalsIgnoreCase(another.nome) &&
+                this.segmento.equalsIgnoreCase(another.segmento) &&
+                this.alimentazione.equalsIgnoreCase(another.alimentazione) &&
+                this.cilindrata.equalsIgnoreCase(another.cilindrata) &&
+                this.kw.equalsIgnoreCase(another.kw) &&
+                this.marca.getIDMarca() == another.marca.getIDMarca())
+            return 0;
+        else
+            return -1;
+    }
 }

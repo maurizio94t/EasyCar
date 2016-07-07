@@ -47,7 +47,7 @@ public class MieAutoFragment extends Fragment {
         customAdapter = new CustomAdapter_AutoUtente(
                 thisContext.getApplicationContext(),
                 R.layout.row_auto,
-                MainActivity.listAutoUtenteLocal);
+                MainActivity.mySQLiteHelper.getAllMieAutoUtente());
 
         //utilizzo dell'adapter
         listView = (ListView) view.findViewById(R.id.listView);

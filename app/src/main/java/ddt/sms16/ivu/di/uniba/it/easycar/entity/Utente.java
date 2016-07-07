@@ -1,7 +1,7 @@
 package ddt.sms16.ivu.di.uniba.it.easycar.entity;
 
 
-public class Utente {
+public class Utente implements Comparable<Utente> {
     private String nome;
     private String cognome;
     private String dataN;
@@ -70,5 +70,15 @@ public class Utente {
     @Override
     public String toString() {
         return "Utente[nome= " + nome + ", cognome= " + cognome + ", dataN= " + dataN +  ", email= " + email + ", psw= " + psw + "]";
+    }
+
+    @Override
+    public int compareTo(Utente another) {
+        if(this.nome.equals(another.nome) &&
+                this.cognome.equals(another.cognome) &&
+                this.dataN.equalsIgnoreCase(another.dataN))
+            return 0;
+        else
+            return -1;
     }
 }

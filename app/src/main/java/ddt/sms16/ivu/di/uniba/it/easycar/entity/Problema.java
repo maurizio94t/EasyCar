@@ -3,7 +3,7 @@ package ddt.sms16.ivu.di.uniba.it.easycar.entity;
 /**
  * Created by Enrico on 20/06/16.
  */
-public class Problema {
+public class Problema implements Comparable<Problema> {
 
     private int IDProblema;
     private String descrizione;
@@ -38,5 +38,15 @@ public class Problema {
 
     public String toString() {
         return "Problema[IDProblema=" + IDProblema + ", Descrizione=" + descrizione + ", auto="+auto.toString()+"]";
+    }
+
+
+    @Override
+    public int compareTo(Problema another) {
+        if(this.descrizione.equals(another.descrizione) &&
+                this.auto.getTarga().equalsIgnoreCase(another.auto.getTarga()))
+            return 0;
+        else
+            return -1;
     }
 }

@@ -3,7 +3,7 @@ package ddt.sms16.ivu.di.uniba.it.easycar.entity;
 /**
  * Created by Enrico on 19/06/16.
  */
-public class Marca {
+public class Marca implements Comparable<Marca> {
 
     private int IDMarca;
     private String nome;
@@ -40,5 +40,13 @@ public class Marca {
     @Override
     public String toString() {
         return "Marca[IDMarca=" + IDMarca + ", Nome=" + nome + "]";
+    }
+
+    @Override
+    public int compareTo(Marca another) {
+        if(this.nome.equalsIgnoreCase(another.nome))
+            return 0;
+        else
+            return -1;
     }
 }

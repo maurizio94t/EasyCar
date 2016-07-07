@@ -71,6 +71,9 @@ public class LoginActivity extends Activity {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 Log.d("Response", "> That didn't work!");
+                                View parentLayout = findViewById(R.id.root_view);
+                                Snackbar snackbar = Snackbar.make(parentLayout, "Connessione non presente!", Snackbar.LENGTH_LONG);
+                                snackbar.show();
                             }
                         }) {
 

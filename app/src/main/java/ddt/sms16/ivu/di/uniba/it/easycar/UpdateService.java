@@ -113,8 +113,6 @@ public class UpdateService extends Service  {//uses Main thread not create in an
             queue.add(myReq);
         }
 
-        //new AsyncDept().execute(mTime);
-
         Log.e("SERVICE >","onStartCommand");
 
         return super.onStartCommand(intent, flags, startId);
@@ -469,7 +467,7 @@ public class UpdateService extends Service  {//uses Main thread not create in an
         //aggiungo ai dati in locale i nuovi dati presenti sul DB
 
         boolean trovato;
-        //update Marche
+        //update Marche - insert
         MainActivity.listMarcheLocal = MainActivity.mySQLiteHelper.getAllMarche();
         for(Marca marcaE : MainActivity.listaMarche) {
             trovato = false;
@@ -485,8 +483,20 @@ public class UpdateService extends Service  {//uses Main thread not create in an
         }
         MainActivity.listMarcheLocal = MainActivity.mySQLiteHelper.getAllMarche();
 
+        //update Marche - update
+        for(Marca marcaE : MainActivity.listaMarche) {
+            for(Marca marcaL : MainActivity.listMarcheLocal) {
+                if(marcaE.getIDMarca() == marcaL.getIDMarca()) {
+                    if(marcaE.compareTo(marcaL) != 0) {
+                        MainActivity.mySQLiteHelper.updateMarca(marcaE);
+                    }
+                    break;
+                }
+            }
+        }
+        MainActivity.listMarcheLocal = MainActivity.mySQLiteHelper.getAllMarche();
 
-        //update Modelli
+        //update Modelli - insert
         MainActivity.listModelliLocal = MainActivity.mySQLiteHelper.getAllModelli();
         for(Modello modelloE : MainActivity.listaModelli) {
             trovato = false;
@@ -502,7 +512,20 @@ public class UpdateService extends Service  {//uses Main thread not create in an
         }
         MainActivity.listModelliLocal = MainActivity.mySQLiteHelper.getAllModelli();
 
-        //update Utenti
+        //update Modelli - update
+        for(Modello modelloE : MainActivity.listaModelli) {
+            for(Modello modelloL : MainActivity.listModelliLocal) {
+                if(modelloE.getIDModello() == modelloL.getIDModello()) {
+                    if(modelloE.compareTo(modelloL) != 0) {
+                        MainActivity.mySQLiteHelper.updateModello(modelloE);
+                    }
+                    break;
+                }
+            }
+        }
+        MainActivity.listModelliLocal = MainActivity.mySQLiteHelper.getAllModelli();
+
+        //update Utenti - insert
         MainActivity.listUtentiLocal = MainActivity.mySQLiteHelper.getAllUtenti();
         for(Utente utenteE : MainActivity.listaUtenti) {
             trovato = false;
@@ -518,7 +541,20 @@ public class UpdateService extends Service  {//uses Main thread not create in an
         }
         MainActivity.listUtentiLocal = MainActivity.mySQLiteHelper.getAllUtenti();
 
-        //update AutoUtente
+        //update Utenti - update
+        for(Utente utenteE : MainActivity.listaUtenti) {
+            for(Utente utenteL : MainActivity.listUtentiLocal) {
+                if(utenteE.getEmail().equalsIgnoreCase(utenteL.getEmail())) {
+                    if(utenteE.compareTo(utenteL) != 0) {
+                        MainActivity.mySQLiteHelper.updateUtente(utenteE);
+                    }
+                    break;
+                }
+            }
+        }
+        MainActivity.listUtentiLocal = MainActivity.mySQLiteHelper.getAllUtenti();
+
+        //update AutoUtente - insert
         MainActivity.listAutoUtenteLocal = MainActivity.mySQLiteHelper.getAllAutoUtente();
         for(AutoUtente autoE : MainActivity.listaAutoUtente) {
             trovato = false;
@@ -534,7 +570,20 @@ public class UpdateService extends Service  {//uses Main thread not create in an
         }
         MainActivity.listAutoUtenteLocal = MainActivity.mySQLiteHelper.getAllAutoUtente();
 
-        //update Manutenzioni
+        //update AutoUtente - update
+        for(AutoUtente autoE : MainActivity.listaAutoUtente) {
+            for(AutoUtente autoL : MainActivity.listAutoUtenteLocal) {
+                if(autoE.getTarga().equalsIgnoreCase(autoL.getTarga())) {
+                    if(autoE.compareTo(autoL) != 0) {
+                        MainActivity.mySQLiteHelper.updateAutoUtente(autoE);
+                    }
+                    break;
+                }
+            }
+        }
+        MainActivity.listAutoUtenteLocal = MainActivity.mySQLiteHelper.getAllAutoUtente();
+
+        //update Manutenzioni - insert
         MainActivity.listManutenzioniLocal = MainActivity.mySQLiteHelper.getAllManutenzioni();
         for(Manutenzione manutenzioneE : MainActivity.listaManutenzioni) {
             trovato = false;
@@ -550,9 +599,20 @@ public class UpdateService extends Service  {//uses Main thread not create in an
         }
         MainActivity.listManutenzioniLocal = MainActivity.mySQLiteHelper.getAllManutenzioni();
 
+        //update Manutenzioni - update
+        for(Manutenzione manutenzioneE : MainActivity.listaManutenzioni) {
+            for(Manutenzione manutenzioneL : MainActivity.listManutenzioniLocal) {
+                if(manutenzioneE.getIDManutenzione()== manutenzioneL.getIDManutenzione()) {
+                    if(manutenzioneE.compareTo(manutenzioneL) != 0) {
+                        MainActivity.mySQLiteHelper.updateMantenzione(manutenzioneE);
+                    }
+                    break;
+                }
+            }
+        }
+        MainActivity.listManutenzioniLocal = MainActivity.mySQLiteHelper.getAllManutenzioni();
 
-        /*
-        //update Problemi
+        //update Problemi - insert
         MainActivity.listProblemiLocal = MainActivity.mySQLiteHelper.getAllProblemi();
         for(Problema problemaE : MainActivity.listaProblemi) {
             trovato = false;
@@ -567,7 +627,19 @@ public class UpdateService extends Service  {//uses Main thread not create in an
             }
         }
         MainActivity.listProblemiLocal = MainActivity.mySQLiteHelper.getAllProblemi();
-        */
+
+        //update Problemi - update
+        for(Problema problemaE : MainActivity.listaProblemi) {
+            for(Problema problemaL : MainActivity.listProblemiLocal) {
+                if(problemaE.getIDProblema() == problemaL.getIDProblema()) {
+                    if(problemaE.compareTo(problemaL) != 0) {
+                        MainActivity.mySQLiteHelper.updateProblema(problemaE);
+                    }
+                    break;
+                }
+            }
+        }
+        MainActivity.listProblemiLocal = MainActivity.mySQLiteHelper.getAllProblemi();
 
         //update Scadenze - insert
         MainActivity.listScadenzeLocal = MainActivity.mySQLiteHelper.getAllScadenze();

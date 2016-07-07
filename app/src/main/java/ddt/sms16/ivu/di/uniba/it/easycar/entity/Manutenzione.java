@@ -3,7 +3,7 @@ package ddt.sms16.ivu.di.uniba.it.easycar.entity;
 /**
  * Created by Enrico on 20/06/16.
  */
-public class Manutenzione {
+public class Manutenzione implements Comparable<Manutenzione> {
 
 
     private int IDManutenzione;
@@ -58,5 +58,17 @@ public class Manutenzione {
     @Override
     public String toString() {
         return "Manutenzione [IDManutenzione=" + IDManutenzione + ", descrizione=" + descrizione + ", data=" + data + ", ordinaria=" + ordinaria + ", kmManutenzione=" + kmManutenzione + ", targa auto=" + auto.toString() + "]";
+    }
+
+    @Override
+    public int compareTo(Manutenzione another) {
+        if(this.descrizione.equals(another.descrizione) &&
+                this.data.equalsIgnoreCase(another.data) &&
+                this.ordinaria == another.ordinaria &&
+                this.kmManutenzione.equalsIgnoreCase(another.kmManutenzione) &&
+                this.auto.getTarga().equalsIgnoreCase(another.auto.getTarga()))
+            return 0;
+        else
+            return -1;
     }
 }
