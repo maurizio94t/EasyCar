@@ -3,13 +3,10 @@ package ddt.sms16.ivu.di.uniba.it.easycar;
 import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -28,8 +25,8 @@ import com.android.volley.toolbox.StringRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-import ddt.sms16.ivu.di.uniba.it.easycar.fragments.MieAutoFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.HomeFragment;
+import ddt.sms16.ivu.di.uniba.it.easycar.fragments.MieAutoFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ScadenzeFragment;
 
@@ -278,7 +275,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             ok = true;
         } else if (id == R.id.manutenzioni) {
 
-        } else if (id == R.id.nav_info) {
+        } else if (id == R.id.nav_posizione_auto) {
             Intent gpsTest = new Intent(this, PosizioneAuto.class);
             startActivity(gpsTest);
         }

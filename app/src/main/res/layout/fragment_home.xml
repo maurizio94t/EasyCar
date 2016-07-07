@@ -18,20 +18,28 @@
                     android:layout_weight="1" />
             </LinearLayout>
 
-        <Button
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Posizione veicolo"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:paddingBottom="10dp"
+            >
+        <Button
+            android:layout_width="240dp"
+            android:layout_height="90dp"
+            android:drawableLeft="@drawable/ic_gps_fixed_white_24dp"
+            android:text="Ho parcheggiato"
+            android:textSize="20dp"
             android:layout_gravity="bottom"
             android:textColor="@color/colorTitle"
+            android:fontFamily="monospace"
             android:background="@drawable/button_round_corner"
             android:id="@+id/btnPosizione"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="50dp"
-            />
-
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+        </RelativeLayout>
     </LinearLayout>
 

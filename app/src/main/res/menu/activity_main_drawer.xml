@@ -32,9 +32,9 @@
                 android:icon="@drawable/ic_menu_manage"
                 android:title="Manutenzioni" />
             <item
-                android:id="@+id/nav_info"
-                android:icon="@drawable/ic_menu_send"
-                android:title="info" />
+                android:id="@+id/nav_posizione_auto"
+                android:icon="@drawable/ic_car_grey600_24dp"
+                android:title="Posizione veicolo" />
         </menu>
     </item>
 

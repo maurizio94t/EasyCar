@@ -303,9 +303,9 @@ public class AggiuntaScadenza extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.done) {
-            String tipoScadenza  =tipoScadenzaRadioGroupSelected.getText().toString();
-            String dataScadenza= mDataScadenza.getText().toString();
-            String targa=spinnerTarghe.getSelectedItem().toString();
+            String tipoScadenza  = tipoScadenzaRadioGroupSelected.getText().toString();
+            String dataScadenza = mDataScadenza.getText().toString();
+            String targa = spinnerTarghe.getSelectedItem().toString();
 
             aggiungiScadenza(tipoScadenza, dataScadenza, targa);
 
