@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -15,7 +16,11 @@ import android.widget.Spinner;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
+
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Marca;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Modello;
 
 /**
  * Created by Giuseppe-PC on 29/06/2016.
@@ -96,6 +101,35 @@ public class AggiuntaAuto extends AppCompatActivity {
             }
         });
 
+        List<Modello> modello = MainActivity.mySQLiteHelper.getAllModelli();
+
+
+        String[] modelli = new String[modello.size()];
+        int i = 0;
+        for (Modello a : modello
+                ) {
+            modelli[i] = a.getNome();
+            i++;
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, modelli);
+        mSpinnerModello.setAdapter(adapter);
+
+
+        List<Marca> marca = MainActivity.mySQLiteHelper.getAllMarche();
+        String[] marche = new String[marca.size()];
+
+        int j = 0;
+        for (Marca a : marca
+                ) {
+            marche[j] = a.getNome();
+            j++;
+        }
+
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, marche);
+        mSpinnerMarca.setAdapter(adapter1);
     }
     private void updateLabel() {
 
