@@ -168,7 +168,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         values.put("Ordinaria", manutenzione.getOrdinaria());
         values.put("KmManutenzione", manutenzione.getKmManutenzione());
         values.put("Targa", manutenzione.getAuto().getTarga());
-        values.put("Selected", manutenzione.getAuto().getSelected());
 
         db.insert(TABELLA_MANUTENZIONI, null, values);
         db.close();
