@@ -628,6 +628,7 @@ public class UpdateService extends Service  {
             if(!trovato) {
                 MainActivity.mySQLiteHelper.aggiungiProblemi(problemaE);
                 // ---------------> mostra la notifica <---------------
+                /*
                 android.support.v4.app.NotificationCompat.Builder mBuilder = new android.support.v4.app.NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_done_white_24dp)
                         .setContentTitle("Nuova segnalazione!")
@@ -636,6 +637,7 @@ public class UpdateService extends Service  {
                 NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
                 // Builds the notification and issues it.
                 mNotifyMgr.notify(problemaE.getIDProblema(), mBuilder.build());
+                */
             }
         }
         MainActivity.listProblemiLocal = MainActivity.mySQLiteHelper.getAllProblemi();
