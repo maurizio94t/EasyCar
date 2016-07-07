@@ -1,12 +1,15 @@
 package ddt.sms16.ivu.di.uniba.it.easycar;
 
 import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -37,7 +40,7 @@ import ddt.sms16.ivu.di.uniba.it.easycar.entity.Utente;
 /**
  * Created by Maurizio on 03/07/16.
  */
-public class UpdateService extends Service  {//uses Main thread not create in another thread.
+public class UpdateService extends Service  {
     private int mTime ;
     private String json;
     private RequestQueue queue;
@@ -624,6 +627,8 @@ public class UpdateService extends Service  {//uses Main thread not create in an
             }
             if(!trovato) {
                 MainActivity.mySQLiteHelper.aggiungiProblemi(problemaE);
+                // mostra la notifica
+
             }
         }
         MainActivity.listProblemiLocal = MainActivity.mySQLiteHelper.getAllProblemi();

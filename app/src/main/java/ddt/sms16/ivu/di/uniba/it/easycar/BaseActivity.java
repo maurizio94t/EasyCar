@@ -3,6 +3,7 @@ package ddt.sms16.ivu.di.uniba.it.easycar;
 import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.app.Notification;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.MieAutoFragment;
-import ddt.sms16.ivu.di.uniba.it.easycar.fragments.OneFragment;
+import ddt.sms16.ivu.di.uniba.it.easycar.fragments.HomeFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ScadenzeFragment;
 
@@ -205,7 +206,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
         // Faccio partire il primo Fragment
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, new OneFragment());
+        ft.replace(R.id.fragment_container, new HomeFragment());
         ft.commit();
 
         navigationView.getMenu().getItem(0).setChecked(true);
@@ -254,14 +255,12 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
         int id = item.getItemId();
         if (id == R.id.nav_home) {
-            fragment = new OneFragment();
+            fragment = new HomeFragment();
             ok = true;
         } else if (id == R.id.nav_mie_auto) {
             fragment = new MieAutoFragment();
             ok = true;
         } else if (id == R.id.nav_slideshow) {
-            Intent aggiuntaAuto = new Intent(this, AggiuntaAuto.class);
-            startActivity(aggiuntaAuto);
 
         } else if (id == R.id.nav_scadenze) {
             fragment = new ScadenzeFragment();
@@ -271,20 +270,17 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             fragment = new ProblemiFragment();
             ok = true;
         } else if (id == R.id.manutenzioni) {
-            Intent aggiuntaManutenzione = new Intent(this, AggiuntaManutenzione.class);
-            startActivity(aggiuntaManutenzione);
 
         } else if (id == R.id.nav_info) {
             Intent gpsTest = new Intent(this, PosizioneAuto.class);
             startActivity(gpsTest);
-
         }
 
         if (ok) {
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.replace(R.id.fragment_container, fragment);
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            ft.addToBackStack(null);
+            //ft.addToBackStack(null);
             ft.commit();
         }
 

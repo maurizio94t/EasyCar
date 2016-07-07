@@ -23,7 +23,7 @@ import ddt.sms16.ivu.di.uniba.it.easycar.entity.Utente;
 
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class OneFragment extends Fragment {
+public class HomeFragment extends Fragment {
 
     Context thisContext;
     View view;
@@ -31,7 +31,7 @@ public class OneFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_one, container, false);
+        view = inflater.inflate(R.layout.fragment_home, container, false);
         btnPosizione = (Button)view.findViewById(R.id.btnPosizione);
         Button b = (Button) view.findViewById(R.id.btnIntend);
         b.setOnClickListener(new View.OnClickListener() {

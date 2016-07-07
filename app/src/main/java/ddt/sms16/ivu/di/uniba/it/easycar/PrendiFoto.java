@@ -54,7 +54,7 @@ public class PrendiFoto extends AppCompatActivity {
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.fragment_one);
+            setContentView(R.layout.fragment_home);
 
             mImageBitmap = null;
             mImageView = (ImageView) findViewById(R.id.imageView1);
