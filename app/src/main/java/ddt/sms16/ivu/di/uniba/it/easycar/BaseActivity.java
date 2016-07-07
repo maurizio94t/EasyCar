@@ -3,11 +3,12 @@ package ddt.sms16.ivu.di.uniba.it.easycar;
 import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -189,9 +190,22 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         MainActivity.queue.add(myReq1);
 
         // fine
+        /*
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_done_white_24dp)
+                        .setContentTitle("My notification")
+                        .setContentText("Hello World!");
+
+        // Sets an ID for the notification
+        int mNotificationId = 001;
+        // Gets an instance of the NotificationManager service
+        NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        // Builds the notification and issues it.
+        mNotifyMgr.notify(mNotificationId, mBuilder.build());
+        */
 
         //aggiornamente del db locare se c'è connessione
-        UpdateService.aggiornaDataBaseLocale();
+        UpdateService.aggiornaDataBaseLocale(getApplicationContext());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

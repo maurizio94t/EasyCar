@@ -1,7 +1,6 @@
 package ddt.sms16.ivu.di.uniba.it.easycar;
 
 import android.app.AlarmManager;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -9,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
-import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -44,6 +42,7 @@ public class UpdateService extends Service  {
     private int mTime ;
     private String json;
     private RequestQueue queue;
+    private Context context;
 
     @Override
     public void onCreate() {
@@ -51,6 +50,7 @@ public class UpdateService extends Service  {
         Toast.makeText(getApplicationContext(),"Create Service",Toast.LENGTH_LONG).show();
         mTime = 0;
         queue = Volley.newRequestQueue(getApplicationContext());
+        context = getApplicationContext();
     }
 
     @Override
@@ -153,7 +153,7 @@ public class UpdateService extends Service  {
         protected void onPostExecute(Void requestresult) {
             super.onPostExecute(requestresult);
             Log.e("SERVICE >", "onPostExecute");
-            aggiornaDataBaseLocale();
+            aggiornaDataBaseLocale(context);
         }
 
     }
@@ -466,7 +466,7 @@ public class UpdateService extends Service  {
         }
     }
 
-    public static void aggiornaDataBaseLocale() {
+    public static void aggiornaDataBaseLocale(Context context) {
         //aggiungo ai dati in locale i nuovi dati presenti sul DB
 
         boolean trovato;
@@ -627,8 +627,15 @@ public class UpdateService extends Service  {
             }
             if(!trovato) {
                 MainActivity.mySQLiteHelper.aggiungiProblemi(problemaE);
-                // mostra la notifica
-
+                // ---------------> mostra la notifica <---------------
+                android.support.v4.app.NotificationCompat.Builder mBuilder = new android.support.v4.app.NotificationCompat.Builder(context)
+                        .setSmallIcon(R.drawable.ic_done_white_24dp)
+                        .setContentTitle("Nuova segnalazione!")
+                        .setContentText("Nuovo problema riguardate la tua " + problemaE.getAuto().getModello().getMarca().getNome() + " " + problemaE.getAuto().getModello().getNome());
+                // Gets an instance of the NotificationManager service
+                NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+                // Builds the notification and issues it.
+                mNotifyMgr.notify(problemaE.getIDProblema(), mBuilder.build());
             }
         }
         MainActivity.listProblemiLocal = MainActivity.mySQLiteHelper.getAllProblemi();
