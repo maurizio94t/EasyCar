@@ -8,7 +8,7 @@
             android:title="Home" />
         <item
             android:id="@+id/nav_mie_auto"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_car_grey600_24dp"
             android:title="Mie Auto" />
         <item
             android:id="@+id/nav_slideshow"

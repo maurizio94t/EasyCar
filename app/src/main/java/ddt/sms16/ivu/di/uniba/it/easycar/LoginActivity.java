@@ -32,7 +32,7 @@ public class LoginActivity extends Activity {
     private String jsonStr;
     private EditText mEditTxtEmail;
     private EditText mEditTxtPsw;
-
+    private Button btnRegistrati;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +42,14 @@ public class LoginActivity extends Activity {
         mEditTxtPsw = (EditText) findViewById(R.id.editTxtPsw);
 
         Button btnAccedi = (Button) findViewById(R.id.btnAccedi);
+        Button btnRegistrati = (Button) findViewById(R.id.btnRegistati);
+        btnRegistrati.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent registraUtente = new Intent(getApplication(),RegistrazioneUtente.class);
+                startActivity(registraUtente);
+            }
+        });
         btnAccedi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

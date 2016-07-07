@@ -1,19 +1,21 @@
 package ddt.sms16.ivu.di.uniba.it.easycar;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class RegistrazioneUtente extends Activity {
+public class RegistrazioneUtente extends AppCompatActivity {
     private EditText mNome;
     private EditText mCognome;
     private EditText mData;
@@ -23,7 +25,7 @@ public class RegistrazioneUtente extends Activity {
     private Button cancellaData;
     private Button cancellaMail;
     private Button registraUtente;
-    private TextView testString;
+
     int anno, mese, giorno = 0;
     private String dataN;
     private Calendar myCalendar = Calendar.getInstance();
@@ -33,37 +35,17 @@ public class RegistrazioneUtente extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrazione_utente);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_navigate_before_white_24dp);
+
          mNome = (EditText)findViewById(R.id.nomeUtente);
          mCognome = (EditText)findViewById(R.id.cognomUtente);
          mData = (EditText)findViewById(R.id.dataUtente);
          mEmail = (EditText)findViewById(R.id.email);
-        registraUtente = (Button) findViewById(R.id.registraUtente);
-        cancellaNome = (Button)findViewById(R.id.cancella_nome);
-        cancellaCognome = (Button)findViewById(R.id.cancella_cognome);
-        cancellaData = (Button)findViewById(R.id.cancella_data);
-        cancellaMail = (Button)findViewById(R.id.cancella_mail);
-        testString = (TextView) findViewById(R.id.testString);
 
-        mNome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cancellaNome.setVisibility(View.VISIBLE);
-            }
-        });
 
-        mCognome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cancellaCognome.setVisibility(View.VISIBLE);
-            }
-        });
 
-        mData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cancellaData.setVisibility(View.VISIBLE);
-            }
-        });
 
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
@@ -109,41 +91,6 @@ public class RegistrazioneUtente extends Activity {
                 cancellaMail.setVisibility(View.VISIBLE);
             }
         });
-        cancellaNome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mNome.setText("");
-            }
-        });
-        cancellaCognome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCognome.setText("");
-            }
-        });
-        cancellaData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mData.setText("");
-            }
-        });
-        cancellaMail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mEmail.setText("");
-            }
-        });
-
-        registraUtente.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(campiValidi()){
-                    testString.setText("Campi validi");
-                }else{
-                    testString.setText("Campi non validi");
-                }
-            }
-        });
 
 
     }
@@ -172,5 +119,21 @@ public class RegistrazioneUtente extends Activity {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.done) {
+            Log.d("done","done");
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

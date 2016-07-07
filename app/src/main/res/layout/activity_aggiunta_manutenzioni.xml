@@ -36,7 +36,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="text"
                     android:textSize="@dimen/text_size"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorManutenzione"
                     android:textStyle="bold"
                     android:hint="Descrizione"
 
@@ -62,7 +62,7 @@
                     android:layout_marginTop="20dp"
                     android:textSize="@dimen/text_size"
                     android:onClick="onClick"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorManutenzione"
                     android:textStyle="bold"
                     android:hint="@string/manutenzione"
                     android:singleLine="true" />
@@ -86,7 +86,7 @@
                     android:inputType="numberDecimal"
                     android:layout_marginTop="20dp"
                     android:textSize="@dimen/text_size"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorManutenzione"
                     android:textStyle="bold"
                     android:hint="@string/chilometraggio"
                     android:singleLine="true"

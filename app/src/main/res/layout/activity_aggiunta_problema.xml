@@ -5,7 +5,7 @@
     android:weightSum="1">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:background="@color/colorManutenzione"
+        android:background="@color/colorProblemi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </android.support.v7.widget.Toolbar>
@@ -27,11 +27,12 @@
             android:paddingRight="@dimen/paddingRightIcon"
             />
         <EditText
-            android:layout_width="@dimen/withEditTextForm"            android:id="@+id/Problema"
+            android:layout_width="@dimen/withEditTextForm"
+            android:id="@+id/Problema"
             android:layout_height="wrap_content"
             android:inputType="text"
             android:textSize="@dimen/text_size"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorProblemi"
             android:textStyle="bold"
             android:hint="Descrizione"
 

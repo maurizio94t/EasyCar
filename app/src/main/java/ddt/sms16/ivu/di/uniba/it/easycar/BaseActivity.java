@@ -275,7 +275,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             startActivity(aggiuntaManutenzione);
 
         } else if (id == R.id.nav_info) {
-            Intent gpsTest = new Intent(this, GPS.class);
+            Intent gpsTest = new Intent(this, PosizioneAuto.class);
             startActivity(gpsTest);
 
         }

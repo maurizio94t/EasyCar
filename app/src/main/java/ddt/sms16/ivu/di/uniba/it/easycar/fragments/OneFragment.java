@@ -27,12 +27,12 @@ public class OneFragment extends Fragment {
 
     Context thisContext;
     View view;
-
+    private Button btnPosizione;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_one, container, false);
-
+        btnPosizione = (Button)view.findViewById(R.id.btnPosizione);
         Button b = (Button) view.findViewById(R.id.btnIntend);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -243,8 +243,16 @@ public class OneFragment extends Fragment {
             }
         });
 
+        btnPosizione.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         return view;
     }
+
+
 
 }
