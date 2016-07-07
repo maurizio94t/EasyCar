@@ -33,8 +33,6 @@ import static ddt.sms16.ivu.di.uniba.it.easycar.MainActivity.mySQLiteHelper;
 
 public class PrendiFoto extends AppCompatActivity {
 
-
-
     private static final int ACTION_TAKE_PHOTO_B = 1;
 
     private static final String BITMAP_STORAGE_KEY = "viewbitmap";
@@ -61,8 +59,8 @@ public class PrendiFoto extends AppCompatActivity {
 
 
 
-
-            Button picBtn = (Button) findViewById(R.id.btnIntend);
+            // DELIA HO COMMENTATO QST SOTTO
+            //Button picBtn = (Button) findViewById(R.id.btnIntend);
             Button.OnClickListener mTakePicOnClickListener =
                     new Button.OnClickListener() {
                         @Override
@@ -70,8 +68,8 @@ public class PrendiFoto extends AppCompatActivity {
                             dispatchTakePictureIntent(ACTION_TAKE_PHOTO_B);
                         }
                     };
-
-            setBtnListenerOrDisable(picBtn,mTakePicOnClickListener, MediaStore.ACTION_IMAGE_CAPTURE);
+            // DELIA HO COMMENTATO QST SOTTO
+            //setBtnListenerOrDisable(picBtn,mTakePicOnClickListener, MediaStore.ACTION_IMAGE_CAPTURE);
 
             // in base al livello API setto l'album storage directory
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
@@ -300,5 +298,4 @@ MySQLiteHelper mySQLiteHelper = new MySQLiteHelper(this);
                         PackageManager.MATCH_DEFAULT_ONLY);
         return list.size() > 0;
     }
-
    }

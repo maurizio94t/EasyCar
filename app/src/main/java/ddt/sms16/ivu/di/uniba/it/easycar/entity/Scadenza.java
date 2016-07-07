@@ -1,5 +1,7 @@
 package ddt.sms16.ivu.di.uniba.it.easycar.entity;
 
+import ddt.sms16.ivu.di.uniba.it.easycar.Utility;
+
 /**
  * Created by Enrico on 20/06/16.
  */
@@ -43,12 +45,17 @@ public class Scadenza implements Comparable<Scadenza> {
     }
 
     @Override
-    public int compareTo(Scadenza s) {
-        if(this.descrizione.equals(s.descrizione) &&
-                this.dataScadenza.equalsIgnoreCase(s.dataScadenza) &&
-                this.auto.getTarga().equalsIgnoreCase(s.auto.getTarga()))
+    public int compareTo(Scadenza another) {
+        if(this.descrizione.equals(another.descrizione) &&
+                this.dataScadenza.equalsIgnoreCase(another.dataScadenza) &&
+                this.auto.getTarga().equalsIgnoreCase(another.auto.getTarga()) &&
+                this.auto.compareTo(another.auto) == 0)
             return 0;
         else
             return -1;
+    }
+
+    public boolean before(Scadenza s) {
+        return Utility.convertStringToDate(dataScadenza).before(Utility.convertStringToDate(s.dataScadenza));
     }
 }

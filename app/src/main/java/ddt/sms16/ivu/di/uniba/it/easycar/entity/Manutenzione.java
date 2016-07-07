@@ -1,5 +1,7 @@
 package ddt.sms16.ivu.di.uniba.it.easycar.entity;
 
+import ddt.sms16.ivu.di.uniba.it.easycar.Utility;
+
 /**
  * Created by Enrico on 20/06/16.
  */
@@ -66,9 +68,14 @@ public class Manutenzione implements Comparable<Manutenzione> {
                 this.data.equalsIgnoreCase(another.data) &&
                 this.ordinaria == another.ordinaria &&
                 this.kmManutenzione.equalsIgnoreCase(another.kmManutenzione) &&
-                this.auto.getTarga().equalsIgnoreCase(another.auto.getTarga()))
+                this.auto.getTarga().equalsIgnoreCase(another.auto.getTarga()) &&
+                this.auto.compareTo(another.auto) == 0)
             return 0;
         else
             return -1;
+    }
+
+    public boolean beforeScadenza(Scadenza s) {
+        return Utility.convertStringToDate(data).before(Utility.convertStringToDate(s.getDataScadenza()));
     }
 }

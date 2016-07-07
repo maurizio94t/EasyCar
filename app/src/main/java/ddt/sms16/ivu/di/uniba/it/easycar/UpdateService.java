@@ -1126,7 +1126,7 @@ public class UpdateService extends Service  {
         //update Manutenzioni - update
         for(Manutenzione manutenzioneE : listaManutenzioni) {
             for(Manutenzione manutenzioneL : listManutenzioniLocal) {
-                if(manutenzioneE.getIDManutenzione()== manutenzioneL.getIDManutenzione()) {
+                if(manutenzioneE.getIDManutenzione() == manutenzioneL.getIDManutenzione()) {
                     if(manutenzioneE.compareTo(manutenzioneL) != 0) {
                         mySQLiteHelper.updateMantenzione(manutenzioneE);
                     }

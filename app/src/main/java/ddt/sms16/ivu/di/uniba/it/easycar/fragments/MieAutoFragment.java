@@ -42,8 +42,6 @@ public class MieAutoFragment extends Fragment {
             }
         });
 
-        //INIZIO OK
-
         customAdapter = new CustomAdapter_AutoUtente(
                 thisContext.getApplicationContext(),
                 R.layout.row_auto,
@@ -60,8 +58,6 @@ public class MieAutoFragment extends Fragment {
                 startActivity(intentDettaglioAuto);
             }
         });
-
-        //FINE OK
 
         return view;
     }

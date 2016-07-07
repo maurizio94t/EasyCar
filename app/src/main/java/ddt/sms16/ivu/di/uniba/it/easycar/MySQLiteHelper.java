@@ -168,6 +168,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         values.put("Ordinaria", manutenzione.getOrdinaria());
         values.put("KmManutenzione", manutenzione.getKmManutenzione());
         values.put("Targa", manutenzione.getAuto().getTarga());
+        values.put("Selected", manutenzione.getAuto().getSelected());
 
         db.insert(TABELLA_MANUTENZIONI, null, values);
         db.close();
@@ -409,7 +410,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
             do {
 
-                    manutenzione = new Manutenzione(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getInt(3),cursor.getString(4),new AutoUtente(cursor.getString(5),cursor.getInt(6),cursor.getString(7),new Utente(cursor.getString(20),cursor.getString(21),cursor.getString(22),cursor.getString(23)),new Modello(cursor.getInt(11),cursor.getString(12),cursor.getString(13),cursor.getString(14),cursor.getString(15),cursor.getString(16), new Marca(cursor.getInt(18),cursor.getString(19))),cursor.getInt(3) )) ;
+                    manutenzione = new Manutenzione(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getInt(3),cursor.getString(4),new AutoUtente(cursor.getString(5),cursor.getInt(6),cursor.getString(7),new Utente(cursor.getString(20),cursor.getString(21),cursor.getString(22),cursor.getString(23)),new Modello(cursor.getInt(11),cursor.getString(12),cursor.getString(13),cursor.getString(14),cursor.getString(15),cursor.getString(16), new Marca(cursor.getInt(18),cursor.getString(19))),cursor.getInt(3) /* DELIA manca campo Selected*/)) ;
 
                 manutenzioni.add(manutenzione);
             } while (cursor.moveToNext());
@@ -472,6 +473,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         cv.put("KM",auto.getKm());
         cv.put("AnnoImmatricolazione",auto.getAnnoImmatricolazione());
         cv.put("Modelli_id",auto.getModello().getIDModello());
+        cv.put("Selected",auto.getSelected());
 
         String targa="'"+auto.getTarga()+"'";
         db.update(TABELLA_AUTO_UTENTE, cv, "Targa="+targa, null);
