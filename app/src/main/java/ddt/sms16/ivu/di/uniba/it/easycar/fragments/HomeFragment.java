@@ -4,6 +4,7 @@ package ddt.sms16.ivu.di.uniba.it.easycar.fragments;
 import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.Button;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.MySQLiteHelper;
 import ddt.sms16.ivu.di.uniba.it.easycar.R;
+import ddt.sms16.ivu.di.uniba.it.easycar.SalvaPosizione;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Manutenzione;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Marca;
@@ -27,12 +29,12 @@ public class HomeFragment extends Fragment {
 
     Context thisContext;
     View view;
-    private Button btnPosizione;
+    private Button btnSalvaPosizione;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
-        btnPosizione = (Button)view.findViewById(R.id.btnPosizione);
+        btnSalvaPosizione = (Button)view.findViewById(R.id.btnPosizione);
         Button b = (Button) view.findViewById(R.id.btnIntend);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -243,10 +245,11 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        btnPosizione.setOnClickListener(new View.OnClickListener() {
+        btnSalvaPosizione.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent salvaPos = new Intent(getContext(), SalvaPosizione.class);
+                startActivity(salvaPos);
             }
         });
 

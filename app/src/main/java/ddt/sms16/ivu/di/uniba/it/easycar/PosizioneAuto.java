@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -43,7 +44,6 @@ import java.util.Locale;
 public class PosizioneAuto extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private GoogleMap map;
     private LatLng POSIZIONE_AUTO;
-    protected static final String TAG = "Posizione Auto";
     protected GoogleApiClient mGoogleApiClient;
     protected Location mLastLocation;
     protected TextView mLocation;
@@ -52,6 +52,9 @@ public class PosizioneAuto extends AppCompatActivity implements GoogleApiClient.
     private Activity activity;
     private LocationManager mlocManager;
     private LocationListener gpsListener;
+    public static SharedPreferences sharedpreferences;
+    protected static final String TAG = "Posizione Auto";
+    public static final String MyPREFERENCES = "MyPreferences";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +63,7 @@ public class PosizioneAuto extends AppCompatActivity implements GoogleApiClient.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         toolbar.setNavigationIcon(R.drawable.ic_navigate_before_white_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,9 +105,11 @@ public class PosizioneAuto extends AppCompatActivity implements GoogleApiClient.
 
     @Override
     public void onConnected(Bundle connectionHint) {
+        Geocoder geocoder;
+        List<Address> addresses = new ArrayList<>();
+        geocoder = new Geocoder(this, Locale.getDefault());
 
-
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+       /* mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (mLastLocation != null) {
 
             Geocoder geocoder;
@@ -119,9 +124,23 @@ public class PosizioneAuto extends AppCompatActivity implements GoogleApiClient.
             mLocation.setText(addresses.get(0).getAddressLine(0));
         } else {
             Toast.makeText(this, R.string.no_location_detected, Toast.LENGTH_LONG).show();
+        }*/
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, 0);
+       SharedPreferences.Editor prefEditor = sharedpreferences.edit();
+        String latitude = sharedpreferences.getString("Latitude","");
+        String longitude = sharedpreferences.getString("Longitude","");
+        double latitudeP = Double.parseDouble(latitude);
+        double longitudeP = Double.parseDouble(longitude);
+        try {
+            addresses = geocoder.getFromLocation(latitudeP,longitudeP, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        POSIZIONE_AUTO = new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude());
+        if(latitudeP == 0 && longitudeP ==0){
+            Toast.makeText(activity, "Sono a 0", Toast.LENGTH_SHORT)
+                    .show();
+        }
+        POSIZIONE_AUTO = new LatLng(latitudeP,longitudeP);
         Marker kiel = map.addMarker(new MarkerOptions()
                 .position(POSIZIONE_AUTO)
                 .title("La tua auto")
@@ -131,6 +150,7 @@ public class PosizioneAuto extends AppCompatActivity implements GoogleApiClient.
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(POSIZIONE_AUTO, 15));
 
         map.animateCamera(CameraUpdateFactory.zoomTo(16), 2000, null);
+        mLocation.setText(addresses.get(0).getAddressLine(0));
     }
 
 
