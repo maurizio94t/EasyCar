@@ -11,9 +11,11 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,12 +40,14 @@ import ddt.sms16.ivu.di.uniba.it.easycar.entity.Utente;
 public class UpdateService extends Service  {//uses Main thread not create in another thread.
     private int mTime ;
     private String json;
+    private RequestQueue queue;
 
     @Override
     public void onCreate() {
         super.onCreate();
         Toast.makeText(getApplicationContext(),"Create Service",Toast.LENGTH_LONG).show();
         mTime = 0;
+        queue = Volley.newRequestQueue(getApplicationContext());
     }
 
     @Override
@@ -106,8 +110,7 @@ public class UpdateService extends Service  {//uses Main thread not create in an
                     return params;
                 };
             };
-            MainActivity.queue.add(myReq);
-
+            queue.add(myReq);
         }
 
         //new AsyncDept().execute(mTime);
@@ -134,8 +137,8 @@ public class UpdateService extends Service  {//uses Main thread not create in an
         @Override
         protected Void doInBackground(String... params) {
             Log.e("SERVICE >", "doInBackground");
-
             try {
+                Log.e("SERVICE-RESP >", params[0]);
                 JSONObject jsonObj = new JSONObject(params[0]);
                 parse(jsonObj);
             } catch (JSONException e) {
@@ -149,8 +152,7 @@ public class UpdateService extends Service  {//uses Main thread not create in an
         protected void onPostExecute(Void requestresult) {
             super.onPostExecute(requestresult);
             Log.e("SERVICE >", "onPostExecute");
-
-
+            aggiornaDataBaseLocale();
         }
 
     }
@@ -444,7 +446,8 @@ public class UpdateService extends Service  {//uses Main thread not create in an
         // creo l'oggetto dell' Utente Loggato
         MainActivity.utenteLoggato = new Utente(nomeUtLog, cognomeUtLog, dataNUtLog, emailUtLog ,pswUtLog);
 
-        // Prelevo JSON Array node (UtenteLoggato)
+
+        // Prelevo JSON Array node (Utenti)
         JSONArray utentiJSON = jsonObj.getJSONArray(MainActivity.TAG_UTENTI);
         // Ciclo tutti gli utenti
         for (int i = 0; i < utentiJSON.length(); i++) {
@@ -547,6 +550,8 @@ public class UpdateService extends Service  {//uses Main thread not create in an
         }
         MainActivity.listManutenzioniLocal = MainActivity.mySQLiteHelper.getAllManutenzioni();
 
+
+        /*
         //update Problemi
         MainActivity.listProblemiLocal = MainActivity.mySQLiteHelper.getAllProblemi();
         for(Problema problemaE : MainActivity.listaProblemi) {
@@ -562,8 +567,9 @@ public class UpdateService extends Service  {//uses Main thread not create in an
             }
         }
         MainActivity.listProblemiLocal = MainActivity.mySQLiteHelper.getAllProblemi();
+        */
 
-        //update Scadenze
+        //update Scadenze - insert
         MainActivity.listScadenzeLocal = MainActivity.mySQLiteHelper.getAllScadenze();
         for(Scadenza scadenzaE : MainActivity.listaScadenze) {
             trovato = false;
@@ -575,6 +581,19 @@ public class UpdateService extends Service  {//uses Main thread not create in an
             }
             if(!trovato) {
                 MainActivity.mySQLiteHelper.aggiungiScadenza(scadenzaE);
+            }
+        }
+        MainActivity.listScadenzeLocal = MainActivity.mySQLiteHelper.getAllScadenze();
+
+        //update Scadenze - update
+        for(Scadenza scadenzaE : MainActivity.listaScadenze) {
+            for(Scadenza scadenzaL : MainActivity.listScadenzeLocal) {
+                if(scadenzaE.getIDScadenza() == scadenzaL.getIDScadenza()) {
+                    if(scadenzaE.compareTo(scadenzaL) != 0) {
+                        MainActivity.mySQLiteHelper.updateScadenza(scadenzaE);
+                    }
+                    break;
+                }
             }
         }
         MainActivity.listScadenzeLocal = MainActivity.mySQLiteHelper.getAllScadenze();

@@ -112,20 +112,8 @@ public class ProblemiFragment extends Fragment {
         final FloatingActionButton aggiuntaProblemi = (FloatingActionButton)  view.findViewById(R.id.aggingiProblema);
         aggiuntaProblemi.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-                Log.d("fragment","funzionaaa");
-                /*
-
-                Fragment fragment = new AggiuntaScadenzaFragment();
-
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_container, fragment);
-                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                ft.addToBackStack(null);
-                ft.commit();
-                */
-                Intent aggiuntaProblema = new Intent(getActivity(), AggiuntaProblema.class);
-                startActivity(aggiuntaProblema);
+                Intent intentAggiuntaProblema = new Intent(getActivity(), AggiuntaProblema.class);
+                startActivity(intentAggiuntaProblema);
             }
         });
         return view;
