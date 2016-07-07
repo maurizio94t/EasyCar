@@ -271,10 +271,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public List<AutoUtente> getAllAutoUtente() {
         List<AutoUtente> auto = new LinkedList<AutoUtente>();
 
-
+        String email="'"+MainActivity.utenteLoggato.getEmail()+"'";
         String query =
 
-        "SELECT * FROM "+ TABELLA_AUTO_UTENTE +" JOIN "+ TABELLA_MODELLI+ " ON Modelli_id=IDModello JOIN "+ TABELLA_MARCHE+ " ON Marca_id=IDMarca JOIN " + TABELLA_UTENTI+" ON Utenti_Email=Email ;";
+        "SELECT * FROM "+ TABELLA_AUTO_UTENTE +" JOIN "+ TABELLA_MODELLI+ " ON Modelli_id=IDModello JOIN "+ TABELLA_MARCHE+ " ON Marca_id=IDMarca JOIN " + TABELLA_UTENTI+" ON Utenti_Email=Email WHERE AutoUtente.Utenti_Email="+email;
 
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -396,10 +396,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         List<Problema> problemi = new LinkedList<Problema>();
 
 
-        //String query = "SELECT * FROM "+TABELLA_PROBLEMI+" NATURAL JOIN "+TABELLA_AUTO_UTENTE+" JOIN "+TABELLA_MODELLI+" ON Modelli_id=IDModello JOIN "+ TABELLA_MARCHE+" ON Marca_id=IDMarca JOIN "+TABELLA_UTENTI+" ON Utenti_Email=Email";
-        Log.d("utente",MainActivity.utenteLoggato.getEmail().toString());
-        String email="'"+MainActivity.utenteLoggato.getEmail()+"'";
-        String query = "SELECT * FROM "+TABELLA_PROBLEMI+"  JOIN "+TABELLA_AUTO_UTENTE+ " ON Problemi.Targa=AutoUtente.Targa WHERE AutoUtente.Utenti_Email="+email;
+        String query = "SELECT * FROM "+TABELLA_PROBLEMI+" NATURAL JOIN "+TABELLA_AUTO_UTENTE+" JOIN "+TABELLA_MODELLI+" ON Modelli_id=IDModello JOIN "+ TABELLA_MARCHE+" ON Marca_id=IDMarca JOIN "+TABELLA_UTENTI+" ON Utenti_Email=Email";
+
+
+    //    String query = "SELECT * FROM "+TABELLA_PROBLEMI+"  JOIN "+TABELLA_AUTO_UTENTE+ " ON Problemi.Targa=AutoUtente.Targa ";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
