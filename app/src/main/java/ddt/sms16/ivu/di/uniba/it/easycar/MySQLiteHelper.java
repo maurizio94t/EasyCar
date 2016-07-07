@@ -199,8 +199,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public List<AutoUtente> getAllAutoUtente() {
         List<AutoUtente> auto = new LinkedList<AutoUtente>();
         AutoUtente autoUtente;
-        String email;
-        email = "'".concat(MainActivity.utenteLoggato.getEmail()).concat("'");
+
         String query = "SELECT * FROM "+ TABELLA_AUTO_UTENTE +" JOIN "+ TABELLA_MODELLI+ " ON Modelli_id=IDModello JOIN "+ TABELLA_MARCHE+ " ON Marca_id=IDMarca JOIN " + TABELLA_UTENTI+" ON Utenti_Email=Email ";
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -224,7 +223,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         List<AutoUtente> auto = new LinkedList<AutoUtente>();
         AutoUtente autoUtente;
         String email;
-        email = "'".concat(MainActivity.utenteLoggato.getEmail()).concat("'");
+        email = "'".concat(MainActivity.sharedpreferences.getString(MainActivity.TAG_UTENTE_EMAIL, "")).concat("'");
         String query = "SELECT * FROM "+ TABELLA_AUTO_UTENTE +" JOIN "+ TABELLA_MODELLI+ " ON Modelli_id=IDModello JOIN "+ TABELLA_MARCHE+ " ON Marca_id=IDMarca JOIN " + TABELLA_UTENTI+" ON Utenti_Email=Email WHERE AutoUtente.Utenti_Email="+email;
 
         SQLiteDatabase db = this.getWritableDatabase();

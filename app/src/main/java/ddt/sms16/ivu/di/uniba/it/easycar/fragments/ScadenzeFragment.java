@@ -37,7 +37,7 @@ public class ScadenzeFragment extends Fragment {
         customAdapter = new CustomAdapter_Scadenze(
                 thisContext.getApplicationContext(),
                 R.layout.row_scadenza,
-                MainActivity.listScadenzeLocal);
+                MainActivity.mySQLiteHelper.getAllScadenze());
 
         //utilizzo dell'adapter
         listView = (ListView) view.findViewById(R.id.listView);

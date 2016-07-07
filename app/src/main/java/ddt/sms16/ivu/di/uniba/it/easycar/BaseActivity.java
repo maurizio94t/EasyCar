@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -190,22 +192,13 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         MainActivity.queue.add(myReq1);
 
         // fine
-        /*
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_done_white_24dp)
-                        .setContentTitle("My notification")
-                        .setContentText("Hello World!");
 
-        // Sets an ID for the notification
-        int mNotificationId = 001;
-        // Gets an instance of the NotificationManager service
-        NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        // Builds the notification and issues it.
-        mNotifyMgr.notify(mNotificationId, mBuilder.build());
-        */
-
-        //aggiornamente del db locare se c'è connessione
-        UpdateService.aggiornaDataBaseLocale(getApplicationContext());
+        //aggiornamento del db locale se c'è connessione
+        if(Utility.checkInternetConnection(getApplicationContext())) {
+            UpdateService.aggiornaDataBaseLocale();
+        } else {
+            Toast.makeText(getApplicationContext(), "Connessione non presente!", Toast.LENGTH_LONG).show();
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

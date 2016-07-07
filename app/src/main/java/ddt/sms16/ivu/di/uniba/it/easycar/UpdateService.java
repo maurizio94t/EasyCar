@@ -6,8 +6,10 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -25,6 +27,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
@@ -39,31 +42,43 @@ import ddt.sms16.ivu.di.uniba.it.easycar.entity.Utente;
  * Created by Maurizio on 03/07/16.
  */
 public class UpdateService extends Service  {
+    private static SharedPreferences sharedpreferences;
+
     private int mTime ;
     private String json;
     private RequestQueue queue;
     private Context context;
 
+    private MySQLiteHelper mySQLiteHelper;
+
+    private ArrayList<AutoUtente> listaAutoUtente;
+    private ArrayList<Manutenzione> listaManutenzioni;
+    private ArrayList<Modello> listaModelli;
+    private  ArrayList<Marca> listaMarche;
+    private ArrayList<Problema> listaProblemi;
+    private ArrayList<Scadenza> listaScadenze;
+    private ArrayList<Utente> listaUtenti;
+
     @Override
     public void onCreate() {
         super.onCreate();
-        Toast.makeText(getApplicationContext(),"Create Service",Toast.LENGTH_LONG).show();
         mTime = 0;
+        sharedpreferences = getSharedPreferences(MainActivity.MyPREFERENCES, Context.MODE_PRIVATE);
         queue = Volley.newRequestQueue(getApplicationContext());
         context = getApplicationContext();
+
+        mySQLiteHelper = new MySQLiteHelper(getApplicationContext());
     }
 
     @Override
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
         Log.d("SERVICE >","onStart" + mTime) ;
-        //Toast.makeText(getApplicationContext(),"Start Service",Toast.LENGTH_LONG).show();
-
-
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.e("SERVICE >","onStartCommand");
         /*
         Intent mIntent = intent ;
         String msg = mIntent.getStringExtra("msg")
@@ -76,12 +91,12 @@ public class UpdateService extends Service  {
         try {
             pintent = PendingIntent.getService(this, 0, intent, 0);
         } catch (NullPointerException e) {
-            Log.e("SERVICE >","NullPointerException()");
+            Log.e("SERVICE >","NullPointerException() --> Reset del Service");
         }
 
         AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         // Start service every hour
-        alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 1000 * 5, pintent);//1000*60 = minute
+        alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 1000 * 60, pintent); //1000*60 = minute
         mTime++;
 
         if(Utility.checkInternetConnection(getApplicationContext())) {
@@ -104,8 +119,8 @@ public class UpdateService extends Service  {
                     }) {
 
                 protected Map<String, String> getParams() throws com.android.volley.AuthFailureError {
-                    String user = MainActivity.sharedpreferences.getString(MainActivity.TAG_UTENTE_EMAIL, "");
-                    String psw = MainActivity.sharedpreferences.getString(MainActivity.TAG_UTENTE_PSW, "");
+                    String user = sharedpreferences.getString(MainActivity.TAG_UTENTE_EMAIL, "");
+                    String psw = sharedpreferences.getString(MainActivity.TAG_UTENTE_PSW, "");
 
                     Map<String, String> params = new HashMap<String, String>();
                     params.put("email", user);
@@ -115,9 +130,6 @@ public class UpdateService extends Service  {
             };
             queue.add(myReq);
         }
-
-        Log.e("SERVICE >","onStartCommand");
-
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -141,8 +153,8 @@ public class UpdateService extends Service  {
             try {
                 Log.e("SERVICE-RESP >", params[0]);
                 JSONObject jsonObj = new JSONObject(params[0]);
-                parse(jsonObj);
-            } catch (JSONException e) {
+                parseService(jsonObj);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -153,7 +165,12 @@ public class UpdateService extends Service  {
         protected void onPostExecute(Void requestresult) {
             super.onPostExecute(requestresult);
             Log.e("SERVICE >", "onPostExecute");
-            aggiornaDataBaseLocale(context);
+            //aggiornaDataBaseLocale(context, ENABLE_NOTIFICATIONS);
+            try {
+                aggiornaDataBaseLocaleService();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
     }
@@ -165,6 +182,7 @@ public class UpdateService extends Service  {
         MainActivity.listaMarche = new ArrayList<Marca>();
         MainActivity.listaProblemi = new ArrayList<Problema>();
         MainActivity.listaScadenze = new ArrayList<Scadenza>();
+        MainActivity.listaUtenti = new ArrayList<Utente>();
 
         // Prelevo JSON Array node (AutoUtente)
         JSONArray autoUtentiJSON = jsonObj.getJSONArray(MainActivity.TAG_AUTOUTENTE);
@@ -466,7 +484,302 @@ public class UpdateService extends Service  {
         }
     }
 
-    public static void aggiornaDataBaseLocale(Context context) {
+    private void parseService(JSONObject jsonObj) throws JSONException {
+        listaAutoUtente = new ArrayList<AutoUtente>();
+        listaManutenzioni = new ArrayList<Manutenzione>();
+        listaModelli = new ArrayList<Modello>();
+        listaMarche = new ArrayList<Marca>();
+        listaProblemi = new ArrayList<Problema>();
+        listaScadenze = new ArrayList<Scadenza>();
+        listaUtenti = new ArrayList<Utente>();
+
+        // Prelevo JSON Array node (AutoUtente)
+        JSONArray autoUtentiJSON = jsonObj.getJSONArray(MainActivity.TAG_AUTOUTENTE);
+        // Ciclo tutte le auto degli utenti
+        for (int i = 0; i < autoUtentiJSON.length(); i++) {
+            JSONObject autoUtentiObj = autoUtentiJSON.getJSONObject(i);
+
+            String targa = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_TARGA);
+            int km = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_KM);
+            String annoImmatricolazione = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE);
+            //String foto = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_FOTO_AUTO);
+
+            //get Utente
+            JSONObject utenteObj = autoUtentiObj.getJSONObject(MainActivity.TAG_UTENTE);
+
+            String nome = utenteObj.getString(MainActivity.TAG_UTENTE_NOME);
+            String cognome = utenteObj.getString(MainActivity.TAG_UTENTE_COGNOME);
+            String dataN = utenteObj.getString(MainActivity.TAG_UTENTE_DATANASCITA);
+            //String foto = u.getString(MainActivity.TAG_UTENTE_FOTO);
+            String email = utenteObj.getString(MainActivity.TAG_UTENTE_EMAIL);
+
+            // creo l'oggetto del singolo Utente
+            Utente utenteAuto = new Utente(nome, cognome, dataN, email);
+
+            int selected = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_SELECTED);
+
+            //get Modello
+            JSONObject modelloObj = autoUtentiObj.getJSONObject(MainActivity.TAG_AUTOUTENTE_MODELLO);
+
+            int idModello = modelloObj.getInt(MainActivity.TAG_MODELLI_IDMODELLO);
+            String nomeModello = modelloObj.getString(MainActivity.TAG_MODELLI_NOME);
+            String segmento = modelloObj.getString(MainActivity.TAG_MODELLI_SEGMENTO);
+            String alimentazione = modelloObj.getString(MainActivity.TAG_MODELLI_ALIMENTAZIONE);
+            String cilindrata = modelloObj.getString(MainActivity.TAG_MODELLI_CILINDRATA);
+            String kw = modelloObj.getString(MainActivity.TAG_MODELLI_KW);
+
+            //get Marca
+            JSONObject marcaObj = modelloObj.getJSONObject(MainActivity.TAG_MODELLI_MARCA);
+
+            int idMarca = marcaObj.getInt(MainActivity.TAG_MARCHE_IDMARCA);
+            String nomeMarca = marcaObj.getString(MainActivity.TAG_MARCHE_NOME);
+
+            //costruisco gli oggetti
+            Marca marca = new Marca(idMarca, nomeMarca);
+            Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
+            AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione,  utenteAuto, modello, selected);
+
+            // aggiungo la singola auto alla lista di auto dell'utente
+            listaAutoUtente.add(autoutente);
+        }
+
+        // Prelevo JSON Array node (Manutenzioni)
+        JSONArray manutenzioni = jsonObj.getJSONArray(MainActivity.TAG_MANUTENZIONI);
+        // Ciclo tutte le manutenzioni dell'utente
+        for (int i = 0; i < manutenzioni.length(); i++) {
+            JSONObject manutenzioniObj = manutenzioni.getJSONObject(i);
+
+            int id = manutenzioniObj.getInt(MainActivity.TAG_MANUTENZIONI_ID_MANUTENZIONE);
+            String desc = manutenzioniObj.getString(MainActivity.TAG_MANUTENZIONI_DESCRIZIONE);
+            String dataS = manutenzioniObj.getString(MainActivity.TAG_MANUTENZIONI_DATA);
+            int ord = manutenzioniObj.getInt(MainActivity.TAG_MANUTENZIONI_ORDINARIA);
+            String kmManut = manutenzioniObj.getString(MainActivity.TAG_MANUTENZIONI_KM_MANUTENZIONE);
+
+            //get Veicolo
+            JSONObject veicoloObj = manutenzioniObj.getJSONObject(MainActivity.TAG_MANUTENZIONI_VEICOLO);
+
+            String targa = veicoloObj.getString(MainActivity.TAG_AUTOUTENTE_TARGA);
+            int km = veicoloObj.getInt(MainActivity.TAG_AUTOUTENTE_KM);
+            String annoImmatricolazione = veicoloObj.getString(MainActivity.TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE);
+            //String foto = veicoloObj.getString(MainActivity.TAG_AUTOUTENTE_FOTO_AUTO);
+
+            //get Utente
+            JSONObject utenteObj = veicoloObj.getJSONObject(MainActivity.TAG_UTENTE);
+
+            String nome = utenteObj.getString(MainActivity.TAG_UTENTE_NOME);
+            String cognome = utenteObj.getString(MainActivity.TAG_UTENTE_COGNOME);
+            String dataN = utenteObj.getString(MainActivity.TAG_UTENTE_DATANASCITA);
+            //String foto = u.getString(MainActivity.TAG_UTENTE_FOTO);
+            String email = utenteObj.getString(MainActivity.TAG_UTENTE_EMAIL);
+
+            // creo l'oggetto del singolo Utente
+            Utente utenteAuto = new Utente(nome, cognome, dataN, email);
+
+            int selected = veicoloObj.getInt(MainActivity.TAG_AUTOUTENTE_SELECTED);
+
+            //get Modello
+            JSONObject modelloObj = veicoloObj.getJSONObject(MainActivity.TAG_AUTOUTENTE_MODELLO);
+
+            int idModello = modelloObj.getInt(MainActivity.TAG_MODELLI_IDMODELLO);
+            String nomeModello = modelloObj.getString(MainActivity.TAG_MODELLI_NOME);
+            String segmento = modelloObj.getString(MainActivity.TAG_MODELLI_SEGMENTO);
+            String alimentazione = modelloObj.getString(MainActivity.TAG_MODELLI_ALIMENTAZIONE);
+            String cilindrata = modelloObj.getString(MainActivity.TAG_MODELLI_CILINDRATA);
+            String kw = modelloObj.getString(MainActivity.TAG_MODELLI_KW);
+
+            //get Marca
+            JSONObject marcaObj = modelloObj.getJSONObject(MainActivity.TAG_MODELLI_MARCA);
+
+            int idMarca = marcaObj.getInt(MainActivity.TAG_MARCHE_IDMARCA);
+            String nomeMarca = marcaObj.getString(MainActivity.TAG_MARCHE_NOME);
+
+            //costruisco gli oggetti
+            Marca marca = new Marca(idMarca, nomeMarca);
+            Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
+            AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, /*R.drawable.ic_menu_gallery*/ utenteAuto, modello, selected);
+            Manutenzione manutenzione = new Manutenzione(id, desc, dataS, ord, kmManut, autoutente);
+
+            // aggiungo la singola manutenzione alla lista di manutenzioni
+            listaManutenzioni.add(manutenzione);
+        }
+
+        // Prelevo JSON Array node (Modelli)
+        JSONArray modelli = jsonObj.getJSONArray(MainActivity.TAG_MODELLI);
+        // Ciclo tutti i modelli delle auto
+        for (int i = 0; i < modelli.length(); i++) {
+            JSONObject modelloObj = modelli.getJSONObject(i);
+
+            int idModello = modelloObj.getInt(MainActivity.TAG_MODELLI_IDMODELLO);
+            String nomeModello = modelloObj.getString(MainActivity.TAG_MODELLI_NOME);
+            String segmento = modelloObj.getString(MainActivity.TAG_MODELLI_SEGMENTO);
+            String alimentazione = modelloObj.getString(MainActivity.TAG_MODELLI_ALIMENTAZIONE);
+            String cilindrata = modelloObj.getString(MainActivity.TAG_MODELLI_CILINDRATA);
+            String kw = modelloObj.getString(MainActivity.TAG_MODELLI_KW);
+
+            //get Marca
+            JSONObject marcaObj = modelloObj.getJSONObject(MainActivity.TAG_MODELLI_MARCA);
+
+            int idMarca = marcaObj.getInt(MainActivity.TAG_MARCHE_IDMARCA);
+            String nomeMarca = marcaObj.getString(MainActivity.TAG_MARCHE_NOME);
+
+            //costruisco gli oggetti
+            Marca marca = new Marca(idMarca, nomeMarca);
+            Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
+
+            // aggiungo la singola manutenzione alla lista di manutenzioni
+            listaModelli.add(modello);
+        }
+
+        // Prelevo JSON Array node (Marche)
+        JSONArray marche = jsonObj.getJSONArray(MainActivity.TAG_MARCHE);
+        // Ciclo tutte le marche delle auto
+        for (int i = 0; i < marche.length(); i++) {
+            JSONObject marcaObj = marche.getJSONObject(i);
+
+            int idMarca = marcaObj.getInt(MainActivity.TAG_MARCHE_IDMARCA);
+            String nomeMarca = marcaObj.getString(MainActivity.TAG_MARCHE_NOME);
+
+            //costruisco gli oggetti
+            Marca marca = new Marca(idMarca, nomeMarca);
+
+            // aggiungo la singola manutenzione alla lista di manutenzioni
+            listaMarche.add(marca);
+        }
+
+        // Prelevo JSON Array node (Problemi)
+        JSONArray problemiJSON = jsonObj.getJSONArray(MainActivity.TAG_PROBLEMI);
+        // Ciclo tutte le auto degli utenti
+        for (int i = 0; i < problemiJSON.length(); i++) {
+            JSONObject problemaObj = problemiJSON.getJSONObject(i);
+
+            int idProblema = problemaObj.getInt(MainActivity.TAG_PROBLEMI_IDPROBLEMA);
+            String descrizioneProblema = problemaObj.getString(MainActivity.TAG_PROBLEMI_DESCRIZIONE);
+
+
+            JSONObject autoUtentiObj = problemaObj.getJSONObject(MainActivity.TAG_PROBLEMI_VEICOLO);
+
+            String targa = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_TARGA);
+            int km = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_KM);
+            String annoImmatricolazione = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE);
+            //String foto = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_FOTO_AUTO);
+
+            //get Utente
+            JSONObject utenteObj = autoUtentiObj.getJSONObject(MainActivity.TAG_UTENTE);
+
+            String nome = utenteObj.getString(MainActivity.TAG_UTENTE_NOME);
+            String cognome = utenteObj.getString(MainActivity.TAG_UTENTE_COGNOME);
+            String dataN = utenteObj.getString(MainActivity.TAG_UTENTE_DATANASCITA);
+            //String foto = u.getString(MainActivity.TAG_UTENTE_FOTO);
+            String email = utenteObj.getString(MainActivity.TAG_UTENTE_EMAIL);
+
+            // creo l'oggetto del singolo Utente
+            Utente utenteAuto = new Utente(nome, cognome, dataN, email);
+
+            int selected = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_SELECTED);
+
+            //get Modello
+            JSONObject modelloObj = autoUtentiObj.getJSONObject(MainActivity.TAG_AUTOUTENTE_MODELLO);
+
+            int idModello = modelloObj.getInt(MainActivity.TAG_MODELLI_IDMODELLO);
+            String nomeModello = modelloObj.getString(MainActivity.TAG_MODELLI_NOME);
+            String segmento = modelloObj.getString(MainActivity.TAG_MODELLI_SEGMENTO);
+            String alimentazione = modelloObj.getString(MainActivity.TAG_MODELLI_ALIMENTAZIONE);
+            String cilindrata = modelloObj.getString(MainActivity.TAG_MODELLI_CILINDRATA);
+            String kw = modelloObj.getString(MainActivity.TAG_MODELLI_KW);
+
+            //get Marca
+            JSONObject marcaObj = modelloObj.getJSONObject(MainActivity.TAG_MODELLI_MARCA);
+
+            int idMarca = marcaObj.getInt(MainActivity.TAG_MARCHE_IDMARCA);
+            String nomeMarca = marcaObj.getString(MainActivity.TAG_MARCHE_NOME);
+
+            //costruisco gli oggetti
+            Marca marca = new Marca(idMarca, nomeMarca);
+            Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
+            AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione,/* R.drawable.ic_menu_gallery*/  utenteAuto, modello, selected);
+            Problema problema = new Problema(idProblema, descrizioneProblema, autoutente);
+
+            // aggiungo il singolo problema alla lista dei problemi
+            listaProblemi.add(problema);
+        }
+
+        // Prelevo JSON Array node (Scadenze)
+        JSONArray scadenzeJSON = jsonObj.getJSONArray(MainActivity.TAG_SCADENZE);
+        // Ciclo tutte le auto degli utenti
+        for (int i = 0; i < scadenzeJSON.length(); i++) {
+            JSONObject scadenzaObj = scadenzeJSON.getJSONObject(i);
+
+            int idScadenza = scadenzaObj.getInt(MainActivity.TAG_SCADENZE_IDSCADENZA);
+            String descrizioneScadenza = scadenzaObj.getString(MainActivity.TAG_SCADENZE_DESCRIZIONE);
+            String dataScadenza = scadenzaObj.getString(MainActivity.TAG_SCADENZE_DATASCADENZA);
+
+
+            JSONObject autoUtentiObj = scadenzaObj.getJSONObject(MainActivity.TAG_PROBLEMI_VEICOLO);
+
+            String targa = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_TARGA);
+            int km = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_KM);
+            String annoImmatricolazione = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE);
+            //String foto = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_FOTO_AUTO);
+
+            //get Utente
+            JSONObject utenteObj = autoUtentiObj.getJSONObject(MainActivity.TAG_UTENTE);
+
+            String nome = utenteObj.getString(MainActivity.TAG_UTENTE_NOME);
+            String cognome = utenteObj.getString(MainActivity.TAG_UTENTE_COGNOME);
+            String dataN = utenteObj.getString(MainActivity.TAG_UTENTE_DATANASCITA);
+            //String foto = u.getString(MainActivity.TAG_UTENTE_FOTO);
+            String email = utenteObj.getString(MainActivity.TAG_UTENTE_EMAIL);
+
+            // creo l'oggetto del singolo Utente
+            Utente utenteAuto = new Utente(nome, cognome, dataN, email);
+
+            int selected = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_SELECTED);
+
+            //get Modello
+            JSONObject modelloObj = autoUtentiObj.getJSONObject(MainActivity.TAG_AUTOUTENTE_MODELLO);
+
+            int idModello = modelloObj.getInt(MainActivity.TAG_MODELLI_IDMODELLO);
+            String nomeModello = modelloObj.getString(MainActivity.TAG_MODELLI_NOME);
+            String segmento = modelloObj.getString(MainActivity.TAG_MODELLI_SEGMENTO);
+            String alimentazione = modelloObj.getString(MainActivity.TAG_MODELLI_ALIMENTAZIONE);
+            String cilindrata = modelloObj.getString(MainActivity.TAG_MODELLI_CILINDRATA);
+            String kw = modelloObj.getString(MainActivity.TAG_MODELLI_KW);
+
+            //get Marca
+            JSONObject marcaObj = modelloObj.getJSONObject(MainActivity.TAG_MODELLI_MARCA);
+
+            int idMarca = marcaObj.getInt(MainActivity.TAG_MARCHE_IDMARCA);
+            String nomeMarca = marcaObj.getString(MainActivity.TAG_MARCHE_NOME);
+
+            //costruisco gli oggetti
+            Marca marca = new Marca(idMarca, nomeMarca);
+            Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
+            AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, /*R.drawable.ic_menu_gallery*/ utenteAuto, modello, selected);
+            Scadenza scadenza = new Scadenza(idScadenza, descrizioneScadenza, dataScadenza, autoutente);
+
+            // aggiungo il singolo problema alla lista dei problemi
+            listaScadenze.add(scadenza);
+        }
+
+        // Prelevo JSON Array node (Utenti)
+        JSONArray utentiJSON = jsonObj.getJSONArray(MainActivity.TAG_UTENTI);
+        // Ciclo tutti gli utenti
+        for (int i = 0; i < utentiJSON.length(); i++) {
+            JSONObject u = utentiJSON.getJSONObject(i);
+
+            String nome = u.getString(MainActivity.TAG_UTENTE_NOME);
+            String cognome = u.getString(MainActivity.TAG_UTENTE_COGNOME);
+            String dataN = u.getString(MainActivity.TAG_UTENTE_DATANASCITA);
+            //String foto = u.getString(MainActivity.TAG_UTENTE_FOTO);
+            String email = u.getString(MainActivity.TAG_UTENTE_EMAIL);
+
+            // creo l'oggetto del singolo Utente
+            Utente utente = new Utente(nome, cognome, dataN , email);
+            listaUtenti.add(utente);
+        }
+    }
+
+    public static void aggiornaDataBaseLocale() {
         //aggiungo ai dati in locale i nuovi dati presenti sul DB
 
         boolean trovato;
@@ -627,17 +940,6 @@ public class UpdateService extends Service  {
             }
             if(!trovato) {
                 MainActivity.mySQLiteHelper.aggiungiProblemi(problemaE);
-                // ---------------> mostra la notifica <---------------
-                /*
-                android.support.v4.app.NotificationCompat.Builder mBuilder = new android.support.v4.app.NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.ic_done_white_24dp)
-                        .setContentTitle("Nuova segnalazione!")
-                        .setContentText("Nuovo problema riguardate la tua " + problemaE.getAuto().getModello().getMarca().getNome() + " " + problemaE.getAuto().getModello().getNome());
-                // Gets an instance of the NotificationManager service
-                NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-                // Builds the notification and issues it.
-                mNotifyMgr.notify(problemaE.getIDProblema(), mBuilder.build());
-                */
             }
         }
         MainActivity.listProblemiLocal = MainActivity.mySQLiteHelper.getAllProblemi();
@@ -686,4 +988,219 @@ public class UpdateService extends Service  {
 
     }
 
+    private void aggiornaDataBaseLocaleService() throws Exception {
+        //aggiungo ai dati in locale i nuovi dati presenti sul DB
+        boolean trovato;
+        //update Marche - insert
+        List<Marca> listMarcheLocal = mySQLiteHelper.getAllMarche();
+        for(Marca marcaE : listaMarche) {
+            trovato = false;
+            for(Marca marcaL : listMarcheLocal) {
+                if(marcaE.getIDMarca() == marcaL.getIDMarca()) {
+                    trovato = true;
+                    break;
+                }
+            }
+            if(!trovato) {
+                mySQLiteHelper.aggiungiMarca(marcaE);
+            }
+        }
+        listMarcheLocal = mySQLiteHelper.getAllMarche();
+
+        //update Marche - update
+        for(Marca marcaE : listaMarche) {
+            for(Marca marcaL : listMarcheLocal) {
+                if(marcaE.getIDMarca() == marcaL.getIDMarca()) {
+                    if(marcaE.compareTo(marcaL) != 0) {
+                        mySQLiteHelper.updateMarca(marcaE);
+                    }
+                    break;
+                }
+            }
+        }
+        listMarcheLocal = mySQLiteHelper.getAllMarche();
+
+        //update Modelli - insert
+        List<Modello> listModelliLocal = mySQLiteHelper.getAllModelli();
+        for(Modello modelloE : listaModelli) {
+            trovato = false;
+            for(Modello modelloL : listModelliLocal) {
+                if(modelloE.getIDModello() == modelloL.getIDModello()) {
+                    trovato = true;
+                    break;
+                }
+            }
+            if(!trovato) {
+                mySQLiteHelper.aggiungiModello(modelloE);
+            }
+        }
+        listModelliLocal = mySQLiteHelper.getAllModelli();
+
+        //update Modelli - update
+        for(Modello modelloE : listaModelli) {
+            for(Modello modelloL : listModelliLocal) {
+                if(modelloE.getIDModello() == modelloL.getIDModello()) {
+                    if(modelloE.compareTo(modelloL) != 0) {
+                        mySQLiteHelper.updateModello(modelloE);
+                    }
+                    break;
+                }
+            }
+        }
+        listModelliLocal = mySQLiteHelper.getAllModelli();
+
+        //update Utenti - insert
+        List<Utente> listUtentiLocal = mySQLiteHelper.getAllUtenti();
+        for(Utente utenteE : listaUtenti) {
+            trovato = false;
+            for(Utente utenteL : listUtentiLocal) {
+                if(utenteE.getEmail().equalsIgnoreCase(utenteL.getEmail())) {
+                    trovato = true;
+                    break;
+                }
+            }
+            if(!trovato) {
+                mySQLiteHelper.aggiungiUtente(utenteE);
+            }
+        }
+        listUtentiLocal = mySQLiteHelper.getAllUtenti();
+
+        //update Utenti - update
+        for(Utente utenteE : listaUtenti) {
+            for(Utente utenteL : listUtentiLocal) {
+                if(utenteE.getEmail().equalsIgnoreCase(utenteL.getEmail())) {
+                    if(utenteE.compareTo(utenteL) != 0) {
+                        mySQLiteHelper.updateUtente(utenteE);
+                    }
+                    break;
+                }
+            }
+        }
+        listUtentiLocal = mySQLiteHelper.getAllUtenti();
+
+        //update AutoUtente - insert
+        List<AutoUtente> listAutoUtenteLocal = mySQLiteHelper.getAllAutoUtente();
+        for(AutoUtente autoE : listaAutoUtente) {
+            trovato = false;
+            for(AutoUtente autoL : listAutoUtenteLocal) {
+                if(autoE.getTarga().equalsIgnoreCase(autoL.getTarga())) {
+                    trovato = true;
+                    break;
+                }
+            }
+            if(!trovato) {
+                mySQLiteHelper.aggiungiAutoUtente(autoE);
+            }
+        }
+        listAutoUtenteLocal = mySQLiteHelper.getAllAutoUtente();
+
+        //update AutoUtente - update
+        for(AutoUtente autoE : listaAutoUtente) {
+            for(AutoUtente autoL : listAutoUtenteLocal) {
+                if(autoE.getTarga().equalsIgnoreCase(autoL.getTarga())) {
+                    if(autoE.compareTo(autoL) != 0) {
+                        mySQLiteHelper.updateAutoUtente(autoE);
+                    }
+                    break;
+                }
+            }
+        }
+        listAutoUtenteLocal = mySQLiteHelper.getAllAutoUtente();
+
+        //update Manutenzioni - insert
+        List<Manutenzione> listManutenzioniLocal = mySQLiteHelper.getAllManutenzioni();
+        for(Manutenzione manutenzioneE : listaManutenzioni) {
+            trovato = false;
+            for(Manutenzione manutenzioneL : listManutenzioniLocal) {
+                if(manutenzioneE.getIDManutenzione() == manutenzioneL.getIDManutenzione()) {
+                    trovato = true;
+                    break;
+                }
+            }
+            if(!trovato) {
+                mySQLiteHelper.aggiungiManutenzione(manutenzioneE);
+            }
+        }
+        listManutenzioniLocal = mySQLiteHelper.getAllManutenzioni();
+
+        //update Manutenzioni - update
+        for(Manutenzione manutenzioneE : listaManutenzioni) {
+            for(Manutenzione manutenzioneL : listManutenzioniLocal) {
+                if(manutenzioneE.getIDManutenzione()== manutenzioneL.getIDManutenzione()) {
+                    if(manutenzioneE.compareTo(manutenzioneL) != 0) {
+                        mySQLiteHelper.updateMantenzione(manutenzioneE);
+                    }
+                    break;
+                }
+            }
+        }
+        listManutenzioniLocal = mySQLiteHelper.getAllManutenzioni();
+
+        //update Problemi - insert
+        List<Problema> listProblemiLocal = mySQLiteHelper.getAllProblemi();
+        for(Problema problemaE : listaProblemi) {
+            trovato = false;
+            for(Problema problemaL : listProblemiLocal) {
+                if(problemaE.getIDProblema() == problemaL.getIDProblema()) {
+                    trovato = true;
+                    break;
+                }
+            }
+            if(!trovato) {
+                mySQLiteHelper.aggiungiProblemi(problemaE);
+                NotificationCompat.Builder mBuilder = new android.support.v4.app.NotificationCompat.Builder(context)
+                        .setSmallIcon(R.drawable.ic_done_white_24dp)
+                        .setContentTitle("Nuova segnalazione!")
+                        .setContentText("Nuovo problema riguardate la tua " + problemaE.getAuto().getModello().getMarca().getNome() + " " + problemaE.getAuto().getModello().getNome());
+                // Gets an instance of the NotificationManager service
+                NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                // Builds the notification and issues it.
+                mNotifyMgr.notify(problemaE.getIDProblema(), mBuilder.build());
+            }
+        }
+        listProblemiLocal = mySQLiteHelper.getAllProblemi();
+
+        //update Problemi - update
+        for(Problema problemaE : listaProblemi) {
+            for(Problema problemaL : listProblemiLocal) {
+                if(problemaE.getIDProblema() == problemaL.getIDProblema()) {
+                    if(problemaE.compareTo(problemaL) != 0) {
+                        mySQLiteHelper.updateProblema(problemaE);
+                    }
+                    break;
+                }
+            }
+        }
+        listProblemiLocal = mySQLiteHelper.getAllProblemi();
+
+        //update Scadenze - insert
+        List<Scadenza> listScadenzeLocal = mySQLiteHelper.getAllScadenze();
+        for(Scadenza scadenzaE : listaScadenze) {
+            trovato = false;
+            for(Scadenza scadenzaL : listScadenzeLocal) {
+                if(scadenzaE.getIDScadenza() == scadenzaL.getIDScadenza()) {
+                    trovato = true;
+                    break;
+                }
+            }
+            if(!trovato) {
+                mySQLiteHelper.aggiungiScadenza(scadenzaE);
+            }
+        }
+        listScadenzeLocal = mySQLiteHelper.getAllScadenze();
+
+        //update Scadenze - update
+        for(Scadenza scadenzaE : listaScadenze) {
+            for(Scadenza scadenzaL : listScadenzeLocal) {
+                if(scadenzaE.getIDScadenza() == scadenzaL.getIDScadenza()) {
+                    if(scadenzaE.compareTo(scadenzaL) != 0) {
+                        mySQLiteHelper.updateScadenza(scadenzaE);
+                    }
+                    break;
+                }
+            }
+        }
+        listScadenzeLocal = mySQLiteHelper.getAllScadenze();
+
+    }
 }
