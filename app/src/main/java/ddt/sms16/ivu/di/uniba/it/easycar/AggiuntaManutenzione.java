@@ -32,6 +32,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Manutenzione;
 
 
 public class AggiuntaManutenzione extends AppCompatActivity {
@@ -42,6 +43,7 @@ public class AggiuntaManutenzione extends AppCompatActivity {
     private Spinner mSpinnerVeicolo;
     private Switch mSwitchOrdinario;
     int anno, mese, giorno = 0;
+    int ordinaria;
     String dataN;
     Calendar myCalendar = Calendar.getInstance();
     @Override
@@ -71,9 +73,9 @@ public class AggiuntaManutenzione extends AppCompatActivity {
         mSwitchOrdinario.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    // The toggle is enabled
+                    ordinaria =1;
                 } else {
-                    // The toggle is disabled
+                    ordinaria =0;
                 }
             }
         });
@@ -178,9 +180,9 @@ public class AggiuntaManutenzione extends AppCompatActivity {
                 String chilometraggio = mChilometraggio.getText().toString();
                 String targaVeicolo = mSpinnerVeicolo.getSelectedItem().toString();
                 String targa = Utility.estraiTarga(targaVeicolo);
-                int ordinaria =0;
+               String data = Utility.convertStringDateToString(datamanutenzione.replace("/"," "));
 
-                Log.d("Response Manutenzione",datamanutenzione);
+                Log.d("Response Manutenzione",data);
                 Log.d("Response Manutenzione",chilometraggio);
                 Log.d("Response Manutenzione",String.valueOf(ordinaria));
                 Log.d("Response Manutenzione",targa);
@@ -189,8 +191,8 @@ public class AggiuntaManutenzione extends AppCompatActivity {
                 String email = MainActivity.sharedpreferences.getString(MainActivity.TAG_UTENTE_EMAIL, "");
 
                 //  boolean aggiunto = aggiungiManutenzione(dettaglioProblema, targa, email);
-                boolean aggiunto = true;
-                aggiungiManutenzione(descrizioneManutenzione,datamanutenzione,ordinaria,chilometraggio,targa,email);
+                boolean aggiunto =
+                aggiungiManutenzione(descrizioneManutenzione,data,ordinaria,chilometraggio,targa,email);
                 Log.d("Response", Boolean.toString(aggiunto));
                 if (aggiunto) {
                     Snackbar snackbar = Snackbar
@@ -230,16 +232,16 @@ public class AggiuntaManutenzione extends AppCompatActivity {
                             String data= dati.getString(MainActivity.TAG_MANUTENZIONI_DATA );
                             int ordinaria= dati.getInt(MainActivity.TAG_MANUTENZIONI_ORDINARIA );
                             String kmManutenzione= dati.getString(MainActivity.TAG_MANUTENZIONI_KM_MANUTENZIONE );
-                            String targaVeicolo = dati.getString(MainActivity.TAG_MANUTENZIONI_VEICOLO);
-                            String targa= Utility.estraiTarga(targaVeicolo);
-                            Log.d("Response Manutenzione",String.valueOf(idManutenzione));
-                            Log.d("Response Manutenzione",descrizione);
-                            Log.d("Response Manutenzione",data);
-                            Log.d("Response Manutenzione",String.valueOf(ordinaria));
-                            Log.d("Response Manutenzione",kmManutenzione);
-                            Log.d("Response Manutenzione",targa);
+                            String targa = dati.getString(MainActivity.TAG_MANUTENZIONI_VEICOLO);
+                            Log.d("ResponseManutenzione",String.valueOf(idManutenzione));
+                            Log.d("ResponseManutenzione",descrizione);
+                            Log.d("ResponseManutenzione",data);
+                            Log.d("ResponseManutenzione",String.valueOf(ordinaria));
+                            Log.d("ResponseManutenzione",kmManutenzione);
+                            Log.d("ResponseManutenzione",targa);
 
-                            //    MainActivity.mySQLiteHelper.aggiungiManutenzione();
+                            MainActivity.mySQLiteHelper.aggiungiManutenzione(new Manutenzione(idManutenzione,descrizione,data,ordinaria,kmManutenzione,new AutoUtente(targa)));
+                            MainActivity.mySQLiteHelper.getAllManutenzioni();
                             aggiunto[0] =true;
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -263,12 +265,10 @@ public class AggiuntaManutenzione extends AppCompatActivity {
                 params.put("email", email);
                 params.put("table", MainActivity.TAG_MANUTENZIONI);
                 params.put("descrizione", descrizione );
-               /* params.put("descrizione", descrizione );
-                params.put("descrizione", descrizione );
-                params.put("descrizione", descrizione );
-                params.put("descrizione", descrizione );
-               */
-                params.put("targa",Utility.estraiTarga(targa) );
+                params.put("data", data );
+                params.put("ordinaria", String.valueOf(ordinaria) );
+                params.put("km", kmManutezione );
+                params.put("targa",targa );
 
                 return params;
             };

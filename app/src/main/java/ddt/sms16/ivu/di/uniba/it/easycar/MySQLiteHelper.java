@@ -431,7 +431,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         }
         for (Manutenzione m : manutenzioni
                 ) {
-            Log.d("getAllManutenzione()", m.toString());
+            Log.d("getAllManutenzioneResponse()", m.toString());
         }
 
         return manutenzioni;

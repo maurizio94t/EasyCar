@@ -18,9 +18,6 @@ import ddt.sms16.ivu.di.uniba.it.easycar.CustomAdapter_Manutenzione;
 import ddt.sms16.ivu.di.uniba.it.easycar.MainActivity;
 import ddt.sms16.ivu.di.uniba.it.easycar.R;
 
-/**
- * Created by Giuseppe-PC on 08/07/2016.
- */
 public class ManutenzioniFragment extends Fragment {
     private Context thisContext;
     private View view;
