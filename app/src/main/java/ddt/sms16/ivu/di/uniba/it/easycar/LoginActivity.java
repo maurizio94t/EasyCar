@@ -183,8 +183,8 @@ public class LoginActivity extends Activity {
                 finish();
 
                 // Start a service for update Local DB
-                Intent intentService = new Intent(LoginActivity.this, UpdateService.class);
-                startService(intentService);
+                //Intent intentService = new Intent(LoginActivity.this, UpdateService.class);
+                //startService(intentService);
             } else {
                 View parentLayout = findViewById(R.id.root_view);
                 Snackbar snackbar = Snackbar.make(parentLayout, "Dati non corretti! Riprova..", Snackbar.LENGTH_LONG);

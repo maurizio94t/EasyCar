@@ -59,6 +59,8 @@ public class UpdateService extends Service  {
     private ArrayList<Scadenza> listaScadenze;
     private ArrayList<Utente> listaUtenti;
 
+    public static ArrayList<StringRequest> requests;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -100,6 +102,19 @@ public class UpdateService extends Service  {
         mTime++;
 
         if(Utility.checkInternetConnection(getApplicationContext())) {
+            try {
+                for(int i = 0; i < requests.size(); i++) {
+                    queue.add(requests.get(i));
+                    Log.e("QUEUE >", String.valueOf(i));
+                    break;
+                }
+                if(!requests.isEmpty()) {
+                    requests.remove(0);
+                }
+            } catch (Exception e) {
+
+            }
+
             Log.e("SERVICE >","CONNECTED");
             // Scarito tutti i dati dal db esterno
             StringRequest myReq = new StringRequest(Request.Method.POST,
