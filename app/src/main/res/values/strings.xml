@@ -20,6 +20,8 @@
     <string name="modello"> Modello </string>
     <string name="chilometraggio">Chilometraggio</string>
     <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name="ripetiPassword">Ripeti password</string>
     <string name="scadenza">Scadenza</string>
     <string name="descrizione">Descrizione</string>
     <string name="nomeUtente">Nome</string>

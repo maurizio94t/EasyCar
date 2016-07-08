@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -20,12 +21,9 @@ public class RegistrazioneUtente extends AppCompatActivity {
     private EditText mCognome;
     private EditText mData;
     private EditText mEmail;
-    private Button cancellaNome;
-    private Button cancellaCognome;
-    private Button cancellaData;
-    private Button cancellaMail;
-    private Button registraUtente;
-
+    private EditText mPassword;
+    private EditText mRipetiPassword;
+    private Button mRegistra;
     int anno, mese, giorno = 0;
     private String dataN;
     private Calendar myCalendar = Calendar.getInstance();
@@ -38,15 +36,30 @@ public class RegistrazioneUtente extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_navigate_before_white_24dp);
-
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
          mNome = (EditText)findViewById(R.id.nomeUtente);
          mCognome = (EditText)findViewById(R.id.cognomUtente);
          mData = (EditText)findViewById(R.id.dataUtente);
          mEmail = (EditText)findViewById(R.id.email);
+         mPassword = (EditText)findViewById(R.id.password);
+         mRipetiPassword = (EditText)findViewById(R.id.repeatPassword);
+        mRegistra = (Button)findViewById(R.id.btnRegistraUtente);
 
-
-
-
+        mRegistra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!campiValidi()){
+                    Toast.makeText(getApplicationContext(), "Campi non validi", Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(getApplicationContext(), "Registrato", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
             @Override
@@ -85,12 +98,7 @@ public class RegistrazioneUtente extends AppCompatActivity {
                         .show();
             }
         });
-        mEmail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cancellaMail.setVisibility(View.VISIBLE);
-            }
-        });
+
 
 
     }
@@ -101,12 +109,6 @@ public class RegistrazioneUtente extends AppCompatActivity {
 
         Calendar today = Calendar.getInstance();
 
-        int anni = today.get(Calendar.YEAR) - myCalendar.get(Calendar.YEAR);
-        if (myCalendar.get(Calendar.MONTH) > today.get(Calendar.MONTH) ||
-                (myCalendar.get(Calendar.MONTH) == today.get(Calendar.MONTH) && myCalendar.get(Calendar.DATE) > today.get(Calendar.DATE))) {
-
-        }
-
         dataN = sdf.format(myCalendar.getTime());
         mData.setText(dataN);
 
@@ -116,6 +118,9 @@ public class RegistrazioneUtente extends AppCompatActivity {
         if(mNome.getText().toString().compareTo("")==0 || mCognome.getText().toString().compareTo("")==0
                 || mData.toString().compareTo("")==0 && mEmail.toString().compareTo(emailPattern)==0
                 ){
+            if(mPassword.getText().toString().compareTo(mRipetiPassword.getText().toString())!=0){
+                Toast.makeText(getApplication(),"La password non corrisponde",Toast.LENGTH_LONG);
+            }
             return false;
         }
         return true;

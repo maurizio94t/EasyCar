@@ -44,7 +44,13 @@
    </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,6 +58,7 @@
             android:layout_gravity="left|center"
             android:paddingTop="@dimen/paddingTopIcon"
             android:paddingRight="@dimen/paddingRightIcon"/>
+
                 <EditText
                     android:layout_width="@dimen/withEditTextForm"
                     android:id="@+id/dataManutenzione"
@@ -64,6 +71,28 @@
                     android:textStyle="bold"
                     android:hint="@string/manutenzione"
                     android:singleLine="true" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_wrench_grey600_24dp"
+                android:layout_gravity="left|center"
+                android:paddingTop="@dimen/paddingTopIcon"
+                android:paddingRight="@dimen/paddingRightIcon"/>
+        <Switch
+            android:layout_gravity="center"
+            android:paddingTop="@dimen/paddingTop"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Ordinaria"
+            android:textColor="@color/colorManutenzione"
+            android:textSize="@dimen/formTextSize"
+            android:id="@+id/toggleButton" />
+</LinearLayout>
     </LinearLayout>
 
    <LinearLayout
@@ -115,7 +144,6 @@
 
 
 </LinearLayout>
-
 
 
 </LinearLayout>

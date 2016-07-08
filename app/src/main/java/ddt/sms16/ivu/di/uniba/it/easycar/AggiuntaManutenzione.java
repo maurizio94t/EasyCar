@@ -10,9 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -38,6 +40,7 @@ public class AggiuntaManutenzione extends AppCompatActivity {
     private EditText mData;
     private EditText mChilometraggio;
     private Spinner mSpinnerVeicolo;
+    private Switch mSwitchOrdinario;
     int anno, mese, giorno = 0;
     String dataN;
     Calendar myCalendar = Calendar.getInstance();
@@ -63,7 +66,17 @@ public class AggiuntaManutenzione extends AppCompatActivity {
           mData = (EditText)findViewById(R.id.dataManutenzione);
           mChilometraggio = (EditText)findViewById(R.id.chilometraggio_auto);
           mSpinnerVeicolo = (Spinner)findViewById(R.id.spinner_veicolo);
+          mSwitchOrdinario = (Switch)findViewById(R.id.toggleButton);
 
+        mSwitchOrdinario.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // The toggle is enabled
+                } else {
+                    // The toggle is disabled
+                }
+            }
+        });
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
             @Override
