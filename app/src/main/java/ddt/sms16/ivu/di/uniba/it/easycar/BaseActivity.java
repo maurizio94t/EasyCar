@@ -3,13 +3,17 @@ package ddt.sms16.ivu.di.uniba.it.easycar;
 import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -17,10 +21,13 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,13 +40,29 @@ import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ScadenzeFragment;
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static int num;
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
+        // Start a service for update Local DB
+        Intent intentService = new Intent(this, UpdateService.class);
+        startService(intentService);
+        num = 1;
+
+        // controllo se il GPS è attivo
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            Toast.makeText(this, "GPS is Enabled in your devide", Toast.LENGTH_SHORT).show();
+        } else {
+            showGPSDisabledAlertToUser();
+        }
+
         // inizio
+        UpdateService.requests = new ArrayList<StringRequest>();
 
         StringRequest myReq1 = new StringRequest(Request.Method.POST,
                 MainActivity.urlOperations,
@@ -90,7 +113,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                         params.put("table", "Problemi");
                         params.put("email", "enrico@gmail.com");
 
-                        params.put("descrizione", "Problema GRAVISSIMO");
+                        params.put("descrizione", "Problemone!");
                         params.put("targa", "AA000BA");
                         */
 
@@ -274,4 +297,27 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private void showGPSDisabledAlertToUser(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("GPS is disabled in your device. Would you like to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Goto Settings Page To Enable GPS",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent callGPSSettingIntent = new Intent(
+                                        android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                startActivity(callGPSSettingIntent);
+                            }
+                        });
+        alertDialogBuilder.setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+    }
+
 }

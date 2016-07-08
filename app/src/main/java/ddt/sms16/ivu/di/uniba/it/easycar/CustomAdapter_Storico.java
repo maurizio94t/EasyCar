@@ -39,13 +39,13 @@ public class CustomAdapter_Storico extends ArrayAdapter<Object> {
             Manutenzione m = (Manutenzione) getItem(position);
             titolo.setText(m.getDescrizione());
             info.setText("Manutenzione");
-            data.setText(m.getData());
+            data.setText(Utility.convertStringDateToStringIt(m.getData()));
             img.setImageResource(R.drawable.ic_settings);
         } else {
             Scadenza s = (Scadenza) getItem(position);
             titolo.setText(s.getDescrizione());
             info.setText("Scadenza");
-            data.setText(s.getDataScadenza());
+            data.setText(Utility.convertStringDateToStringIt(s.getDataScadenza()));
             img.setImageResource(R.drawable.ic_clock);
         }
 

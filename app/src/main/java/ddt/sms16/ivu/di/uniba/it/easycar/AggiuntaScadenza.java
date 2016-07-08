@@ -204,6 +204,7 @@ private boolean aggiungiScadenza(final String descrizione, final String dataScad
                 @Override
                 public void onResponse(String response) {
                     Log.d("Response", "> OK Req");
+                    Log.d("Response", response);
                     try {
                         JSONObject jsonObj = new JSONObject(response);
                         JSONObject dati = jsonObj.getJSONObject("dati");
@@ -214,7 +215,7 @@ private boolean aggiungiScadenza(final String descrizione, final String dataScad
 
                         MainActivity.mySQLiteHelper.aggiungiScadenza(new Scadenza(Integer.parseInt(idScadenza), descrizione, dataScadenza, new AutoUtente(targaVeicolo)));
 
-                        aggiunto[0] =true;
+                        aggiunto[0] = true;
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -224,7 +225,7 @@ private boolean aggiungiScadenza(final String descrizione, final String dataScad
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.d("Response", "> That didn't work!");
-                   aggiunto[0] =false;
+                   aggiunto[0] = false;
                 }
             }) {
 
@@ -241,7 +242,11 @@ private boolean aggiungiScadenza(final String descrizione, final String dataScad
             return params;
         };
     };
-    MainActivity.queue.add(myReq);
+    if(Utility.checkInternetConnection(getApplicationContext())) {
+        MainActivity.queue.add(myReq);
+    } else {
+        UpdateService.requests.add(myReq);
+    }
 
 return aggiunto[0];
 }

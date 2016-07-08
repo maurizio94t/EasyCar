@@ -74,22 +74,11 @@ public class Utility {
             DateFormat format = new SimpleDateFormat("yyyy-M-d", Locale.ITALIAN);
             Date date = null;
             date = format.parse(data);
-            Log.e("DATA > ", date.toString());
             return date;
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return null;
-        /*
-        try {
-            DateFormat df = new SimpleDateFormat("yyyy/M/d");
-            df.setLenient (false);
-            Date d = df.parse(data);
-            return d;
-        } catch (ParseException e) {
-            return null;
-        }
-        */
     }
 
     public static String convertDateToString(Date data) {
@@ -98,17 +87,19 @@ public class Utility {
         return s;
     }
 
-    public static String convertStringToStringIt(String data) {
-        return  convertDateToString(convertStringToDate(data));
-    }
-
-    public static String convertStringDateToString(String data){
+    public static String convertStringDateToString(String data) {
         String gg= data.substring(0,2);
         String mm= data.substring(3,5);
         String aa= data.substring(6,10);
        return aa+mm+gg;
     }
 
+    public static String convertStringDateToStringIt(String data) {
+        String aaaa = data.substring(0,4);
+        String mm = data.substring(5,7);
+        String gg= data.substring(8,10);
+        return gg + "/" + mm + "/" + aaaa;
+    }
     public static String estraiTarga(String auto){
         int lunghezza = auto.length();
         int numTrattini=0;
