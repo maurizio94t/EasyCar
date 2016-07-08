@@ -51,7 +51,7 @@ public class HomeFragment extends Fragment {
         btnSalvaPosizione.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent salvaPos = new Intent(getContext(), SalvaPosizione.class);
+                Intent salvaPos = new Intent(getActivity(), SalvaPosizione.class);
                 startActivity(salvaPos);
             }
         });
