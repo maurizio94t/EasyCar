@@ -56,7 +56,7 @@ public class SalvaPosizione extends AppCompatActivity implements GoogleApiClient
         Toast.makeText(SalvaPosizione.this, "Posizione salvata correttamente", Toast.LENGTH_SHORT)
                 .show();
         prefEditor.putString("Latitude", String.valueOf(mLastLocation.getLatitude()));
-        prefEditor.putString("Longitude", String.valueOf(mLastLocation.getLongitude()));
+        prefEditor.putString("Longitude",  String.valueOf(mLastLocation.getLongitude()));
         prefEditor.commit();
         Intent intent = new Intent(getApplicationContext(),PosizioneAuto.class);
         finish();

@@ -13,16 +13,16 @@
     </android.support.v7.widget.Toolbar>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:paddingLeft="@dimen/paddingLeftForm"
         android:paddingTop="@dimen/paddingTop"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
+
             android:orientation="vertical"
             android:paddingTop="@dimen/paddingTop">
 
@@ -33,7 +33,7 @@
                 android:inputType="text"
                 android:paddingBottom="@dimen/paddingTop"
                 android:gravity="center"
-                android:textSize="@dimen/text_size"
+                android:textSize="@dimen/formTextSize"
                 android:text="Tipo"
                 />
 
@@ -41,6 +41,7 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:orientation="vertical"
+              android:layout_gravity="center"
               android:id="@+id/tipoScadenzaRadioGroup">
               <RadioButton android:id="@+id/radio_assicurazione"
                   android:layout_width="wrap_content"
@@ -72,6 +73,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_calendar_check_grey600_36dp"
                 android:paddingRight="@dimen/paddingRightIcon"
+                android:paddingTop="@dimen/paddingTop"
 
 
                 />
@@ -81,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
                 android:layout_marginTop="20dp"
-                android:textSize="@dimen/text_size"
+                android:textSize="@dimen/formTextSize"
                 android:layout_gravity="center_horizontal"
                 android:textColor="@color/colorScadenze"
                 android:hint="@string/data"
@@ -98,16 +100,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Seleziona l'auto"
+                android:text="@string/selezioneAuto"
                 android:gravity="center"
+                android:textSize="@dimen/formTextSize"
                 android:layout_gravity="center_horizontal" />
             <Spinner
-                android:layout_width="241dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/spinner_targa"
-                android:paddingTop="@dimen/paddingLeftForm"/>
-
-
+                android:paddingTop="@dimen/paddingLeftForm"></Spinner>
         </LinearLayout>
 
     </LinearLayout>

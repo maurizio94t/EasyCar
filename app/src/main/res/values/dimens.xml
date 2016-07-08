@@ -14,7 +14,7 @@
     <dimen name="paddingLeft">10dp</dimen>
     <dimen name="iconsize">30dp</dimen>
     <dimen name="paddingLeftForm">20dp</dimen>
-    <dimen name="withEditTextForm">240dp</dimen>
+    <dimen name="withEditTextForm">280dp</dimen>
     <dimen name="formTextSize">20dp</dimen>
     <dimen name="deleteButtonSize">35dp</dimen>
     <dimen name="paddingTopIcon">20dp</dimen>

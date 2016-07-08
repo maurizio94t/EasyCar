@@ -32,6 +32,8 @@
     <string name="cannot">Cannot</string>
     <string name="latitude_label">Latitude</string>
     <string name="longitude_label">Longitude</string>
+    <string name="selezioneAuto">Seleziona il veicolo</string>
+    <string name="marca">Marca</string>
     <string-array name="menu">
         <item>Modifica</item>
         <item>Elimina</item>

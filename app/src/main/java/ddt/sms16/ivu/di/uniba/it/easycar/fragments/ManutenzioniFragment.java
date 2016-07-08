@@ -67,7 +67,7 @@ public class ManutenzioniFragment extends Fragment {
             Toast.makeText(getContext(),"Codice elimina",Toast.LENGTH_LONG).show();
         }
         else if(item.getTitle()=="Modifica"){
-            Toast.makeText(getContext(),"Codice modifica", Toast.LENGTH_LONG).show();
+
         }else{
             return false;
         }
