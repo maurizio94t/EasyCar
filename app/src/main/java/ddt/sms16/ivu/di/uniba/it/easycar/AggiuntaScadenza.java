@@ -204,7 +204,7 @@ private void aggiungiScadenza(final String descrizione, final String dataScadenz
                         String dataScadenza= dati.getString("DataScadenza");
                         String targaVeicolo = dati.getString("Veicolo");
 
-                        MainActivity.mySQLiteHelper.aggiungiScadenza(new Scadenza(Integer.parseInt(idScadenza), descrizione, "'"+dataScadenza+"'", new AutoUtente(targaVeicolo)));
+                        MainActivity.mySQLiteHelper.aggiungiScadenza(new Scadenza(Integer.parseInt(idScadenza), descrizione, dataScadenza, new AutoUtente(targaVeicolo)));
                         MainActivity.mySQLiteHelper.getAllScadenze();
 
                     } catch (JSONException e) {
