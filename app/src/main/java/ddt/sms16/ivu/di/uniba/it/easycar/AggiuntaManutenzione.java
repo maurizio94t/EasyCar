@@ -8,18 +8,22 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
+
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
 
 
 public class AggiuntaManutenzione extends AppCompatActivity {
-    Button mInviaManutenzione;
+
     private EditText mDescrizioneManutenzione;
     private EditText mDataScadenza;
     private EditText mChilometraggio;
@@ -29,16 +33,13 @@ public class AggiuntaManutenzione extends AppCompatActivity {
     Calendar myCalendar = Calendar.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        final Button cancellaDescrizione;
-        final Button cancellaChilometraggio;
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aggiunta_manutenzioni);
 
-
          Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
             toolbar.setNavigationIcon(R.drawable.ic_navigate_before_white_24dp);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -48,14 +49,10 @@ public class AggiuntaManutenzione extends AppCompatActivity {
                 }
             });
 
-
-
           mDescrizioneManutenzione = (EditText)findViewById(R.id.descrizioneManutenzione);
           mDataScadenza = (EditText)findViewById(R.id.dataManutenzione);
           mChilometraggio = (EditText)findViewById(R.id.chilometraggio_auto);
           mSpinnerVeicolo = (Spinner)findViewById(R.id.spinner_veicolo);
-          Button invia = (Button)findViewById(R.id.inviaManutenzione);
-
 
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
@@ -96,19 +93,20 @@ public class AggiuntaManutenzione extends AppCompatActivity {
             }
         });
 
+        List<AutoUtente> auto = MainActivity.mySQLiteHelper.getAllAutoUtente();
 
-       /* invia.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(campiValidi()){
-                    TextView t = (TextView)findViewById(R.id.inviaM);
-                    t.setText("Campi validi");
-                }else{
-                    TextView t = (TextView)findViewById(R.id.controllo);
-                    t.setText("Campi NON validi");
-                }
-            }
-        });*/
+
+        String[] automobili = new String[auto.size()];
+        int i = 0;
+        for (AutoUtente a : auto
+                ) {
+            automobili[i] = a.getTarga();
+            i++;
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, automobili);
+        mSpinnerVeicolo.setAdapter(adapter);
     }
 
     private void updateLabel() {
@@ -116,47 +114,39 @@ public class AggiuntaManutenzione extends AppCompatActivity {
         String myFormat = "dd/MM/yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ITALY);
 
-        Calendar today = Calendar.getInstance();
-
-        int anni = today.get(Calendar.YEAR) - myCalendar.get(Calendar.YEAR);
-        if (myCalendar.get(Calendar.MONTH) > today.get(Calendar.MONTH) ||
-                (myCalendar.get(Calendar.MONTH) == today.get(Calendar.MONTH) && myCalendar.get(Calendar.DATE) > today.get(Calendar.DATE))) {
-
-        }
-
         dataN = sdf.format(myCalendar.getTime());
         mDataScadenza.setText(dataN);
 
     }
     public boolean campiValidi(){
-        //CONTROLLO FUNZIONI SPINNER
-        if(mDescrizioneManutenzione.getText().toString().compareTo("")==0 && mDataScadenza.getText().toString().compareTo("")==0
-                && mChilometraggio.toString().compareTo("")==0 && mSpinnerVeicolo.toString().compareTo("")==0
+
+        if(mDescrizioneManutenzione.getText().toString().compareTo("")==0 || mDataScadenza.getText().toString().compareTo("")==0
+                || mChilometraggio.toString().compareTo("")==0 || mSpinnerVeicolo.toString().compareTo("")==0
                 ){
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.toolbar, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.done) {
-            Log.d("done","done");
-            return true;
+        if(campiValidi()) {
+            if (id == R.id.done) {
+                Toast.makeText(getApplicationContext(), "Manutenzione aggiunta", Toast.LENGTH_LONG).show();
+                Log.d("done", "done");
+                return true;
+            }
+        }else{
+            Toast.makeText(getApplicationContext(), "Completa l'inserimemnto dei dati", Toast.LENGTH_LONG).show();
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

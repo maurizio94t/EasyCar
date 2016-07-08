@@ -5,17 +5,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
-import java.util.ArrayList;
+import android.widget.Toast;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.AggiuntaAuto;
-import ddt.sms16.ivu.di.uniba.it.easycar.DettaglioAutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.CustomAdapter_AutoUtente;
+import ddt.sms16.ivu.di.uniba.it.easycar.DettaglioAutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.MainActivity;
 import ddt.sms16.ivu.di.uniba.it.easycar.R;
 
@@ -58,8 +59,28 @@ public class MieAutoFragment extends Fragment {
                 startActivity(intentDettaglioAuto);
             }
         });
-
+        registerForContextMenu(listView);
         return view;
     }
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
+    {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.setHeaderTitle("Select The Action");
+        menu.add(0, v.getId(), 0, "Elimina");//groupId, itemId, order, title
+        menu.add(0, v.getId(), 0, "Modifica");
+    }
 
+    @Override
+    public boolean onContextItemSelected(MenuItem item){
+        if(item.getTitle()=="Elimina"){
+            Toast.makeText(getContext(),"Codice elimina",Toast.LENGTH_LONG).show();
+        }
+        else if(item.getTitle()=="Modifica"){
+            Toast.makeText(getContext(),"Codice modifica", Toast.LENGTH_LONG).show();
+        }else{
+            return false;
+        }
+        return true;
+    }
 }

@@ -16,13 +16,14 @@
         android:gravity="center"
         android:layout_centerInParent="true">
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:src="@drawable/ic_launcher"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="EasyCar"
+            android:fontFamily="casual"
             android:textSize="30sp"/>
     </LinearLayout>
 
