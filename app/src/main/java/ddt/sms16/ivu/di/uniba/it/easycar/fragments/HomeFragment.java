@@ -3,32 +3,17 @@ package ddt.sms16.ivu.di.uniba.it.easycar.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
-import ddt.sms16.ivu.di.uniba.it.easycar.BaseActivity;
-import ddt.sms16.ivu.di.uniba.it.easycar.CustomAdapter_AutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.CustomAdapter_Storico;
 import ddt.sms16.ivu.di.uniba.it.easycar.MainActivity;
 import ddt.sms16.ivu.di.uniba.it.easycar.R;
@@ -59,7 +44,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(Utility.checkInternetConnection(thisContext)) {
-                    Intent salvaPos = new Intent(getContext(), SalvaPosizione.class);
+                    Intent salvaPos = new Intent(getActivity(), SalvaPosizione.class);
                     startActivity(salvaPos);
                 }
             }
