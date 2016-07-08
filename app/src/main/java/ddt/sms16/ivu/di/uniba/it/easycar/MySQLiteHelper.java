@@ -143,8 +143,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     }
 
     // Aggiunta di un nuovo problema.
-    public void aggiungiProblemi(Problema problema) {
-        Log.d("aggiungiproblema", problema.toString());
+    public void aggiungiProblema(Problema problema) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -357,6 +356,23 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
+        Problema problema = null;
+        if (cursor.moveToFirst()) {
+            do {
+                problema = new Problema(cursor.getInt(0), cursor.getString(1), new AutoUtente(cursor.getString(2), cursor.getInt(3), cursor.getString(4), new Utente(cursor.getString(16), cursor.getString(17), cursor.getString(18), cursor.getString(19)), new Modello(cursor.getInt(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), new Marca(cursor.getInt(13), cursor.getString(15))), cursor.getInt(5)));
+                problemi.add(problema);
+
+            } while (cursor.moveToNext());
+        }
+
+        return problemi;
+    }
+
+    public List<Problema> getAllProblemiByAuto(AutoUtente auto) {
+        List<Problema> problemi = new LinkedList<Problema>();
+        String query = "SELECT * FROM "+TABELLA_PROBLEMI+" NATURAL JOIN "+TABELLA_AUTO_UTENTE+" JOIN "+TABELLA_MODELLI+" ON Modelli_id=IDModello JOIN "+ TABELLA_MARCHE+" ON Marca_id=IDMarca JOIN "+TABELLA_UTENTI+" ON Utenti_Email=Email WHERE AutoUtente.Targa= "+"'"+auto.getTarga()+"'";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
 
         Problema problema = null;
         if (cursor.moveToFirst()) {
@@ -366,14 +382,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
             } while (cursor.moveToNext());
         }
-        for (Problema p : problemi
-                ) {
-            Log.d("getAllProblemi()",p.toString());
-        }
-
 
         return problemi;
     }
+
 
     public List<Marca> getAllMarche() {
         List<Marca> marche = new LinkedList<Marca>();

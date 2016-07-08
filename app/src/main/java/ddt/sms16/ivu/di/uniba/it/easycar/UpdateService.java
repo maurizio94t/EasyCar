@@ -939,7 +939,7 @@ public class UpdateService extends Service  {
                 }
             }
             if(!trovato) {
-                MainActivity.mySQLiteHelper.aggiungiProblemi(problemaE);
+                MainActivity.mySQLiteHelper.aggiungiProblema(problemaE);
             }
         }
         MainActivity.listProblemiLocal = MainActivity.mySQLiteHelper.getAllProblemi();
@@ -1147,7 +1147,7 @@ public class UpdateService extends Service  {
                 }
             }
             if(!trovato) {
-                mySQLiteHelper.aggiungiProblemi(problemaE);
+                mySQLiteHelper.aggiungiProblema(problemaE);
                 NotificationCompat.Builder mBuilder = new android.support.v4.app.NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_done_white_24dp)
                         .setContentTitle("Nuova segnalazione!")

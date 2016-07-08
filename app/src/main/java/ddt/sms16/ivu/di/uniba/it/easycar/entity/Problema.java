@@ -12,11 +12,11 @@ public class Problema implements Comparable<Problema> {
     public Problema(int IDProblema){
         this.IDProblema=IDProblema;
     }
-                    public Problema(int IDProblema, String descrizione, AutoUtente auto) {
+
+    public Problema(int IDProblema, String descrizione, AutoUtente auto) {
         this.IDProblema = IDProblema;
         this.descrizione = descrizione;
         this.auto = auto;
-
     }
     public Problema( String descrizione, AutoUtente auto) {
         this.IDProblema = IDProblema;
@@ -39,7 +39,6 @@ public class Problema implements Comparable<Problema> {
     public String toString() {
         return "Problema[IDProblema=" + IDProblema + ", Descrizione=" + descrizione + ", auto="+auto.toString()+"]";
     }
-
 
     @Override
     public int compareTo(Problema another) {

@@ -105,6 +105,7 @@ public class AggiuntaScadenza extends AppCompatActivity {
         int i = 0;
         for (AutoUtente a : auto
                 ) {
+
             automobili[i] = a.getModello().getMarca().getNome()+" "+a.getModello().getNome()+"-"+a.getTarga();
             i++;
         }
@@ -117,6 +118,7 @@ public class AggiuntaScadenza extends AppCompatActivity {
         tipoScadenzaRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 tipoScadenzaRadioGroupSelected = (RadioButton) findViewById(checkedId);
+
 
             }
         });
@@ -166,6 +168,8 @@ public class AggiuntaScadenza extends AppCompatActivity {
             }else
             {
                 String tipoScadenza  = tipoScadenzaRadioGroupSelected.getText().toString();
+
+
                 String dataS =mDataScadenza.getText().toString();
 
                 String dataScadenza =    Utility.convertStringDateToString(mDataScadenza.getText().toString());
@@ -203,10 +207,10 @@ private boolean aggiungiScadenza(final String descrizione, final String dataScad
                     try {
                         JSONObject jsonObj = new JSONObject(response);
                         JSONObject dati = jsonObj.getJSONObject("dati");
-                        String idScadenza= dati.getString("IDScadenza");
-                        String descrizione= dati.getString("Descrizione");
-                        String dataScadenza= dati.getString("DataScadenza");
-                        String targaVeicolo = dati.getString("Veicolo");
+                        String idScadenza= dati.getString(MainActivity.TAG_SCADENZE_IDSCADENZA);
+                        String descrizione= dati.getString( MainActivity.TAG_SCADENZE_DESCRIZIONE);
+                        String dataScadenza= dati.getString( MainActivity.TAG_SCADENZE_DATASCADENZA);
+                        String targaVeicolo = dati.getString(MainActivity.TAG_SCADENZE_VEICOLO);
 
                         MainActivity.mySQLiteHelper.aggiungiScadenza(new Scadenza(Integer.parseInt(idScadenza), descrizione, dataScadenza, new AutoUtente(targaVeicolo)));
 
@@ -228,11 +232,11 @@ private boolean aggiungiScadenza(final String descrizione, final String dataScad
 
             Map<String, String> params = new HashMap<String, String>();
             params.put("operation", "c");
-            params.put("email", email);
-            params.put("table", "Scadenze");
+            params.put("email", MainActivity.TAG_UTENTE_EMAIL);
+            params.put("table", MainActivity.TAG_SCADENZE);
             params.put("descrizione", descrizione);
             params.put("data", dataScadenza);
-            params.put("targa", targa);
+            params.put("targa", Utility.estraiTarga(targa));
 
             return params;
         };

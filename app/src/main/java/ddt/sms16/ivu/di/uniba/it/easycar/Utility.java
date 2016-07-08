@@ -109,4 +109,17 @@ public class Utility {
        return aa+mm+gg;
     }
 
+    public static String estraiTarga(String auto){
+        int lunghezza = auto.length();
+        int numTrattini=0;
+        for (int i=0;i<lunghezza;i++){
+            if(auto.charAt(i)=='-'){
+                numTrattini++;
+                if(numTrattini==1){
+                    return auto.substring(lunghezza-i);
+                }
+            }
+        }
+        return "";
+    }
 }

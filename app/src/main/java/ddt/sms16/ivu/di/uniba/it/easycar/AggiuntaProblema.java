@@ -1,6 +1,7 @@
 package ddt.sms16.ivu.di.uniba.it.easycar;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -8,21 +9,27 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Problema;
 
-/**
- * Created by Giuseppe-PC on 29/06/2016.
- */
 public class AggiuntaProblema extends AppCompatActivity {
     private EditText dettagliProblema;
-    private Button bottoneInvia;
+
     private Spinner mSpinnerVeicolo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +48,7 @@ public class AggiuntaProblema extends AppCompatActivity {
             }
         });
 
-        List<AutoUtente> auto = MainActivity.mySQLiteHelper.getAllAutoUtente();
+        List<AutoUtente> auto = MainActivity.mySQLiteHelper.getAllMieAutoUtente();
 
         String[] automobili = new String[auto.size()];
         int i = 0;
@@ -60,33 +67,106 @@ public class AggiuntaProblema extends AppCompatActivity {
 
     public boolean controllaCampi(){
 
-        if(dettagliProblema.getText().toString().compareTo("")==0 || mSpinnerVeicolo.getSelectedItem().toString().compareTo("")==0) return false;
+        if(dettagliProblema.getText().toString()==null || mSpinnerVeicolo.getSelectedItem().toString()==null) return false;
         else return true;
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.toolbar, menu);
         return true;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        int id = item.getItemId();
         if(controllaCampi()) {
             if (id == R.id.done) {
-                Toast.makeText(getApplicationContext(), "Problema aggiunto", Toast.LENGTH_LONG).show();
-                Log.d("done", "done");
+
+                if(!controllaCampi()){
+                    Snackbar snackbar = Snackbar
+                            .make( findViewById(android.R.id.content),"Compila tutti i campi...", Snackbar.LENGTH_LONG);
+
+                    snackbar.show();
+                }else
+                {
+                    String dettaglioProblema  = dettagliProblema.getText().toString();
+
+                     String targa = mSpinnerVeicolo.getSelectedItem().toString();
+                 String email =MainActivity.sharedpreferences.getString(MainActivity.TAG_UTENTE_EMAIL,"");
+
+                   boolean aggiunto = aggiungiProblema(dettaglioProblema, targa,email);
+
+                    Log.d("Response",Boolean.toString(aggiunto));
+                    if(aggiunto){
+                        Snackbar snackbar = Snackbar
+                                .make( findViewById(android.R.id.content),"problema aggiunto con successo!", Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }else{
+                        Snackbar snackbar = Snackbar
+                                .make( findViewById(android.R.id.content),"errore nell'aggiunta del problema, controlla la connessione!", Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
+                }
+
                 return true;
             }
-        }else {
-            Toast.makeText(getApplicationContext(), "Completa l'inserimemnto dei dati", Toast.LENGTH_LONG).show();
-        }
+            }
+
         return super.onOptionsItemSelected(item);
     }
 
+
+    private boolean aggiungiProblema(final String descrizione, final String targa, final String email){
+        final boolean[] aggiunto = new boolean[1];
+        StringRequest myReq = new StringRequest(Request.Method.POST,
+                MainActivity.urlOperations,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("Response", "> OK Req");
+                        Log.d("Response Problema",response);
+                        try {
+                            JSONObject jsonObj = new JSONObject(response);
+                            JSONObject dati = jsonObj.getJSONObject("dati");
+                            String idProblema= dati.getString(MainActivity.TAG_PROBLEMI_IDPROBLEMA);
+                            String descrizione= dati.getString(MainActivity.TAG_PROBLEMI_DESCRIZIONE);
+                            String targaVeicolo = dati.getString(MainActivity.TAG_PROBLEMI_VEICOLO);
+                            Log.d("Response",idProblema);
+                            Log.d("Response",descrizione);
+                            Log.d("Response",targaVeicolo);
+                            MainActivity.mySQLiteHelper.aggiungiProblema(new Problema(Integer.parseInt(idProblema),descrizione, new AutoUtente(targaVeicolo)));
+                            aggiunto[0] =true;
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Response", "> That didn't work!");
+                        aggiunto[0] =false;
+                    }
+                }) {
+
+            protected Map<String, String> getParams() throws com.android.volley.AuthFailureError {
+
+                Map<String, String> params = new HashMap<String, String>();
+                Log.d("Response","getParams");
+                Log.d("Response",descrizione);
+                Log.d("Response",Utility.estraiTarga(targa));
+
+                params.put("operation", "c");
+                params.put("email", email);
+                params.put("table", MainActivity.TAG_PROBLEMI);
+                params.put("descrizione", descrizione );
+                params.put("targa",Utility.estraiTarga(targa) );
+
+                return params;
+            };
+        };
+        MainActivity.queue.add(myReq);
+
+        return aggiunto[0];
+    }
 }
