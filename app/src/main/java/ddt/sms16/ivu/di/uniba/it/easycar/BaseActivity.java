@@ -39,7 +39,7 @@ import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ScadenzeFragment;
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public static int num;
-
+    public boolean GPSenabled = false;
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +55,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             Toast.makeText(this, "GPS is Enabled in your devide", Toast.LENGTH_SHORT).show();
+            GPSenabled = true;
         } else {
             showGPSDisabledAlertToUser();
         }
