@@ -157,7 +157,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     // Aggiunta di una nuova manutenzione.
     public void aggiungiManutenzione(Manutenzione manutenzione) {
-        Log.d("aggiungiManutenzione", manutenzione.toString());
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -343,9 +342,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 scadenza = new Scadenza(cursor.getInt(0), cursor.getString(1), cursor.getString(2), new AutoUtente(cursor.getString(3),cursor.getInt(4),cursor.getString(5),new Utente(cursor.getString(18),cursor.getString(19),cursor.getString(20),cursor.getString(21)),new Modello(cursor.getInt(9),cursor.getString(10),cursor.getString(11),cursor.getString(12),cursor.getString(13),cursor.getString(14),new Marca(cursor.getInt(16),cursor.getString(17))),cursor.getInt(6)));
                 scadenze.add(scadenza);
             } while (cursor.moveToNext());
-        }
-        for (Scadenza s : scadenze) {
-            Log.d("getAllScadenzeOrdinate()", s.toString());
         }
         return scadenze;
     }

@@ -131,9 +131,6 @@ public class AggiuntaProblema extends AppCompatActivity {
                             String idProblema= dati.getString(MainActivity.TAG_PROBLEMI_IDPROBLEMA);
                             String descrizione= dati.getString(MainActivity.TAG_PROBLEMI_DESCRIZIONE);
                             String targaVeicolo = dati.getString(MainActivity.TAG_PROBLEMI_VEICOLO);
-                            Log.d("Response",idProblema);
-                            Log.d("Response",descrizione);
-                            Log.d("Response",targaVeicolo);
                             MainActivity.mySQLiteHelper.aggiungiProblema(new Problema(Integer.parseInt(idProblema),descrizione, new AutoUtente(targaVeicolo)));
                             aggiunto[0] =true;
                         } catch (JSONException e) {
