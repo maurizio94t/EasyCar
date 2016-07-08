@@ -32,6 +32,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Scadenza;
 
 public class AggiuntaScadenza extends AppCompatActivity {
     private Calendar myCalendar = Calendar.getInstance();
@@ -44,7 +45,8 @@ public class AggiuntaScadenza extends AppCompatActivity {
     private EditText mDataScadenza;
     int anno, mese, giorno = 0;
     public static final String TAG_UTENTE_EMAIL = "Email";
-    String risposta;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,30 +166,18 @@ public class AggiuntaScadenza extends AppCompatActivity {
             }else
             {
                 String tipoScadenza  = tipoScadenzaRadioGroupSelected.getText().toString();
-                String dataScadenza = mDataScadenza.getText().toString();
+                String dataS =mDataScadenza.getText().toString();
+
+                String dataScadenza =    Utility.convertStringDateToString(mDataScadenza.getText().toString());
                 String targa = spinnerTarghe.getSelectedItem().toString();
                 String email =MainActivity.sharedpreferences.getString(TAG_UTENTE_EMAIL,"");
-                MySQLiteHelper mySQLiteHelper = new MySQLiteHelper(this);
 
-               String response= aggiungiScadenza(tipoScadenza, dataScadenza, targa,email);
+                  aggiungiScadenza(tipoScadenza, dataScadenza, targa,email);
                 Snackbar snackbar = Snackbar
                         .make( findViewById(android.R.id.content),"scadenza aggiunta con successo!", Snackbar.LENGTH_LONG);
 
                 snackbar.show();
-                // parserizzare il Json
-                try {
-                    JSONObject jsonObj = new JSONObject(response);
 
-                    jsonObj.getString("Operazione");
-
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                //inserimento nel db locale dei dati del Json
-                //mySQLiteHelper.aggiungiScadenza();
 
             }
 
@@ -198,7 +188,7 @@ public class AggiuntaScadenza extends AppCompatActivity {
     }
 
 
-private String aggiungiScadenza(final String descrizione, final String dataScadenza, final String targa, final String email){
+private void aggiungiScadenza(final String descrizione, final String dataScadenza, final String targa, final String email){
 
     StringRequest myReq = new StringRequest(Request.Method.POST,
             MainActivity.urlOperations,
@@ -206,7 +196,20 @@ private String aggiungiScadenza(final String descrizione, final String dataScade
                 @Override
                 public void onResponse(String response) {
                     Log.d("Response", "> OK Req");
-                    risposta=response;
+                    try {
+                        JSONObject jsonObj = new JSONObject(response);
+                        JSONObject dati = jsonObj.getJSONObject("dati");
+                        String idScadenza= dati.getString("IDScadenza");
+                        String descrizione= dati.getString("Descrizione");
+                        String dataScadenza= dati.getString("DataScadenza");
+                        String targaVeicolo = dati.getString("Veicolo");
+
+                        MainActivity.mySQLiteHelper.aggiungiScadenza(new Scadenza(Integer.parseInt(idScadenza), descrizione, "'"+dataScadenza+"'", new AutoUtente(targaVeicolo)));
+                        MainActivity.mySQLiteHelper.getAllScadenze();
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             },
             new Response.ErrorListener() {
@@ -231,6 +234,6 @@ private String aggiungiScadenza(final String descrizione, final String dataScade
     };
     MainActivity.queue.add(myReq);
 
-    return risposta;
+
 }
 }

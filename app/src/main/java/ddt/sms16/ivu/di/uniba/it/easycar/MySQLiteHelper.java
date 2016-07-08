@@ -175,7 +175,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     // Aggiunta di una nuova scadenza.
     public void aggiungiScadenza(Scadenza scadenza) {
-        Log.d("aggiungiScadenza", scadenza.toString());
+    //Log.d("aggiungiScadenza", scadenza.toString());
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -438,7 +438,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                manutenzione = new Manutenzione(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getInt(3),cursor.getString(4),new AutoUtente(cursor.getString(5),cursor.getInt(6),cursor.getString(7),new Utente(cursor.getString(20),cursor.getString(21),cursor.getString(22),cursor.getString(23)),new Modello(cursor.getInt(11),cursor.getString(12),cursor.getString(13),cursor.getString(14),cursor.getString(15),cursor.getString(16), new Marca(cursor.getInt(18),cursor.getString(19))),cursor.getInt(3) /* DELIA manca campo Selected*/)) ;
+                manutenzione = new Manutenzione(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getInt(3),cursor.getString(4),new AutoUtente(cursor.getString(5),cursor.getInt(6),cursor.getString(7),new Utente(cursor.getString(20),cursor.getString(21),cursor.getString(22),cursor.getString(23)),new Modello(cursor.getInt(11),cursor.getString(12),cursor.getString(13),cursor.getString(14),cursor.getString(15),cursor.getString(16), new Marca(cursor.getInt(18),cursor.getString(19))),cursor.getInt(8))) ;
                 manutenzioni.add(manutenzione);
             } while (cursor.moveToNext());
         }
@@ -448,6 +448,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return manutenzioni;
     }
 
+    // Aggiornamento di un utente.
     public void updateUtente(Utente utente){
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -461,6 +462,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     }
 
+    // Aggiornamento di una marca.
     public void updateMarca(Marca marca){
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -473,6 +475,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         db.update(TABELLA_MARCHE, cv, "IDMarca="+idMarca, null);
     }
 
+    // Aggiornamento di un modello.
     public void updateModello(Modello modello){
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -490,6 +493,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         db.update(TABELLA_MODELLI, cv, "IDModello="+idModello, null);
     }
 
+    // Aggiornamento di un' auto.
     public void updateAutoUtente(AutoUtente auto){
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -504,6 +508,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         db.update(TABELLA_AUTO_UTENTE, cv, "Targa="+targa, null);
     }
 
+    // Aggiornamento di una manutenzione.
     public void updateMantenzione(Manutenzione manutenzione){
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -519,6 +524,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     }
 
+    // Aggiornamento di un problema.
     public void updateProblema(Problema  problema){
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -531,6 +537,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         db.update(TABELLA_PROBLEMI, cv, "IDProblema="+id, null);
     }
 
+    // Aggiornamento di una scadenza.
     public void updateScadenza(Scadenza  scadenza){
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -544,24 +551,27 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         db.update(TABELLA_SCADENZE, cv, "IDScadenza="+id, null);
     }
 
+    // Eliminazione di un'auto.
     public void deleteAutoUtente(AutoUtente autoUtente){
         SQLiteDatabase db = this.getWritableDatabase();
         String targa = "'"+autoUtente.getTarga()+"'";
         db.delete(TABELLA_AUTO_UTENTE, " Targa ="+targa , null);
     }
 
+    // Eliminazione di una manutenzione.
     public void deleteManutezione(Manutenzione manutenzione){
         SQLiteDatabase db = this.getWritableDatabase();
         String idManutenzione = "'"+manutenzione.getIDManutenzione()+"'";
         db.delete(TABELLA_MANUTENZIONI, " IDManutenzione ="+idManutenzione , null);
     }
-
+    // Eliminazione di un problema.
     public void deleteProblema(Problema problema){
         SQLiteDatabase db = this.getWritableDatabase();
         String idProblema = "'"+problema.getIDProblema()+"'";
         db.delete(TABELLA_PROBLEMI, " IDProblema ="+idProblema , null);
     }
 
+    // Eliminazione di una scadenza.
     public void deleteScadenza(Scadenza scadenza){
         SQLiteDatabase db = this.getWritableDatabase();
         String IdScadenza = "'"+scadenza.getIDScadenza()+"'";

@@ -101,4 +101,12 @@ public class Utility {
     public static String convertStringToStringIt(String data) {
         return  convertDateToString(convertStringToDate(data));
     }
+
+    public static String convertStringDateToString(String data){
+        String gg= data.substring(0,2);
+        String mm= data.substring(3,5);
+        String aa= data.substring(6,10);
+       return aa+mm+gg;
+    }
+
 }
