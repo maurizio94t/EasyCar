@@ -61,8 +61,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         String CREA_TABELLA_MODELLI = "CREATE TABLE  Modelli ( IDModello INTEGER  PRIMARY KEY      , Nome TEXT  , Segmento TEXT  , Alimentazione TEXT  , Cilindrata TEXT , KW TEXT  , Marca_id INTEGER  , FOREIGN KEY (`Marca_id`) REFERENCES  `Marche` (`IDMarca`) ON DELETE CASCADE ON UPDATE CASCADE );";
         String CREA_TABELLA_AUTOUTENTE = "CREATE TABLE AutoUtente ( Targa TEXT  PRIMARY KEY, KM INTEGER , AnnoImmatricolazione TEXT   , Selected INTEGER   , Utenti_Email TEXT  , Modelli_id INTEGER  , FOREIGN KEY (`Utenti_Email`) REFERENCES  `Utenti` (`Email`) ON DELETE CASCADE ON UPDATE CASCADE , FOREIGN KEY (`Modelli_id`) REFERENCES  `Modelli` (`IDModello`) ON DELETE CASCADE ON UPDATE CASCADE );";
         String CREA_TABELLA_PROBLEMI = "CREATE TABLE Problemi ( IDProblema INTEGER   PRIMARY KEY     , Descrizione TEXT, Targa TEXT, FOREIGN KEY (`Targa`) REFERENCES `AutoUtente` (`Targa`) ON DELETE CASCADE ON UPDATE CASCADE );";
-        String CREA_TABELLA_MANUTENZIONI = "CREATE TABLE Manutenzioni ( IDManutenzione INTEGER  PRIMARY KEY   , Descrizione TEXT  ,Data TEXT  ,Ordinaria INTEGER,  KmManutenzione TEXT , Targa TEXT , FOREIGN KEY (`Targa`) REFERENCES `AutoUtente` (`Targa`) ON DELETE CASCADE ON UPDATE CASCADE );";
-        String CREA_TABELLA_SCADENZE = "CREATE TABLE Scadenze ( IDScadenza INTEGER PRIMARY KEY     , Descrizione TEXT, DataScadenza TEXT, Targa TEXT, FOREIGN KEY (`Targa`) REFERENCES `AutoUtente` (`Targa`) ON DELETE CASCADE ON UPDATE CASCADE );";
+        String CREA_TABELLA_MANUTENZIONI = "CREATE TABLE Manutenzioni ( IDManutenzione INTEGER  PRIMARY KEY   , Descrizione TEXT  ,Data DATE  ,Ordinaria INTEGER,  KmManutenzione TEXT , Targa TEXT , FOREIGN KEY (`Targa`) REFERENCES `AutoUtente` (`Targa`) ON DELETE CASCADE ON UPDATE CASCADE );";
+        String CREA_TABELLA_SCADENZE = "CREATE TABLE Scadenze ( IDScadenza INTEGER PRIMARY KEY     , Descrizione TEXT, DataScadenza DATE, Targa TEXT, FOREIGN KEY (`Targa`) REFERENCES `AutoUtente` (`Targa`) ON DELETE CASCADE ON UPDATE CASCADE );";
 
         // Creazione delle tabelle.
         db.execSQL(CREA_TABELLA_UTENTE);
@@ -309,9 +309,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         String query =  "SELECT * FROM "+TABELLA_SCADENZE+" NATURAL JOIN "+TABELLA_AUTO_UTENTE+" JOIN "+TABELLA_MODELLI +" ON Modelli_id=IDModello JOIN "+TABELLA_MARCHE +" ON Marca_id=IDMarca JOIN "+TABELLA_UTENTI +" ON Utenti_Email=Email ";
 
-
-
-
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
@@ -331,6 +328,26 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         }
 
 
+        return scadenze;
+    }
+    //get all scadenze e manutenzioni ordinate
+
+    public List<Scadenza> getAllScadenzeOrdinate() {
+        List<Scadenza> scadenze = new LinkedList<Scadenza>();
+        String query =  "SELECT * FROM "+TABELLA_SCADENZE+" NATURAL JOIN "+TABELLA_AUTO_UTENTE+" JOIN "+TABELLA_MODELLI +" ON Modelli_id=IDModello JOIN "+TABELLA_MARCHE +" ON Marca_id=IDMarca JOIN "+TABELLA_UTENTI +" ON Utenti_Email=Email ORDER BY DataScadenza ";
+        Scadenza scadenza = null;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                scadenza = new Scadenza(cursor.getInt(0), cursor.getString(1), cursor.getString(2), new AutoUtente(cursor.getString(3),cursor.getInt(4),cursor.getString(5),new Utente(cursor.getString(18),cursor.getString(19),cursor.getString(20),cursor.getString(21)),new Modello(cursor.getInt(9),cursor.getString(10),cursor.getString(11),cursor.getString(12),cursor.getString(13),cursor.getString(14),new Marca(cursor.getInt(16),cursor.getString(17))),cursor.getInt(6)));
+                scadenze.add(scadenza);
+            } while (cursor.moveToNext());
+        }
+        for (Scadenza s : scadenze) {
+            Log.d("getAllScadenzeOrdinate()", s.toString());
+        }
         return scadenze;
     }
 
@@ -420,6 +437,25 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         }
 
          return manutenzioni;
+    }
+
+    public List<Manutenzione> getAllManutenzioniOrdinate() {
+        List<Manutenzione> manutenzioni = new LinkedList<Manutenzione>();
+        String query =   "SELECT * FROM "+TABELLA_MANUTENZIONI +" NATURAL JOIN "+ TABELLA_AUTO_UTENTE+" JOIN "+TABELLA_MODELLI+ " ON Modelli_id=IDModello JOIN "+TABELLA_MARCHE +" ON Marca_id=IDMarca JOIN "+ TABELLA_UTENTI +" ON Utenti_Email=Email ORDER BY Data ";
+        Manutenzione manutenzione = null;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                manutenzione = new Manutenzione(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getInt(3),cursor.getString(4),new AutoUtente(cursor.getString(5),cursor.getInt(6),cursor.getString(7),new Utente(cursor.getString(20),cursor.getString(21),cursor.getString(22),cursor.getString(23)),new Modello(cursor.getInt(11),cursor.getString(12),cursor.getString(13),cursor.getString(14),cursor.getString(15),cursor.getString(16), new Marca(cursor.getInt(18),cursor.getString(19))),cursor.getInt(3) /* DELIA manca campo Selected*/)) ;
+                manutenzioni.add(manutenzione);
+            } while (cursor.moveToNext());
+        }
+        for (Manutenzione m : manutenzioni) {
+            Log.d("getAllManutenzioneOrdinate()", m.toString());
+        }
+        return manutenzioni;
     }
 
     public void updateUtente(Utente utente){
@@ -541,4 +577,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         String IdScadenza = "'"+scadenza.getIDScadenza()+"'";
         db.delete(TABELLA_SCADENZE, " IDScadenza ="+IdScadenza , null);
     }
+
+
 }

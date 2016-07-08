@@ -102,22 +102,13 @@
                 android:gravity="center"
                 android:layout_gravity="center_horizontal" />
             <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="241dp"
+                android:layout_height="wrap_content"
                 android:id="@+id/spinner_targa"
                 android:paddingTop="@dimen/paddingLeftForm"/>
 
 
         </LinearLayout>
-
-        <Button
-            android:text="AGGIUNGI"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="33dp"
-            android:id="@+id/buttonAggiungiScadenza"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
 
     </LinearLayout>
 </LinearLayout>

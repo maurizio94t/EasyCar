@@ -17,7 +17,6 @@ public class AutoUtente implements Comparable<AutoUtente> {
         this.targa = targa;
         this.km = km;
         this.annoImmatricolazione = annoImmatricolazione;
-
         this.utente = utente;
         this.modello = modello;
         this.selected = selected;
