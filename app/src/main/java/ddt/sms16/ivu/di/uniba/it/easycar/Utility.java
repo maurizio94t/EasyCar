@@ -15,11 +15,13 @@ import android.os.Build;
         import android.support.v4.app.ActivityCompat;
         import android.support.v4.content.ContextCompat;
         import android.support.v7.app.AlertDialog;
+import android.util.Log;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class Utility {
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
@@ -69,6 +71,17 @@ public class Utility {
 
     public static Date convertStringToDate(String data) {
         try {
+            DateFormat format = new SimpleDateFormat("yyyy-M-d", Locale.ITALIAN);
+            Date date = null;
+            date = format.parse(data);
+            Log.e("DATA > ", date.toString());
+            return date;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+        /*
+        try {
             DateFormat df = new SimpleDateFormat("yyyy/M/d");
             df.setLenient (false);
             Date d = df.parse(data);
@@ -76,6 +89,7 @@ public class Utility {
         } catch (ParseException e) {
             return null;
         }
+        */
     }
 
     public static String convertDateToString(Date data) {
