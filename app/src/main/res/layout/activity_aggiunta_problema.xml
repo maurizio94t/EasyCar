@@ -53,7 +53,7 @@
             android:paddingRight="@dimen/paddingRightIcon"/>
 
         <Spinner
-            android:layout_width="300dp"
+            android:layout_width="237dp"
             android:layout_height="wrap_content"
             android:id="@+id/spinner_veicolo"
             android:layout_alignParentTop="true"

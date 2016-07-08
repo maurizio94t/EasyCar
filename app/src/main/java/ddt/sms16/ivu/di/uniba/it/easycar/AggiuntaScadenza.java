@@ -101,16 +101,16 @@ public class AggiuntaScadenza extends AppCompatActivity {
         List<AutoUtente> auto = mySQLiteHelper.getAllMieAutoUtente();
 
 
-        String[] targhe = new String[auto.size()];
+        String[] automobili = new String[auto.size()];
         int i = 0;
         for (AutoUtente a : auto
                 ) {
-            targhe[i] = a.getTarga();
+            automobili[i] = a.getModello().getMarca().getNome()+" "+a.getModello().getNome()+"-"+a.getTarga();
             i++;
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, targhe);
+                android.R.layout.simple_spinner_item, automobili);
         spinnerTarghe.setAdapter(adapter);
 
 
@@ -172,13 +172,17 @@ public class AggiuntaScadenza extends AppCompatActivity {
                 String targa = spinnerTarghe.getSelectedItem().toString();
                 String email =MainActivity.sharedpreferences.getString(TAG_UTENTE_EMAIL,"");
 
-                  aggiungiScadenza(tipoScadenza, dataScadenza, targa,email);
-                Snackbar snackbar = Snackbar
-                        .make( findViewById(android.R.id.content),"scadenza aggiunta con successo!", Snackbar.LENGTH_LONG);
-
-                snackbar.show();
-
-
+                  boolean aggiunto = aggiungiScadenza(tipoScadenza, dataScadenza, targa,email);
+                Log.d("Response",Boolean.toString(aggiunto));
+             if(aggiunto){
+                 Snackbar snackbar = Snackbar
+                         .make( findViewById(android.R.id.content),"scadenza aggiunta con successo!", Snackbar.LENGTH_LONG);
+                 snackbar.show();
+             }else{
+                 Snackbar snackbar = Snackbar
+                         .make( findViewById(android.R.id.content),"errore nell'aggiunta della scadenza, controlla la connessione!", Snackbar.LENGTH_LONG);
+                 snackbar.show();
+             }
             }
 
             return true;
@@ -188,8 +192,8 @@ public class AggiuntaScadenza extends AppCompatActivity {
     }
 
 
-private void aggiungiScadenza(final String descrizione, final String dataScadenza, final String targa, final String email){
-
+private boolean aggiungiScadenza(final String descrizione, final String dataScadenza, final String targa, final String email){
+    final boolean[] aggiunto = new boolean[1];
     StringRequest myReq = new StringRequest(Request.Method.POST,
             MainActivity.urlOperations,
             new Response.Listener<String>() {
@@ -205,8 +209,8 @@ private void aggiungiScadenza(final String descrizione, final String dataScadenz
                         String targaVeicolo = dati.getString("Veicolo");
 
                         MainActivity.mySQLiteHelper.aggiungiScadenza(new Scadenza(Integer.parseInt(idScadenza), descrizione, dataScadenza, new AutoUtente(targaVeicolo)));
-                        MainActivity.mySQLiteHelper.getAllScadenze();
 
+                        aggiunto[0] =true;
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -216,6 +220,7 @@ private void aggiungiScadenza(final String descrizione, final String dataScadenz
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.d("Response", "> That didn't work!");
+                   aggiunto[0] =false;
                 }
             }) {
 
@@ -234,6 +239,6 @@ private void aggiungiScadenza(final String descrizione, final String dataScadenz
     };
     MainActivity.queue.add(myReq);
 
-
+return aggiunto[0];
 }
 }

@@ -98,7 +98,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Seleziona la targa"
+                android:text="Seleziona l'auto"
                 android:gravity="center"
                 android:layout_gravity="center_horizontal" />
             <Spinner

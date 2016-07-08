@@ -47,9 +47,10 @@ public class AggiuntaProblema extends AppCompatActivity {
         int i = 0;
         for (AutoUtente a : auto
                 ) {
-            automobili[i] = a.getTarga();
+            automobili[i] = a.getModello().getMarca().getNome()+" "+a.getModello().getNome()+"-"+a.getTarga();
             i++;
         }
+
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, automobili);
