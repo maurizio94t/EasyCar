@@ -18,10 +18,6 @@ import ddt.sms16.ivu.di.uniba.it.easycar.CustomAdapter_Scadenze;
 import ddt.sms16.ivu.di.uniba.it.easycar.MainActivity;
 import ddt.sms16.ivu.di.uniba.it.easycar.R;
 
-
-/**
- * Created by Maurizio on 01/06/16.
- */
 public class ScadenzeFragment extends Fragment {
     private Context thisContext;
     private View view;
@@ -38,7 +34,6 @@ public class ScadenzeFragment extends Fragment {
                 R.layout.row_scadenza,
                 MainActivity.mySQLiteHelper.getAllScadenze());
 
-        //utilizzo dell'adapter
         listView = (ListView) view.findViewById(R.id.listView);
         listView.setAdapter(customAdapter);
 
@@ -54,11 +49,9 @@ public class ScadenzeFragment extends Fragment {
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
-    {
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
         super.onCreateContextMenu(menu, v, menuInfo);
-        menu.setHeaderTitle("Select The Action");
-        menu.add(0, v.getId(), 0, "Elimina");//groupId, itemId, order, title
+        menu.add(0, v.getId(), 0, "Elimina");
         menu.add(0, v.getId(), 0, "Modifica");
     }
 

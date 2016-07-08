@@ -1,17 +1,19 @@
 package ddt.sms16.ivu.di.uniba.it.easycar.fragments;
 
 
-import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -24,7 +26,7 @@ import ddt.sms16.ivu.di.uniba.it.easycar.entity.Manutenzione;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Scadenza;
 
 
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+
 public class HomeFragment extends Fragment {
 
     private Context thisContext;
@@ -38,6 +40,13 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         thisContext = container.getContext();
         view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            Toast.makeText(getActivity(), "GPS is Enabled in your devide", Toast.LENGTH_SHORT).show();
+        }else{
+            showGPSDisabledAlertToUser();
+        }
         Button btnSalvaPosizione = (Button) view.findViewById(R.id.btnPosizione);
         btnSalvaPosizione.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +72,28 @@ public class HomeFragment extends Fragment {
         listView.setAdapter(customAdapter);
 
         return view;
+    }
+
+    private void showGPSDisabledAlertToUser(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setMessage("GPS is disabled in your device. Would you like to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Goto Settings Page To Enable GPS",
+                        new DialogInterface.OnClickListener(){
+                            public void onClick(DialogInterface dialog, int id){
+                                Intent callGPSSettingIntent = new Intent(
+                                        android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                startActivity(callGPSSettingIntent);
+                            }
+                        });
+        alertDialogBuilder.setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int id){
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
     }
 
     private void selectLists() {
