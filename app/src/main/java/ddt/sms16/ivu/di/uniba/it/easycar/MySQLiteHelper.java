@@ -353,13 +353,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     public List<Problema> getAllProblemi() {
         List<Problema> problemi = new LinkedList<Problema>();
-
-
         String query = "SELECT * FROM "+TABELLA_PROBLEMI+" NATURAL JOIN "+TABELLA_AUTO_UTENTE+" JOIN "+TABELLA_MODELLI+" ON Modelli_id=IDModello JOIN "+ TABELLA_MARCHE+" ON Marca_id=IDMarca JOIN "+TABELLA_UTENTI+" ON Utenti_Email=Email";
-
-
-    //    String query = "SELECT * FROM "+TABELLA_PROBLEMI+"  JOIN "+TABELLA_AUTO_UTENTE+ " ON Problemi.Targa=AutoUtente.Targa ";
-
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
@@ -367,7 +361,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         Problema problema = null;
         if (cursor.moveToFirst()) {
             do {
-                problema = new Problema(cursor.getInt(0), cursor.getString(1), new AutoUtente(cursor.getString(2),cursor.getInt(3),cursor.getString(4),new Utente(cursor.getString(16),cursor.getString(17),cursor.getString(18),cursor.getString(19)), new Modello(cursor.getInt(7),cursor.getString(8),cursor.getString(9),cursor.getString(10),cursor.getString(11),cursor.getString(12),new Marca(cursor.getInt(13),cursor.getString(15)) ),0));
+                problema = new Problema(cursor.getInt(0), cursor.getString(1), new AutoUtente(cursor.getString(2),cursor.getInt(3),cursor.getString(4),new Utente(cursor.getString(16),cursor.getString(17),cursor.getString(18),cursor.getString(19)), new Modello(cursor.getInt(7),cursor.getString(8),cursor.getString(9),cursor.getString(10),cursor.getString(11),cursor.getString(12),new Marca(cursor.getInt(13),cursor.getString(15)) ),cursor.getInt(5)));
                 problemi.add(problema);
 
             } while (cursor.moveToNext());
@@ -415,9 +409,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     public List<Manutenzione> getAllManutenzioni() {
         List<Manutenzione> manutenzioni = new LinkedList<Manutenzione>();
-
         String query =   "SELECT * FROM "+TABELLA_MANUTENZIONI +" NATURAL JOIN "+ TABELLA_AUTO_UTENTE+" JOIN "+TABELLA_MODELLI+ " ON Modelli_id=IDModello JOIN "+TABELLA_MARCHE +" ON Marca_id=IDMarca JOIN "+ TABELLA_UTENTI +" ON Utenti_Email=Email";
-
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
@@ -425,9 +417,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
 
             do {
-
-                    manutenzione = new Manutenzione(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getInt(3),cursor.getString(4),new AutoUtente(cursor.getString(5),cursor.getInt(6),cursor.getString(7),new Utente(cursor.getString(20),cursor.getString(21),cursor.getString(22),cursor.getString(23)),new Modello(cursor.getInt(11),cursor.getString(12),cursor.getString(13),cursor.getString(14),cursor.getString(15),cursor.getString(16), new Marca(cursor.getInt(18),cursor.getString(19))),cursor.getInt(3) /* DELIA manca campo Selected*/)) ;
-
+                manutenzione = new Manutenzione(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getInt(3),cursor.getString(4),new AutoUtente(cursor.getString(5),cursor.getInt(6),cursor.getString(7),new Utente(cursor.getString(20),cursor.getString(21),cursor.getString(22),cursor.getString(23)),new Modello(cursor.getInt(11),cursor.getString(12),cursor.getString(13),cursor.getString(14),cursor.getString(15),cursor.getString(16), new Marca(cursor.getInt(18),cursor.getString(19))),cursor.getInt(8))) ;
                 manutenzioni.add(manutenzione);
             } while (cursor.moveToNext());
         }
@@ -436,7 +426,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             Log.d("getAllManutenzione()", m.toString());
         }
 
-         return manutenzioni;
+        return manutenzioni;
     }
 
     public List<Manutenzione> getAllManutenzioniOrdinate() {

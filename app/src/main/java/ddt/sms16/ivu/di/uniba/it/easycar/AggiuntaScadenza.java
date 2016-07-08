@@ -21,6 +21,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -41,6 +44,7 @@ public class AggiuntaScadenza extends AppCompatActivity {
     private EditText mDataScadenza;
     int anno, mese, giorno = 0;
     public static final String TAG_UTENTE_EMAIL = "Email";
+    String risposta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,14 +169,25 @@ public class AggiuntaScadenza extends AppCompatActivity {
                 String email =MainActivity.sharedpreferences.getString(TAG_UTENTE_EMAIL,"");
                 MySQLiteHelper mySQLiteHelper = new MySQLiteHelper(this);
 
-                aggiungiScadenza(tipoScadenza, dataScadenza, targa,email);
+               String response= aggiungiScadenza(tipoScadenza, dataScadenza, targa,email);
                 Snackbar snackbar = Snackbar
                         .make( findViewById(android.R.id.content),"scadenza aggiunta con successo!", Snackbar.LENGTH_LONG);
 
                 snackbar.show();
                 // parserizzare il Json
+                try {
+                    JSONObject jsonObj = new JSONObject(response);
+
+                    jsonObj.getString("Operazione");
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
                 //inserimento nel db locale dei dati del Json
+                //mySQLiteHelper.aggiungiScadenza();
 
             }
 
@@ -183,7 +198,7 @@ public class AggiuntaScadenza extends AppCompatActivity {
     }
 
 
-private void aggiungiScadenza(final String descrizione,final String dataScadenza,final String targa, final String email){
+private String aggiungiScadenza(final String descrizione, final String dataScadenza, final String targa, final String email){
 
     StringRequest myReq = new StringRequest(Request.Method.POST,
             MainActivity.urlOperations,
@@ -191,6 +206,7 @@ private void aggiungiScadenza(final String descrizione,final String dataScadenza
                 @Override
                 public void onResponse(String response) {
                     Log.d("Response", "> OK Req");
+                    risposta=response;
                 }
             },
             new Response.ErrorListener() {
@@ -215,5 +231,6 @@ private void aggiungiScadenza(final String descrizione,final String dataScadenza
     };
     MainActivity.queue.add(myReq);
 
+    return risposta;
 }
 }
