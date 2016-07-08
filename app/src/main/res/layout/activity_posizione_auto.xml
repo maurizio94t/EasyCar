@@ -28,7 +28,7 @@
         android:textColor="@color/colorPrimary"
         android:fontFamily="sans-serif-smallcaps"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Hai lasciato il tuo veicolo in :"
+        android:text="@string/veicoloLasciato"
         android:id="@+id/textView5"
         android:layout_below="@+id/map"
         android:layout_centerHorizontal="true" />

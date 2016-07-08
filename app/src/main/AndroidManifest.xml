@@ -59,29 +59,29 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AggiuntaManutenzione"
-            android:label="Aggiunta manutenzione"
+            android:label="@string/AggiuntaManutenzione"
             android:theme="@style/AppTheme.NoActionBar"
             />
         <activity
             android:name=".AggiuntaAuto"
-            android:label="Aggiunta auto"
+            android:label="@string/AggiuntaAuto"
             android:theme="@style/AppTheme.NoActionBar"
             />
         <activity
             android:name=".AggiuntaProblema"
-            android:label="AggiuntaProblema"
+            android:label="@string/AggiuntaProblema"
             android:theme="@style/AppTheme.NoActionBar"
             />
         <activity
             android:name=".RegistrazioneUtente"
-            android:label="RegistraUtente"
+            android:label="@string/RegistraUtente"
             android:theme="@style/AppTheme.NoActionBar"
         />
         <activity android:name=".AggiuntaScadenza"
-            android:label="Aggiunta scadenza"
+            android:label="@string/AggiuntaScadenza"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".PosizioneAuto"
-            android:label="Posizione auto"
+            android:label="@string/PosizioneAuto"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <service android:name=".UpdateService" />

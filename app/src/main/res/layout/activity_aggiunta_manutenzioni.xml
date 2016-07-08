@@ -37,7 +37,7 @@
                     android:textSize="@dimen/text_size"
                     android:textColor="@color/colorManutenzione"
                     android:textStyle="bold"
-                    android:hint="Descrizione"
+                    android:hint="@string/descrizione"
 
                  />
 
@@ -88,7 +88,7 @@
             android:paddingTop="@dimen/paddingTop"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:text="Ordinaria"
+            android:text="@string/Ordinaria"
             android:textColor="@color/colorManutenzione"
             android:textSize="@dimen/formTextSize"
             android:id="@+id/toggleButton" />

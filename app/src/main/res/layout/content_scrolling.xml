@@ -26,7 +26,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="Targa:"
+                android:text="@string/targa"
                 android:textColor="@color/colorTextPrimary"
                 android:textSize="25sp" />
 
@@ -51,7 +51,7 @@
                 android:textColor="@color/colorTextPrimary"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="Marca:"
+                android:text="@string/marca"
                 android:textSize="25sp" />
 
             <TextView
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:textColor="@color/colorTextPrimary"
-                android:text="Modello:"
+                android:text="@string/modello"
                 android:textSize="25sp" />
 
             <TextView
@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:textColor="@color/colorTextPrimary"
-                android:text="Anno:"
+                android:text="@string/Anno"
                 android:textSize="25sp" />
 
             <TextView

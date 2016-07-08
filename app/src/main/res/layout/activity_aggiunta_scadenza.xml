@@ -34,7 +34,7 @@
                 android:paddingBottom="@dimen/paddingTop"
                 android:gravity="center"
                 android:textSize="@dimen/formTextSize"
-                android:text="Tipo"
+                android:text="@string/Tipo"
                 />
 
           <RadioGroup

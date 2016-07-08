@@ -27,7 +27,7 @@
                 android:id="@+id/autoMarca"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Marca"
+                android:text="@string/marca"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#000000"></TextView>
 
@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="5dp"
-                android:text="Modello"
+                android:text="@string/modello"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#000000"></TextView>
         </LinearLayout>
@@ -45,7 +45,7 @@
             android:id="@+id/autoTarga"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Targa"
+            android:text="@string/targa"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#6b71f1"></TextView>
     </LinearLayout>

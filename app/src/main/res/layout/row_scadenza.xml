@@ -27,7 +27,7 @@
                 android:id="@+id/auto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Auto"
+                android:text="@string/Auto"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#000000"></TextView>
 
@@ -45,7 +45,7 @@
             android:id="@+id/descrizione"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Descrizione"
+            android:text="@string/descrizione"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#6b71f1"></TextView>
     </LinearLayout>

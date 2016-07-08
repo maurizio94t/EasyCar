@@ -46,6 +46,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
+
+
+
         // Start a service for update Local DB
         Intent intentService = new Intent(this, UpdateService.class);
         startService(intentService);

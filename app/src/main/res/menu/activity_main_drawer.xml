@@ -5,11 +5,11 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Home" />
+            android:title="@string/Home" />
         <item
             android:id="@+id/nav_mie_auto"
             android:icon="@drawable/ic_car_grey600_24dp"
-            android:title="Mie Auto" />
+            android:title="@string/MieAuto" />
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
@@ -17,11 +17,11 @@
         <item
             android:id="@+id/nav_scadenze"
             android:icon="@drawable/ic_menu_share"
-            android:title="Scadenze" />
+            android:title="@string/Scadenze" />
         <item
             android:id="@+id/nav_problemi"
             android:icon="@drawable/ic_menu_share"
-            android:title="Problemi" />
+            android:title="@string/Problemi" />
 
     </group>
 
@@ -30,11 +30,11 @@
             <item
                 android:id="@+id/manutenzioni"
                 android:icon="@drawable/ic_menu_manage"
-                android:title="Manutenzioni" />
+                android:title="@string/Manutenzioni" />
             <item
                 android:id="@+id/nav_posizione_auto"
                 android:icon="@drawable/ic_car_grey600_24dp"
-                android:title="Posizione veicolo" />
+                android:title="@string/PosizioneVeicolo" />
         </menu>
     </item>
 

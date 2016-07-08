@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#843F9F</color>
+    <color name="colorPrimary">#8DB600</color>
+    <color name="colorPrimaryDark">#8DB600</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorTitle">#ffffff</color>
     <color name="colorBackground">#629dca</color>
@@ -9,8 +9,9 @@
     <color name="colorManutenzione">#f18a5a</color>
     <color name="colorAuto">#CDDC39</color>
     <color name="addButton">#a12b00</color>
-    <color name="colorProblemi">#2e3cc688</color>
-    <color name="colorScadenze">#2e9c63cf</color>
+    <color name="azzurroLeggero">#89CFF0</color>
+    <color name="colorProblemi">#9c6cc688</color>
+    <color name="colorScadenze">#6d4d64ae</color>
 
 
 </resources>

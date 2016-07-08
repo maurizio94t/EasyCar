@@ -7,30 +7,38 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="15dp"
+        android:weightSum="1">
+
+        <Button
+            android:id="@+id/btnPosizione"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/button_round_corner"
+            android:drawableLeft="@drawable/ic_map"
+            android:fontFamily="monospace"
+            android:text="@string/bottonePosizione"
+            android:textColor="@color/colorTitle"
+            android:textSize="20dp"
+            android:layout_weight="0.28" />
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="395dp"
+            android:paddingTop="35dp"
+            android:layout_weight="1.50"></ListView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="15dp">
 
-            <Button
-                android:id="@+id/btnPosizione"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_gravity="bottom"
-                android:background="@drawable/button_round_corner"
-                android:drawableLeft="@drawable/ic_map"
-                android:fontFamily="monospace"
-                android:text="Ho parcheggiato"
-                android:textColor="@color/colorTitle"
-                android:textSize="20dp" />
         </LinearLayout>
 
-        <ListView
-            android:id="@+id/listView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></ListView>
     </LinearLayout>
+
 </FrameLayout>
 

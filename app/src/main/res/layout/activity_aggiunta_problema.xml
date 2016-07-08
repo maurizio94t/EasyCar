@@ -34,7 +34,7 @@
             android:textSize="@dimen/text_size"
             android:textColor="@color/colorProblemi"
             android:textStyle="bold"
-            android:hint="Descrizione"
+            android:hint="@string/descrizione"
 
             />
 
