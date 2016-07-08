@@ -29,6 +29,7 @@ public class SalvaPosizione extends AppCompatActivity implements GoogleApiClient
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         buildGoogleApiClient();
 
