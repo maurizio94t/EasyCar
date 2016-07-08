@@ -101,14 +101,15 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_gravity="center">
         <Spinner
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/spinner_modello"
             android:paddingTop="@dimen/paddingLeftForm"/>
             <Spinner
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/spinner_marca"
                 >
@@ -116,12 +117,6 @@
             </Spinner>
         </LinearLayout>
 
-        <Button
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Invia"
-            android:id="@+id/inviaAuto"/>
 
     </LinearLayout>
 </LinearLayout>

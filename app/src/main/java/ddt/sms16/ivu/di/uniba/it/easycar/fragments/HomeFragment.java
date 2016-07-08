@@ -10,28 +10,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import ddt.sms16.ivu.di.uniba.it.easycar.CustomAdapter_AutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.CustomAdapter_Storico;
-import ddt.sms16.ivu.di.uniba.it.easycar.DettaglioAutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.MainActivity;
-import ddt.sms16.ivu.di.uniba.it.easycar.MySQLiteHelper;
 import ddt.sms16.ivu.di.uniba.it.easycar.R;
 import ddt.sms16.ivu.di.uniba.it.easycar.SalvaPosizione;
-import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Manutenzione;
-import ddt.sms16.ivu.di.uniba.it.easycar.entity.Marca;
-import ddt.sms16.ivu.di.uniba.it.easycar.entity.Modello;
-import ddt.sms16.ivu.di.uniba.it.easycar.entity.Problema;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Scadenza;
-import ddt.sms16.ivu.di.uniba.it.easycar.entity.Utente;
 
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)

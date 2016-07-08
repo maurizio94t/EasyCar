@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -58,7 +59,7 @@ public class AggiuntaAuto extends AppCompatActivity {
         mChilometraggio = (EditText) findViewById(R.id.chilometraggio_auto);
         mSpinnerMarca = (Spinner)findViewById(R.id.spinner_marca);
         mSpinnerModello = (Spinner)findViewById(R.id.spinner_modello);
-        inviaAuto = (Button)findViewById(R.id.inviaAuto);
+
 
 
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -136,47 +137,38 @@ public class AggiuntaAuto extends AppCompatActivity {
         String myFormat = "dd/MM/yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ITALY);
 
-        Calendar today = Calendar.getInstance();
-
-        int anni = today.get(Calendar.YEAR) - myCalendar.get(Calendar.YEAR);
-        if (myCalendar.get(Calendar.MONTH) > today.get(Calendar.MONTH) ||
-                (myCalendar.get(Calendar.MONTH) == today.get(Calendar.MONTH) && myCalendar.get(Calendar.DATE) > today.get(Calendar.DATE))) {
-
-        }
-
         dataN = sdf.format(myCalendar.getTime());
         mAnnoimmatricolazione.setText(dataN);
 
     }
     public boolean campiValidi(){
-        //CONTROLLO FUNZIONI SPINNER
         if(mTarga.getText().toString().compareTo("")==0 || mEmail.getText().toString().compareTo("")==0
                 || mAnnoimmatricolazione.toString().compareTo("")==0 || mChilometraggio.toString().compareTo("")==0
-                || mSpinnerMarca.isSelected() || mSpinnerModello.isSelected()  ){
+                 ){
             return false;
         }
         return true;
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.toolbar, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.done) {
-            Log.d("done","done");
-            return true;
+        if(campiValidi()) {
+            if (id == R.id.done) {
+                Toast.makeText(getApplicationContext(), "Auto aggiunta", Toast.LENGTH_LONG).show();
+                Log.d("done", "done");
+                return true;
+            }
+        }else {
+            Toast.makeText(getApplicationContext(), "Completa l'inserimemnto dei dati", Toast.LENGTH_LONG).show();
         }
-
         return super.onOptionsItemSelected(item);
     }
 

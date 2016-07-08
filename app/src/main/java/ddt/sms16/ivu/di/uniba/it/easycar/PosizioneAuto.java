@@ -1,21 +1,17 @@
 package ddt.sms16.ivu.di.uniba.it.easycar;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +51,7 @@ public class PosizioneAuto extends AppCompatActivity implements GoogleApiClient.
     public static SharedPreferences sharedpreferences;
     protected static final String TAG = "Posizione Auto";
     public static final String MyPREFERENCES = "MyPreferences";
+    public Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,73 +159,9 @@ public class PosizioneAuto extends AppCompatActivity implements GoogleApiClient.
         mGoogleApiClient.connect();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.toolbar, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
 
-        int id = item.getItemId();
-
-        if (id == R.id.done) {
-            Log.d("done","done");
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void start() {
-        activity = PosizioneAuto.this;
-            mlocManager = (LocationManager) activity
-                    .getSystemService(Context.LOCATION_SERVICE);
-
-            if (mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-
-                findLoc();
-        } else {
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                    activity);
-            alertDialogBuilder
-                    .setMessage("GPS is disabled in your device. Enable it?")
-                    .setCancelable(false)
-                    .setPositiveButton("Enable GPS",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog,
-                                                    int id) {
-                                    Intent callGPSSettingIntent = new Intent(
-                                            android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                                    activity.startActivity(callGPSSettingIntent);
-                                }
-                            });
-            alertDialogBuilder.setNegativeButton("Cancel",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
-            AlertDialog alert = alertDialogBuilder.create();
-            alert.show();
-
-        }
-    }
-
-    public void findLoc() {
-        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 1,
-                (android.location.LocationListener) gpsListener);
-
-        if (mlocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER) == null)
-            Toast.makeText(activity, "LAST Location null", Toast.LENGTH_SHORT)
-                    .show();
-        else {
-            gpsListener.onLocationChanged(mlocManager
-                    .getLastKnownLocation(LocationManager.GPS_PROVIDER));
-        }
-    }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {

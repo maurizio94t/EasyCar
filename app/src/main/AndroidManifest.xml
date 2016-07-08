@@ -83,9 +83,7 @@
         <activity android:name=".PosizioneAuto"
             android:label="Posizione auto"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-       <activity android:name=".GPS"
-           android:label="GPS"
-           android:theme="@style/AppTheme.NoActionBar"></activity>
+
         <service android:name=".UpdateService" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"

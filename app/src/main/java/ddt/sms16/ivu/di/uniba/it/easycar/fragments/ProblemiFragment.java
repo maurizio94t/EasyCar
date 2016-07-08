@@ -5,8 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.util.DisplayMetrics;
-import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
@@ -116,10 +117,32 @@ public class ProblemiFragment extends Fragment {
                 startActivity(intentAggiuntaProblema);
             }
         });
+
+        registerForContextMenu(expListView);
         return view;
 
     }
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
+    {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.setHeaderTitle("Select The Action");
+        menu.add(0, v.getId(), 0, "Elimina");//groupId, itemId, order, title
+        menu.add(0, v.getId(), 0, "Modifica");
+    }
 
+    @Override
+    public boolean onContextItemSelected(MenuItem item){
+        if(item.getTitle()=="Elimina"){
+            Toast.makeText(getContext(),"Codice elimina",Toast.LENGTH_LONG).show();
+        }
+        else if(item.getTitle()=="Modifica"){
+            Toast.makeText(getContext(),"Codice modifica", Toast.LENGTH_LONG).show();
+        }else{
+            return false;
+        }
+        return true;
+    }
     public int GetPixelFromDips(float pixels) {
         // Get the screen's density scale
         final float scale = getResources().getDisplayMetrics().density;

@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.HomeFragment;
+import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ManutenzioniFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.MieAutoFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ScadenzeFragment;
@@ -274,7 +275,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             fragment = new ProblemiFragment();
             ok = true;
         } else if (id == R.id.manutenzioni) {
-
+            fragment = new ManutenzioniFragment();
+            ok = true;
         } else if (id == R.id.nav_posizione_auto) {
             Intent gpsTest = new Intent(this, PosizioneAuto.class);
             startActivity(gpsTest);
