@@ -103,7 +103,7 @@ public class AggiuntaManutenzione extends AppCompatActivity {
             }
         });
 
-        List<AutoUtente> auto = MainActivity.mySQLiteHelper.getAllAutoUtente();
+        List<AutoUtente> auto = MainActivity.mySQLiteHelper.getAllMieAutoUtente();
 
 
         String[] automobili = new String[auto.size()];
