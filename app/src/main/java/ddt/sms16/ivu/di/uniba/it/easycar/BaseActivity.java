@@ -319,8 +319,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_posizione_auto) {
             Intent gpsTest = new Intent(this, PosizioneAuto.class);
             startActivity(gpsTest);
-        } else if (id == R.id.nav_impostazioni) {
-
         } else if (id == R.id.nav_info) {
             Intent info = new Intent(this, Info.class);
             startActivity(info);
@@ -342,9 +340,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
     private void showGPSDisabledAlertToUser(){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("GPS is disabled in your device. Would you like to enable it?")
+        alertDialogBuilder.setMessage(R.string.MessaggioGps)
                 .setCancelable(false)
-                .setPositiveButton("Goto Settings Page To Enable GPS",
+                .setPositiveButton(R.string.MessaggioGps1,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 Intent callGPSSettingIntent = new Intent(
@@ -352,7 +350,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                                 startActivity(callGPSSettingIntent);
                             }
                         });
-        alertDialogBuilder.setNegativeButton("Cancel",
+        alertDialogBuilder.setNegativeButton(R.string.MessaggioGps2,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();

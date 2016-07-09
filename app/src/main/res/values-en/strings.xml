@@ -59,6 +59,9 @@
     <string name="AggiuntaScadenza">Adding deadline</string>
     <string name="PosizioneAuto">Vehicle position</string>
     <string name="AggiuntaManutenzione">Adding maintenance</string>
+    <string name="MessaggioGps">GPS is disabled in your device. Would you like to enable it?</string>
+    <string name="MessaggioGps1">Goto Settings Page To Enable GPS</string>
+    <string name="MessaggioGps2">Cancel</string>
     <string-array name="menu">
         <item>Edit</item>
         <item>Delete</item>

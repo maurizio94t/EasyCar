@@ -33,12 +33,13 @@ public class CustomAdapter_Scadenze extends ArrayAdapter<Scadenza> {
         TextView auto = (TextView) convertView.findViewById(R.id.auto);
         TextView giorno = (TextView) convertView.findViewById(R.id.giorno);
         TextView mese = (TextView)convertView.findViewById(R.id.mese);
+        TextView anno = (TextView)convertView.findViewById(R.id.anno);
         Scadenza s = getItem(position);
         int [] dataVector = Utility.getData(s.getDataScadenza());
         descrizione.setText(s.getDescrizione());
         auto.setText(s.getAuto().getModello().getMarca().getNome() + " " + s.getAuto().getModello().getNome());
         giorno.setText(String.valueOf(dataVector[2]));
-
+        anno.setText(String.valueOf(dataVector[0]));
         mese.setText(Utility.controllaMese(dataVector[1]));
 
 //        img.setImageResource(R.drawable.ic_menu_gallery);

@@ -20,22 +20,23 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:text="@string/targa"
                 android:textColor="@color/colorTextPrimary"
-                android:textSize="25sp" />
+                android:textSize="15sp" />
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
                 android:id="@+id/txtViewTarga"
                 android:textStyle="bold"
+                android:textColor="@color/colorTextPrimary"
                 android:text="BD908DS"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -43,112 +44,118 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="20dp">
+            android:paddingTop="@dimen/paddingTop"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="0dp"
+
+        <TextView
+                android:layout_width="wrap_content"
                 android:textColor="@color/colorTextPrimary"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:text="@string/marca"
-                android:textSize="25sp" />
+                android:textSize="15sp" />
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
                 android:id="@+id/txtViewMarca"
                 android:text="Alfa Romeo"
+                android:textStyle="normal"
+                android:textColor="@color/colorTextPrimary"
                 android:textSize="20sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
+            android:paddingTop="@dimen/paddingTop"
+            android:orientation="vertical">
+        <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:textColor="@color/colorTextPrimary"
                 android:text="@string/modello"
-                android:textSize="25sp" />
+                android:textSize="15sp" />
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
                 android:id="@+id/txtViewModello"
                 android:text="159"
+                android:textColor="@color/colorTextPrimary"
                 android:textSize="20sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
+            android:paddingTop="@dimen/paddingTop"
+            android:orientation="vertical">
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:textColor="@color/colorTextPrimary"
                 android:text="@string/Anno"
-                android:textSize="25sp" />
+                android:textSize="15sp" />
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
                 android:id="@+id/txtViewAnno"
                 android:text="1999"
+                android:textColor="@color/colorTextPrimary"
                 android:textSize="20sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="20dp">
-
+            android:paddingTop="@dimen/paddingTop"
+            android:orientation="vertical">
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="Cilindrata:"
+                android:text="Cilindrata"
                 android:textColor="@color/colorTextPrimary"
-                android:textSize="25sp" />
+                android:textSize="15sp" />
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
                 android:id="@+id/txtViewCilindrata"
                 android:text="1900cc"
+                android:textColor="@color/colorTextPrimary"
                 android:textSize="20sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
+            android:paddingTop="@dimen/paddingTop"
+            android:orientation="vertical">
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="Km attuali:"
+                android:text="Km attuali"
                 android:textColor="@color/colorTextPrimary"
-                android:textSize="25sp" />
+                android:textSize="15sp" />
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
                 android:id="@+id/txtViewKm"
                 android:text="12500"
+                android:textColor="@color/colorTextPrimary"
                 android:textSize="20sp" />
         </LinearLayout>
 

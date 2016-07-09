@@ -16,6 +16,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
+import ddt.sms16.ivu.di.uniba.it.easycar.fragments.HomeFragment;
+
 /**
  * Created by Giuseppe-PC on 07/07/2016.
  */
@@ -56,13 +58,17 @@ public class SalvaPosizione extends AppCompatActivity implements GoogleApiClient
         if (mLastLocation != null) {
             sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
             SharedPreferences.Editor prefEditor = sharedpreferences.edit();
-            Toast.makeText(SalvaPosizione.this, "Posizione salvata correttamente", Toast.LENGTH_SHORT).show();
             prefEditor.putString("Latitude", String.valueOf(mLastLocation.getLatitude()));
             prefEditor.putString("Longitude", String.valueOf(mLastLocation.getLongitude()));
             prefEditor.commit();
-            Intent intent = new Intent(getApplicationContext(), PosizioneAuto.class);
-            finish();
-            startActivity(intent);
+            if(HomeFragment.save){
+                Toast.makeText(SalvaPosizione.this, "Posizione salvata correttamente", Toast.LENGTH_SHORT).show();
+                finish();
+            }else {
+                Intent intent = new Intent(getApplicationContext(), PosizioneAuto.class);
+                finish();
+                startActivity(intent);
+            }
         } else {
             Toast.makeText(getApplicationContext(), "last location è null", Toast.LENGTH_LONG);
         }

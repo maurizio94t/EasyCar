@@ -8,7 +8,7 @@ tools:context="ddt.sms16.ivu.di.uniba.it.easycar.fragments.ScadenzeFragment">
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorScadenze">
+    >
 
     <LinearLayout
         android:id="@+id/linearL"

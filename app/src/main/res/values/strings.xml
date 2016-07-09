@@ -56,7 +56,9 @@
     <string name="Problemi">Problemi</string>
     <string name="Manutenzioni">Manutenzioni</string>
     <string name="PosizioneVeicolo">Posizione veicolo</string>
-
+    <string name="MessaggioGps">Il GPS è disabilitato sul tuo dispositivo. Vuoi abilitarlo?</string>
+    <string name="MessaggioGps1">Vail alle impostazioni per abilitare il GPS</string>
+    <string name="MessaggioGps2">Indietro</string>
     <string name="AggiuntaAuto">Aggiunta auto</string>
     <string name="AggiuntaProblema">Aggiunta problema</string>
     <string name="RegistraUtente">Registrazione utente</string>
