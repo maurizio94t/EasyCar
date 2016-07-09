@@ -86,10 +86,10 @@
         <Switch
             android:layout_gravity="center"
             android:paddingTop="@dimen/paddingTop"
-            android:layout_width="200dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="@string/Ordinaria"
-            android:textColor="@color/colorManutenzione"
+            android:textColor="@color/colorTextF"
             android:textSize="@dimen/formTextSize"
             android:id="@+id/toggleButton" />
 </LinearLayout>
