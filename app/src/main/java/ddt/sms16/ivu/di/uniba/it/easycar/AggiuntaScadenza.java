@@ -201,12 +201,13 @@ public class AggiuntaScadenza extends AppCompatActivity {
 
                   boolean aggiunto = aggiungiScadenza(tipoScadenza, dataScadenza, targa,email);
                 Log.d("Response",Boolean.toString(aggiunto));
+                Snackbar snackbar;
              if(aggiunto){
-                 Snackbar snackbar = Snackbar
+                   snackbar = Snackbar
                          .make( findViewById(android.R.id.content),"scadenza aggiunta con successo!", Snackbar.LENGTH_LONG);
                  snackbar.show();
              }else{
-                 Snackbar snackbar = Snackbar
+                   snackbar = Snackbar
                          .make( findViewById(android.R.id.content),"errore nell'aggiunta della scadenza, controlla la connessione!", Snackbar.LENGTH_LONG);
                  snackbar.show();
              }

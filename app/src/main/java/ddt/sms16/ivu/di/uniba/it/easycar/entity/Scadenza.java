@@ -14,6 +14,10 @@ public class Scadenza implements Comparable<Scadenza> {
     private int inviata;
 
 
+    public int getInviata() {
+        return inviata;
+    }
+
     public Scadenza(int IDScadenza, String descrizione, String dataScadenza, int inviata, AutoUtente auto) {
         this.IDScadenza = IDScadenza;
         this.descrizione = descrizione;

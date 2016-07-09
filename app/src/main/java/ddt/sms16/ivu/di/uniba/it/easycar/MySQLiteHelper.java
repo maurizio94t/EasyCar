@@ -565,6 +565,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         cv.put("DataScadenza", scadenza.getDataScadenza());
         cv.put("Descrizione", scadenza.getDescrizione());
+        cv.put("Inviata", scadenza.getInviata());
         cv.put("Targa", scadenza.getAuto().getTarga());
 
         String id="'"+scadenza.getIDScadenza()+"'";
