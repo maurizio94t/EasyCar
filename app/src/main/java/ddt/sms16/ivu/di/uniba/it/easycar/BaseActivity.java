@@ -17,27 +17,19 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-import ddt.sms16.ivu.di.uniba.it.easycar.entity.Manutenzione;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.HomeFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ManutenzioniFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.MieAutoFragment;
-import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment2;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ScadenzeFragment;
 
@@ -198,8 +190,12 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             fragment = new ProblemiFragment2();
             ok = true;
         } else if (id == R.id.nav_posizione_auto) {
-            Intent gpsTest = new Intent(this, PosizioneAuto.class);
-            startActivity(gpsTest);
+            if(SalvaPosizione.salvata){
+            Intent posizioneAuto = new Intent(this, PosizioneAuto.class);
+            startActivity(posizioneAuto);
+            }else{
+                Toast.makeText(getApplicationContext(),"Non salvata la posizione",Toast.LENGTH_LONG).show();
+            }
         } else if (id == R.id.nav_info) {
             Intent info = new Intent(this, Info.class);
             startActivity(info);

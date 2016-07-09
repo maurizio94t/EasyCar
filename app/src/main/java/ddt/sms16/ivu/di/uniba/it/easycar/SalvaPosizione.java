@@ -28,6 +28,7 @@ public class SalvaPosizione extends AppCompatActivity implements GoogleApiClient
     protected static final String TAG = "Posizione Auto";
     public static final String MyPREFERENCES = "MyPreferences";
     private LocationManager mlocManager;
+    public static boolean salvata = false;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +64,7 @@ public class SalvaPosizione extends AppCompatActivity implements GoogleApiClient
             prefEditor.commit();
             if(HomeFragment.save){
                 Toast.makeText(SalvaPosizione.this, "Posizione salvata correttamente", Toast.LENGTH_SHORT).show();
+                salvata = true;
                 finish();
             }else {
                 Intent intent = new Intent(getApplicationContext(), PosizioneAuto.class);
