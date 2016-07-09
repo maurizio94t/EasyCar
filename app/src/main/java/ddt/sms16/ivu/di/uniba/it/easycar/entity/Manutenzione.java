@@ -1,7 +1,5 @@
 package ddt.sms16.ivu.di.uniba.it.easycar.entity;
 
-import android.util.Log;
-
 import ddt.sms16.ivu.di.uniba.it.easycar.Utility;
 
 /**
@@ -34,6 +32,11 @@ public class Manutenzione implements Comparable<Manutenzione> {
         this.kmManutenzione = kmManutenzione;
         this.auto = auto;
     }
+
+    public Manutenzione(int IDManutenzione){
+        this.IDManutenzione = IDManutenzione;
+    }
+
 
     public int getIDManutenzione() {
         return IDManutenzione;

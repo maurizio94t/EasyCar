@@ -45,6 +45,9 @@ public class AggiuntaScadenza extends AppCompatActivity {
     private EditText mDataScadenza;
     int anno, mese, giorno = 0;
     public static final String TAG_UTENTE_EMAIL = "Email";
+    private String tipoModifica = "modifica";
+    private String tipo = "tipo";
+
 
 
 
@@ -55,6 +58,26 @@ public class AggiuntaScadenza extends AppCompatActivity {
         final MySQLiteHelper mySQLiteHelper = new MySQLiteHelper(AggiuntaScadenza.this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+      /* Bundle b = getIntent().getExtras();
+        if(b != null){
+            if(b.getString(tipo).equalsIgnoreCase(tipoModifica)){
+
+               int idScadenza= ScadenzeFragment.scadenza.getIDScadenza();
+               String descrizioneScadenza = ScadenzeFragment.scadenza.getDescrizione();
+               String dataScadenza= ScadenzeFragment.scadenza.getDataScadenza();
+             String targaScadenza= ScadenzeFragment.scadenza.getAuto().getTarga();
+                tipoScadenzaRadioGroupSelected.setText(descrizioneScadenza);
+                editTextDate.setText(dataScadenza);
+
+
+             //   MainActivity.mySQLiteHelper.aggiungiScadenza(new Scadenza(Integer.parseInt(idScadenza), descrizione, dataScadenza, new AutoUtente(targaVeicolo)));
+
+
+            }
+        }
+        */
+
 
         mDataScadenza = (EditText)findViewById(R.id.dataScadenza);
         toolbar.setNavigationIcon(R.drawable.ic_navigate_before_white_24dp);

@@ -20,6 +20,9 @@ public class Scadenza implements Comparable<Scadenza> {
         this.auto = auto;
 
     }
+    public Scadenza(int IDScadenza){
+        this.IDScadenza=IDScadenza;
+    }
 
 
 

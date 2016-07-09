@@ -59,6 +59,13 @@ public class MieAutoFragment extends Fragment {
                 startActivity(intentDettaglioAuto);
             }
         });
+
+
+
+
+
+
+
         registerForContextMenu(listView);
         return view;
     }

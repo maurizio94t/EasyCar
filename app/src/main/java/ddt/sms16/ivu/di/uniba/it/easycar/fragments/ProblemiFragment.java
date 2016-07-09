@@ -135,8 +135,18 @@ public class ProblemiFragment extends Fragment {
     public boolean onContextItemSelected(MenuItem item){
         if(item.getTitle()=="Elimina"){
             Toast.makeText(getContext(),"Codice elimina",Toast.LENGTH_LONG).show();
+
+
+
+
+
+
+
         }
         else if(item.getTitle()=="Modifica"){
+
+
+
             Toast.makeText(getContext(),"Codice modifica", Toast.LENGTH_LONG).show();
         }else{
             return false;

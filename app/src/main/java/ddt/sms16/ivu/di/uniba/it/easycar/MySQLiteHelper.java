@@ -320,9 +320,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 scadenze.add(scadenza);
             } while (cursor.moveToNext());
         }
-        for (Scadenza s : scadenze
-                ) {
-            Log.d("getAllScadenze()", s.toString());
+        for (Scadenza s : scadenze) {
+            Log.d("ResponseEliminaScadenza", s.toString());
         }
 
 
