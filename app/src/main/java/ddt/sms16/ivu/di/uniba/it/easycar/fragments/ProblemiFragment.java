@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.AggiuntaProblema;
-import ddt.sms16.ivu.di.uniba.it.easycar.ExpandableListAdapter;
 import ddt.sms16.ivu.di.uniba.it.easycar.R;
 
 /**
@@ -28,17 +27,18 @@ import ddt.sms16.ivu.di.uniba.it.easycar.R;
 public class ProblemiFragment extends Fragment {
     private Context thisContext;
     View view;
-
+    /*
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
-
+    */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         thisContext = container.getContext();
         view = inflater.inflate(R.layout.fragment_problemi, container, false);
 
+        /*
 
         // get the listview
         DisplayMetrics metrics = new DisplayMetrics();
@@ -123,9 +123,12 @@ public class ProblemiFragment extends Fragment {
         });
 
         registerForContextMenu(expListView);
+        */
         return view;
 
     }
+
+    /*
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
     {
@@ -165,9 +168,7 @@ public class ProblemiFragment extends Fragment {
         return (int) (pixels * scale + 0.5f);
     }
 
-    /*
-     * Preparing the list data
-     */
+    //Preparing the list data
     private void prepareListData() {
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
@@ -206,4 +207,6 @@ public class ProblemiFragment extends Fragment {
         listDataChild.put(listDataHeader.get(1), nowShowing);
         listDataChild.put(listDataHeader.get(2), comingSoon);
     }
+    */
+
 }

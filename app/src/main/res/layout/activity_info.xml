@@ -50,7 +50,7 @@
             android:id="@+id/giuseppe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_facebook_box_white_24dp"
+            android:src="@drawable/ic_account_circle_white_24dp"
             android:paddingRight="@dimen/paddingTop"
             />
             <TextView
@@ -68,7 +68,7 @@
                 android:id="@+id/enrico"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_facebook_box_white_24dp"
+                android:src="@drawable/ic_account_circle_white_24dp"
                 android:paddingRight="@dimen/paddingTop"/>
             <TextView
                 android:layout_width="match_parent"
@@ -85,7 +85,7 @@
                 android:id="@+id/maurizio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_facebook_box_white_24dp"
+                android:src="@drawable/ic_account_circle_white_24dp"
                 android:paddingRight="@dimen/paddingTop"/>
             <TextView
                 android:layout_width="match_parent"

@@ -303,8 +303,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     public List<Scadenza> getAllScadenze() {
         List<Scadenza> scadenze = new LinkedList<Scadenza>();
-
-
         String query =  "SELECT * FROM "+TABELLA_SCADENZE+" NATURAL JOIN "+TABELLA_AUTO_UTENTE+" JOIN "+TABELLA_MODELLI +" ON Modelli_id=IDModello JOIN "+TABELLA_MARCHE +" ON Marca_id=IDMarca JOIN "+TABELLA_UTENTI +" ON Utenti_Email=Email ";
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -369,7 +367,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     public List<Problema> getAllProblemiByAuto(AutoUtente auto) {
         List<Problema> problemi = new LinkedList<Problema>();
-        String query = "SELECT * FROM "+TABELLA_PROBLEMI+" NATURAL JOIN "+TABELLA_AUTO_UTENTE+" JOIN "+TABELLA_MODELLI+" ON Modelli_id=IDModello JOIN "+ TABELLA_MARCHE+" ON Marca_id=IDMarca JOIN "+TABELLA_UTENTI+" ON Utenti_Email=Email WHERE AutoUtente.Targa= "+"'"+auto.getTarga()+"'";
+        String query = "SELECT * FROM "+TABELLA_PROBLEMI+" NATURAL JOIN "+TABELLA_AUTO_UTENTE+" JOIN "+TABELLA_MODELLI+" ON Modelli_id=IDModello JOIN "+ TABELLA_MARCHE+" ON Marca_id=IDMarca JOIN "+TABELLA_UTENTI+" ON Utenti_Email=Email WHERE AutoUtente.Modelli_id= "+/*"'"+*/auto.getModello().getIDModello()/*+"'"*/;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
