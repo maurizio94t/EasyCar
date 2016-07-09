@@ -4,7 +4,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_home_grey600_24dp"
             android:title="@string/Home" />
         <item
             android:id="@+id/nav_mie_auto"
@@ -16,11 +16,11 @@
             android:title="@string/Manutenzioni" />
         <item
             android:id="@+id/nav_scadenze"
-            android:icon="@drawable/ic_menu_share"
+            android:icon="@drawable/ic_calendar_clock_grey600_24dp"
             android:title="@string/Scadenze" />
         <item
             android:id="@+id/nav_problemi"
-            android:icon="@drawable/ic_menu_share"
+            android:icon="@drawable/ic_alert_octagon_grey600_24dp"
             android:title="@string/Problemi" />
     </group>
 
@@ -32,11 +32,11 @@
                 android:title="@string/PosizioneVeicolo" />
             <item
                 android:id="@+id/nav_impostazioni"
-                android:icon="@drawable/ic_menu_slideshow"
+                android:icon="@drawable/ic_setting_light"
                 android:title="Impostazioni" />
             <item
                 android:id="@+id/nav_info"
-                android:icon="@drawable/ic_menu_slideshow"
+                android:icon="@drawable/ic_information_outline_grey600_24dp"
                 android:title="Info" />
         </menu>
     </item>

@@ -55,6 +55,7 @@ public class ManutenzioniFragment extends Fragment {
         menu.setHeaderTitle("Select The Action");
         menu.add(0, v.getId(), 0, "Elimina");//groupId, itemId, order, title
         menu.add(0, v.getId(), 0, "Modifica");
+        menu.add(0, v.getId(), 0, "Imposta preferita");
     }
 
     @Override
@@ -64,9 +65,9 @@ public class ManutenzioniFragment extends Fragment {
         }
         else if(item.getTitle()=="Modifica"){
 
-        }else{
-            return false;
-        }
+        }else if(item.getTitle()=="Imposta preferita"){
+
+        }else return false;
         return true;
     }
 

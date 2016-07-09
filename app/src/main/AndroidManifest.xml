@@ -83,7 +83,11 @@
         <activity android:name=".PosizioneAuto"
             android:label="@string/PosizioneAuto"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-
+        <activity
+            android:name=".Info"
+            android:label="@string/Informazione"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
         <service android:name=".UpdateService" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"

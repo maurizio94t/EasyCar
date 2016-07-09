@@ -24,6 +24,7 @@
     <string name="ripetiPassword">Ripeti password</string>
     <string name="scadenza">Scadenza</string>
     <string name="descrizione">Descrizione</string>
+    <string name="auto">Auto</string>
     <string name="nomeUtente">Nome</string>
     <string name="cognomeUtente">Cognome</string>
     <string name="dataNascita">Data di nascita</string>

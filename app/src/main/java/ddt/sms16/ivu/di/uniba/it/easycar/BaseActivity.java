@@ -20,7 +20,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +36,6 @@ import java.util.Map;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.HomeFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ManutenzioniFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.MieAutoFragment;
-import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment2;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ScadenzeFragment;
 
@@ -324,7 +322,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_impostazioni) {
 
         } else if (id == R.id.nav_info) {
-
+            Intent info = new Intent(this, Info.class);
+            startActivity(info);
         }
 
         if (ok) {
