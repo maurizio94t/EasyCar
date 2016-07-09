@@ -77,7 +77,7 @@ public class Manutenzione implements Comparable<Manutenzione> {
             return -1;
     }
 
-    public boolean beforeScadenza(Scadenza s) {
-        return Utility.convertStringToDate(data).before(Utility.convertStringToDate(s.getDataScadenza()));
+    public boolean afterScadenza(Scadenza s) {
+        return Utility.convertStringToDate(data).after(Utility.convertStringToDate(s.getDataScadenza()));
     }
 }

@@ -19,26 +19,107 @@ import java.util.HashMap;
 import java.util.List;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.AggiuntaProblema;
+import ddt.sms16.ivu.di.uniba.it.easycar.Child;
+import ddt.sms16.ivu.di.uniba.it.easycar.ExpandListAdapter;
 import ddt.sms16.ivu.di.uniba.it.easycar.ExpandableListAdapter;
+import ddt.sms16.ivu.di.uniba.it.easycar.Group;
+import ddt.sms16.ivu.di.uniba.it.easycar.MainActivity;
 import ddt.sms16.ivu.di.uniba.it.easycar.R;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Auto;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Problema;
 
 /**
  * Created by Maurizio on 01/06/16.
  */
-public class ProblemiFragment extends Fragment {
+public class ProblemiFragment2 extends Fragment {
     private Context thisContext;
     View view;
 
-    ExpandableListAdapter listAdapter;
-    ExpandableListView expListView;
-    List<String> listDataHeader;
-    HashMap<String, List<String>> listDataChild;
+    private ExpandListAdapter ExpAdapter;
+    private ArrayList<Group> ExpListItems;
+    private ExpandableListView ExpandList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         thisContext = container.getContext();
         view = inflater.inflate(R.layout.fragment_problemi, container, false);
 
+        ExpandList = (ExpandableListView) view.findViewById(R.id.exp_list);
+        // inizio prova
+
+        // get the listview
+        DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int width = metrics.widthPixels;
+
+        ExpandList.setIndicatorBounds(width - GetPixelFromDips(50), width - GetPixelFromDips(10));
+
+        //fine prova
+        ExpListItems = SetStandardGroups();
+        ExpAdapter = new ExpandListAdapter(thisContext, ExpListItems);
+        ExpandList.setAdapter(ExpAdapter);
+
+        return view;
+    }
+
+    public int GetPixelFromDips(float pixels) {
+        // Get the screen's density scale
+        final float scale = getResources().getDisplayMetrics().density;
+        // Convert the dps to pixels, based on density scale
+        return (int) (pixels * scale + 0.5f);
+    }
+
+    public ArrayList<Group> SetStandardGroups() {
+
+        List<AutoUtente> listaAutoUtente = MainActivity.mySQLiteHelper.getAllMieAutoUtente();
+
+        String[] group_names = new String[listaAutoUtente.size()];
+        int i = 0;
+        for(AutoUtente a : listaAutoUtente) {
+            group_names[i++] = a.getModello().getMarca().getNome() + " " + a.getModello().getNome();
+        }
+
+        ArrayList<Group> list = new ArrayList<Group>();
+        ArrayList<Child> ch_list;
+
+        for (AutoUtente a : listaAutoUtente) {
+            Group gru = new Group();
+            gru.setName(a.getModello().getMarca().getNome() + " " + a.getModello().getNome());
+
+            ch_list = new ArrayList<Child>();
+            List<Problema> listaProblemiAuto = MainActivity.mySQLiteHelper.getAllProblemiByAuto(a);
+            for (Problema p : listaProblemiAuto) {
+                Child ch = new Child();
+                ch.setName(p.getDescrizione());
+                ch.setImage(R.drawable.ic_map);
+                if(isYourProblema(p))
+                    ch.setYour(true);
+                else
+                    ch.setYour(false);
+                ch_list.add(ch);
+            }
+            gru.setItems(ch_list);
+            list.add(gru);
+        }
+        return list;
+    }
+
+    private boolean isYourProblema(Problema p) {
+        List<AutoUtente> listaAuto = MainActivity.mySQLiteHelper.getAllMieAutoUtente();
+        for(AutoUtente a : listaAuto) {
+            if(a.getTarga().equalsIgnoreCase(p.getAuto().getTarga())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /*
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        thisContext = container.getContext();
+        view = inflater.inflate(R.layout.fragment_problemi, container, false);
 
         // get the listview
         DisplayMetrics metrics = new DisplayMetrics();
@@ -155,9 +236,7 @@ public class ProblemiFragment extends Fragment {
         return (int) (pixels * scale + 0.5f);
     }
 
-    /*
-     * Preparing the list data
-     */
+    //Preparing the list data
     private void prepareListData() {
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
@@ -196,4 +275,5 @@ public class ProblemiFragment extends Fragment {
         listDataChild.put(listDataHeader.get(1), nowShowing);
         listDataChild.put(listDataHeader.get(2), comingSoon);
     }
+    */
 }

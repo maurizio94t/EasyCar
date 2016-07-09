@@ -43,7 +43,8 @@ public class Problema implements Comparable<Problema> {
     @Override
     public int compareTo(Problema another) {
         if(this.descrizione.equals(another.descrizione) &&
-                this.auto.getTarga().equalsIgnoreCase(another.auto.getTarga()))
+                this.auto.getTarga().equalsIgnoreCase(another.auto.getTarga()) &&
+                this.auto.compareTo(another.auto) == 0)
             return 0;
         else
             return -1;

@@ -51,10 +51,9 @@ public class SalvaPosizione extends AppCompatActivity implements GoogleApiClient
     public void onConnected(Bundle bundle) {
 
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, 0);
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor prefEditor = sharedpreferences.edit();
-        Toast.makeText(SalvaPosizione.this, "Posizione salvata correttamente", Toast.LENGTH_SHORT)
-                .show();
+        Toast.makeText(SalvaPosizione.this, "Posizione salvata correttamente", Toast.LENGTH_SHORT).show();
         prefEditor.putString("Latitude", String.valueOf(mLastLocation.getLatitude()));
         prefEditor.putString("Longitude",  String.valueOf(mLastLocation.getLongitude()));
         prefEditor.commit();

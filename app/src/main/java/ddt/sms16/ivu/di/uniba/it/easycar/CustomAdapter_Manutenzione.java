@@ -27,7 +27,7 @@ public class CustomAdapter_Manutenzione extends ArrayAdapter<Manutenzione> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = inflater.inflate(R.layout.row_scadenza, null);
+        convertView = inflater.inflate(R.layout.row_manutenzione, null);
         ImageView img = (ImageView) convertView.findViewById(R.id.img);
         TextView descrizione = (TextView) convertView.findViewById(R.id.descrizione);
         TextView auto = (TextView) convertView.findViewById(R.id.auto);

@@ -92,18 +92,18 @@ public class HomeFragment extends Fragment {
         int i = 0, j = 0, k = 0;
 
         while (i < listaManutenzioni.size() && j < listaScadenze.size()) {
-            if (listaManutenzioni.get(i).beforeScadenza(listaScadenze.get(j)))
-                answer.add(k++, listaManutenzioni.get(i++)); //[k++] = a[i++];
+            if (listaManutenzioni.get(i).afterScadenza(listaScadenze.get(j)))
+                answer.add(k++, listaManutenzioni.get(i++));
             else
-                answer.add(k++, listaScadenze.get(j++));    //answer[k++] = b[j++];
+                answer.add(k++, listaScadenze.get(j++));
         }
 
         while (i < listaManutenzioni.size())
-            answer.add(k++, listaManutenzioni.get(i++));    //answer[k++] = a[i++];
+            answer.add(k++, listaManutenzioni.get(i++));
 
 
         while (j < listaScadenze.size())
-            answer.add(k++, listaScadenze.get(j++));        //answer[k++] = b[j++];
+            answer.add(k++, listaScadenze.get(j++));
 
         return answer;
     }

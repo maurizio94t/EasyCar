@@ -50,8 +50,7 @@ public class ManutenzioniFragment extends Fragment {
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
-    {
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         menu.setHeaderTitle("Select The Action");
         menu.add(0, v.getId(), 0, "Elimina");//groupId, itemId, order, title
@@ -59,7 +58,7 @@ public class ManutenzioniFragment extends Fragment {
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item){
+    public boolean onContextItemSelected(MenuItem item) {
         if(item.getTitle()=="Elimina"){
             Toast.makeText(getContext(),"Codice elimina",Toast.LENGTH_LONG).show();
         }
