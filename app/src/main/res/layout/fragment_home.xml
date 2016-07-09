@@ -7,22 +7,41 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingTop="15dp"
-        android:weightSum="1">
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnPosizione"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="37dp"
-            android:layout_gravity="bottom"
-            android:background="@drawable/button_round_corner"
-            android:drawableLeft="@drawable/ic_map"
-            android:fontFamily="monospace"
-            android:text="@string/bottonePosizione"
-            android:textColor="@color/colorTitle"
-            android:textSize="20dp"
-            android:layout_weight="0.28" />
+            android:layout_height="wrap_content"
+            android:padding="15dp">
+
+            <Button
+                android:id="@+id/btnPosizione"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/button_round_corner"
+                android:drawableLeft="@drawable/ic_map"
+                android:fontFamily="serif"
+                android:text="Ho parcheggiato"
+                android:textColor="@color/colorTitle"
+                android:textSize="15dp"
+                />
+            <Button
+                android:id="@+id/btnVisualizzaPosizione"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/button_round_corner"
+                android:drawableLeft="@drawable/ic_map"
+                android:fontFamily="serif"
+                android:text="Mostra"
+                android:textColor="@color/colorTitle"
+                android:textSize="15dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
 
         <ListView
             android:id="@+id/listView"
@@ -39,6 +58,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
 </FrameLayout>
 

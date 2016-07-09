@@ -26,10 +26,10 @@ public class SalvaPosizione extends AppCompatActivity implements GoogleApiClient
     protected static final String TAG = "Posizione Auto";
     public static final String MyPREFERENCES = "MyPreferences";
     private LocationManager mlocManager;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         buildGoogleApiClient();
 
@@ -42,25 +42,31 @@ public class SalvaPosizione extends AppCompatActivity implements GoogleApiClient
                 .addApi(LocationServices.API)
                 .build();
     }
+
     @Override
     protected void onStart() {
         super.onStart();
         mGoogleApiClient.connect();
     }
+
     @Override
     public void onConnected(Bundle bundle) {
 
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, 0);
-        SharedPreferences.Editor prefEditor = sharedpreferences.edit();
-        Toast.makeText(SalvaPosizione.this, "Posizione salvata correttamente", Toast.LENGTH_SHORT)
-                .show();
-        prefEditor.putString("Latitude", String.valueOf(mLastLocation.getLatitude()));
-        prefEditor.putString("Longitude",  String.valueOf(mLastLocation.getLongitude()));
-        prefEditor.commit();
-        Intent intent = new Intent(getApplicationContext(),PosizioneAuto.class);
-        finish();
-        startActivity(intent);
+        if (mLastLocation != null) {
+            sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+            SharedPreferences.Editor prefEditor = sharedpreferences.edit();
+            Toast.makeText(SalvaPosizione.this, "Posizione salvata correttamente", Toast.LENGTH_SHORT).show();
+            prefEditor.putString("Latitude", String.valueOf(mLastLocation.getLatitude()));
+            prefEditor.putString("Longitude", String.valueOf(mLastLocation.getLongitude()));
+            prefEditor.commit();
+            Intent intent = new Intent(getApplicationContext(), PosizioneAuto.class);
+            finish();
+            startActivity(intent);
+        } else {
+
+            Toast.makeText(getApplicationContext(), "last location è null", Toast.LENGTH_LONG);
+        }
     }
 
     @Override
@@ -75,21 +81,21 @@ public class SalvaPosizione extends AppCompatActivity implements GoogleApiClient
                 .show();
     }
 
-    private void showGPSDisabledAlertToUser(){
+    private void showGPSDisabledAlertToUser() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage("GPS is disabled in your device. Would you like to enable it?")
                 .setCancelable(false)
                 .setPositiveButton("Goto Settings Page To Enable GPS",
-                        new DialogInterface.OnClickListener(){
-                            public void onClick(DialogInterface dialog, int id){
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
                                 Intent callGPSSettingIntent = new Intent(
                                         android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                                 startActivity(callGPSSettingIntent);
                             }
                         });
         alertDialogBuilder.setNegativeButton("Cancel",
-                new DialogInterface.OnClickListener(){
-                    public void onClick(DialogInterface dialog, int id){
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                     }
                 });

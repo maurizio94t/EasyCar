@@ -16,6 +16,7 @@ import java.util.List;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.CustomAdapter_Storico;
 import ddt.sms16.ivu.di.uniba.it.easycar.MainActivity;
+import ddt.sms16.ivu.di.uniba.it.easycar.PosizioneAuto;
 import ddt.sms16.ivu.di.uniba.it.easycar.R;
 import ddt.sms16.ivu.di.uniba.it.easycar.SalvaPosizione;
 import ddt.sms16.ivu.di.uniba.it.easycar.Utility;
@@ -40,11 +41,20 @@ public class HomeFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_home, container, false);
 
         Button btnSalvaPosizione = (Button) view.findViewById(R.id.btnPosizione);
+        Button btnVisualizzaPosizione = (Button) view.findViewById(R.id.btnVisualizzaPosizione);
+
+        btnVisualizzaPosizione.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent Pos = new Intent(getContext(), PosizioneAuto.class);
+                startActivity(Pos);
+            }
+        });
         btnSalvaPosizione.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(Utility.checkInternetConnection(thisContext)) {
-                    Intent salvaPos = new Intent(getActivity(), SalvaPosizione.class);
+                    Intent salvaPos = new Intent(getContext(), SalvaPosizione.class);
                     startActivity(salvaPos);
                 }
             }
@@ -92,18 +102,18 @@ public class HomeFragment extends Fragment {
         int i = 0, j = 0, k = 0;
 
         while (i < listaManutenzioni.size() && j < listaScadenze.size()) {
-            if (listaManutenzioni.get(i).beforeScadenza(listaScadenze.get(j)))
-                answer.add(k++, listaManutenzioni.get(i++)); //[k++] = a[i++];
+            if (listaManutenzioni.get(i).afterScadenza(listaScadenze.get(j)))
+                answer.add(k++, listaManutenzioni.get(i++));
             else
-                answer.add(k++, listaScadenze.get(j++));    //answer[k++] = b[j++];
+                answer.add(k++, listaScadenze.get(j++));
         }
 
         while (i < listaManutenzioni.size())
-            answer.add(k++, listaManutenzioni.get(i++));    //answer[k++] = a[i++];
+            answer.add(k++, listaManutenzioni.get(i++));
 
 
         while (j < listaScadenze.size())
-            answer.add(k++, listaScadenze.get(j++));        //answer[k++] = b[j++];
+            answer.add(k++, listaScadenze.get(j++));
 
         return answer;
     }

@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +19,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -32,13 +36,16 @@ import java.util.Map;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.HomeFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ManutenzioniFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.MieAutoFragment;
-import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment;
+import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment2;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ScadenzeFragment;
 
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public static int num;
+    private Intent intentService;
+    private SharedPreferences sharedpreferences;
+
     public boolean GPSenabled = false;
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
@@ -46,11 +53,12 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
+        sharedpreferences = getSharedPreferences(MainActivity.MyPREFERENCES, Context.MODE_PRIVATE);
 
 
 
         // Start a service for update Local DB
-        Intent intentService = new Intent(this, UpdateService.class);
+        intentService = new Intent(this, UpdateService.class);
         startService(intentService);
         num = 1;
 
@@ -233,6 +241,36 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
+        View header=navigationView.getHeaderView(0);
+        /*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
+        TextView textNavName = (TextView) header.findViewById(R.id.textNavName);
+        TextView textNavEmail = (TextView) header.findViewById(R.id.textNavEmail);
+        ImageButton btnLogout = (ImageButton) header.findViewById(R.id.btnLogout);
+
+        textNavName.setText(sharedpreferences.getString(MainActivity.TAG_UTENTE_NOME, "") + " " + sharedpreferences.getString(MainActivity.TAG_UTENTE_COGNOME, ""));
+        textNavEmail.setText(sharedpreferences.getString(MainActivity.TAG_UTENTE_EMAIL, ""));
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.remove(MainActivity.TAG_UTENTE_VERIFICATO);
+                editor.remove(MainActivity.TAG_UTENTE_NOME);
+                editor.remove(MainActivity.TAG_UTENTE_COGNOME);
+                editor.remove(MainActivity.TAG_UTENTE_DATANASCITA);
+                editor.remove(MainActivity.TAG_UTENTE_EMAIL);
+                editor.remove(MainActivity.TAG_UTENTE_PSW);
+                editor.commit();
+
+                stopService(intentService);
+
+                Intent intentLogin = new Intent(BaseActivity.this, LoginActivity.class);
+                startActivity(intentLogin);
+                finish();
+            }
+        });
+
         // Faccio partire il primo Fragment
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, new HomeFragment());
@@ -269,21 +307,23 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_mie_auto) {
             fragment = new MieAutoFragment();
             ok = true;
-        } else if (id == R.id.nav_slideshow) {
-
+        } else if (id == R.id.manutenzioni) {
+            fragment = new ManutenzioniFragment();
+            ok = true;
         } else if (id == R.id.nav_scadenze) {
             fragment = new ScadenzeFragment();
             ok = true;
-
         } else if (id == R.id.nav_problemi) {
-            fragment = new ProblemiFragment();
-            ok = true;
-        } else if (id == R.id.manutenzioni) {
-            fragment = new ManutenzioniFragment();
+            fragment = new ProblemiFragment2();
             ok = true;
         } else if (id == R.id.nav_posizione_auto) {
             Intent gpsTest = new Intent(this, PosizioneAuto.class);
             startActivity(gpsTest);
+        } else if (id == R.id.nav_impostazioni) {
+
+        } else if (id == R.id.nav_info) {
+            Intent info = new Intent(this, Info.class);
+            startActivity(info);
         }
 
         if (ok) {

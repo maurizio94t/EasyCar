@@ -359,6 +359,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
             } while (cursor.moveToNext());
         }
+        for (Problema p : problemi
+                ) {
+            Log.d("getAllProblemi()", p.toString());
+        }
 
         return problemi;
     }

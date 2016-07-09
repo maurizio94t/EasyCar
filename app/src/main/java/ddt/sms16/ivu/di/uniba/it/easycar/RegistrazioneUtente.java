@@ -16,6 +16,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Utente;
+
 public class RegistrazioneUtente extends AppCompatActivity {
     private EditText mNome;
     private EditText mCognome;
@@ -28,7 +30,11 @@ public class RegistrazioneUtente extends AppCompatActivity {
     private String dataN;
     private Calendar myCalendar = Calendar.getInstance();
     private String emailPattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-
+    private String nome;
+    private String cognome;
+    private String data;
+    private String email;
+    private String password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,20 +48,21 @@ public class RegistrazioneUtente extends AppCompatActivity {
                 onBackPressed();
             }
         });
-         mNome = (EditText)findViewById(R.id.nomeUtente);
-         mCognome = (EditText)findViewById(R.id.cognomUtente);
-         mData = (EditText)findViewById(R.id.dataUtente);
-         mEmail = (EditText)findViewById(R.id.email);
-         mPassword = (EditText)findViewById(R.id.password);
-         mRipetiPassword = (EditText)findViewById(R.id.repeatPassword);
-        mRegistra = (Button)findViewById(R.id.btnRegistraUtente);
+        mNome = (EditText) findViewById(R.id.nomeUtente);
+        mCognome = (EditText) findViewById(R.id.cognomUtente);
+        mData = (EditText) findViewById(R.id.dataUtente);
+        mEmail = (EditText) findViewById(R.id.email);
+        mPassword = (EditText) findViewById(R.id.password);
+        mRipetiPassword = (EditText) findViewById(R.id.repeatPassword);
+        mRegistra = (Button) findViewById(R.id.btnRegistraUtente);
 
         mRegistra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!campiValidi()){
+                if (!campiValidi()) {
                     Toast.makeText(getApplicationContext(), "Campi non validi", Toast.LENGTH_LONG).show();
-                }else {
+                } else {
+                    MainActivity.mySQLiteHelper.aggiungiUtente(new Utente(nome,cognome,data,email,password));
                     Toast.makeText(getApplicationContext(), "Registrato", Toast.LENGTH_LONG).show();
                 }
             }
@@ -100,8 +107,8 @@ public class RegistrazioneUtente extends AppCompatActivity {
         });
 
 
-
     }
+
     private void updateLabel() {
 
         String myFormat = "dd/MM/yyyy";
@@ -113,29 +120,29 @@ public class RegistrazioneUtente extends AppCompatActivity {
         mData.setText(dataN);
 
     }
-    public boolean campiValidi(){
-        //CONTROLLO FUNZIONI SPINNER
-        if(mNome.getText().toString().compareTo("")==0 || mCognome.getText().toString().compareTo("")==0
-                || mData.toString().compareTo("")==0 && mEmail.toString().compareTo(emailPattern)==0
-                ){
-            if(mPassword.getText().toString().compareTo(mRipetiPassword.getText().toString())!=0){
-                Toast.makeText(getApplication(),"La password non corrisponde",Toast.LENGTH_LONG);
-            }
+
+    public boolean campiValidi() {
+
+        if (mNome.getText().toString().compareTo("") == 0 || mCognome.getText().toString().compareTo("") == 0
+                || mData.toString().compareTo("") == 0 || mEmail.toString().compareTo(emailPattern) == 0 ||
+                mPassword.getText().toString().compareTo(mRipetiPassword.getText().toString()) != 0) {
             return false;
+        } else {
+            nome = mNome.getText().toString();
+            cognome = mCognome.getText().toString();
+            data =  mData.toString();
+            email = mEmail.toString();
+            password = mPassword.getText().toString();
+            return true;
         }
-        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.done) {
-            Log.d("done","done");
+            Log.d("done", "done");
             return true;
         }
 
