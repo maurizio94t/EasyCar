@@ -209,9 +209,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 auto.add(autoUtente);
             } while (cursor.moveToNext());
         }
+        /*
         for (AutoUtente a : auto) {
             Log.d("getAllAutoUtente()", a.toString());
         }
+        */
         return auto;
     }
 
@@ -233,9 +235,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 auto.add(autoUtente);
             } while (cursor.moveToNext());
         }
+        /*
         for (AutoUtente a : auto) {
             Log.d("getAllAutoUtente()", a.toString());
         }
+        */
         return auto;
     }
 
@@ -261,11 +265,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 utenti.add(utente);
             } while (cursor.moveToNext());
         }
-        for (Utente u : utenti
-                ) {
+        /*
+        for (Utente u : utenti) {
             Log.d("getAllUtenti()", u.toString());
         }
-
+*/
         return utenti;
     }
 
@@ -291,11 +295,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 modelli.add(modello);
             } while (cursor.moveToNext());
         }
-        for (Modello m : modelli
-                ) {
+        /*
+        for (Modello m : modelli) {
             Log.d("getAllModelli()", m.toString());
         }
-
+*/
 
 
         return modelli;
@@ -318,10 +322,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 scadenze.add(scadenza);
             } while (cursor.moveToNext());
         }
+        /*
         for (Scadenza s : scadenze) {
             Log.d("ResponseEliminaScadenza", s.toString());
         }
-
+        */
 
         return scadenze;
     }
@@ -352,6 +357,25 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         Problema problema = null;
         if (cursor.moveToFirst()) {
             do {
+                Log.d("get 0 : ",cursor.getString(0));
+                Log.d("get 0 : ",cursor.getString(1));
+                Log.d("get 0 : ",cursor.getString(2));
+                Log.d("get 0 : ",cursor.getString(3));
+                Log.d("get 0 : ",cursor.getString(4));
+                Log.d("get 0 : ",cursor.getString(5));
+                Log.d("get 0 : ",cursor.getString(6));
+                Log.d("get 0 : ",cursor.getString(7));
+                Log.d("get 0 : ",cursor.getString(8));
+                Log.d("get 0 : ",cursor.getString(9));
+                Log.d("get 0 : ",cursor.getString(10));
+                Log.d("get 0 : ",cursor.getString(11));
+                Log.d("get 0 : ",cursor.getString(12));
+                Log.d("get 0 : ",cursor.getString(13));
+                Log.d("get 0 : ",cursor.getString(14));
+                Log.d("get 0 : ",cursor.getString(15));
+                Log.d("get 0 : ",cursor.getString(16));
+                Log.d("get 0 : ",cursor.getString(17));
+
                 problema = new Problema(cursor.getInt(0), cursor.getString(1), new AutoUtente(cursor.getString(2), cursor.getInt(3), cursor.getString(4), new Utente(cursor.getString(16), cursor.getString(17), cursor.getString(18), cursor.getString(19)), new Modello(cursor.getInt(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), new Marca(cursor.getInt(13), cursor.getString(15))), cursor.getInt(5)));
                 problemi.add(problema);
 
@@ -406,11 +430,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 marche.add(marca);
             } while (cursor.moveToNext());
         }
-        for (Marca m : marche
-                ) {
+        /*
+        for (Marca m : marche) {
             Log.d("getAllMarche()", m.toString());
         }
-
+*/
 
 
         return marche;
@@ -430,10 +454,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 manutenzioni.add(manutenzione);
             } while (cursor.moveToNext());
         }
-        for (Manutenzione m : manutenzioni
-                ) {
+        /*
+        for (Manutenzione m : manutenzioni) {
             Log.d("getAllManutenzioneResponse()", m.toString());
         }
+        */
 
         return manutenzioni;
     }
@@ -451,9 +476,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 manutenzioni.add(manutenzione);
             } while (cursor.moveToNext());
         }
+        /*
         for (Manutenzione m : manutenzioni) {
             Log.d("getAllManutenzioneOrdinate()", m.toString());
         }
+        */
         return manutenzioni;
     }
 

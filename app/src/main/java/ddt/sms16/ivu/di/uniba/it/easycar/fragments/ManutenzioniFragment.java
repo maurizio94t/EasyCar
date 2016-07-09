@@ -97,6 +97,7 @@ public class ManutenzioniFragment extends Fragment {
                     MainActivity.mySQLiteHelper.getAllManutenzioni());
 
             //utilizzo dell'adapter
+            //utilizzo
             listView = (ListView) view.findViewById(R.id.listView);
             listView.setAdapter(customAdapter);
 
