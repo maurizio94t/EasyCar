@@ -33,6 +33,7 @@ public class CustomAdapter_Storico extends ArrayAdapter<Object> {
         TextView info = (TextView) convertView.findViewById(R.id.info);
         TextView giorno = (TextView) convertView.findViewById(R.id.giorno);
         TextView mese = (TextView) convertView.findViewById(R.id.mese);
+        TextView anno = (TextView) convertView.findViewById(R.id.anno);
         ImageView img = (ImageView) convertView.findViewById(R.id.img);
 
         if(getItem(position) instanceof Manutenzione) {
@@ -42,6 +43,7 @@ public class CustomAdapter_Storico extends ArrayAdapter<Object> {
             int [] dataVector = Utility.getData(m.getData());
             giorno.setText(String.valueOf(dataVector[2]));
             mese.setText(Utility.controllaMese(dataVector[1]));
+            anno.setText(String.valueOf(dataVector[0]));
             img.setImageResource(R.drawable.ic_settings);
         } else {
             Scadenza s = (Scadenza) getItem(position);
@@ -50,6 +52,7 @@ public class CustomAdapter_Storico extends ArrayAdapter<Object> {
             int [] dataVector = Utility.getData(s.getDataScadenza());
             giorno.setText(String.valueOf(dataVector[2]));
             mese.setText(Utility.controllaMese(dataVector[1]));
+            anno.setText(String.valueOf(dataVector[0]));
             img.setImageResource(R.drawable.ic_clock);
         }
 

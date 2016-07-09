@@ -73,19 +73,18 @@ public class MieAutoFragment extends Fragment {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
     {
         super.onCreateContextMenu(menu, v, menuInfo);
-        menu.setHeaderTitle("Select The Action");
-        menu.add(0, v.getId(), 0, "Elimina");//groupId, itemId, order, title
-        menu.add(0, v.getId(), 0, "Modifica");
+        menu.add(0, v.getId(), 0, "Seleziona preferita");//groupId, itemId, order, title
+        menu.add(0, v.getId(), 0, "Elimina");
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item){
-        if(item.getTitle()=="Elimina"){
+        if(item.getTitle()=="Seleziona preferita"){
             Toast.makeText(getContext(),"Codice elimina",Toast.LENGTH_LONG).show();
         }
-        else if(item.getTitle()=="Modifica"){
-            Toast.makeText(getContext(),"Codice modifica", Toast.LENGTH_LONG).show();
-        }else{
+        else if(item.getTitle()=="Elimina"){
+            Toast.makeText(getContext(),"Codice elimina",Toast.LENGTH_LONG).show();
+        }else {
             return false;
         }
         return true;

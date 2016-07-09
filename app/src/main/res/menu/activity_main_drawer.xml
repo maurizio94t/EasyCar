@@ -31,12 +31,8 @@
                 android:icon="@drawable/ic_car_grey600_24dp"
                 android:title="@string/PosizioneVeicolo" />
             <item
-                android:id="@+id/nav_impostazioni"
-                android:icon="@drawable/ic_setting_light"
-                android:title="Impostazioni" />
-            <item
                 android:id="@+id/nav_info"
-                android:icon="@drawable/ic_calendar_clock_grey600_24dp"
+                android:icon="@drawable/ic_information_outline_grey600_24dp"
                 android:title="Info" />
         </menu>
     </item>

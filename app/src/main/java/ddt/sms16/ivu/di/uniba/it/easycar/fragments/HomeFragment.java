@@ -16,7 +16,6 @@ import java.util.List;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.CustomAdapter_Storico;
 import ddt.sms16.ivu.di.uniba.it.easycar.MainActivity;
-import ddt.sms16.ivu.di.uniba.it.easycar.PosizioneAuto;
 import ddt.sms16.ivu.di.uniba.it.easycar.R;
 import ddt.sms16.ivu.di.uniba.it.easycar.SalvaPosizione;
 import ddt.sms16.ivu.di.uniba.it.easycar.Utility;
@@ -31,7 +30,7 @@ public class HomeFragment extends Fragment {
     private View view;
     private CustomAdapter_Storico customAdapter;
     private ListView listView;
-
+    public static boolean save = false;
     private List<Manutenzione> listaManutenzioni;
     private List<Scadenza> listaScadenze;
 
@@ -41,7 +40,7 @@ public class HomeFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_home, container, false);
 
         Button btnSalvaPosizione = (Button) view.findViewById(R.id.btnPosizione);
-        Button btnVisualizzaPosizione = (Button) view.findViewById(R.id.btnVisualizzaPosizione);
+      /*  Button btnVisualizzaPosizione = (Button) view.findViewById(R.id.btnVisualizzaPosizione);
 
         btnVisualizzaPosizione.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,13 +48,14 @@ public class HomeFragment extends Fragment {
                 Intent Pos = new Intent(getContext(), PosizioneAuto.class);
                 startActivity(Pos);
             }
-        });
+        });*/
         btnSalvaPosizione.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(Utility.checkInternetConnection(thisContext)) {
                     Intent salvaPos = new Intent(getContext(), SalvaPosizione.class);
                     startActivity(salvaPos);
+                    save = true;
                 }
             }
         });
