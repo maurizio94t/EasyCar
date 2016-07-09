@@ -64,7 +64,6 @@ public class SalvaPosizione extends AppCompatActivity implements GoogleApiClient
             finish();
             startActivity(intent);
         } else {
-
             Toast.makeText(getApplicationContext(), "last location è null", Toast.LENGTH_LONG);
         }
     }

@@ -4,18 +4,17 @@ package ddt.sms16.ivu.di.uniba.it.easycar;
  * Created by Enrico on 22/06/16.
  */
 import android.Manifest;
-        import android.annotation.TargetApi;
-        import android.app.Activity;
-        import android.content.Context;
-        import android.content.DialogInterface;
-        import android.content.pm.PackageManager;
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-        import android.support.v4.app.ActivityCompat;
-        import android.support.v4.content.ContextCompat;
-        import android.support.v7.app.AlertDialog;
-import android.util.Log;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -58,6 +57,14 @@ public class Utility {
         }
     }
 
+    public static int [] getData(String str){
+        String[] data = str.split("-");
+        int [] dataConvert = new int[3];
+        dataConvert[0]=Integer.parseInt(data[0]);
+        dataConvert[1]=Integer.parseInt(data[1]);
+        dataConvert[2]=Integer.parseInt(data[2]);
+        return dataConvert;
+    }
     public static boolean checkInternetConnection(Context context) {
         boolean connected = false;
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -68,6 +75,26 @@ public class Utility {
         }
         return connected;
     }
+
+
+        public static String controllaMese(int m){
+            String mese = "";
+            switch (m){
+                case 1: return "GEN";
+                case 2: return "FEB";
+                case 3: return "MAR";
+                case 4: return "APR";
+                case 5: return "MAG";
+                case 6: return "GIU";
+                case 7: return "LUG";
+                case 8: return "AGO";
+                case 9: return "SET";
+                case 10: return "OTT";
+                case 11: return "NOV";
+                case 12: return "DIC";
+            }
+            return mese;
+        }
 
     public static Date convertStringToDate(String data) {
         try {

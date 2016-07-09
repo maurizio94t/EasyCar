@@ -31,13 +31,20 @@ public class CustomAdapter_Manutenzione extends ArrayAdapter<Manutenzione> {
         ImageView img = (ImageView) convertView.findViewById(R.id.img);
         TextView descrizione = (TextView) convertView.findViewById(R.id.descrizione);
         TextView auto = (TextView) convertView.findViewById(R.id.auto);
-        TextView data = (TextView) convertView.findViewById(R.id.data);
+        TextView giorno = (TextView) convertView.findViewById(R.id.giorno);
+        TextView mese = (TextView) convertView.findViewById(R.id.mese);
 
         Manutenzione s = getItem(position);
+        int [] dataVector = Utility.getData(s.getData());
         descrizione.setText(s.getDescrizione());
         auto.setText(s.getAuto().getModello().getMarca().getNome() + " " + s.getAuto().getModello().getNome());
-        data.setText(s.getData());
-        img.setImageResource(R.drawable.ic_menu_gallery);
+        giorno.setText(String.valueOf(dataVector[2]));
+        mese.setText(Utility.controllaMese(dataVector[1]));
+
+        descrizione.setText(s.getDescrizione());
+        auto.setText(s.getAuto().getModello().getMarca().getNome() + " " + s.getAuto().getModello().getNome());
+
+//        img.setImageResource(R.drawable.ic_menu_gallery);
 
         return convertView;
     }

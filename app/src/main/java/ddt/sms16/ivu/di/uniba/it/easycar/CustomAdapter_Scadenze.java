@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Scadenza;
 
 /**
@@ -32,13 +31,17 @@ public class CustomAdapter_Scadenze extends ArrayAdapter<Scadenza> {
         ImageView img = (ImageView) convertView.findViewById(R.id.img);
         TextView descrizione = (TextView) convertView.findViewById(R.id.descrizione);
         TextView auto = (TextView) convertView.findViewById(R.id.auto);
-        TextView data = (TextView) convertView.findViewById(R.id.data);
-
+        TextView giorno = (TextView) convertView.findViewById(R.id.giorno);
+        TextView mese = (TextView)convertView.findViewById(R.id.mese);
         Scadenza s = getItem(position);
+        int [] dataVector = Utility.getData(s.getDataScadenza());
         descrizione.setText(s.getDescrizione());
         auto.setText(s.getAuto().getModello().getMarca().getNome() + " " + s.getAuto().getModello().getNome());
-        data.setText(s.getDataScadenza());
-        img.setImageResource(R.drawable.ic_menu_gallery);
+        giorno.setText(String.valueOf(dataVector[2]));
+
+        mese.setText(Utility.controllaMese(dataVector[1]));
+
+//        img.setImageResource(R.drawable.ic_menu_gallery);
 
         return convertView;
     }
@@ -46,5 +49,6 @@ public class CustomAdapter_Scadenze extends ArrayAdapter<Scadenza> {
     public List<Scadenza> getLista() {
         return lista;
     }
+
 
 }
