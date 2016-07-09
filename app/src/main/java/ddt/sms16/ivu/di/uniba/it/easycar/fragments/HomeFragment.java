@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -19,6 +20,7 @@ import ddt.sms16.ivu.di.uniba.it.easycar.MainActivity;
 import ddt.sms16.ivu.di.uniba.it.easycar.R;
 import ddt.sms16.ivu.di.uniba.it.easycar.SalvaPosizione;
 import ddt.sms16.ivu.di.uniba.it.easycar.Utility;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Manutenzione;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Scadenza;
 
@@ -38,6 +40,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         thisContext = container.getContext();
         view = inflater.inflate(R.layout.fragment_home, container, false);
+        TextView auto = (TextView)view.findViewById(R.id.textAuto);
 
         Button btnSalvaPosizione = (Button) view.findViewById(R.id.btnPosizione);
         btnSalvaPosizione.setOnClickListener(new View.OnClickListener() {
@@ -65,7 +68,8 @@ public class HomeFragment extends Fragment {
 
         listView = (ListView) view.findViewById(R.id.listView);
         listView.setAdapter(customAdapter);
-
+       AutoUtente a = MainActivity.mySQLiteHelper.getAutoPreferita();
+    auto.setText(a.getModello().getMarca().getNome()+" "+a.getModello().getNome());
         return view;
     }
 
