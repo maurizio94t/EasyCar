@@ -11,8 +11,17 @@ public class Scadenza implements Comparable<Scadenza> {
     private String descrizione;
     private String dataScadenza;
     private AutoUtente auto;
+    private int inviata;
 
 
+    public Scadenza(int IDScadenza, String descrizione, String dataScadenza, int inviata, AutoUtente auto) {
+        this.IDScadenza = IDScadenza;
+        this.descrizione = descrizione;
+        this.dataScadenza = dataScadenza;
+        this.auto = auto;
+        this.inviata=inviata;
+
+    }
     public Scadenza(int IDScadenza, String descrizione, String dataScadenza, AutoUtente auto) {
         this.IDScadenza = IDScadenza;
         this.descrizione = descrizione;
@@ -20,7 +29,11 @@ public class Scadenza implements Comparable<Scadenza> {
         this.auto = auto;
 
     }
-    public Scadenza(int IDScadenza){
+    public Scadenza(int IDScadenza) {
+        this.IDScadenza = IDScadenza;
+
+    }
+    public Scadenza(int anInt, String string, int IDScadenza, AutoUtente autoUtente){
         this.IDScadenza=IDScadenza;
     }
 
@@ -44,7 +57,7 @@ public class Scadenza implements Comparable<Scadenza> {
 
     @Override
     public String toString() {
-        return "Scadenza [IDScadenza=" + IDScadenza + ", descrizione=" + descrizione + ", dataScadenza=" + dataScadenza + ", auto=" + auto.toString() + "]";
+        return "Scadenza [IDScadenza=" + IDScadenza + ", descrizione=" + descrizione + ", dataScadenza=" + dataScadenza +" , inviata: "+inviata+ ", auto=" + auto.toString() + "]";
     }
 
     @Override
