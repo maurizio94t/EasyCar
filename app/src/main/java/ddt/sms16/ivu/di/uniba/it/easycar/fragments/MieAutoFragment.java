@@ -50,7 +50,7 @@ public class MieAutoFragment extends Fragment {
     private View view;
     private CustomAdapter_AutoUtente customAdapter;
     private ListView listView;
-    private static AutoUtente auto;
+    private AutoUtente auto;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

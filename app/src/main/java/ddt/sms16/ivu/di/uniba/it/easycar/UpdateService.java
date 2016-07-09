@@ -9,8 +9,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.IBinder;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -60,6 +62,8 @@ public class UpdateService extends Service  {
     private ArrayList<Utente> listaUtenti;
 
     public static ArrayList<StringRequest> requests;
+
+    private Scadenza scadenzaNot;
 
     @Override
     public void onCreate() {
@@ -1254,7 +1258,7 @@ public class UpdateService extends Service  {
             if(!trovato) {
                 mySQLiteHelper.aggiungiProblema(problemaE);
                 NotificationCompat.Builder mBuilder = new android.support.v4.app.NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.ic_done_white_24dp)
+                        .setSmallIcon(R.drawable.ic_launcher)
                         .setContentTitle("Nuova segnalazione!")
                         .setContentText("Nuovo problema riguardate la tua " + problemaE.getAuto().getModello().getMarca().getNome() + " " + problemaE.getAuto().getModello().getNome());
                 // Gets an instance of the NotificationManager service
@@ -1336,6 +1340,64 @@ public class UpdateService extends Service  {
             }
         }
         listScadenzeLocal = mySQLiteHelper.getAllScadenze();
+
+        for(Scadenza scadenza : listScadenzeLocal) {
+            if(scadenza.lastDay() && scadenza.getInviata() == 0) {
+                NotificationCompat.Builder mBuilder = new android.support.v4.app.NotificationCompat.Builder(context)
+                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setContentTitle("Scadenza imminente!")
+                        .setContentText(scadenza.getDescrizione() + " " + scadenza.getAuto().getModello().getMarca().getNome() + " " + scadenza.getAuto().getModello().getNome() + "scade domani.");
+                // Gets an instance of the NotificationManager service
+                NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                // Builds the notification and issues it.
+                mNotifyMgr.notify(scadenza.getIDScadenza(), mBuilder.build());
+
+                //setto la notifica inviata
+                scadenza.setInviata(1);
+                // inizio request
+                scadenzaNot = scadenza;
+                StringRequest myReq = new StringRequest(Request.Method.POST,
+                        MainActivity.url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                Log.d("ResponseInviata >", response);
+                                JSONObject jsonObj = null;
+                                try {
+                                    jsonObj = new JSONObject(response);
+                                    JSONObject dati = jsonObj.getJSONObject("dati");
+                                    boolean update = dati.getBoolean("Update");
+                                    if(update) {
+                                        mySQLiteHelper.updateScadenza(scadenzaNot);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d("Response", "> That didn't work!");
+                            }
+                        }) {
+
+                    protected Map<String, String> getParams() throws com.android.volley.AuthFailureError {
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put("id", String.valueOf(scadenzaNot.getIDScadenza()));
+                        params.put("inviata", String.valueOf(1));
+                        return params;
+                    }
+
+                    ;
+                };
+                queue.add(myReq);
+
+                // fine request
+
+
+            }
+        }
 
     }
 }

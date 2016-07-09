@@ -1,5 +1,11 @@
 package ddt.sms16.ivu.di.uniba.it.easycar.entity;
 
+import android.util.Log;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 import ddt.sms16.ivu.di.uniba.it.easycar.Utility;
 
 /**
@@ -12,11 +18,6 @@ public class Scadenza implements Comparable<Scadenza> {
     private String dataScadenza;
     private AutoUtente auto;
     private int inviata;
-
-
-    public int getInviata() {
-        return inviata;
-    }
 
     public Scadenza(int IDScadenza, String descrizione, String dataScadenza, int inviata, AutoUtente auto) {
         this.IDScadenza = IDScadenza;
@@ -41,8 +42,6 @@ public class Scadenza implements Comparable<Scadenza> {
         this.IDScadenza=IDScadenza;
     }
 
-
-
     public int getIDScadenza() {
         return IDScadenza;
     }
@@ -57,6 +56,14 @@ public class Scadenza implements Comparable<Scadenza> {
 
     public AutoUtente getAuto() {
         return auto;
+    }
+
+    public int getInviata() {
+        return inviata;
+    }
+
+    public void setInviata(int inviata) {
+        this.inviata = inviata;
     }
 
     @Override
@@ -76,7 +83,20 @@ public class Scadenza implements Comparable<Scadenza> {
             return -1;
     }
 
-    public boolean before(Scadenza s) {
-        return Utility.convertStringToDate(dataScadenza).before(Utility.convertStringToDate(s.dataScadenza));
+    public boolean lastDay() {
+        Date a = Utility.convertStringToDate(dataScadenza);
+        Date b = new Date();
+        Calendar c =  Calendar.getInstance();
+
+        //portare tutto in calendar e poi continuare
+        Log.d("ResponseInviata a>", a.getYear() + " - " + a.getMonth() + " - " + a.getDay());
+        Log.d("ResponseInviata b>", b.getYear() + " - " + b.getMonth() + " - " +  c.get(Calendar.DAY_OF_MONTH));
+
+        if(a.getYear() == b.getYear() && a.getMonth() == b.getMonth()) {
+            if(a.getDay()+1 == b.getDay()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
