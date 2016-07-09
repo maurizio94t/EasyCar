@@ -2,30 +2,22 @@ package ddt.sms16.ivu.di.uniba.it.easycar.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.util.DisplayMetrics;
-import android.view.ContextMenu;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import ddt.sms16.ivu.di.uniba.it.easycar.AggiuntaProblema;
 import ddt.sms16.ivu.di.uniba.it.easycar.Child;
 import ddt.sms16.ivu.di.uniba.it.easycar.ExpandListAdapter;
-import ddt.sms16.ivu.di.uniba.it.easycar.ExpandableListAdapter;
 import ddt.sms16.ivu.di.uniba.it.easycar.Group;
 import ddt.sms16.ivu.di.uniba.it.easycar.MainActivity;
 import ddt.sms16.ivu.di.uniba.it.easycar.R;
-import ddt.sms16.ivu.di.uniba.it.easycar.entity.Auto;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Problema;
 
@@ -106,6 +98,13 @@ public class ProblemiFragment2 extends Fragment {
     }
 
     private boolean isYourProblema(Problema p) {
+        Log.e("EMAIL SHARED_P >", MainActivity.sharedpreferences.getString(MainActivity.TAG_UTENTE_EMAIL, ""));
+        Log.e("EMAIL PROBLEMA>", p.getAuto().getUtente().getEmail());
+        if(MainActivity.sharedpreferences.getString(MainActivity.TAG_UTENTE_EMAIL, "").equalsIgnoreCase(p.getAuto().getUtente().getEmail())) {
+            return true;
+        }
+        return  false;
+        /*
         List<AutoUtente> listaAuto = MainActivity.mySQLiteHelper.getAllMieAutoUtente();
         for(AutoUtente a : listaAuto) {
             if(a.getTarga().equalsIgnoreCase(p.getAuto().getTarga())) {
@@ -113,6 +112,7 @@ public class ProblemiFragment2 extends Fragment {
             }
         }
         return false;
+        */
     }
 
     /*
