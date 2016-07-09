@@ -87,8 +87,13 @@ public class RegistrazioneUtente extends AppCompatActivity {
 
 
                 } else {
+                    Log.d("datiRegistrazione",nome);
+                    Log.d("datiRegistrazione",cognome);
+                    Log.d("datiRegistrazione",Utility.convertStringDateToString(data));
+                    Log.d("datiRegistrazione",email);
+                    Log.d("datiRegistrazione",password);
 
-                    boolean aggiunto = aggiungiUtente(nome, cognome, Utility.convertStringDateToString(data),email,password );
+                    boolean aggiunto = aggiungiUtente(nome, cognome,Utility.convertStringDateToString(data) ,email,password );
 
 
 
@@ -161,14 +166,14 @@ public class RegistrazioneUtente extends AppCompatActivity {
     public boolean campiValidi() {
 
         if (mNome.getText().toString().compareTo("") == 0 || mCognome.getText().toString().compareTo("") == 0
-                || mData.toString().compareTo("") == 0 || mEmail.toString().compareTo(emailPattern) == 0 ||
+                || mData.toString().compareTo("") == 0 || mEmail.getText().toString().compareTo(emailPattern) == 0 ||
                 mPassword.getText().toString().compareTo(mRipetiPassword.getText().toString()) != 0) {
             return false;
         } else {
             nome = mNome.getText().toString();
             cognome = mCognome.getText().toString();
-            data = mData.toString();
-            email = mEmail.toString();
+            data = mData.getText().toString();
+            email = mEmail.getText().toString();
             password = mPassword.getText().toString();
             return true;
         }
