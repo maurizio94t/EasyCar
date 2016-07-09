@@ -1,6 +1,7 @@
 package ddt.sms16.ivu.di.uniba.it.easycar;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -102,6 +103,20 @@ public class RegistrazioneUtente extends AppCompatActivity {
                     snackbar = Snackbar
                             .make( findViewById(android.R.id.content),"Registrato", Snackbar.LENGTH_LONG);
                     snackbar.show();
+
+
+
+                /*    AlertDialog.Builder miaAlert = new AlertDialog.Builder(getApplication());
+                    miaAlert.setTitle("AlertDialog di MrWebMaster");
+                    miaAlert.setMessage("Questa è la mia prima AlertDialog");
+                    AlertDialog alert = miaAlert.create();
+                    alert.show();
+
+                   */
+
+                    Intent intent = new Intent( getApplication(), MainActivity.class);
+                    startActivity(intent);
+
 
                 }
             }
@@ -278,4 +293,6 @@ public class RegistrazioneUtente extends AppCompatActivity {
 
         return aggiunto[0];
     }
+
+
 }
