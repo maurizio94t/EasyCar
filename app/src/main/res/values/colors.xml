@@ -6,6 +6,7 @@
     <color name="colorTitle">#ffffff</color>
     <color name="colorBackground">#629dca</color>
     <color name="colorTextPrimary">#000000</color>
+    <color name="colorTextF">#838383</color>
     <color name="colorManutenzione">#f18a5a</color>
     <color name="colorAuto">#CDDC39</color>
     <color name="addButton">#a12b00</color>
