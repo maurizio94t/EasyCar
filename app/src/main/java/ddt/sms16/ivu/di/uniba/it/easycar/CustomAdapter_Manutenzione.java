@@ -33,14 +33,14 @@ public class CustomAdapter_Manutenzione extends ArrayAdapter<Manutenzione> {
         TextView auto = (TextView) convertView.findViewById(R.id.auto);
         TextView giorno = (TextView) convertView.findViewById(R.id.giorno);
         TextView mese = (TextView) convertView.findViewById(R.id.mese);
-
+        TextView anno = (TextView) convertView.findViewById(R.id.anno);
         Manutenzione s = getItem(position);
         int [] dataVector = Utility.getData(s.getData());
         descrizione.setText(s.getDescrizione());
         auto.setText(s.getAuto().getModello().getMarca().getNome() + " " + s.getAuto().getModello().getNome());
         giorno.setText(String.valueOf(dataVector[2]));
         mese.setText(Utility.controllaMese(dataVector[1]));
-
+        anno.setText(String.valueOf(dataVector[0]));
         descrizione.setText(s.getDescrizione());
         auto.setText(s.getAuto().getModello().getMarca().getNome() + " " + s.getAuto().getModello().getNome());
 

@@ -2,9 +2,11 @@ package ddt.sms16.ivu.di.uniba.it.easycar.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -39,7 +41,7 @@ public class ScadenzeFragment extends Fragment {
     private CustomAdapter_Scadenze customAdapter;
     private ListView listView;
     private int idSelected;
-    public static Scadenza scadenza;
+    public Scadenza scadenza;
 
     private String tipo = "tipo";
     private String tipoModifica = "modifica";
@@ -91,22 +93,13 @@ public class ScadenzeFragment extends Fragment {
     @Override
     public boolean onContextItemSelected(MenuItem item){
         if(item.getTitle()=="Elimina"){
-
-            eliminaScadenza(scadenza.getIDScadenza());
+            controlloAlert();
+            /*
             customAdapter = new CustomAdapter_Scadenze(
                     thisContext.getApplicationContext(),
                     R.layout.row_scadenza,
                     MainActivity.mySQLiteHelper.getAllScadenze());
-            listView.setAdapter(customAdapter);
-
-
-
-
-
-
-
-
-
+            listView.setAdapter(customAdapter);*/
         }
          else if(item.getTitle()=="Modifica"){
 
@@ -125,6 +118,33 @@ public class ScadenzeFragment extends Fragment {
         }else{
             return false;
         }
+        return true;
+    }
+
+    private boolean controlloAlert() {
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                getContext());
+
+        alertDialogBuilder.setTitle("Sei sicuro di voler eliminare?");
+
+        alertDialogBuilder
+                .setMessage("Click su si per confermare")
+                .setCancelable(false)
+                .setPositiveButton("Si",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        eliminaScadenza(scadenza.getIDScadenza());
+
+                    }
+                })
+                .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        alertDialog.show();
         return true;
     }
 

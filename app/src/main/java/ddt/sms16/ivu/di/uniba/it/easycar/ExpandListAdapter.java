@@ -1,7 +1,5 @@
 package ddt.sms16.ivu.di.uniba.it.easycar;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -11,6 +9,11 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Problema;
 
 /**
  * Created by Maurizio on 09/07/16.
@@ -27,7 +30,7 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        ArrayList<Child> chList = groups.get(groupPosition).getItems();
+        List<Problema> chList = groups.get(groupPosition).getItems();
         return chList.get(childPosition);
     }
 
@@ -40,7 +43,7 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
-        Child child = (Child) getChild(groupPosition, childPosition);
+        Problema childProblema = (Problema) getChild(groupPosition, childPosition);
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) context
                     .getSystemService(context.LAYOUT_INFLATER_SERVICE);
@@ -50,9 +53,9 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
         ImageView img = (ImageView) convertView.findViewById(R.id.img);
         LinearLayout row = (LinearLayout) convertView.findViewById(R.id.row);
 
-        descrizione.setText(child.getName().toString());
-        img.setImageResource(child.getImage());
-        if(child.isYour()) {
+        descrizione.setText(childProblema.getDescrizione());
+        img.setImageResource(R.drawable.ic_map);
+        if(isYourProblema(childProblema)) {
             row.setBackgroundColor(Color.parseColor("#373fac"));
             //row.setAlpha((float) 0.4);
         }
@@ -60,9 +63,25 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
+    private boolean isYourProblema(Problema p) {
+        if(MainActivity.sharedpreferences.getString(MainActivity.TAG_UTENTE_EMAIL, "").equalsIgnoreCase(p.getAuto().getUtente().getEmail())) {
+            return true;
+        }
+        return  false;
+        /*
+        List<AutoUtente> listaAuto = MainActivity.mySQLiteHelper.getAllMieAutoUtente();
+        for(AutoUtente a : listaAuto) {
+            if(a.getTarga().equalsIgnoreCase(p.getAuto().getTarga())) {
+                return true;
+            }
+        }
+        return false;
+        */
+    }
+
     @Override
     public int getChildrenCount(int groupPosition) {
-        ArrayList<Child> chList = groups.get(groupPosition).getItems();
+        List<Problema> chList = groups.get(groupPosition).getItems();
         return chList.size();
     }
 

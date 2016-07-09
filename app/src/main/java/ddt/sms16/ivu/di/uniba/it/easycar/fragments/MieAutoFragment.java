@@ -2,9 +2,12 @@ package ddt.sms16.ivu.di.uniba.it.easycar.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -14,11 +17,25 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import ddt.sms16.ivu.di.uniba.it.easycar.AggiuntaAuto;
 import ddt.sms16.ivu.di.uniba.it.easycar.CustomAdapter_AutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.DettaglioAutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.MainActivity;
 import ddt.sms16.ivu.di.uniba.it.easycar.R;
+import ddt.sms16.ivu.di.uniba.it.easycar.UpdateService;
+import ddt.sms16.ivu.di.uniba.it.easycar.Utility;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
 
 public class MieAutoFragment extends Fragment {
 
@@ -28,7 +45,7 @@ public class MieAutoFragment extends Fragment {
     private View view;
     private CustomAdapter_AutoUtente customAdapter;
     private ListView listView;
-
+    private AutoUtente auto;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         thisContext = container.getContext();
@@ -51,20 +68,24 @@ public class MieAutoFragment extends Fragment {
         //utilizzo dell'adapter
         listView = (ListView) view.findViewById(R.id.listView);
         listView.setAdapter(customAdapter);
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View myView, int myItemInt, long mylng) {
+                AutoUtente selectedFromList = (AutoUtente) (listView.getItemAtPosition(myItemInt));
+                auto = selectedFromList;
+                return false;
+            }
+
+        });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intentDettaglioAuto = new Intent(thisContext, DettaglioAutoUtente.class);
                 intentDettaglioAuto.putExtra(EXTRA_POSIZIONE, position);
                 startActivity(intentDettaglioAuto);
+
             }
         });
-
-
-
-
-
-
 
         registerForContextMenu(listView);
         return view;
@@ -83,10 +104,97 @@ public class MieAutoFragment extends Fragment {
             Toast.makeText(getContext(),"Codice elimina",Toast.LENGTH_LONG).show();
         }
         else if(item.getTitle()=="Elimina"){
+            controlloAlert();
             Toast.makeText(getContext(),"Codice elimina",Toast.LENGTH_LONG).show();
         }else {
             return false;
         }
         return true;
+    }
+
+
+    private boolean controlloAlert() {
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                getContext());
+
+        // set title
+        alertDialogBuilder.setTitle("Sei sicuro di voler eliminare?");
+
+        alertDialogBuilder
+                .setMessage("Click su si per confermare")
+                .setCancelable(false)
+                .setPositiveButton("Si",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        eliminaAuto(auto.getTarga());
+
+                    }
+                })
+                .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        alertDialog.show();
+        return true;
+    }
+
+
+    private boolean eliminaAuto(final String Targa) {
+        final boolean[] aggiunto = new boolean[1];
+        StringRequest myReq = new StringRequest(Request.Method.POST,
+                MainActivity.urlOperations,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("Response", "> OK Req");
+                        Log.d("ResponseEliminaAuto  ", String.valueOf(Targa));
+                        Log.d("ResponseEliminaManutenzione", response);
+                        try {
+                            JSONObject jsonObj = new JSONObject(response);
+                            JSONObject dati = jsonObj.getJSONObject("dati");
+                            String effettuato =dati.getString("Delete");
+                            Log.d("ResponseEliminaManutenzione ", effettuato);
+                            if(effettuato.equalsIgnoreCase("true")){
+                                Log.d("ResponseEliminaManutenzione ",effettuato);
+                                MainActivity.mySQLiteHelper.deleteAutoUtente(new AutoUtente(Targa));
+                            }
+                            aggiunto[0] = true;
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Response", "> That didn't work!");
+                        aggiunto[0] = false;
+                    }
+                }) {
+
+            protected Map<String, String> getParams() throws com.android.volley.AuthFailureError {
+
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("operation", "d");
+
+                params.put("table", MainActivity.TAG_AUTOUTENTE);
+                params.put("targa", String.valueOf(Targa));
+
+
+                return params;
+            }
+
+            ;
+        };
+        if (Utility.checkInternetConnection(getActivity().getApplicationContext())) {
+            MainActivity.queue.add(myReq);
+        } else {
+            UpdateService.requests.add(myReq);
+        }
+
+        return aggiunto[0];
     }
 }

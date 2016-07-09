@@ -40,15 +40,6 @@ public class HomeFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_home, container, false);
 
         Button btnSalvaPosizione = (Button) view.findViewById(R.id.btnPosizione);
-      /*  Button btnVisualizzaPosizione = (Button) view.findViewById(R.id.btnVisualizzaPosizione);
-
-        btnVisualizzaPosizione.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent Pos = new Intent(getContext(), PosizioneAuto.class);
-                startActivity(Pos);
-            }
-        });*/
         btnSalvaPosizione.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +62,7 @@ public class HomeFragment extends Fragment {
                 R.layout.row_storico,
                 listaStorico);
 
-        //utilizzo dell'adapter
+
         listView = (ListView) view.findViewById(R.id.listView);
         listView.setAdapter(customAdapter);
 

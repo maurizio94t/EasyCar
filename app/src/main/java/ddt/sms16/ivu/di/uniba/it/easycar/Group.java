@@ -1,6 +1,8 @@
 package ddt.sms16.ivu.di.uniba.it.easycar;
 
-import java.util.ArrayList;
+import java.util.List;
+
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Problema;
 
 /**
  * Created by Maurizio on 09/07/16.
@@ -8,7 +10,7 @@ import java.util.ArrayList;
 public class Group {
 
     private String Name;
-    private ArrayList<Child> Items;
+    private List<Problema> Items;
 
     public String getName() {
         return Name;
@@ -18,11 +20,11 @@ public class Group {
         this.Name = name;
     }
 
-    public ArrayList<Child> getItems() {
+    public List<Problema> getItems() {
         return Items;
     }
 
-    public void setItems(ArrayList<Child> Items) {
+    public void setItems(List<Problema> Items) {
         this.Items = Items;
     }
 
