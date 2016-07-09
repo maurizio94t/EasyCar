@@ -59,9 +59,6 @@ public class ScadenzeFragment extends Fragment {
         listView.setAdapter(customAdapter);
 
 
-
-
-
         FloatingActionButton myFab = (FloatingActionButton)  view.findViewById(R.id.aggingiScadenza);
         myFab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -91,7 +88,7 @@ public class ScadenzeFragment extends Fragment {
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item){
+    public boolean onContextItemSelected(MenuItem item) {
         if(item.getTitle()=="Elimina"){
             controlloAlert();
             /*
@@ -101,21 +98,17 @@ public class ScadenzeFragment extends Fragment {
                     MainActivity.mySQLiteHelper.getAllScadenze());
             listView.setAdapter(customAdapter);*/
         }
-         else if(item.getTitle()=="Modifica"){
+         else if(item.getTitle()=="Modifica") {
 
-// lanciare update da aggiuntaScadenza
-/*
-            Intent intent = new Intent(getActivity(), AggiuntaScadenza.class);
-            intent.putExtra(tipo,tipoModifica);
+            // lanciare update da aggiuntaScadenza
+            /*
+                        Intent intent = new Intent(getActivity(), AggiuntaScadenza.class);
+                        intent.putExtra(tipo,tipoModifica);
 
-            startActivity(intent);
+                        startActivity(intent);
 
-*/
-
-
-
-
-        }else{
+            */
+        } else {
             return false;
         }
         return true;

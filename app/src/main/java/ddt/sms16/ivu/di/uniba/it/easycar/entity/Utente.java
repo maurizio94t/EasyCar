@@ -1,6 +1,8 @@
 package ddt.sms16.ivu.di.uniba.it.easycar.entity;
 
 
+import android.util.Log;
+
 public class Utente implements Comparable<Utente> {
     private String nome;
     private String cognome;

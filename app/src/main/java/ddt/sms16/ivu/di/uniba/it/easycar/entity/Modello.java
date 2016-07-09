@@ -1,5 +1,7 @@
 package ddt.sms16.ivu.di.uniba.it.easycar.entity;
 
+import android.util.Log;
+
 /**
  * Created by Enrico on 20/06/16.
  */
@@ -79,7 +81,8 @@ public class Modello implements Comparable<Modello> {
                 this.alimentazione.equalsIgnoreCase(another.alimentazione) &&
                 this.cilindrata.equalsIgnoreCase(another.cilindrata) &&
                 this.kw.equalsIgnoreCase(another.kw) &&
-                this.marca.getIDMarca() == another.marca.getIDMarca())
+                this.marca.getIDMarca() == another.marca.getIDMarca() &&
+                this.marca.compareTo(another.marca) == 0)
             return 0;
         else
             return -1;

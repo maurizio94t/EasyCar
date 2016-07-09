@@ -418,6 +418,7 @@ public class UpdateService extends Service  {
             int idScadenza = scadenzaObj.getInt(MainActivity.TAG_SCADENZE_IDSCADENZA);
             String descrizioneScadenza = scadenzaObj.getString(MainActivity.TAG_SCADENZE_DESCRIZIONE);
             String dataScadenza = scadenzaObj.getString(MainActivity.TAG_SCADENZE_DATASCADENZA);
+            int inviata = scadenzaObj.getInt(MainActivity.TAG_SCADENZE_INVIATA);
 
 
             JSONObject autoUtentiObj = scadenzaObj.getJSONObject(MainActivity.TAG_PROBLEMI_VEICOLO);
@@ -461,7 +462,7 @@ public class UpdateService extends Service  {
             Marca marca = new Marca(idMarca, nomeMarca);
             Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
             AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, /*R.drawable.ic_menu_gallery*/ utenteAuto, modello, selected);
-            Scadenza scadenza = new Scadenza(idScadenza, descrizioneScadenza, dataScadenza, autoutente);
+            Scadenza scadenza = new Scadenza(idScadenza, descrizioneScadenza, dataScadenza, inviata, autoutente);
 
             // aggiungo il singolo problema alla lista dei problemi
             MainActivity.listaScadenze.add(scadenza);
@@ -727,7 +728,7 @@ public class UpdateService extends Service  {
             int idScadenza = scadenzaObj.getInt(MainActivity.TAG_SCADENZE_IDSCADENZA);
             String descrizioneScadenza = scadenzaObj.getString(MainActivity.TAG_SCADENZE_DESCRIZIONE);
             String dataScadenza = scadenzaObj.getString(MainActivity.TAG_SCADENZE_DATASCADENZA);
-
+            int inviata = scadenzaObj.getInt(MainActivity.TAG_SCADENZE_INVIATA);
 
             JSONObject autoUtentiObj = scadenzaObj.getJSONObject(MainActivity.TAG_PROBLEMI_VEICOLO);
 
@@ -770,7 +771,7 @@ public class UpdateService extends Service  {
             Marca marca = new Marca(idMarca, nomeMarca);
             Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
             AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, /*R.drawable.ic_menu_gallery*/ utenteAuto, modello, selected);
-            Scadenza scadenza = new Scadenza(idScadenza, descrizioneScadenza, dataScadenza, autoutente);
+            Scadenza scadenza = new Scadenza(idScadenza, descrizioneScadenza, dataScadenza, inviata, autoutente);
 
             // aggiungo il singolo problema alla lista dei problemi
             listaScadenze.add(scadenza);
@@ -914,6 +915,21 @@ public class UpdateService extends Service  {
         }
         MainActivity.listAutoUtenteLocal = MainActivity.mySQLiteHelper.getAllAutoUtente();
 
+        //update AutoUtente - delete
+        for(AutoUtente autoUtenteL : MainActivity.listAutoUtenteLocal) {
+            trovato = false;
+            for(AutoUtente autoUtenteE : MainActivity.listaAutoUtente) {
+                if(autoUtenteL.getTarga().equalsIgnoreCase(autoUtenteE.getTarga())) {
+                    trovato = true;
+                    break;
+                }
+            }
+            if(!trovato) {
+                MainActivity.mySQLiteHelper.deleteAutoUtente(autoUtenteL);
+            }
+        }
+        MainActivity.listAutoUtenteLocal = MainActivity.mySQLiteHelper.getAllAutoUtente();
+
         //update Manutenzioni - insert
         MainActivity.listManutenzioniLocal = MainActivity.mySQLiteHelper.getAllManutenzioni();
         for(Manutenzione manutenzioneE : MainActivity.listaManutenzioni) {
@@ -939,6 +955,21 @@ public class UpdateService extends Service  {
                     }
                     break;
                 }
+            }
+        }
+        MainActivity.listManutenzioniLocal = MainActivity.mySQLiteHelper.getAllManutenzioni();
+
+        //update Manutenzioni - delete
+        for(Manutenzione manutenzioneL : MainActivity.listManutenzioniLocal) {
+            trovato = false;
+            for(Manutenzione manutenzioneE : MainActivity.listaManutenzioni) {
+                if(manutenzioneL.getIDManutenzione() == manutenzioneE.getIDManutenzione()) {
+                    trovato = true;
+                    break;
+                }
+            }
+            if(!trovato) {
+                MainActivity.mySQLiteHelper.deleteManutezione(manutenzioneL);
             }
         }
         MainActivity.listManutenzioniLocal = MainActivity.mySQLiteHelper.getAllManutenzioni();
@@ -972,6 +1003,21 @@ public class UpdateService extends Service  {
         }
         MainActivity.listProblemiLocal = MainActivity.mySQLiteHelper.getAllProblemi();
 
+        //update Problemi - delete
+        for(Problema problemaL : MainActivity.listProblemiLocal) {
+            trovato = false;
+            for(Problema problemaE : MainActivity.listaProblemi) {
+                if(problemaL.getIDProblema() == problemaE.getIDProblema()) {
+                    trovato = true;
+                    break;
+                }
+            }
+            if(!trovato) {
+                MainActivity.mySQLiteHelper.deleteProblema(problemaL);
+            }
+        }
+        MainActivity.listProblemiLocal = MainActivity.mySQLiteHelper.getAllProblemi();
+
         //update Scadenze - insert
         MainActivity.listScadenzeLocal = MainActivity.mySQLiteHelper.getAllScadenze();
         for(Scadenza scadenzaE : MainActivity.listaScadenze) {
@@ -1001,6 +1047,20 @@ public class UpdateService extends Service  {
         }
         MainActivity.listScadenzeLocal = MainActivity.mySQLiteHelper.getAllScadenze();
 
+        //update Scadenze - delete
+        for(Scadenza scadenzaL : MainActivity.listScadenzeLocal) {
+            trovato = false;
+            for(Scadenza scadenzaE : MainActivity.listaScadenze) {
+                if(scadenzaL.getIDScadenza() == scadenzaE.getIDScadenza()) {
+                    trovato = true;
+                    break;
+                }
+            }
+            if(!trovato) {
+                MainActivity.mySQLiteHelper.deleteScadenza(scadenzaL);
+            }
+        }
+        MainActivity.listScadenzeLocal = MainActivity.mySQLiteHelper.getAllScadenze();
     }
 
     private void aggiornaDataBaseLocaleService() throws Exception {
@@ -1122,6 +1182,21 @@ public class UpdateService extends Service  {
         }
         listAutoUtenteLocal = mySQLiteHelper.getAllAutoUtente();
 
+        //update AutoUtente - delete
+        for(AutoUtente autoUtenteL : listAutoUtenteLocal) {
+            trovato = false;
+            for(AutoUtente autoUtenteE : listaAutoUtente) {
+                if(autoUtenteL.getTarga().equalsIgnoreCase(autoUtenteE.getTarga())) {
+                    trovato = true;
+                    break;
+                }
+            }
+            if(!trovato) {
+                mySQLiteHelper.deleteAutoUtente(autoUtenteL);
+            }
+        }
+        listAutoUtenteLocal = mySQLiteHelper.getAllAutoUtente();
+
         //update Manutenzioni - insert
         List<Manutenzione> listManutenzioniLocal = mySQLiteHelper.getAllManutenzioni();
         for(Manutenzione manutenzioneE : listaManutenzioni) {
@@ -1147,6 +1222,21 @@ public class UpdateService extends Service  {
                     }
                     break;
                 }
+            }
+        }
+        listManutenzioniLocal = mySQLiteHelper.getAllManutenzioni();
+
+        //update Manutenzioni - delete
+        for(Manutenzione manutenzioneL : listManutenzioniLocal) {
+            trovato = false;
+            for(Manutenzione manutenzioneE : listaManutenzioni) {
+                if(manutenzioneL.getIDManutenzione() == manutenzioneE.getIDManutenzione()) {
+                    trovato = true;
+                    break;
+                }
+            }
+            if(!trovato) {
+                mySQLiteHelper.deleteManutezione(manutenzioneL);
             }
         }
         listManutenzioniLocal = mySQLiteHelper.getAllManutenzioni();
@@ -1188,6 +1278,21 @@ public class UpdateService extends Service  {
         }
         listProblemiLocal = mySQLiteHelper.getAllProblemi();
 
+        //update Problemi - delete
+        for(Problema problemaL : listProblemiLocal) {
+            trovato = false;
+            for(Problema problemaE : listaProblemi) {
+                if(problemaL.getIDProblema() == problemaE.getIDProblema()) {
+                    trovato = true;
+                    break;
+                }
+            }
+            if(!trovato) {
+                mySQLiteHelper.deleteProblema(problemaL);
+            }
+        }
+        listProblemiLocal = mySQLiteHelper.getAllProblemi();
+
         //update Scadenze - insert
         List<Scadenza> listScadenzeLocal = mySQLiteHelper.getAllScadenze();
         for(Scadenza scadenzaE : listaScadenze) {
@@ -1213,6 +1318,21 @@ public class UpdateService extends Service  {
                     }
                     break;
                 }
+            }
+        }
+        listScadenzeLocal = mySQLiteHelper.getAllScadenze();
+
+        //update Scadenze - delete
+        for(Scadenza scadenzaL : listScadenzeLocal) {
+            trovato = false;
+            for(Scadenza scadenzaE : listaScadenze) {
+                if(scadenzaL.getIDScadenza() == scadenzaE.getIDScadenza()) {
+                    trovato = true;
+                    break;
+                }
+            }
+            if(!trovato) {
+                mySQLiteHelper.deleteScadenza(scadenzaL);
             }
         }
         listScadenzeLocal = mySQLiteHelper.getAllScadenze();

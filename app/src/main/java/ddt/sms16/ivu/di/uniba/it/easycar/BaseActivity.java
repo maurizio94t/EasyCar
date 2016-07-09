@@ -33,19 +33,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Manutenzione;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.HomeFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ManutenzioniFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.MieAutoFragment;
+import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment2;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ScadenzeFragment;
 
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    public static int num;
     private Intent intentService;
     private SharedPreferences sharedpreferences;
 
+    public static String TAG_FRAGMENT = "fragment";
     public boolean GPSenabled = false;
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
@@ -55,12 +57,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
         sharedpreferences = getSharedPreferences(MainActivity.MyPREFERENCES, Context.MODE_PRIVATE);
 
-
-
         // Start a service for update Local DB
         intentService = new Intent(this, UpdateService.class);
         startService(intentService);
-        num = 1;
 
         // controllo se il GPS è attivo
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -71,157 +70,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             showGPSDisabledAlertToUser();
         }
 
-        // inizio
+        // inizializzo la coda di request da fare in caso di connessione assente
         UpdateService.requests = new ArrayList<StringRequest>();
-
-        StringRequest myReq1 = new StringRequest(Request.Method.POST,
-                MainActivity.urlOperations,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("RespOperations", "> " + response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("RespOperations", "> NON FUNZIONA!");
-                    }
-                }) {
-
-            protected Map<String, String> getParams() throws com.android.volley.AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                        /*
-                        //insert into AutoUtente
-                        params.put("operation", "c");
-                        params.put("table", "AutoUtente");
-
-                        params.put("targa", "AA000BA");
-                        params.put("km", "12099");
-                        params.put("anno", "1900");
-                        params.put("foto", "");
-                        params.put("utente", "enrico@gmail.com");
-                        params.put("modello", "1315");
-                        */
-
-                        /*
-                        //insert into Manutenzioni
-                        params.put("operation", "c");
-                        params.put("table", "Manutenzioni");
-                        params.put("email", "enrico@gmail.com");
-
-                        params.put("descrizione", "Problema GRAVE");
-                        params.put("data", "20160629");
-                        params.put("ordinaria", "false");
-                        params.put("km", "5000");
-                        params.put("targa", "AA000BA");
-                        */
-
-                        /*
-                        //insert into Problemi
-                        params.put("operation", "c");
-                        params.put("table", "Problemi");
-                        params.put("email", "enrico@gmail.com");
-
-                        params.put("descrizione", "Problemone!");
-                        params.put("targa", "AA000BA");
-                        */
-
-                        /*
-                        //insert into Scedenze
-                        params.put("operation", "c");
-                        params.put("table", "Scadenze");
-                        params.put("email", "enrico@gmail.com");
-
-                        params.put("descrizione", "Scadenza AAAA");
-                        params.put("data", "20151225");
-                        params.put("targa", "AA000BA");
-                        */
-
-                        /*
-                        //insert into Utenti
-                        params.put("operation", "c");
-                        params.put("table", "Utenti");
-
-                        params.put("nome", "Giorgio");
-                        params.put("cognome", "DeMarzo");
-                        params.put("data", "19940614");
-                        params.put("email", "giorgione@gmail.com");
-                        params.put("psw", "gino");
-                        */
-
-                        /*
-                        //delete
-                        params.put("operation", "d");
-                        params.put("table", "Manutenzioni");
-
-                        params.put("id", "7");
-                        */
-
-
-                /*
-                //update AutoUtente
-                params.put("operation", "u");
-                params.put("table", "AutoUtente");
-
-                params.put("targa", "ZZZZZZZ");
-                params.put("km", "10");
-                params.put("anno", "2010");
-                params.put("modello", "1316");
-                */
-
-                /*
-                //update Manutenzioni
-                params.put("operation", "u");
-                params.put("table", "Manutenzioni");
-
-                params.put("id", "2");
-                params.put("descrizione", "Cambio gommeee");
-                params.put("data", "2010-12-29");
-                params.put("ordinaria", "1");
-                params.put("km", "1000");
-                params.put("targa", "BF564TGA");
-                */
-
-                /*
-                //update Problemi
-                params.put("operation", "u");
-                params.put("table", "Problemi");
-
-                params.put("id", "4");
-                params.put("descrizione", "Casse rotte!");
-                params.put("targa", "BF564TG");
-                */
-
-
-                /*
-                //update Scadenza
-                params.put("operation", "u");
-                params.put("table", "Scadenze");
-
-                params.put("id", "4");
-                params.put("descrizione", "Bollo forrt!");
-                params.put("data", "2013-02-11!");
-                params.put("targa", "AB678BN");
-                */
-
-                /*
-                params.put("operation", "u");
-                params.put("table", "AutoUtente");
-
-                params.put("selected", "1");
-                params.put("targa", "BF564TG");
-                params.put("email", "maur_izzio@live.it");
-                */
-
-                return params;
-            }
-
-            ;
-        };
-        //MainActivity.queue.add(myReq1);
-
-        // fine
 
         //aggiornamento del db locale se c'è connessione
         if(Utility.checkInternetConnection(getApplicationContext())) {
@@ -271,11 +121,42 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        /*
+        Bundle bundle = getIntent().getExtras();
+        Fragment fragment = null;
+        if(bundle != null) {
+            String fragmentStr = bundle.getString(TAG_FRAGMENT);
+            if (fragmentStr.equalsIgnoreCase(MieAutoFragment.class.getSimpleName())) {
+                fragment = new MieAutoFragment();
+                navigationView.getMenu().getItem(1).setChecked(true);
+            } else if (fragmentStr.equalsIgnoreCase(ManutenzioniFragment.class.getSimpleName())) {
+                fragment = new ManutenzioniFragment();
+                navigationView.getMenu().getItem(2).setChecked(true);
+            } else if (fragmentStr.equalsIgnoreCase(ScadenzeFragment.class.getSimpleName())) {
+                fragment = new ScadenzeFragment();
+                navigationView.getMenu().getItem(3).setChecked(true);
+            } else if (fragmentStr.equalsIgnoreCase(ProblemiFragment2.class.getSimpleName())) {
+                fragment = new ProblemiFragment2();
+                navigationView.getMenu().getItem(4).setChecked(true);
+            } else {
+                fragment = new HomeFragment();
+                navigationView.getMenu().getItem(0).setChecked(true);
+            }
+        } else {
+            fragment = new HomeFragment();
+            navigationView.getMenu().getItem(0).setChecked(true);
+        }
+
+        // Faccio partire il primo Fragment
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, fragment);
+        ft.commit();
+        */
+
         // Faccio partire il primo Fragment
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, new HomeFragment());
         ft.commit();
-
         navigationView.getMenu().getItem(0).setChecked(true);
     }
 
@@ -330,8 +211,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             //ft.addToBackStack(null);
             ft.commit();
+            item.setChecked(true);
         }
-        item.setChecked(true);
         setTitle(item.getTitle());
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

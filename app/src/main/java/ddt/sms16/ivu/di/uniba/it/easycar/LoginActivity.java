@@ -98,17 +98,6 @@ public class LoginActivity extends Activity {
                 MainActivity.queue.add(myReq);
             }
         });
-        /*
-        Button bottonePrendiFoto = (Button) findViewById(R.id.bottonPrendiFoto);
-        bottonePrendiFoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent prendiFoto = new Intent(MainActivity.this, PrendiFoto.class);
-                startActivity(prendiFoto);
-            }
-        });
-        */
     }
 
     public boolean ParseJSON(String json) {

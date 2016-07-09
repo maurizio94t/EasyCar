@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG_SCADENZE_IDSCADENZA = "IDScadenza";
     public static final String TAG_SCADENZE_DESCRIZIONE = "Descrizione";
     public static final String TAG_SCADENZE_DATASCADENZA = "DataScadenza";
+    public static final String TAG_SCADENZE_INVIATA = "Inviata";
     public static final String TAG_SCADENZE_VEICOLO = "Veicolo";
 
     // JSON Node - Campi tabella Utenti

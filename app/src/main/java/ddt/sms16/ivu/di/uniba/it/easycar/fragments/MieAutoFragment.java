@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -29,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.AggiuntaAuto;
+import ddt.sms16.ivu.di.uniba.it.easycar.BaseActivity;
 import ddt.sms16.ivu.di.uniba.it.easycar.CustomAdapter_AutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.DettaglioAutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.MainActivity;
@@ -36,6 +38,9 @@ import ddt.sms16.ivu.di.uniba.it.easycar.R;
 import ddt.sms16.ivu.di.uniba.it.easycar.UpdateService;
 import ddt.sms16.ivu.di.uniba.it.easycar.Utility;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Auto;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Scadenza;
 
 public class MieAutoFragment extends Fragment {
 
@@ -45,7 +50,8 @@ public class MieAutoFragment extends Fragment {
     private View view;
     private CustomAdapter_AutoUtente customAdapter;
     private ListView listView;
-    private AutoUtente auto;
+    private static AutoUtente auto;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         thisContext = container.getContext();
@@ -68,45 +74,90 @@ public class MieAutoFragment extends Fragment {
         //utilizzo dell'adapter
         listView = (ListView) view.findViewById(R.id.listView);
         listView.setAdapter(customAdapter);
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View myView, int myItemInt, long mylng) {
-                AutoUtente selectedFromList = (AutoUtente) (listView.getItemAtPosition(myItemInt));
-                auto = selectedFromList;
-                return false;
-            }
-
-        });
+        
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intentDettaglioAuto = new Intent(thisContext, DettaglioAutoUtente.class);
                 intentDettaglioAuto.putExtra(EXTRA_POSIZIONE, position);
                 startActivity(intentDettaglioAuto);
-
             }
+        });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View myView, int myItemInt, long mylng) {
+                Log.e("LONG >", "OK");
+                auto = (AutoUtente) (listView.getItemAtPosition(myItemInt));
+                return false;
+            }
+
         });
 
         registerForContextMenu(listView);
         return view;
     }
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
-    {
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         menu.add(0, v.getId(), 0, "Seleziona preferita");//groupId, itemId, order, title
         menu.add(0, v.getId(), 0, "Elimina");
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item){
-        if(item.getTitle()=="Seleziona preferita"){
-            Toast.makeText(getContext(),"Codice elimina",Toast.LENGTH_LONG).show();
-        }
-        else if(item.getTitle()=="Elimina"){
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getTitle() == "Seleziona preferita") {
+            StringRequest myReq = new StringRequest(Request.Method.POST,
+                    MainActivity.urlOperations,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.d("Resp", "> " + response);
+                            try {
+                                JSONObject jsonObj = new JSONObject(response);
+                                JSONObject dati = jsonObj.getJSONObject("dati");
+                                boolean update = dati.getBoolean("Update");
+                                if(update) {
+                                    MainActivity.mySQLiteHelper.setSelected(auto);
+                                    customAdapter.clear();
+                                    customAdapter = new CustomAdapter_AutoUtente(
+                                            thisContext.getApplicationContext(),
+                                            R.layout.row_auto,
+                                            MainActivity.mySQLiteHelper.getAllMieAutoUtente());
+                                    listView.setAdapter(customAdapter);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d("Response", "> NON FUNZIONA!");
+                        }
+                    }) {
+
+                protected Map<String, String> getParams() throws com.android.volley.AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+
+                    //insert into AutoUtente
+                    params.put("operation", "u");
+                    params.put("table", "AutoUtente");
+
+                    params.put("selected", "1");
+                    params.put("targa", auto.getTarga());
+                    params.put("email", auto.getUtente().getEmail());
+
+                    return params;
+                }
+                ;
+            };
+            MainActivity.queue.add(myReq);
+        } else if (item.getTitle() == "Elimina") {
+            
             controlloAlert();
-            Toast.makeText(getContext(),"Codice elimina",Toast.LENGTH_LONG).show();
-        }else {
+        } else {
             return false;
         }
         return true;
@@ -155,10 +206,10 @@ public class MieAutoFragment extends Fragment {
                         try {
                             JSONObject jsonObj = new JSONObject(response);
                             JSONObject dati = jsonObj.getJSONObject("dati");
-                            String effettuato =dati.getString("Delete");
-                            Log.d("ResponseEliminaManutenzione ", effettuato);
-                            if(effettuato.equalsIgnoreCase("true")){
-                                Log.d("ResponseEliminaManutenzione ",effettuato);
+                            boolean effettuato = dati.getBoolean("Delete");
+                            //Log.d("ResponseEliminaManutenzione ", effettuato);
+                            if(effettuato){
+                                //Log.d("ResponseEliminaManutenzione ",effettuato);
                                 MainActivity.mySQLiteHelper.deleteAutoUtente(new AutoUtente(Targa));
                             }
                             aggiunto[0] = true;

@@ -90,7 +90,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         values.put("KM", auto.getKm());
         values.put("AnnoImmatricolazione", auto.getAnnoImmatricolazione());
         values.put("Utenti_Email", auto.getUtente().getEmail());
-        values.put("Selected",auto.getSelected());
+        values.put("Selected", auto.getSelected());
         values.put("Modelli_id", auto.getModello().getIDModello());
 
         db.insert(TABELLA_AUTO_UTENTE, null, values);
@@ -321,11 +321,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 scadenze.add(scadenza);
             } while (cursor.moveToNext());
         }
-/*
+
         for (Scadenza s : scadenze) {
             Log.d("getAllScadenze()", s.toString());
         }
-*/
+
 
         return scadenze;
     }

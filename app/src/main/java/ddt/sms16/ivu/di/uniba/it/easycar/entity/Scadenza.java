@@ -61,13 +61,14 @@ public class Scadenza implements Comparable<Scadenza> {
 
     @Override
     public String toString() {
-        return "Scadenza [IDScadenza=" + IDScadenza + ", descrizione=" + descrizione + ", dataScadenza=" + dataScadenza +" , inviata: "+inviata+ ", auto=" + auto.toString() + "]";
+        return "Scadenza [IDScadenza=" + IDScadenza + ", descrizione=" + descrizione + ", dataScadenza=" + dataScadenza +" , inviata="+inviata+ ", auto=" + auto.toString() + "]";
     }
 
     @Override
     public int compareTo(Scadenza another) {
         if(this.descrizione.equals(another.descrizione) &&
                 this.dataScadenza.equalsIgnoreCase(another.dataScadenza) &&
+                this.inviata == another.inviata &&
                 this.auto.getTarga().equalsIgnoreCase(another.auto.getTarga()) &&
                 this.auto.compareTo(another.auto) == 0)
             return 0;
