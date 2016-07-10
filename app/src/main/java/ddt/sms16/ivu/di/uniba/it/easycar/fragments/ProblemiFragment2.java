@@ -6,12 +6,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
@@ -77,7 +77,12 @@ public class ProblemiFragment2 extends Fragment {
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 Problema selectedFromList = (Problema) ExpAdapter.getChild(groupPosition, childPosition);
                 problema=selectedFromList;
-                controlloAlert();
+                if(MainActivity.sharedpreferences.getString(MainActivity.TAG_UTENTE_EMAIL, "")
+                        .equalsIgnoreCase(problema.getAuto().getUtente().getEmail())) {
+                    controlloAlert();
+                }else{
+                    Toast.makeText(getContext(),"Problema segnalato da altro utente",Toast.LENGTH_LONG).show();
+                }
                 return false;
             }
         });
@@ -111,39 +116,25 @@ public class ProblemiFragment2 extends Fragment {
         // menu.add(0, v.getId(), 0, "Modifica");
     }
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item){
-        if(item.getTitle()=="Elimina"){
-            if(MainActivity.sharedpreferences.getString(MainActivity.TAG_UTENTE_EMAIL, "")
-                    .equalsIgnoreCase(problema.getAuto().getUtente().getEmail())) {
-                controlloAlert();
-            }else{
-                Toast.makeText(getContext(),"Problema segnalato da altro utente",Toast.LENGTH_LONG).show();
-            }
-        }
-
-
-            return false;
-
-    }
-
     private boolean controlloAlert() {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 getContext());
 
-        alertDialogBuilder.setTitle("Sei sicuro di voler eliminare?");
+        alertDialogBuilder.setTitle(R.string.TitoloDialog);
 
         alertDialogBuilder
-                .setMessage("Click su si per confermare")
+                .setMessage(R.string.MessageDialog)
                 .setCancelable(false)
-                .setPositiveButton("Si",new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.PositiveButton,new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
                       eliminaProblema(problema.getIDProblema());
-                        Toast.makeText(getContext(),"Eliminata",Toast.LENGTH_LONG).show();
+                        Snackbar snackbar = Snackbar
+                                .make(getActivity().findViewById(android.R.id.content), "Eliminato", Snackbar.LENGTH_LONG);
+                        snackbar.show();
                     }
                 })
-                .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.NegtiveButton,new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                     }
