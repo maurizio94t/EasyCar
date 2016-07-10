@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -171,7 +172,13 @@ public class AggiuntaProblema extends AppCompatActivity {
                 return params;
             };
         };
-        MainActivity.queue.add(myReq);
+        if (Utility.checkInternetConnection(getApplicationContext())) {
+            MainActivity.queue.add(myReq);
+        } else {
+            UpdateService.requests.add(myReq);
+            finish();
+            Toast.makeText(getApplicationContext(), "Quando sarà presente la connessione, aggiorneremo i tuoi dati!", Toast.LENGTH_LONG).show();
+        }
 
         return aggiunto[0];
     }

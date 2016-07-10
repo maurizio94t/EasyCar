@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -171,10 +172,11 @@ public class AggiuntaAuto extends AppCompatActivity {
                                 Log.d("ResponseAggiuntaAuto ",response);
                                 try {
                                     JSONObject jsonObj = new JSONObject(response);
-                                    if(jsonObj.getString("dati") == null) {
+                                    if(jsonObj.getString("dati").equalsIgnoreCase("null")) {
                                         Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Errore: targa già presente!", Snackbar.LENGTH_LONG);
                                         snackbar.show();
                                     } else {
+
                                         JSONObject dati = jsonObj.getJSONObject("dati");
                                         Log.d("ResponseAggiuntaAuto ",response);
 
@@ -232,6 +234,8 @@ public class AggiuntaAuto extends AppCompatActivity {
                     MainActivity.queue.add(myReq);
                 } else {
                     UpdateService.requests.add(myReq);
+                    finish();
+                    Toast.makeText(getApplicationContext(), "Quando sarà presente la connessione, aggiorneremo i tuoi dati!", Toast.LENGTH_LONG).show();
                 }
 
 

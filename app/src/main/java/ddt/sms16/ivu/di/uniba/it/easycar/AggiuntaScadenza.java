@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -241,10 +242,12 @@ private boolean aggiungiScadenza(final String descrizione, final String dataScad
             return params;
         };
     };
-    if(Utility.checkInternetConnection(getApplicationContext())) {
+    if (Utility.checkInternetConnection(getApplicationContext())) {
         MainActivity.queue.add(myReq);
     } else {
         UpdateService.requests.add(myReq);
+        finish();
+        Toast.makeText(getApplicationContext(), "Quando sarà presente la connessione, aggiorneremo i tuoi dati!", Toast.LENGTH_LONG).show();
     }
 
 return aggiunto[0];

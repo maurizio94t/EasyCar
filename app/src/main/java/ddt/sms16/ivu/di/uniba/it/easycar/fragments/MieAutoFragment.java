@@ -148,13 +148,14 @@ public class MieAutoFragment extends Fragment {
                 }
                 ;
             };
-            MainActivity.queue.add(myReq);
-        } else if (item.getTitle() == "Elimina") {
-            if(auto.getSelected() == 0) {
-                controlloAlert();
+            if (Utility.checkInternetConnection(thisContext)) {
+                MainActivity.queue.add(myReq);
             } else {
-                Toast.makeText(thisContext, "Impossibile restare senza auto preferita!", Toast.LENGTH_SHORT).show();;
+                UpdateService.requests.add(myReq);
+                Toast.makeText(thisContext, "Quando sarà presente la connessione, aggiorneremo i tuoi dati!", Toast.LENGTH_LONG).show();
             }
+        } else if (item.getTitle() == "Elimina") {
+            controlloAlert();
         } else {
             return false;
         }
@@ -243,6 +244,7 @@ public class MieAutoFragment extends Fragment {
             MainActivity.queue.add(myReq);
         } else {
             UpdateService.requests.add(myReq);
+            Toast.makeText(thisContext, "Quando sarà presente la connessione, aggiorneremo i tuoi dati!", Toast.LENGTH_LONG).show();
         }
 
         return aggiunto[0];

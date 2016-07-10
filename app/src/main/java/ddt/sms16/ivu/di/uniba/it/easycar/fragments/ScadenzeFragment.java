@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -166,10 +167,11 @@ public class ScadenzeFragment extends Fragment {
                 return params;
             };
         };
-        if(Utility.checkInternetConnection(getActivity().getApplicationContext())) {
+        if (Utility.checkInternetConnection(getActivity().getApplicationContext())) {
             MainActivity.queue.add(myReq);
         } else {
             UpdateService.requests.add(myReq);
+            Toast.makeText(thisContext, "Quando sarà presente la connessione, aggiorneremo i tuoi dati!", Toast.LENGTH_LONG).show();
         }
 
         return aggiunto[0];
