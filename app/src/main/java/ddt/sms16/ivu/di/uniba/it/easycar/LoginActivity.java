@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -43,6 +44,19 @@ public class LoginActivity extends Activity {
 
         Button btnAccedi = (Button) findViewById(R.id.btnAccedi);
         Button btnRegistrati = (Button) findViewById(R.id.btnRegistati);
+
+       Intent intent = getIntent();
+        if(intent != null){
+        String registrato = intent.getStringExtra("registrato");
+
+        if(registrato !=null ){
+            if(registrato.equalsIgnoreCase("true")){
+
+                Toast.makeText(getApplicationContext(), "Registazione avvenuta con successo!", Toast.LENGTH_LONG).show();
+
+            }
+
+        }}
         btnRegistrati.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -2,12 +2,10 @@ package ddt.sms16.ivu.di.uniba.it.easycar;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -17,14 +15,13 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -50,10 +47,8 @@ public class RegistrazioneUtente extends AppCompatActivity {
     private String data;
     private String email;
     private String password;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
+    private boolean emailNonEsistente = true;
+    String passwordCriptata = "";
     private GoogleApiClient client;
 
     @Override
@@ -83,43 +78,94 @@ public class RegistrazioneUtente extends AppCompatActivity {
                 Snackbar snackbar;
                 if (!campiValidi()) {
                     snackbar = Snackbar
-                            .make( findViewById(android.R.id.content),"Campi non validi", Snackbar.LENGTH_LONG);
+                            .make(findViewById(android.R.id.content), "Campi non validi", Snackbar.LENGTH_LONG);
                     snackbar.show();
-
-
                 } else {
-                    Log.d("datiRegistrazione",nome);
-                    Log.d("datiRegistrazione",cognome);
-                    Log.d("datiRegistrazione",Utility.convertStringDateToString(data));
-                    Log.d("datiRegistrazione",email);
-                    Log.d("datiRegistrazione",password);
+                    AeSimpleSHA1 sha1 = new AeSimpleSHA1();
+                    try {
+                        passwordCriptata = sha1.SHA1(password);
+                    } catch (NoSuchAlgorithmException e) {
+                        e.printStackTrace();
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    StringRequest myReq = new StringRequest(Request.Method.POST,
+                            MainActivity.urlOperations,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    try {
+                                         JSONObject jsonObj = new JSONObject(response);
+                                        JSONObject dati = jsonObj.getJSONObject("dati");
+                                        String emailE = dati.getString("EmailNotExist");
+                                        emailNonEsistente = Boolean.parseBoolean(emailE);
+                                        boolean added = dati.getBoolean("Added");
+                                        Snackbar snackbar;
+                                        if (emailNonEsistente && added) {
+                                            MainActivity.mySQLiteHelper.aggiungiUtente(new Utente(nome, cognome, data, email, passwordCriptata));
 
-                    boolean aggiunto = aggiungiUtente(nome, cognome,Utility.convertStringDateToString(data) ,email,password );
+                                            Intent intent = new Intent(getApplication(), LoginActivity.class);
+                                            intent.putExtra("registrato","true");
+                                            startActivity(intent);
+                                            finish();
 
 
+                                        } else {
+                                            if (!emailNonEsistente  && !added) {
+                                                snackbar = Snackbar
+                                                        .make(findViewById(android.R.id.content), "Errore: e-mail già esistente!", Snackbar.LENGTH_LONG);
+                                                snackbar.show();
+                                            } else {
+                                                if (!emailNonEsistente && !added) {
+                                                    snackbar = Snackbar
+                                                            .make(findViewById(android.R.id.content), "Errore: registrazione non avvenuta!", Snackbar.LENGTH_LONG);
+                                                    snackbar.show();
+                                                }
+                                            }
 
 
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
 
-                    snackbar = Snackbar
-                            .make( findViewById(android.R.id.content),"Registrato", Snackbar.LENGTH_LONG);
-                    snackbar.show();
+                                }
+                            }) {
 
+                        protected Map<String, String> getParams() throws com.android.volley.AuthFailureError {
 
+                            Map<String, String> params = new HashMap<String, String>();
+                            params.put("operation", "c");
+                            params.put("table", MainActivity.TAG_UTENTI);
+                            params.put("nome", nome);
+                            params.put("cognome", cognome);
+                            params.put("data", Utility.convertStringDateToString(data));
+                            params.put("email", email);
+                            params.put("psw", password);
 
-                /*    AlertDialog.Builder miaAlert = new AlertDialog.Builder(getApplication());
-                    miaAlert.setTitle("AlertDialog di MrWebMaster");
-                    miaAlert.setMessage("Questa è la mia prima AlertDialog");
-                    AlertDialog alert = miaAlert.create();
-                    alert.show();
+                            return params;
+                        }
 
-                   */
-
-                    Intent intent = new Intent( getApplication(), MainActivity.class);
-                    startActivity(intent);
+                        ;
+                    };
+                    if (Utility.checkInternetConnection(getApplicationContext())) {
+                        MainActivity.queue.add(myReq);
+                    } else {
+                        UpdateService.requests.add(myReq);
+                    }
 
 
                 }
             }
+
+
+
+
         });
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
@@ -160,10 +206,6 @@ public class RegistrazioneUtente extends AppCompatActivity {
             }
         });
 
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     private void updateLabel() {
@@ -194,105 +236,9 @@ public class RegistrazioneUtente extends AppCompatActivity {
         }
     }
 
-
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    public Action getIndexApiAction() {
-        Thing object = new Thing.Builder()
-                .setName("RegistrazioneUtente Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
-                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-                .build();
-        return new Action.Builder(Action.TYPE_VIEW)
-                .setObject(object)
-                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-                .build();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        AppIndex.AppIndexApi.start(client, getIndexApiAction());
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.end(client, getIndexApiAction());
-        client.disconnect();
-    }
-
-
-    private boolean aggiungiUtente(final String nome,final String cognome, final String  data, final String email, final String password){
-        final boolean[] aggiunto = new boolean[1];
-        StringRequest myReq = new StringRequest(Request.Method.POST,
-                MainActivity.urlOperations,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("Response", "> OK Req");
-
-                        try {
-                            JSONObject jsonObj = new JSONObject(response);
-                            JSONObject dati = jsonObj.getJSONObject("dati");
-                            String nome= dati.getString(MainActivity.TAG_UTENTE_NOME);
-                            String cognome= dati.getString(MainActivity.TAG_UTENTE_COGNOME);
-                            String data= dati.getString(MainActivity.TAG_UTENTE_DATANASCITA);
-                            String email= dati.getString(MainActivity.TAG_UTENTE_EMAIL);
-                            String password= dati.getString(MainActivity.TAG_UTENTE_PSW);
-
-
-
-                            MainActivity.mySQLiteHelper.aggiungiUtente(new Utente(nome, cognome, data, email, password));
-
-                            aggiunto[0] = true;
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("Response", "> That didn't work!");
-                        aggiunto[0] = false;
-                    }
-                }) {
-
-            protected Map<String, String> getParams() throws com.android.volley.AuthFailureError {
-
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("operation", "c");
-
-                params.put("table", MainActivity.TAG_UTENTI);
-                params.put("nome",nome );
-                params.put("cognome",cognome );
-                params.put("data", data);
-                params.put("email", email);
-                params.put("psw", password);
-
-
-
-                return params;
-            };
-        };
-        if(Utility.checkInternetConnection(getApplicationContext())) {
-            MainActivity.queue.add(myReq);
-        } else {
-            UpdateService.requests.add(myReq);
-        }
-
-        return aggiunto[0];
-    }
-
-
 }
+
+
+
+
+

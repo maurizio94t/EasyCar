@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -16,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -30,7 +28,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.AggiuntaAuto;
-import ddt.sms16.ivu.di.uniba.it.easycar.BaseActivity;
 import ddt.sms16.ivu.di.uniba.it.easycar.CustomAdapter_AutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.DettaglioAutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.MainActivity;
@@ -38,9 +35,6 @@ import ddt.sms16.ivu.di.uniba.it.easycar.R;
 import ddt.sms16.ivu.di.uniba.it.easycar.UpdateService;
 import ddt.sms16.ivu.di.uniba.it.easycar.Utility;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
-import ddt.sms16.ivu.di.uniba.it.easycar.entity.Auto;
-import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
-import ddt.sms16.ivu.di.uniba.it.easycar.entity.Scadenza;
 
 public class MieAutoFragment extends Fragment {
 

@@ -47,7 +47,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(Utility.checkInternetConnection(thisContext)) {
-                    Intent salvaPos = new Intent(getContext(), SalvaPosizione.class);
+                    Intent salvaPos = new Intent(getActivity().getApplicationContext(), SalvaPosizione.class);//getContext()
                     startActivity(salvaPos);
                     save = true;
                 }

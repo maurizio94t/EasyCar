@@ -210,11 +210,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 auto.add(autoUtente);
             } while (cursor.moveToNext());
         }
-        /*
+
         for (AutoUtente a : auto) {
-            Log.d("getAllAutoUtente()", a.toString());
+            Log.d("ProvaAutoPreferita", a.toString());
         }
-        */
+
         return auto;
     }
 
@@ -600,8 +600,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         db.delete(TABELLA_SCADENZE, " IDScadenza ="+IdScadenza , null);
     }
 
-  //  $QUERY_RESET_SELECTED = "UPDATE AutoUtente SET Selected=0 WHERE Utenti_Email='$email'";
-  //  $QUERY_UPDATE_SELECTED = "UPDATE AutoUtente SET Selected=1 WHERE Targa='$targa'";
 //selezione auto preferita
     public void setSelected(AutoUtente auto){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -619,7 +617,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         db.update(TABELLA_AUTO_UTENTE, cv0, "Targa="+targa, null);
     }
     public AutoUtente getAutoPreferita(){
-        String query = "SELECT * FROM "+ TABELLA_AUTO_UTENTE +" JOIN "+ TABELLA_MODELLI+ " ON Modelli_id=IDModello JOIN "+ TABELLA_MARCHE+ " ON Marca_id=IDMarca JOIN " + TABELLA_UTENTI+" ON Utenti_Email=Email WHERE Selected=1 ";
+        String email;
+        email = "'".concat(MainActivity.sharedpreferences.getString(MainActivity.TAG_UTENTE_EMAIL, "")).concat("'");
+
+        String query = "SELECT * FROM "+ TABELLA_AUTO_UTENTE +" JOIN "+ TABELLA_MODELLI+ " ON Modelli_id=IDModello JOIN "+ TABELLA_MARCHE+ " ON Marca_id=IDMarca JOIN " + TABELLA_UTENTI+" ON Utenti_Email=Email WHERE Selected=1 AND Utenti_Email="+email;
 
 
         AutoUtente auto=null;
@@ -632,11 +633,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
             } while (cursor.moveToNext());
         }
-        /*
-        for (AutoUtente a : auto) {
-            Log.d("getAllAutoUtente()", a.toString());
-        }
-        */
+
+
+            Log.d("ProvaAutoPreferita", auto.toString());
+
+
         return auto;
 
     }
