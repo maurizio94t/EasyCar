@@ -9,11 +9,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.IBinder;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -39,9 +36,6 @@ import ddt.sms16.ivu.di.uniba.it.easycar.entity.Modello;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Problema;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Scadenza;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Utente;
-import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment;
-import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment2;
-import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ScadenzeFragment;
 
 /**
  * Created by Maurizio on 03/07/16.
