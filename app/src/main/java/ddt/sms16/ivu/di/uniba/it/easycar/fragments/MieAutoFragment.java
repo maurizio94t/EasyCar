@@ -224,7 +224,6 @@ public class MieAutoFragment extends Fragment {
 
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("operation", "d");
-
                 params.put("table", MainActivity.TAG_AUTOUTENTE);
                 params.put("targa", String.valueOf(Targa));
 

@@ -37,7 +37,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private String TABELLA_MANUTENZIONI;
 
 
-
     // Costruttore.
     public MySQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -82,7 +81,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     // Aggiunta di una nuova auto dell'utente.
     public void aggiungiAutoUtente(AutoUtente auto) {
-        Log.d("aggiungiAutoUtente", auto.toString());
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -96,9 +95,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         db.insert(TABELLA_AUTO_UTENTE, null, values);
         db.close();
     }
+
     // Aggiunta di nuovo utente.
     public void aggiungiUtente(Utente utente) {
-        Log.d("aggiungiUtente", utente.toString());
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -113,9 +113,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     //Aggiunta di una nuova marca di auto.
     public void aggiungiMarca(Marca marca) {
-        Log.d("aggiungiMarca", marca.toString());
-        SQLiteDatabase db = this.getWritableDatabase();
 
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("IDMarca", marca.getIDMarca());
         values.put("Nome", marca.getNome());
@@ -126,6 +125,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     // Aggiunta di nuovo modello di auto.
     public void aggiungiModello(Modello modello) {
+
         Log.d("aggiungiModello", modello.toString());
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -144,6 +144,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     // Aggiunta di un nuovo problema.
     public void aggiungiProblema(Problema problema) {
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -157,6 +158,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     // Aggiunta di una nuova manutenzione.
     public void aggiungiManutenzione(Manutenzione manutenzione) {
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -173,7 +175,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     // Aggiunta di una nuova scadenza.
     public void aggiungiScadenza(Scadenza scadenza) {
-    //Log.d("aggiungiScadenza", scadenza.toString());
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -186,200 +188,164 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-
-
-
-
-    // da qui
-
-
     // Restituisce tutte le auto presenti nel db locale.
     public List<AutoUtente> getAllAutoUtente() {
+
         List<AutoUtente> auto = new LinkedList<AutoUtente>();
         AutoUtente autoUtente;
-
-        String query = "SELECT * FROM "+ TABELLA_AUTO_UTENTE +" JOIN "+ TABELLA_MODELLI+ " ON Modelli_id=IDModello JOIN "+ TABELLA_MARCHE+ " ON Marca_id=IDMarca JOIN " + TABELLA_UTENTI+" ON Utenti_Email=Email ";
-
-
+        String query = "SELECT * FROM " + TABELLA_AUTO_UTENTE + " JOIN " + TABELLA_MODELLI + " ON Modelli_id=IDModello JOIN " + TABELLA_MARCHE + " ON Marca_id=IDMarca JOIN " + TABELLA_UTENTI + " ON Utenti_Email=Email ";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-
         if (cursor.moveToFirst()) {
             do {
-                autoUtente = new AutoUtente(cursor.getString(0), cursor.getInt(1), cursor.getString(2), new Utente(cursor.getString(15),cursor.getString(16),cursor.getString(17),cursor.getString(18)), new Modello( cursor.getInt(5),cursor.getString(7),cursor.getString(8),cursor.getString(9),cursor.getString(10),cursor.getString(11),new Marca( cursor.getInt(12),cursor.getString(14))),cursor.getInt(3));
+                autoUtente = new AutoUtente(cursor.getString(0), cursor.getInt(1), cursor.getString(2), new Utente(cursor.getString(15), cursor.getString(16), cursor.getString(17), cursor.getString(18)), new Modello(cursor.getInt(5), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), new Marca(cursor.getInt(12), cursor.getString(14))), cursor.getInt(3));
                 auto.add(autoUtente);
             } while (cursor.moveToNext());
         }
-
-        for (AutoUtente a : auto) {
-            Log.d("ProvaAutoPreferita", a.toString());
-        }
-
         return auto;
     }
 
 
     // Restituisce tutte le auto presenti nel db locale dell'utente loggato.
     public List<AutoUtente> getAllMieAutoUtente() {
+
         List<AutoUtente> auto = new LinkedList<AutoUtente>();
         AutoUtente autoUtente;
         String email;
         email = "'".concat(MainActivity.sharedpreferences.getString(MainActivity.TAG_UTENTE_EMAIL, "")).concat("'");
-        String query = "SELECT * FROM "+ TABELLA_AUTO_UTENTE +" JOIN "+ TABELLA_MODELLI+ " ON Modelli_id=IDModello JOIN "+ TABELLA_MARCHE+ " ON Marca_id=IDMarca JOIN " + TABELLA_UTENTI+" ON Utenti_Email=Email WHERE AutoUtente.Utenti_Email="+email;
+        String query = "SELECT * FROM " + TABELLA_AUTO_UTENTE + " JOIN " + TABELLA_MODELLI + " ON Modelli_id=IDModello JOIN " + TABELLA_MARCHE + " ON Marca_id=IDMarca JOIN " + TABELLA_UTENTI + " ON Utenti_Email=Email WHERE AutoUtente.Utenti_Email=" + email;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
             do {
-                autoUtente = new AutoUtente(cursor.getString(0), cursor.getInt(1), cursor.getString(2), new Utente(cursor.getString(15),cursor.getString(16),cursor.getString(17),cursor.getString(18)), new Modello( cursor.getInt(5),cursor.getString(7),cursor.getString(8),cursor.getString(9),cursor.getString(10),cursor.getString(11),new Marca( cursor.getInt(12),cursor.getString(14))),cursor.getInt(3));
+                autoUtente = new AutoUtente(cursor.getString(0), cursor.getInt(1), cursor.getString(2), new Utente(cursor.getString(15), cursor.getString(16), cursor.getString(17), cursor.getString(18)), new Modello(cursor.getInt(5), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), new Marca(cursor.getInt(12), cursor.getString(14))), cursor.getInt(3));
                 auto.add(autoUtente);
             } while (cursor.moveToNext());
         }
-        /*
-        for (AutoUtente a : auto) {
-            Log.d("getAllAutoUtente()", a.toString());
-        }
-        */
         return auto;
     }
 
-
+    // Restituisce tutti gli utenti.
     public List<Utente> getAllUtenti() {
+
         List<Utente> utenti = new LinkedList<Utente>();
-
-
         String query = "SELECT  * FROM " + TABELLA_UTENTI;
-
-
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-
-
         Utente utente = null;
         if (cursor.moveToFirst()) {
             do {
                 utente = new Utente(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3));
-
-
-
                 utenti.add(utente);
             } while (cursor.moveToNext());
         }
-        /*
-        for (Utente u : utenti) {
-            Log.d("getAllUtenti()", u.toString());
-        }
-*/
         return utenti;
     }
 
-
-
+    // Restituisce tutti i modelli di auto presenti.
     public List<Modello> getAllModelli() {
+
         List<Modello> modelli = new LinkedList<Modello>();
-
-
-        String query = "SELECT * FROM " + TABELLA_MODELLI  +" JOIN "+ TABELLA_MARCHE +" ON Marca_id = IDMarca ;";
-
+        String query = "SELECT * FROM " + TABELLA_MODELLI + " JOIN " + TABELLA_MARCHE + " ON Marca_id = IDMarca ;";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-
-         Modello modello = null;
+        Modello modello = null;
         if (cursor.moveToFirst()) {
 
             do {
-
                 modello = new Modello(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3),
                         cursor.getString(4), cursor.getString(5), new Marca(cursor.getInt(7), cursor.getString(8)));
 
                 modelli.add(modello);
             } while (cursor.moveToNext());
         }
-        /*
-        for (Modello m : modelli) {
-            Log.d("getAllModelli()", m.toString());
-        }
-*/
-
-
         return modelli;
     }
 
+    // Restituisce tutti i modelli di auto della marca passata come parametro.
+    public List<Modello> getAllModelliDiMarca(Marca marca) {
+
+        List<Modello> modelli = new LinkedList<Modello>();
+        String query = "SELECT * FROM " + TABELLA_MODELLI + " JOIN " + TABELLA_MARCHE + " ON Marca_id = IDMarca  WHERE Marche.IDMarca="+marca.getIDMarca();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        Modello modello = null;
+        if (cursor.moveToFirst()) {
+
+            do {
+                modello = new Modello(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3),
+                        cursor.getString(4), cursor.getString(5), new Marca(cursor.getInt(7), cursor.getString(8)));
+
+                modelli.add(modello);
+            } while (cursor.moveToNext());
+        }
+        return modelli;
+    }
+
+
+    // Restituisce tutte le scadenze
     public List<Scadenza> getAllScadenze() {
-        List<Scadenza> scadenze = new LinkedList<Scadenza>();
-        String query =  "SELECT * FROM "+TABELLA_SCADENZE+" NATURAL JOIN "+TABELLA_AUTO_UTENTE+" JOIN "+TABELLA_MODELLI +" ON Modelli_id=IDModello JOIN "+TABELLA_MARCHE +" ON Marca_id=IDMarca JOIN "+TABELLA_UTENTI +" ON Utenti_Email=Email ";
 
+        List<Scadenza> scadenze = new LinkedList<Scadenza>();
+        String query = "SELECT * FROM " + TABELLA_SCADENZE + " NATURAL JOIN " + TABELLA_AUTO_UTENTE + " JOIN " + TABELLA_MODELLI + " ON Modelli_id=IDModello JOIN " + TABELLA_MARCHE + " ON Marca_id=IDMarca JOIN " + TABELLA_UTENTI + " ON Utenti_Email=Email ";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-
-
         Scadenza scadenza = null;
         if (cursor.moveToFirst()) {
             do {
-                  scadenza = new Scadenza(cursor.getInt(0), cursor.getString(1), cursor.getString(2),cursor.getInt(4) ,new AutoUtente(cursor.getString(3),cursor.getInt(5),cursor.getString(6),new Utente(cursor.getString(19),cursor.getString(20),cursor.getString(21),cursor.getString(22)),new Modello(cursor.getInt(10),cursor.getString(11),cursor.getString(12),cursor.getString(13),cursor.getString(14),cursor.getString(15),new Marca(cursor.getInt(17),cursor.getString(18))),cursor.getInt(7)));
-
+                scadenza = new Scadenza(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getInt(4), new AutoUtente(cursor.getString(3), cursor.getInt(5), cursor.getString(6), new Utente(cursor.getString(19), cursor.getString(20), cursor.getString(21), cursor.getString(22)), new Modello(cursor.getInt(10), cursor.getString(11), cursor.getString(12), cursor.getString(13), cursor.getString(14), cursor.getString(15), new Marca(cursor.getInt(17), cursor.getString(18))), cursor.getInt(7)));
                 scadenze.add(scadenza);
             } while (cursor.moveToNext());
         }
-
-        /*
-        for (Scadenza s : scadenze) {
-            Log.d("getAllScadenze()", s.toString());
-        }
-        */
-
         return scadenze;
     }
-    //get all scadenze e manutenzioni ordinate
 
+    // Restituisce tutte le scadenze ordinate
     public List<Scadenza> getAllScadenzeOrdinate() {
+
         List<Scadenza> scadenze = new LinkedList<Scadenza>();
-        String query =  "SELECT * FROM "+TABELLA_SCADENZE+" NATURAL JOIN "+TABELLA_AUTO_UTENTE+" JOIN "+TABELLA_MODELLI +" ON Modelli_id=IDModello JOIN "+TABELLA_MARCHE +" ON Marca_id=IDMarca JOIN "+TABELLA_UTENTI +" ON Utenti_Email=Email ORDER BY DataScadenza DESC ";
+        String query = "SELECT * FROM " + TABELLA_SCADENZE + " NATURAL JOIN " + TABELLA_AUTO_UTENTE + " JOIN " + TABELLA_MODELLI + " ON Modelli_id=IDModello JOIN " + TABELLA_MARCHE + " ON Marca_id=IDMarca JOIN " + TABELLA_UTENTI + " ON Utenti_Email=Email ORDER BY DataScadenza DESC ";
         Scadenza scadenza = null;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
             do {
-
-                scadenza = new Scadenza(cursor.getInt(0), cursor.getString(1), cursor.getString(2),cursor.getInt(4) ,new AutoUtente(cursor.getString(3),cursor.getInt(5),cursor.getString(6),new Utente(cursor.getString(19),cursor.getString(20),cursor.getString(21),cursor.getString(22)),new Modello(cursor.getInt(10),cursor.getString(11),cursor.getString(12),cursor.getString(13),cursor.getString(14),cursor.getString(15),new Marca(cursor.getInt(17),cursor.getString(18))),cursor.getInt(7)));
+                scadenza = new Scadenza(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getInt(4), new AutoUtente(cursor.getString(3), cursor.getInt(5), cursor.getString(6), new Utente(cursor.getString(19), cursor.getString(20), cursor.getString(21), cursor.getString(22)), new Modello(cursor.getInt(10), cursor.getString(11), cursor.getString(12), cursor.getString(13), cursor.getString(14), cursor.getString(15), new Marca(cursor.getInt(17), cursor.getString(18))), cursor.getInt(7)));
                 scadenze.add(scadenza);
             } while (cursor.moveToNext());
         }
         return scadenze;
     }
 
+    //Restituisce tutti i problemi.
     public List<Problema> getAllProblemi() {
+
         List<Problema> problemi = new LinkedList<Problema>();
-        String query = "SELECT * FROM "+TABELLA_PROBLEMI+" NATURAL JOIN "+TABELLA_AUTO_UTENTE+" JOIN "+TABELLA_MODELLI+" ON Modelli_id=IDModello JOIN "+ TABELLA_MARCHE+" ON Marca_id=IDMarca JOIN "+TABELLA_UTENTI+" ON Utenti_Email=Email";
+        String query = "SELECT * FROM " + TABELLA_PROBLEMI + " NATURAL JOIN " + TABELLA_AUTO_UTENTE + " JOIN " + TABELLA_MODELLI + " ON Modelli_id=IDModello JOIN " + TABELLA_MARCHE + " ON Marca_id=IDMarca JOIN " + TABELLA_UTENTI + " ON Utenti_Email=Email";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
         Problema problema = null;
         if (cursor.moveToFirst()) {
             do {
-
-
                 problema = new Problema(cursor.getInt(0), cursor.getString(1), new AutoUtente(cursor.getString(2), cursor.getInt(3), cursor.getString(4), new Utente(cursor.getString(17), cursor.getString(18), cursor.getString(19), cursor.getString(20)), new Modello(cursor.getInt(7), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13), new Marca(cursor.getInt(15), cursor.getString(16))), cursor.getInt(5)));
                 problemi.add(problema);
 
             } while (cursor.moveToNext());
         }
-        /*
-        for (Problema p : problemi) {
-            Log.d("getAllProblemi()", p.toString());
-        }
-*/
         return problemi;
     }
 
+    // Restituisce tutti i problemi di un'auto.
     public List<Problema> getAllProblemiByAuto(AutoUtente auto) {
+
         List<Problema> problemi = new LinkedList<Problema>();
-        String query = "SELECT * FROM "+TABELLA_PROBLEMI+" NATURAL JOIN "+TABELLA_AUTO_UTENTE+" JOIN "+TABELLA_MODELLI+" ON Modelli_id=IDModello JOIN "+ TABELLA_MARCHE+" ON Marca_id=IDMarca JOIN "+TABELLA_UTENTI+" ON Utenti_Email=Email WHERE AutoUtente.Modelli_id= "+/*"'"+*/auto.getModello().getIDModello()/*+"'"*/;
+        String query = "SELECT * FROM " + TABELLA_PROBLEMI + " NATURAL JOIN " + TABELLA_AUTO_UTENTE + " JOIN " + TABELLA_MODELLI + " ON Modelli_id=IDModello JOIN " + TABELLA_MARCHE + " ON Marca_id=IDMarca JOIN " + TABELLA_UTENTI + " ON Utenti_Email=Email WHERE AutoUtente.Modelli_id= " +/*"'"+*/auto.getModello().getIDModello()/*+"'"*/;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-
         Problema problema = null;
         if (cursor.moveToFirst()) {
             do {
@@ -392,100 +358,76 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return problemi;
     }
 
-
+    // Restituisce tutte le marche.
     public List<Marca> getAllMarche() {
+
         List<Marca> marche = new LinkedList<Marca>();
-
-
         String query = "SELECT  * FROM " + TABELLA_MARCHE;
-
-
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-
-
         Marca marca = null;
         if (cursor.moveToFirst()) {
             do {
                 marca = new Marca(cursor.getString(1));
                 marca.setIDMarca(cursor.getInt(0));
-
-
-
                 marche.add(marca);
             } while (cursor.moveToNext());
         }
-        /*
-        for (Marca m : marche) {
-            Log.d("getAllMarche()", m.toString());
-        }
-*/
-
-
         return marche;
     }
 
+    // Restituisce tutte le manutenzioni.
     public List<Manutenzione> getAllManutenzioni() {
+
         List<Manutenzione> manutenzioni = new LinkedList<Manutenzione>();
-        String query =   "SELECT * FROM "+TABELLA_MANUTENZIONI +" NATURAL JOIN "+ TABELLA_AUTO_UTENTE+" JOIN "+TABELLA_MODELLI+ " ON Modelli_id=IDModello JOIN "+TABELLA_MARCHE +" ON Marca_id=IDMarca JOIN "+ TABELLA_UTENTI +" ON Utenti_Email=Email";
+        String query = "SELECT * FROM " + TABELLA_MANUTENZIONI + " NATURAL JOIN " + TABELLA_AUTO_UTENTE + " JOIN " + TABELLA_MODELLI + " ON Modelli_id=IDModello JOIN " + TABELLA_MARCHE + " ON Marca_id=IDMarca JOIN " + TABELLA_UTENTI + " ON Utenti_Email=Email";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
-         Manutenzione manutenzione = null;
+        Manutenzione manutenzione = null;
         if (cursor.moveToFirst()) {
-
             do {
-
-                manutenzione = new Manutenzione(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getInt(3),cursor.getString(4),new AutoUtente(cursor.getString(5),cursor.getInt(6),cursor.getString(7),new Utente(cursor.getString(20),cursor.getString(21),cursor.getString(22),cursor.getString(23)),new Modello(cursor.getInt(11),cursor.getString(12),cursor.getString(13),cursor.getString(14),cursor.getString(15),cursor.getString(16), new Marca(cursor.getInt(18),cursor.getString(19))),cursor.getInt(8))) ;
+                manutenzione = new Manutenzione(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getString(4), new AutoUtente(cursor.getString(5), cursor.getInt(6), cursor.getString(7), new Utente(cursor.getString(20), cursor.getString(21), cursor.getString(22), cursor.getString(23)), new Modello(cursor.getInt(11), cursor.getString(12), cursor.getString(13), cursor.getString(14), cursor.getString(15), cursor.getString(16), new Marca(cursor.getInt(18), cursor.getString(19))), cursor.getInt(8)));
                 manutenzioni.add(manutenzione);
             } while (cursor.moveToNext());
         }
-    /*
-        for (Manutenzione m : manutenzioni) {
-            Log.d("getAllManutenzioneResponse()", m.toString());
-        }
-*/
-
         return manutenzioni;
     }
 
+    // Restituisce le manutenzioni ordinate.
     public List<Manutenzione> getAllManutenzioniOrdinate() {
+
         List<Manutenzione> manutenzioni = new LinkedList<Manutenzione>();
-        String query =   "SELECT * FROM "+TABELLA_MANUTENZIONI +" NATURAL JOIN "+ TABELLA_AUTO_UTENTE+" JOIN "+TABELLA_MODELLI+ " ON Modelli_id=IDModello JOIN "+TABELLA_MARCHE +" ON Marca_id=IDMarca JOIN "+ TABELLA_UTENTI +" ON Utenti_Email=Email ORDER BY Data DESC ";
+        String query = "SELECT * FROM " + TABELLA_MANUTENZIONI + " NATURAL JOIN " + TABELLA_AUTO_UTENTE + " JOIN " + TABELLA_MODELLI + " ON Modelli_id=IDModello JOIN " + TABELLA_MARCHE + " ON Marca_id=IDMarca JOIN " + TABELLA_UTENTI + " ON Utenti_Email=Email ORDER BY Data DESC ";
         Manutenzione manutenzione = null;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
             do {
-                manutenzione = new Manutenzione(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getInt(3),cursor.getString(4),new AutoUtente(cursor.getString(5),cursor.getInt(6),cursor.getString(7),new Utente(cursor.getString(20),cursor.getString(21),cursor.getString(22),cursor.getString(23)),new Modello(cursor.getInt(11),cursor.getString(12),cursor.getString(13),cursor.getString(14),cursor.getString(15),cursor.getString(16), new Marca(cursor.getInt(18),cursor.getString(19))),cursor.getInt(8))) ;
+                manutenzione = new Manutenzione(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getString(4), new AutoUtente(cursor.getString(5), cursor.getInt(6), cursor.getString(7), new Utente(cursor.getString(20), cursor.getString(21), cursor.getString(22), cursor.getString(23)), new Modello(cursor.getInt(11), cursor.getString(12), cursor.getString(13), cursor.getString(14), cursor.getString(15), cursor.getString(16), new Marca(cursor.getInt(18), cursor.getString(19))), cursor.getInt(8)));
                 manutenzioni.add(manutenzione);
             } while (cursor.moveToNext());
         }
-        /*
-        for (Manutenzione m : manutenzioni) {
-            Log.d("getAllManutenzioneOrdinate()", m.toString());
-        }
-        */
         return manutenzioni;
     }
 
     // Aggiornamento di un utente.
-    public void updateUtente(Utente utente){
+    public void updateUtente(Utente utente) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put("NomeU",utente.getNome());
-        cv.put("CognomeU",utente.getCognome());
-        cv.put("DataDiNascita",utente.getDataN());
+        cv.put("NomeU", utente.getNome());
+        cv.put("CognomeU", utente.getCognome());
+        cv.put("DataDiNascita", utente.getDataN());
 
-        String email="'"+utente.getEmail()+"'";
-        db.update(TABELLA_UTENTI, cv, "Email="+email, null);
+        String email = "'" + utente.getEmail() + "'";
+        db.update(TABELLA_UTENTI, cv, "Email=" + email, null);
 
     }
 
     // Aggiornamento di una marca.
-    public void updateMarca(Marca marca){
+    public void updateMarca(Marca marca) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -493,12 +435,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         cv.put("IDMarca", marca.getIDMarca());
         cv.put("Nome", marca.getNome());
 
-        String idMarca="'"+marca.getIDMarca()+"'";
-        db.update(TABELLA_MARCHE, cv, "IDMarca="+idMarca, null);
+        String idMarca = "'" + marca.getIDMarca() + "'";
+        db.update(TABELLA_MARCHE, cv, "IDMarca=" + idMarca, null);
     }
 
     // Aggiornamento di un modello.
-    public void updateModello(Modello modello){
+    public void updateModello(Modello modello) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -511,27 +453,27 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         cv.put("KW", modello.getKw());
         cv.put("Marca_id", modello.getMarca().getIDMarca());
 
-        String idModello="'"+modello.getIDModello()+"'";
-        db.update(TABELLA_MODELLI, cv, "IDModello="+idModello, null);
+        String idModello = "'" + modello.getIDModello() + "'";
+        db.update(TABELLA_MODELLI, cv, "IDModello=" + idModello, null);
     }
 
     // Aggiornamento di un' auto.
-    public void updateAutoUtente(AutoUtente auto){
+    public void updateAutoUtente(AutoUtente auto) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put("KM",auto.getKm());
-        cv.put("AnnoImmatricolazione",auto.getAnnoImmatricolazione());
-        cv.put("Modelli_id",auto.getModello().getIDModello());
-        cv.put("Selected",auto.getSelected());
+        cv.put("KM", auto.getKm());
+        cv.put("AnnoImmatricolazione", auto.getAnnoImmatricolazione());
+        cv.put("Modelli_id", auto.getModello().getIDModello());
+        cv.put("Selected", auto.getSelected());
 
-        String targa="'"+auto.getTarga()+"'";
-        db.update(TABELLA_AUTO_UTENTE, cv, "Targa="+targa, null);
+        String targa = "'" + auto.getTarga() + "'";
+        db.update(TABELLA_AUTO_UTENTE, cv, "Targa=" + targa, null);
     }
 
     // Aggiornamento di una manutenzione.
-    public void updateMantenzione(Manutenzione manutenzione){
+    public void updateMantenzione(Manutenzione manutenzione) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -541,13 +483,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         cv.put("KmManutenzione", manutenzione.getKmManutenzione());
         cv.put("Targa", manutenzione.getAuto().getTarga());
 
-         String id="'"+manutenzione.getIDManutenzione()+"'";
-        db.update(TABELLA_MANUTENZIONI, cv, "IDManutenzione="+id, null);
+        String id = "'" + manutenzione.getIDManutenzione() + "'";
+        db.update(TABELLA_MANUTENZIONI, cv, "IDManutenzione=" + id, null);
 
     }
 
     // Aggiornamento di un problema.
-    public void updateProblema(Problema  problema){
+    public void updateProblema(Problema problema) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -555,12 +497,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         cv.put("Descrizione", problema.getDescrizione());
         cv.put("Targa", problema.getAuto().getTarga());
 
-        String id="'"+problema.getIDProblema()+"'";
-        db.update(TABELLA_PROBLEMI, cv, "IDProblema="+id, null);
+        String id = "'" + problema.getIDProblema() + "'";
+        db.update(TABELLA_PROBLEMI, cv, "IDProblema=" + id, null);
     }
 
     // Aggiornamento di una scadenza.
-    public void updateScadenza(Scadenza  scadenza){
+    public void updateScadenza(Scadenza scadenza) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -572,75 +514,74 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         Log.d("updateScadenza() >", scadenza.toString());
 
-        String id="'"+scadenza.getIDScadenza()+"'";
-        db.update(TABELLA_SCADENZE, cv, "IDScadenza="+id, null);
+        String id = "'" + scadenza.getIDScadenza() + "'";
+        db.update(TABELLA_SCADENZE, cv, "IDScadenza=" + id, null);
     }
 
     // Eliminazione di un'auto.
-    public void deleteAutoUtente(AutoUtente autoUtente){
+    public void deleteAutoUtente(AutoUtente autoUtente) {
+
         SQLiteDatabase db = this.getWritableDatabase();
-        String targa = "'"+autoUtente.getTarga()+"'";
-        db.delete(TABELLA_AUTO_UTENTE, " Targa ="+targa , null);
+        String targa = "'" + autoUtente.getTarga() + "'";
+        db.delete(TABELLA_AUTO_UTENTE, " Targa =" + targa, null);
     }
 
     // Eliminazione di una manutenzione.
-    public void deleteManutezione(Manutenzione manutenzione){
+    public void deleteManutezione(Manutenzione manutenzione) {
+
         SQLiteDatabase db = this.getWritableDatabase();
-        String idManutenzione = "'"+manutenzione.getIDManutenzione()+"'";
-        db.delete(TABELLA_MANUTENZIONI, " IDManutenzione ="+idManutenzione , null);
+        String idManutenzione = "'" + manutenzione.getIDManutenzione() + "'";
+        db.delete(TABELLA_MANUTENZIONI, " IDManutenzione =" + idManutenzione, null);
     }
+
     // Eliminazione di un problema.
-    public void deleteProblema(Problema problema){
+    public void deleteProblema(Problema problema) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String idProblema = "'"+problema.getIDProblema()+"'";
-        db.delete(TABELLA_PROBLEMI, " IDProblema ="+idProblema , null);
+        String idProblema = "'" + problema.getIDProblema() + "'";
+        db.delete(TABELLA_PROBLEMI, " IDProblema =" + idProblema, null);
     }
 
     // Eliminazione di una scadenza.
-    public void deleteScadenza(Scadenza scadenza){
+    public void deleteScadenza(Scadenza scadenza) {
+
         SQLiteDatabase db = this.getWritableDatabase();
-        String IdScadenza = "'"+scadenza.getIDScadenza()+"'";
-        db.delete(TABELLA_SCADENZE, " IDScadenza ="+IdScadenza , null);
+        String IdScadenza = "'" + scadenza.getIDScadenza() + "'";
+        db.delete(TABELLA_SCADENZE, " IDScadenza =" + IdScadenza, null);
     }
 
-//selezione auto preferita
-    public void setSelected(AutoUtente auto){
+    //selezione auto preferita
+    public void setSelected(AutoUtente auto) {
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         ContentValues cv0 = new ContentValues();
 
-        cv.put("Selected",0);
+        cv.put("Selected", 0);
 
+        String email = "'" + auto.getUtente().getEmail() + "'";
+        db.update(TABELLA_AUTO_UTENTE, cv, "Utenti_Email=" + email, null);
 
-        String email="'"+auto.getUtente().getEmail()+"'";
-        db.update(TABELLA_AUTO_UTENTE, cv, "Utenti_Email="+email, null);
-
-        String targa="'"+auto.getTarga()+"'";
-        cv0.put("Selected",1);
-        db.update(TABELLA_AUTO_UTENTE, cv0, "Targa="+targa, null);
+        String targa = "'" + auto.getTarga() + "'";
+        cv0.put("Selected", 1);
+        db.update(TABELLA_AUTO_UTENTE, cv0, "Targa=" + targa, null);
     }
-    public AutoUtente getAutoPreferita(){
-        String email;
-        email = "'".concat(MainActivity.sharedpreferences.getString(MainActivity.TAG_UTENTE_EMAIL, "")).concat("'");
 
-        String query = "SELECT * FROM "+ TABELLA_AUTO_UTENTE +" JOIN "+ TABELLA_MODELLI+ " ON Modelli_id=IDModello JOIN "+ TABELLA_MARCHE+ " ON Marca_id=IDMarca JOIN " + TABELLA_UTENTI+" ON Utenti_Email=Email WHERE Selected=1 AND Utenti_Email="+email;
+    // Restituisce l'auto selezionata come preferita dall'utente.
+    public AutoUtente getAutoPreferita() {
 
-
-        AutoUtente auto=null;
+        String email = "'".concat(MainActivity.sharedpreferences.getString(MainActivity.TAG_UTENTE_EMAIL, "")).concat("'");
+        String query = "SELECT * FROM " + TABELLA_AUTO_UTENTE + " JOIN " + TABELLA_MODELLI + " ON Modelli_id=IDModello JOIN " + TABELLA_MARCHE + " ON Marca_id=IDMarca JOIN " + TABELLA_UTENTI + " ON Utenti_Email=Email WHERE Selected=1 AND Utenti_Email=" + email;
+        AutoUtente auto = null;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
             do {
-                auto = new AutoUtente(cursor.getString(0), cursor.getInt(1), cursor.getString(2), new Utente(cursor.getString(15),cursor.getString(16),cursor.getString(17),cursor.getString(18)), new Modello( cursor.getInt(5),cursor.getString(7),cursor.getString(8),cursor.getString(9),cursor.getString(10),cursor.getString(11),new Marca( cursor.getInt(12),cursor.getString(14))),cursor.getInt(3));
+                auto = new AutoUtente(cursor.getString(0), cursor.getInt(1), cursor.getString(2), new Utente(cursor.getString(15), cursor.getString(16), cursor.getString(17), cursor.getString(18)), new Modello(cursor.getInt(5), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), new Marca(cursor.getInt(12), cursor.getString(14))), cursor.getInt(3));
             } while (cursor.moveToNext());
         }
 
-
-            Log.d("ProvaAutoPreferita", auto.toString());
-
-
         return auto;
-
     }
+
 }

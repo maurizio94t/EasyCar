@@ -1,7 +1,5 @@
 package ddt.sms16.ivu.di.uniba.it.easycar.entity;
 
-import android.util.Log;
-
 /**
  * Created by Enrico on 20/06/16.
  */
@@ -71,7 +69,7 @@ public class Modello implements Comparable<Modello> {
 
     @Override
     public String toString() {
-        return "Modelli [IDModello=" + IDModello + ", Nome=" + nome + ", segmento=" + segmento + ", alimentazione=" + alimentazione + ", cilindrata=" + cilindrata + ", kw=" + kw + ", marca=" + marca.toString()+ "]";
+        return  nome +" " + cilindrata+" " + alimentazione ;
     }
 
     @Override

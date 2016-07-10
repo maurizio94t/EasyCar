@@ -51,10 +51,6 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".PrendiFoto"
-            android:label="@string/title_activity_prendi_foto"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".DettaglioAutoUtente"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

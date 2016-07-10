@@ -39,7 +39,7 @@ public class Marca implements Comparable<Marca> {
 
     @Override
     public String toString() {
-        return "Marca[IDMarca=" + IDMarca + ", Nome=" + nome + "]";
+        return  nome;
     }
 
     @Override

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -23,9 +24,9 @@ import java.util.Locale;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Marca;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Modello;
 
-/**
- * Created by Giuseppe-PC on 29/06/2016.
- */
+import static android.R.layout.simple_spinner_item;
+
+
 public class AggiuntaAuto extends AppCompatActivity {
     private EditText mTarga ;
     private EditText mEmail ;
@@ -102,36 +103,113 @@ public class AggiuntaAuto extends AppCompatActivity {
             }
         });
 
-        List<Modello> modello = MainActivity.mySQLiteHelper.getAllModelli();
 
 
-        String[] modelli = new String[modello.size()];
-        int i = 0;
-        for (Modello a : modello
-                ) {
-            modelli[i] = a.getNome();
-            i++;
-        }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, modelli);
-        mSpinnerModello.setAdapter(adapter);
-
-
-        List<Marca> marca = MainActivity.mySQLiteHelper.getAllMarche();
-        String[] marche = new String[marca.size()];
+        final List<Marca> marca = MainActivity.mySQLiteHelper.getAllMarche();
+        Marca[] marche = new Marca[marca.size()];
 
         int j = 0;
-        for (Marca a : marca
-                ) {
-            marche[j] = a.getNome();
+        for (Marca a : marca ) {
+            marche[j] =a;
             j++;
         }
-
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, marche);
+        ArrayAdapter<Marca> adapter1 = new ArrayAdapter<Marca>(this,
+                simple_spinner_item, marche);
         mSpinnerMarca.setAdapter(adapter1);
+        mSpinnerMarca.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int pos, long id) {
+
+                 Marca marcaSelezionata= (Marca) mSpinnerMarca.getSelectedItem();
+                Log.d("marcaSelezionata",marcaSelezionata.getIDMarca() +" "+marcaSelezionata.getNome());
+
+                List<Modello> listaModelli = MainActivity.mySQLiteHelper.getAllModelliDiMarca(marcaSelezionata);
+                for (Modello m : listaModelli
+                     ) {
+                    Log.d("marcaSelezionata",m.getNome());
+
+                }
+
+Modello[] modelli = new Modello[listaModelli.size()];
+                int i = 0;
+              for (Modello a : listaModelli) {
+                    modelli[i] = a;
+                    i++;
+                }
+
+                ArrayAdapter<Modello> adapter = new ArrayAdapter<Modello>(AggiuntaAuto.super.getApplicationContext(),
+                        android.R.layout.simple_spinner_item, modelli);
+
+                mSpinnerModello.setAdapter(adapter);
+
+            }
+
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing, just another required interface callback
+            }
+
+        }); // (optional)
+        /*
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+              // Marca marcaSelezionata= (Marca) mSpinnerMarca.getSelectedItem();
+              //  List<Modello> modello = MainActivity.mySQLiteHelper.getAllModelliDiMarca(marcaSelezionata);
+
+
+           //     String[] modelli = new String[modello.size()];
+                int i = 0;
+          /*      for (Modello a : modello) {
+                    modelli[i] = a.getNome();
+                    i++;
+                }*/
+
+              /*  ArrayAdapter<String> adapter = new ArrayAdapter<String>(AggiuntaAuto.super.getApplicationContext(),
+                        android.R.layout.simple_spinner_item, modelli);
+
+                mSpinnerModello.setAdapter(adapter);
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        */
+
+/*
+        mSpinnerMarca.setOnItemClickListener((new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+             List<Modello> modello = MainActivity.mySQLiteHelper.getAllModelli();
+
+
+                String[] modelli = new String[modello.size()];
+                int i = 0;
+                for (Modello a : modello) {
+                    modelli[i] = a.getNome();
+                    i++;
+                }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(AggiuntaAuto.super.getApplicationContext(),
+                        android.R.layout.simple_spinner_item, modelli);
+                mSpinnerModello.setAdapter(adapter);
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        }));
+        */
     }
+
     private void updateLabel() {
 
         String myFormat = "dd/MM/yyyy";
