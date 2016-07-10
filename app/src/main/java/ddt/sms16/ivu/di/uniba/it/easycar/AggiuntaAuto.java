@@ -221,7 +221,7 @@ Modello[] modelli = new Modello[listaModelli.size()];
     }
     public boolean campiValidi(){
         if(mTarga.getText().toString().compareTo("")==0 || mEmail.getText().toString().compareTo("")==0
-                || mAnnoimmatricolazione.toString().compareTo("")==0 || mChilometraggio.toString().compareTo("")==0
+                || mAnnoimmatricolazione.getText().toString().compareTo("")==0 || mChilometraggio.getText().toString().compareTo("")==0
                  ){
             return false;
         }
