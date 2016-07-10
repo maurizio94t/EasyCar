@@ -1,150 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-   >
+    android:orientation="vertical">
 
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:background="@color/colorBackground"
         android:layout_width="match_parent"
-
-        android:layout_height="wrap_content">
-    </android.support.v7.widget.Toolbar>
-
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/paddingLeftForm"
-    android:paddingTop="@dimen/paddingTop"
-    android:orientation="vertical">
-   <LinearLayout
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content">
-       <ImageView
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:src="@drawable/ic_comment_text_outline_grey600_18dp"
-           android:layout_gravity="left|center"
-           android:paddingRight="@dimen/paddingRightIcon"/>
-       <EditText
-                    android:layout_width="@dimen/withEditTextForm"
-                    android:id="@+id/descrizioneManutenzione"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:textSize="@dimen/text_size"
-                    android:textColor="@color/colorManutenzione"
-                    android:textStyle="bold"
-                    android:hint="@string/descrizione"
-
-                 />
-
-   </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_calendar_clock_grey600_24dp"
-            android:layout_gravity="left|center"
-            android:paddingTop="@dimen/paddingTopIcon"
-            android:paddingRight="@dimen/paddingRightIcon"/>
 
-                <EditText
-                    android:layout_width="@dimen/withEditTextForm"
-                    android:id="@+id/dataManutenzione"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:layout_marginTop="20dp"
-                    android:textSize="@dimen/text_size"
-                    android:onClick="onClick"
-                    android:textColor="@color/colorManutenzione"
-                    android:textStyle="bold"
-                    android:hint="@string/manutenzione"
-                    android:singleLine="true" />
-        </LinearLayout>
+        android:background="@color/colorBackground"></android.support.v7.widget.Toolbar>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/paddingLeftForm"
+        android:paddingRight="@dimen/paddingRightIcon"
+        android:paddingTop="@dimen/paddingTop">
+
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_wrench_grey600_24dp"
                 android:layout_gravity="left|center"
-                android:paddingTop="@dimen/paddingTopIcon"
-                android:paddingRight="@dimen/paddingRightIcon"/>
-        <Switch
-            android:layout_gravity="center"
-            android:paddingTop="@dimen/paddingTop"
-            android:layout_width="150dp"
+                android:paddingRight="@dimen/paddingRightIcon"
+                android:src="@drawable/ic_comment_text_outline_grey600_18dp" />
+
+            <EditText
+                android:id="@+id/descrizioneManutenzione"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/descrizione"
+                android:inputType="text"
+                android:textColor="@color/colorBackground"
+                android:textSize="@dimen/text_size"
+                android:textStyle="bold"
+
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/Ordinaria"
-            android:textColor="@color/colorTextF"
-            android:textSize="@dimen/formTextSize"
-            android:id="@+id/toggleButton" />
-</LinearLayout>
-    </LinearLayout>
+            android:orientation="vertical">
 
-   <LinearLayout
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:orientation="horizontal">
-       <ImageView
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:src="@drawable/ic_gauge_grey600_24dp"
-           android:layout_gravity="left|center_vertical"
-           android:paddingTop="@dimen/paddingTopIcon"
-           android:paddingRight="@dimen/paddingRightIcon"/>
-                <EditText
-                    android:id="@+id/chilometraggio_auto"
-                    android:layout_width="@dimen/withEditTextForm"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
+                    android:layout_gravity="left|center"
+                    android:paddingRight="@dimen/paddingRightIcon"
+                    android:paddingTop="@dimen/paddingTopIcon"
+                    android:src="@drawable/ic_calendar_clock_grey600_24dp" />
+
+                <EditText
+                    android:id="@+id/dataManutenzione"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:textSize="@dimen/text_size"
-                    android:textColor="@color/colorManutenzione"
-                    android:textStyle="bold"
-                    android:hint="@string/chilometraggio"
+                    android:hint="@string/manutenzione"
+                    android:inputType="numberDecimal"
+                    android:onClick="onClick"
                     android:singleLine="true"
-                    />
+                    android:textColor="@color/colorBackground"
+                    android:textSize="@dimen/text_size"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
-       </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center"
+                    android:paddingRight="@dimen/paddingRightIcon"
+                    android:paddingTop="@dimen/paddingTopIcon"
+                    android:src="@drawable/ic_wrench_grey600_24dp" />
+
+                <Switch
+                    android:id="@+id/toggleButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingTop="@dimen/paddingTop"
+                    android:text="@string/Ordinaria"
+                    android:textColor="@color/colorTextF"
+                    android:textSize="@dimen/formTextSize" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:paddingRight="@dimen/paddingRightIcon"
+                android:paddingTop="@dimen/paddingTopIcon"
+                android:src="@drawable/ic_gauge_grey600_24dp" />
+
+            <EditText
+                android:id="@+id/chilometraggio_auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:hint="@string/chilometraggio"
+                android:inputType="numberDecimal"
+                android:singleLine="true"
+                android:textColor="@color/colorBackground"
+                android:textSize="@dimen/text_size"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/paddingTop">
 
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:paddingTop="@dimen/paddingTop">
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_car_grey600_24dp"
-        android:paddingRight="@dimen/paddingRightIcon"
-      />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="@dimen/paddingRightIcon"
+                android:src="@drawable/ic_car_grey600_24dp" />
 
-    <Spinner
-        android:layout_width="@dimen/withEditTextForm"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinner_veicolo"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-
-</LinearLayout>
+            <Spinner
+                android:id="@+id/spinner_veicolo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true" />
 
 
-</LinearLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
 </LinearLayout>

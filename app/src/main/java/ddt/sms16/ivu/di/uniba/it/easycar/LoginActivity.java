@@ -45,7 +45,7 @@ public class LoginActivity extends Activity {
         Button btnAccedi = (Button) findViewById(R.id.btnAccedi);
         Button btnRegistrati = (Button) findViewById(R.id.btnRegistati);
 
-       Intent intent = getIntent();
+        Intent intent = getIntent();
         if(intent != null){
         String registrato = intent.getStringExtra("registrato");
 
@@ -71,7 +71,7 @@ public class LoginActivity extends Activity {
                 AeSimpleSHA1 aeSimpleSHA1 = new AeSimpleSHA1();
                 try {
                     // sostituire con TextEdit
-                    pswEncrypted = aeSimpleSHA1.SHA1("prova");
+                    pswEncrypted = aeSimpleSHA1.SHA1(mEditTxtPsw.getText().toString());
                 } catch (NoSuchAlgorithmException e) {
                     e.printStackTrace();
                 } catch (UnsupportedEncodingException e) {
@@ -85,7 +85,6 @@ public class LoginActivity extends Activity {
                             public void onResponse(String response) {
                                 jsonStr = response;
                                 Log.d("Response", "> OK FETCH DB");
-                                //new GetData(mEditTxtEmail.getText().toString(), mEditTxtPsw.getText().toString()).execute();
                                 new GetData().execute();
                             }
                         },
@@ -102,7 +101,7 @@ public class LoginActivity extends Activity {
                     protected Map<String, String> getParams() throws com.android.volley.AuthFailureError {
                         Map<String, String> params = new HashMap<String, String>();
                         // sostituire con TextEdit
-                        params.put("email", "maur_izzio@live.it");
+                        params.put("email", mEditTxtEmail.getText().toString());
                         params.put("psw", pswEncrypted);
                         return params;
                     }

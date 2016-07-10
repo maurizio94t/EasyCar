@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static MySQLiteHelper mySQLiteHelper;
 
-    public static boolean utenteVerificato;
+    public static boolean utenteVerificato = false;
 
     public static List<Marca> listMarcheLocal;
     public static List<Modello> listModelliLocal;

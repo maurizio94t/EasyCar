@@ -195,114 +195,119 @@ public class UpdateService extends Service  {
         MainActivity.listaScadenze = new ArrayList<Scadenza>();
         MainActivity.listaUtenti = new ArrayList<Utente>();
 
-        // Prelevo JSON Array node (AutoUtente)
-        JSONArray autoUtentiJSON = jsonObj.getJSONArray(MainActivity.TAG_AUTOUTENTE);
-        // Ciclo tutte le auto degli utenti
-        for (int i = 0; i < autoUtentiJSON.length(); i++) {
-            JSONObject autoUtentiObj = autoUtentiJSON.getJSONObject(i);
 
-            String targa = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_TARGA);
-            int km = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_KM);
-            String annoImmatricolazione = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE);
-            //String foto = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_FOTO_AUTO);
+        if(!jsonObj.getString(MainActivity.TAG_AUTOUTENTE).equalsIgnoreCase("null")) {
+            // Prelevo JSON Array node (AutoUtente)
+            JSONArray autoUtentiJSON = jsonObj.getJSONArray(MainActivity.TAG_AUTOUTENTE);
+            // Ciclo tutte le auto degli utenti
+            for (int i = 0; i < autoUtentiJSON.length(); i++) {
+                JSONObject autoUtentiObj = autoUtentiJSON.getJSONObject(i);
 
-            //get Utente
-            JSONObject utenteObj = autoUtentiObj.getJSONObject(MainActivity.TAG_UTENTE);
+                String targa = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_TARGA);
+                int km = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_KM);
+                String annoImmatricolazione = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE);
+                //String foto = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_FOTO_AUTO);
 
-            String nome = utenteObj.getString(MainActivity.TAG_UTENTE_NOME);
-            String cognome = utenteObj.getString(MainActivity.TAG_UTENTE_COGNOME);
-            String dataN = utenteObj.getString(MainActivity.TAG_UTENTE_DATANASCITA);
-            //String foto = u.getString(MainActivity.TAG_UTENTE_FOTO);
-            String email = utenteObj.getString(MainActivity.TAG_UTENTE_EMAIL);
+                //get Utente
+                JSONObject utenteObj = autoUtentiObj.getJSONObject(MainActivity.TAG_UTENTE);
 
-            // creo l'oggetto del singolo Utente
-            Utente utenteAuto = new Utente(nome, cognome, dataN, email);
+                String nome = utenteObj.getString(MainActivity.TAG_UTENTE_NOME);
+                String cognome = utenteObj.getString(MainActivity.TAG_UTENTE_COGNOME);
+                String dataN = utenteObj.getString(MainActivity.TAG_UTENTE_DATANASCITA);
+                //String foto = u.getString(MainActivity.TAG_UTENTE_FOTO);
+                String email = utenteObj.getString(MainActivity.TAG_UTENTE_EMAIL);
 
-            int selected = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_SELECTED);
+                // creo l'oggetto del singolo Utente
+                Utente utenteAuto = new Utente(nome, cognome, dataN, email);
 
-            //get Modello
-            JSONObject modelloObj = autoUtentiObj.getJSONObject(MainActivity.TAG_AUTOUTENTE_MODELLO);
+                int selected = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_SELECTED);
 
-            int idModello = modelloObj.getInt(MainActivity.TAG_MODELLI_IDMODELLO);
-            String nomeModello = modelloObj.getString(MainActivity.TAG_MODELLI_NOME);
-            String segmento = modelloObj.getString(MainActivity.TAG_MODELLI_SEGMENTO);
-            String alimentazione = modelloObj.getString(MainActivity.TAG_MODELLI_ALIMENTAZIONE);
-            String cilindrata = modelloObj.getString(MainActivity.TAG_MODELLI_CILINDRATA);
-            String kw = modelloObj.getString(MainActivity.TAG_MODELLI_KW);
+                //get Modello
+                JSONObject modelloObj = autoUtentiObj.getJSONObject(MainActivity.TAG_AUTOUTENTE_MODELLO);
 
-            //get Marca
-            JSONObject marcaObj = modelloObj.getJSONObject(MainActivity.TAG_MODELLI_MARCA);
+                int idModello = modelloObj.getInt(MainActivity.TAG_MODELLI_IDMODELLO);
+                String nomeModello = modelloObj.getString(MainActivity.TAG_MODELLI_NOME);
+                String segmento = modelloObj.getString(MainActivity.TAG_MODELLI_SEGMENTO);
+                String alimentazione = modelloObj.getString(MainActivity.TAG_MODELLI_ALIMENTAZIONE);
+                String cilindrata = modelloObj.getString(MainActivity.TAG_MODELLI_CILINDRATA);
+                String kw = modelloObj.getString(MainActivity.TAG_MODELLI_KW);
 
-            int idMarca = marcaObj.getInt(MainActivity.TAG_MARCHE_IDMARCA);
-            String nomeMarca = marcaObj.getString(MainActivity.TAG_MARCHE_NOME);
+                //get Marca
+                JSONObject marcaObj = modelloObj.getJSONObject(MainActivity.TAG_MODELLI_MARCA);
 
-            //costruisco gli oggetti
-            Marca marca = new Marca(idMarca, nomeMarca);
-            Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
-            AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione,  utenteAuto, modello, selected);
+                int idMarca = marcaObj.getInt(MainActivity.TAG_MARCHE_IDMARCA);
+                String nomeMarca = marcaObj.getString(MainActivity.TAG_MARCHE_NOME);
 
-            // aggiungo la singola auto alla lista di auto dell'utente
-            MainActivity.listaAutoUtente.add(autoutente);
+                //costruisco gli oggetti
+                Marca marca = new Marca(idMarca, nomeMarca);
+                Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
+                AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione,  utenteAuto, modello, selected);
+
+                // aggiungo la singola auto alla lista di auto dell'utente
+                MainActivity.listaAutoUtente.add(autoutente);
+            }
         }
 
-        // Prelevo JSON Array node (Manutenzioni)
-        JSONArray manutenzioni = jsonObj.getJSONArray(MainActivity.TAG_MANUTENZIONI);
-        // Ciclo tutte le manutenzioni dell'utente
-        for (int i = 0; i < manutenzioni.length(); i++) {
-            JSONObject manutenzioniObj = manutenzioni.getJSONObject(i);
+        if(!jsonObj.getString(MainActivity.TAG_MANUTENZIONI).equalsIgnoreCase("null")) {
+            // Prelevo JSON Array node (Manutenzioni)
+            JSONArray manutenzioni = jsonObj.getJSONArray(MainActivity.TAG_MANUTENZIONI);
+            // Ciclo tutte le manutenzioni dell'utente
+            for (int i = 0; i < manutenzioni.length(); i++) {
+                JSONObject manutenzioniObj = manutenzioni.getJSONObject(i);
 
-            int id = manutenzioniObj.getInt(MainActivity.TAG_MANUTENZIONI_ID_MANUTENZIONE);
-            String desc = manutenzioniObj.getString(MainActivity.TAG_MANUTENZIONI_DESCRIZIONE);
-            String dataS = manutenzioniObj.getString(MainActivity.TAG_MANUTENZIONI_DATA);
-            int ord = manutenzioniObj.getInt(MainActivity.TAG_MANUTENZIONI_ORDINARIA);
-            String kmManut = manutenzioniObj.getString(MainActivity.TAG_MANUTENZIONI_KM_MANUTENZIONE);
+                int id = manutenzioniObj.getInt(MainActivity.TAG_MANUTENZIONI_ID_MANUTENZIONE);
+                String desc = manutenzioniObj.getString(MainActivity.TAG_MANUTENZIONI_DESCRIZIONE);
+                String dataS = manutenzioniObj.getString(MainActivity.TAG_MANUTENZIONI_DATA);
+                int ord = manutenzioniObj.getInt(MainActivity.TAG_MANUTENZIONI_ORDINARIA);
+                String kmManut = manutenzioniObj.getString(MainActivity.TAG_MANUTENZIONI_KM_MANUTENZIONE);
 
-            //get Veicolo
-            JSONObject veicoloObj = manutenzioniObj.getJSONObject(MainActivity.TAG_MANUTENZIONI_VEICOLO);
+                //get Veicolo
+                JSONObject veicoloObj = manutenzioniObj.getJSONObject(MainActivity.TAG_MANUTENZIONI_VEICOLO);
 
-            String targa = veicoloObj.getString(MainActivity.TAG_AUTOUTENTE_TARGA);
-            int km = veicoloObj.getInt(MainActivity.TAG_AUTOUTENTE_KM);
-            String annoImmatricolazione = veicoloObj.getString(MainActivity.TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE);
-            //String foto = veicoloObj.getString(MainActivity.TAG_AUTOUTENTE_FOTO_AUTO);
+                String targa = veicoloObj.getString(MainActivity.TAG_AUTOUTENTE_TARGA);
+                int km = veicoloObj.getInt(MainActivity.TAG_AUTOUTENTE_KM);
+                String annoImmatricolazione = veicoloObj.getString(MainActivity.TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE);
+                //String foto = veicoloObj.getString(MainActivity.TAG_AUTOUTENTE_FOTO_AUTO);
 
-            //get Utente
-            JSONObject utenteObj = veicoloObj.getJSONObject(MainActivity.TAG_UTENTE);
+                //get Utente
+                JSONObject utenteObj = veicoloObj.getJSONObject(MainActivity.TAG_UTENTE);
 
-            String nome = utenteObj.getString(MainActivity.TAG_UTENTE_NOME);
-            String cognome = utenteObj.getString(MainActivity.TAG_UTENTE_COGNOME);
-            String dataN = utenteObj.getString(MainActivity.TAG_UTENTE_DATANASCITA);
-            //String foto = u.getString(MainActivity.TAG_UTENTE_FOTO);
-            String email = utenteObj.getString(MainActivity.TAG_UTENTE_EMAIL);
+                String nome = utenteObj.getString(MainActivity.TAG_UTENTE_NOME);
+                String cognome = utenteObj.getString(MainActivity.TAG_UTENTE_COGNOME);
+                String dataN = utenteObj.getString(MainActivity.TAG_UTENTE_DATANASCITA);
+                //String foto = u.getString(MainActivity.TAG_UTENTE_FOTO);
+                String email = utenteObj.getString(MainActivity.TAG_UTENTE_EMAIL);
 
-            // creo l'oggetto del singolo Utente
-            Utente utenteAuto = new Utente(nome, cognome, dataN, email);
+                // creo l'oggetto del singolo Utente
+                Utente utenteAuto = new Utente(nome, cognome, dataN, email);
 
-            int selected = veicoloObj.getInt(MainActivity.TAG_AUTOUTENTE_SELECTED);
+                int selected = veicoloObj.getInt(MainActivity.TAG_AUTOUTENTE_SELECTED);
 
-            //get Modello
-            JSONObject modelloObj = veicoloObj.getJSONObject(MainActivity.TAG_AUTOUTENTE_MODELLO);
+                //get Modello
+                JSONObject modelloObj = veicoloObj.getJSONObject(MainActivity.TAG_AUTOUTENTE_MODELLO);
 
-            int idModello = modelloObj.getInt(MainActivity.TAG_MODELLI_IDMODELLO);
-            String nomeModello = modelloObj.getString(MainActivity.TAG_MODELLI_NOME);
-            String segmento = modelloObj.getString(MainActivity.TAG_MODELLI_SEGMENTO);
-            String alimentazione = modelloObj.getString(MainActivity.TAG_MODELLI_ALIMENTAZIONE);
-            String cilindrata = modelloObj.getString(MainActivity.TAG_MODELLI_CILINDRATA);
-            String kw = modelloObj.getString(MainActivity.TAG_MODELLI_KW);
+                int idModello = modelloObj.getInt(MainActivity.TAG_MODELLI_IDMODELLO);
+                String nomeModello = modelloObj.getString(MainActivity.TAG_MODELLI_NOME);
+                String segmento = modelloObj.getString(MainActivity.TAG_MODELLI_SEGMENTO);
+                String alimentazione = modelloObj.getString(MainActivity.TAG_MODELLI_ALIMENTAZIONE);
+                String cilindrata = modelloObj.getString(MainActivity.TAG_MODELLI_CILINDRATA);
+                String kw = modelloObj.getString(MainActivity.TAG_MODELLI_KW);
 
-            //get Marca
-            JSONObject marcaObj = modelloObj.getJSONObject(MainActivity.TAG_MODELLI_MARCA);
+                //get Marca
+                JSONObject marcaObj = modelloObj.getJSONObject(MainActivity.TAG_MODELLI_MARCA);
 
-            int idMarca = marcaObj.getInt(MainActivity.TAG_MARCHE_IDMARCA);
-            String nomeMarca = marcaObj.getString(MainActivity.TAG_MARCHE_NOME);
+                int idMarca = marcaObj.getInt(MainActivity.TAG_MARCHE_IDMARCA);
+                String nomeMarca = marcaObj.getString(MainActivity.TAG_MARCHE_NOME);
 
-            //costruisco gli oggetti
-            Marca marca = new Marca(idMarca, nomeMarca);
-            Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
-            AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, /*R.drawable.ic_menu_gallery*/ utenteAuto, modello, selected);
-            Manutenzione manutenzione = new Manutenzione(id, desc, dataS, ord, kmManut, autoutente);
+                //costruisco gli oggetti
+                Marca marca = new Marca(idMarca, nomeMarca);
+                Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
+                AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, /*R.drawable.ic_menu_gallery*/ utenteAuto, modello, selected);
+                Manutenzione manutenzione = new Manutenzione(id, desc, dataS, ord, kmManut, autoutente);
 
-            // aggiungo la singola manutenzione alla lista di manutenzioni
-            MainActivity.listaManutenzioni.add(manutenzione);
+                // aggiungo la singola manutenzione alla lista di manutenzioni
+                MainActivity.listaManutenzioni.add(manutenzione);
+            }
         }
 
         // Prelevo JSON Array node (Modelli)
@@ -348,120 +353,124 @@ public class UpdateService extends Service  {
             MainActivity.listaMarche.add(marca);
         }
 
-        // Prelevo JSON Array node (Problemi)
-        JSONArray problemiJSON = jsonObj.getJSONArray(MainActivity.TAG_PROBLEMI);
-        // Ciclo tutte le auto degli utenti
-        for (int i = 0; i < problemiJSON.length(); i++) {
-            JSONObject problemaObj = problemiJSON.getJSONObject(i);
+        if(!jsonObj.getString(MainActivity.TAG_PROBLEMI).equalsIgnoreCase("null")) {
+            // Prelevo JSON Array node (Problemi)
+            JSONArray problemiJSON = jsonObj.getJSONArray(MainActivity.TAG_PROBLEMI);
+            // Ciclo tutte le auto degli utenti
+            for (int i = 0; i < problemiJSON.length(); i++) {
+                JSONObject problemaObj = problemiJSON.getJSONObject(i);
 
-            int idProblema = problemaObj.getInt(MainActivity.TAG_PROBLEMI_IDPROBLEMA);
-            String descrizioneProblema = problemaObj.getString(MainActivity.TAG_PROBLEMI_DESCRIZIONE);
+                int idProblema = problemaObj.getInt(MainActivity.TAG_PROBLEMI_IDPROBLEMA);
+                String descrizioneProblema = problemaObj.getString(MainActivity.TAG_PROBLEMI_DESCRIZIONE);
 
 
-            JSONObject autoUtentiObj = problemaObj.getJSONObject(MainActivity.TAG_PROBLEMI_VEICOLO);
+                JSONObject autoUtentiObj = problemaObj.getJSONObject(MainActivity.TAG_PROBLEMI_VEICOLO);
 
-            String targa = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_TARGA);
-            int km = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_KM);
-            String annoImmatricolazione = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE);
-            //String foto = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_FOTO_AUTO);
+                String targa = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_TARGA);
+                int km = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_KM);
+                String annoImmatricolazione = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE);
+                //String foto = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_FOTO_AUTO);
 
-            //get Utente
-            JSONObject utenteObj = autoUtentiObj.getJSONObject(MainActivity.TAG_UTENTE);
+                //get Utente
+                JSONObject utenteObj = autoUtentiObj.getJSONObject(MainActivity.TAG_UTENTE);
 
-            String nome = utenteObj.getString(MainActivity.TAG_UTENTE_NOME);
-            String cognome = utenteObj.getString(MainActivity.TAG_UTENTE_COGNOME);
-            String dataN = utenteObj.getString(MainActivity.TAG_UTENTE_DATANASCITA);
-            //String foto = u.getString(MainActivity.TAG_UTENTE_FOTO);
-            String email = utenteObj.getString(MainActivity.TAG_UTENTE_EMAIL);
+                String nome = utenteObj.getString(MainActivity.TAG_UTENTE_NOME);
+                String cognome = utenteObj.getString(MainActivity.TAG_UTENTE_COGNOME);
+                String dataN = utenteObj.getString(MainActivity.TAG_UTENTE_DATANASCITA);
+                //String foto = u.getString(MainActivity.TAG_UTENTE_FOTO);
+                String email = utenteObj.getString(MainActivity.TAG_UTENTE_EMAIL);
 
-            // creo l'oggetto del singolo Utente
-            Utente utenteAuto = new Utente(nome, cognome, dataN, email);
+                // creo l'oggetto del singolo Utente
+                Utente utenteAuto = new Utente(nome, cognome, dataN, email);
 
-            int selected = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_SELECTED);
+                int selected = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_SELECTED);
 
-            //get Modello
-            JSONObject modelloObj = autoUtentiObj.getJSONObject(MainActivity.TAG_AUTOUTENTE_MODELLO);
+                //get Modello
+                JSONObject modelloObj = autoUtentiObj.getJSONObject(MainActivity.TAG_AUTOUTENTE_MODELLO);
 
-            int idModello = modelloObj.getInt(MainActivity.TAG_MODELLI_IDMODELLO);
-            String nomeModello = modelloObj.getString(MainActivity.TAG_MODELLI_NOME);
-            String segmento = modelloObj.getString(MainActivity.TAG_MODELLI_SEGMENTO);
-            String alimentazione = modelloObj.getString(MainActivity.TAG_MODELLI_ALIMENTAZIONE);
-            String cilindrata = modelloObj.getString(MainActivity.TAG_MODELLI_CILINDRATA);
-            String kw = modelloObj.getString(MainActivity.TAG_MODELLI_KW);
+                int idModello = modelloObj.getInt(MainActivity.TAG_MODELLI_IDMODELLO);
+                String nomeModello = modelloObj.getString(MainActivity.TAG_MODELLI_NOME);
+                String segmento = modelloObj.getString(MainActivity.TAG_MODELLI_SEGMENTO);
+                String alimentazione = modelloObj.getString(MainActivity.TAG_MODELLI_ALIMENTAZIONE);
+                String cilindrata = modelloObj.getString(MainActivity.TAG_MODELLI_CILINDRATA);
+                String kw = modelloObj.getString(MainActivity.TAG_MODELLI_KW);
 
-            //get Marca
-            JSONObject marcaObj = modelloObj.getJSONObject(MainActivity.TAG_MODELLI_MARCA);
+                //get Marca
+                JSONObject marcaObj = modelloObj.getJSONObject(MainActivity.TAG_MODELLI_MARCA);
 
-            int idMarca = marcaObj.getInt(MainActivity.TAG_MARCHE_IDMARCA);
-            String nomeMarca = marcaObj.getString(MainActivity.TAG_MARCHE_NOME);
+                int idMarca = marcaObj.getInt(MainActivity.TAG_MARCHE_IDMARCA);
+                String nomeMarca = marcaObj.getString(MainActivity.TAG_MARCHE_NOME);
 
-            //costruisco gli oggetti
-            Marca marca = new Marca(idMarca, nomeMarca);
-            Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
-            AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione,/* R.drawable.ic_menu_gallery*/  utenteAuto, modello, selected);
-            Problema problema = new Problema(idProblema, descrizioneProblema, autoutente);
+                //costruisco gli oggetti
+                Marca marca = new Marca(idMarca, nomeMarca);
+                Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
+                AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione,/* R.drawable.ic_menu_gallery*/  utenteAuto, modello, selected);
+                Problema problema = new Problema(idProblema, descrizioneProblema, autoutente);
 
-            // aggiungo il singolo problema alla lista dei problemi
-            MainActivity.listaProblemi.add(problema);
+                // aggiungo il singolo problema alla lista dei problemi
+                MainActivity.listaProblemi.add(problema);
+            }
         }
 
-        // Prelevo JSON Array node (Scadenze)
-        JSONArray scadenzeJSON = jsonObj.getJSONArray(MainActivity.TAG_SCADENZE);
-        // Ciclo tutte le auto degli utenti
-        for (int i = 0; i < scadenzeJSON.length(); i++) {
-            JSONObject scadenzaObj = scadenzeJSON.getJSONObject(i);
+        if(!jsonObj.getString(MainActivity.TAG_SCADENZE).equalsIgnoreCase("null")) {
+            // Prelevo JSON Array node (Scadenze)
+            JSONArray scadenzeJSON = jsonObj.getJSONArray(MainActivity.TAG_SCADENZE);
+            // Ciclo tutte le auto degli utenti
+            for (int i = 0; i < scadenzeJSON.length(); i++) {
+                JSONObject scadenzaObj = scadenzeJSON.getJSONObject(i);
 
-            int idScadenza = scadenzaObj.getInt(MainActivity.TAG_SCADENZE_IDSCADENZA);
-            String descrizioneScadenza = scadenzaObj.getString(MainActivity.TAG_SCADENZE_DESCRIZIONE);
-            String dataScadenza = scadenzaObj.getString(MainActivity.TAG_SCADENZE_DATASCADENZA);
-            int inviata = scadenzaObj.getInt(MainActivity.TAG_SCADENZE_INVIATA);
+                int idScadenza = scadenzaObj.getInt(MainActivity.TAG_SCADENZE_IDSCADENZA);
+                String descrizioneScadenza = scadenzaObj.getString(MainActivity.TAG_SCADENZE_DESCRIZIONE);
+                String dataScadenza = scadenzaObj.getString(MainActivity.TAG_SCADENZE_DATASCADENZA);
+                int inviata = scadenzaObj.getInt(MainActivity.TAG_SCADENZE_INVIATA);
 
 
-            JSONObject autoUtentiObj = scadenzaObj.getJSONObject(MainActivity.TAG_PROBLEMI_VEICOLO);
+                JSONObject autoUtentiObj = scadenzaObj.getJSONObject(MainActivity.TAG_PROBLEMI_VEICOLO);
 
-            String targa = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_TARGA);
-            int km = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_KM);
-            String annoImmatricolazione = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE);
-            //String foto = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_FOTO_AUTO);
+                String targa = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_TARGA);
+                int km = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_KM);
+                String annoImmatricolazione = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE);
+                //String foto = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_FOTO_AUTO);
 
-            //get Utente
-            JSONObject utenteObj = autoUtentiObj.getJSONObject(MainActivity.TAG_UTENTE);
+                //get Utente
+                JSONObject utenteObj = autoUtentiObj.getJSONObject(MainActivity.TAG_UTENTE);
 
-            String nome = utenteObj.getString(MainActivity.TAG_UTENTE_NOME);
-            String cognome = utenteObj.getString(MainActivity.TAG_UTENTE_COGNOME);
-            String dataN = utenteObj.getString(MainActivity.TAG_UTENTE_DATANASCITA);
-            //String foto = u.getString(MainActivity.TAG_UTENTE_FOTO);
-            String email = utenteObj.getString(MainActivity.TAG_UTENTE_EMAIL);
+                String nome = utenteObj.getString(MainActivity.TAG_UTENTE_NOME);
+                String cognome = utenteObj.getString(MainActivity.TAG_UTENTE_COGNOME);
+                String dataN = utenteObj.getString(MainActivity.TAG_UTENTE_DATANASCITA);
+                //String foto = u.getString(MainActivity.TAG_UTENTE_FOTO);
+                String email = utenteObj.getString(MainActivity.TAG_UTENTE_EMAIL);
 
-            // creo l'oggetto del singolo Utente
-            Utente utenteAuto = new Utente(nome, cognome, dataN, email);
+                // creo l'oggetto del singolo Utente
+                Utente utenteAuto = new Utente(nome, cognome, dataN, email);
 
-            int selected = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_SELECTED);
+                int selected = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_SELECTED);
 
-            //get Modello
-            JSONObject modelloObj = autoUtentiObj.getJSONObject(MainActivity.TAG_AUTOUTENTE_MODELLO);
+                //get Modello
+                JSONObject modelloObj = autoUtentiObj.getJSONObject(MainActivity.TAG_AUTOUTENTE_MODELLO);
 
-            int idModello = modelloObj.getInt(MainActivity.TAG_MODELLI_IDMODELLO);
-            String nomeModello = modelloObj.getString(MainActivity.TAG_MODELLI_NOME);
-            String segmento = modelloObj.getString(MainActivity.TAG_MODELLI_SEGMENTO);
-            String alimentazione = modelloObj.getString(MainActivity.TAG_MODELLI_ALIMENTAZIONE);
-            String cilindrata = modelloObj.getString(MainActivity.TAG_MODELLI_CILINDRATA);
-            String kw = modelloObj.getString(MainActivity.TAG_MODELLI_KW);
+                int idModello = modelloObj.getInt(MainActivity.TAG_MODELLI_IDMODELLO);
+                String nomeModello = modelloObj.getString(MainActivity.TAG_MODELLI_NOME);
+                String segmento = modelloObj.getString(MainActivity.TAG_MODELLI_SEGMENTO);
+                String alimentazione = modelloObj.getString(MainActivity.TAG_MODELLI_ALIMENTAZIONE);
+                String cilindrata = modelloObj.getString(MainActivity.TAG_MODELLI_CILINDRATA);
+                String kw = modelloObj.getString(MainActivity.TAG_MODELLI_KW);
 
-            //get Marca
-            JSONObject marcaObj = modelloObj.getJSONObject(MainActivity.TAG_MODELLI_MARCA);
+                //get Marca
+                JSONObject marcaObj = modelloObj.getJSONObject(MainActivity.TAG_MODELLI_MARCA);
 
-            int idMarca = marcaObj.getInt(MainActivity.TAG_MARCHE_IDMARCA);
-            String nomeMarca = marcaObj.getString(MainActivity.TAG_MARCHE_NOME);
+                int idMarca = marcaObj.getInt(MainActivity.TAG_MARCHE_IDMARCA);
+                String nomeMarca = marcaObj.getString(MainActivity.TAG_MARCHE_NOME);
 
-            //costruisco gli oggetti
-            Marca marca = new Marca(idMarca, nomeMarca);
-            Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
-            AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, /*R.drawable.ic_menu_gallery*/ utenteAuto, modello, selected);
-            Scadenza scadenza = new Scadenza(idScadenza, descrizioneScadenza, dataScadenza, inviata, autoutente);
+                //costruisco gli oggetti
+                Marca marca = new Marca(idMarca, nomeMarca);
+                Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
+                AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, /*R.drawable.ic_menu_gallery*/ utenteAuto, modello, selected);
+                Scadenza scadenza = new Scadenza(idScadenza, descrizioneScadenza, dataScadenza, inviata, autoutente);
 
-            // aggiungo il singolo problema alla lista dei problemi
-            MainActivity.listaScadenze.add(scadenza);
+                // aggiungo il singolo problema alla lista dei problemi
+                MainActivity.listaScadenze.add(scadenza);
+            }
         }
 
         // Prelevo JSON Array node (UtenteLoggato)
@@ -475,24 +484,31 @@ public class UpdateService extends Service  {
         String pswUtLog = utenteL.getString(MainActivity.TAG_UTENTE_PSW);
 
         // creo l'oggetto dell' Utente Loggato
+        Log.d("UTENTELOGGATO > ", nomeUtLog);
+        Log.d("UTENTELOGGATO > ", cognomeUtLog);
+        Log.d("UTENTELOGGATO > ", dataNUtLog);
+        Log.d("UTENTELOGGATO > ", emailUtLog);
+        Log.d("UTENTELOGGATO > ", pswUtLog);
+
         MainActivity.utenteLoggato = new Utente(nomeUtLog, cognomeUtLog, dataNUtLog, emailUtLog ,pswUtLog);
 
+        if(!jsonObj.getString(MainActivity.TAG_UTENTE).equalsIgnoreCase("null")) {
+            // Prelevo JSON Array node (Utenti)
+            JSONArray utentiJSON = jsonObj.getJSONArray(MainActivity.TAG_UTENTI);
+            // Ciclo tutti gli utenti
+            for (int i = 0; i < utentiJSON.length(); i++) {
+                JSONObject u = utentiJSON.getJSONObject(i);
 
-        // Prelevo JSON Array node (Utenti)
-        JSONArray utentiJSON = jsonObj.getJSONArray(MainActivity.TAG_UTENTI);
-        // Ciclo tutti gli utenti
-        for (int i = 0; i < utentiJSON.length(); i++) {
-            JSONObject u = utentiJSON.getJSONObject(i);
+                String nome = u.getString(MainActivity.TAG_UTENTE_NOME);
+                String cognome = u.getString(MainActivity.TAG_UTENTE_COGNOME);
+                String dataN = u.getString(MainActivity.TAG_UTENTE_DATANASCITA);
+                //String foto = u.getString(MainActivity.TAG_UTENTE_FOTO);
+                String email = u.getString(MainActivity.TAG_UTENTE_EMAIL);
 
-            String nome = u.getString(MainActivity.TAG_UTENTE_NOME);
-            String cognome = u.getString(MainActivity.TAG_UTENTE_COGNOME);
-            String dataN = u.getString(MainActivity.TAG_UTENTE_DATANASCITA);
-            //String foto = u.getString(MainActivity.TAG_UTENTE_FOTO);
-            String email = u.getString(MainActivity.TAG_UTENTE_EMAIL);
-
-            // creo l'oggetto del singolo Utente
-            Utente utente = new Utente(nome, cognome, dataN , email);
-            MainActivity.listaUtenti.add(utente);
+                // creo l'oggetto del singolo Utente
+                Utente utente = new Utente(nome, cognome, dataN , email);
+                MainActivity.listaUtenti.add(utente);
+            }
         }
     }
 
@@ -505,114 +521,118 @@ public class UpdateService extends Service  {
         listaScadenze = new ArrayList<Scadenza>();
         listaUtenti = new ArrayList<Utente>();
 
-        // Prelevo JSON Array node (AutoUtente)
-        JSONArray autoUtentiJSON = jsonObj.getJSONArray(MainActivity.TAG_AUTOUTENTE);
-        // Ciclo tutte le auto degli utenti
-        for (int i = 0; i < autoUtentiJSON.length(); i++) {
-            JSONObject autoUtentiObj = autoUtentiJSON.getJSONObject(i);
+        if(!jsonObj.getString(MainActivity.TAG_AUTOUTENTE).equalsIgnoreCase("null")) {
+            // Prelevo JSON Array node (AutoUtente)
+            JSONArray autoUtentiJSON = jsonObj.getJSONArray(MainActivity.TAG_AUTOUTENTE);
+            // Ciclo tutte le auto degli utenti
+            for (int i = 0; i < autoUtentiJSON.length(); i++) {
+                JSONObject autoUtentiObj = autoUtentiJSON.getJSONObject(i);
 
-            String targa = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_TARGA);
-            int km = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_KM);
-            String annoImmatricolazione = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE);
-            //String foto = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_FOTO_AUTO);
+                String targa = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_TARGA);
+                int km = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_KM);
+                String annoImmatricolazione = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE);
+                //String foto = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_FOTO_AUTO);
 
-            //get Utente
-            JSONObject utenteObj = autoUtentiObj.getJSONObject(MainActivity.TAG_UTENTE);
+                //get Utente
+                JSONObject utenteObj = autoUtentiObj.getJSONObject(MainActivity.TAG_UTENTE);
 
-            String nome = utenteObj.getString(MainActivity.TAG_UTENTE_NOME);
-            String cognome = utenteObj.getString(MainActivity.TAG_UTENTE_COGNOME);
-            String dataN = utenteObj.getString(MainActivity.TAG_UTENTE_DATANASCITA);
-            //String foto = u.getString(MainActivity.TAG_UTENTE_FOTO);
-            String email = utenteObj.getString(MainActivity.TAG_UTENTE_EMAIL);
+                String nome = utenteObj.getString(MainActivity.TAG_UTENTE_NOME);
+                String cognome = utenteObj.getString(MainActivity.TAG_UTENTE_COGNOME);
+                String dataN = utenteObj.getString(MainActivity.TAG_UTENTE_DATANASCITA);
+                //String foto = u.getString(MainActivity.TAG_UTENTE_FOTO);
+                String email = utenteObj.getString(MainActivity.TAG_UTENTE_EMAIL);
 
-            // creo l'oggetto del singolo Utente
-            Utente utenteAuto = new Utente(nome, cognome, dataN, email);
+                // creo l'oggetto del singolo Utente
+                Utente utenteAuto = new Utente(nome, cognome, dataN, email);
 
-            int selected = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_SELECTED);
+                int selected = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_SELECTED);
 
-            //get Modello
-            JSONObject modelloObj = autoUtentiObj.getJSONObject(MainActivity.TAG_AUTOUTENTE_MODELLO);
+                //get Modello
+                JSONObject modelloObj = autoUtentiObj.getJSONObject(MainActivity.TAG_AUTOUTENTE_MODELLO);
 
-            int idModello = modelloObj.getInt(MainActivity.TAG_MODELLI_IDMODELLO);
-            String nomeModello = modelloObj.getString(MainActivity.TAG_MODELLI_NOME);
-            String segmento = modelloObj.getString(MainActivity.TAG_MODELLI_SEGMENTO);
-            String alimentazione = modelloObj.getString(MainActivity.TAG_MODELLI_ALIMENTAZIONE);
-            String cilindrata = modelloObj.getString(MainActivity.TAG_MODELLI_CILINDRATA);
-            String kw = modelloObj.getString(MainActivity.TAG_MODELLI_KW);
+                int idModello = modelloObj.getInt(MainActivity.TAG_MODELLI_IDMODELLO);
+                String nomeModello = modelloObj.getString(MainActivity.TAG_MODELLI_NOME);
+                String segmento = modelloObj.getString(MainActivity.TAG_MODELLI_SEGMENTO);
+                String alimentazione = modelloObj.getString(MainActivity.TAG_MODELLI_ALIMENTAZIONE);
+                String cilindrata = modelloObj.getString(MainActivity.TAG_MODELLI_CILINDRATA);
+                String kw = modelloObj.getString(MainActivity.TAG_MODELLI_KW);
 
-            //get Marca
-            JSONObject marcaObj = modelloObj.getJSONObject(MainActivity.TAG_MODELLI_MARCA);
+                //get Marca
+                JSONObject marcaObj = modelloObj.getJSONObject(MainActivity.TAG_MODELLI_MARCA);
 
-            int idMarca = marcaObj.getInt(MainActivity.TAG_MARCHE_IDMARCA);
-            String nomeMarca = marcaObj.getString(MainActivity.TAG_MARCHE_NOME);
+                int idMarca = marcaObj.getInt(MainActivity.TAG_MARCHE_IDMARCA);
+                String nomeMarca = marcaObj.getString(MainActivity.TAG_MARCHE_NOME);
 
-            //costruisco gli oggetti
-            Marca marca = new Marca(idMarca, nomeMarca);
-            Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
-            AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione,  utenteAuto, modello, selected);
+                //costruisco gli oggetti
+                Marca marca = new Marca(idMarca, nomeMarca);
+                Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
+                AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione,  utenteAuto, modello, selected);
 
-            // aggiungo la singola auto alla lista di auto dell'utente
-            listaAutoUtente.add(autoutente);
+                // aggiungo la singola auto alla lista di auto dell'utente
+                listaAutoUtente.add(autoutente);
+            }
         }
 
-        // Prelevo JSON Array node (Manutenzioni)
-        JSONArray manutenzioni = jsonObj.getJSONArray(MainActivity.TAG_MANUTENZIONI);
-        // Ciclo tutte le manutenzioni dell'utente
-        for (int i = 0; i < manutenzioni.length(); i++) {
-            JSONObject manutenzioniObj = manutenzioni.getJSONObject(i);
+        if(!jsonObj.getString(MainActivity.TAG_MANUTENZIONI).equalsIgnoreCase("null")) {
+            // Prelevo JSON Array node (Manutenzioni)
+            JSONArray manutenzioni = jsonObj.getJSONArray(MainActivity.TAG_MANUTENZIONI);
+            // Ciclo tutte le manutenzioni dell'utente
+            for (int i = 0; i < manutenzioni.length(); i++) {
+                JSONObject manutenzioniObj = manutenzioni.getJSONObject(i);
 
-            int id = manutenzioniObj.getInt(MainActivity.TAG_MANUTENZIONI_ID_MANUTENZIONE);
-            String desc = manutenzioniObj.getString(MainActivity.TAG_MANUTENZIONI_DESCRIZIONE);
-            String dataS = manutenzioniObj.getString(MainActivity.TAG_MANUTENZIONI_DATA);
-            int ord = manutenzioniObj.getInt(MainActivity.TAG_MANUTENZIONI_ORDINARIA);
-            String kmManut = manutenzioniObj.getString(MainActivity.TAG_MANUTENZIONI_KM_MANUTENZIONE);
+                int id = manutenzioniObj.getInt(MainActivity.TAG_MANUTENZIONI_ID_MANUTENZIONE);
+                String desc = manutenzioniObj.getString(MainActivity.TAG_MANUTENZIONI_DESCRIZIONE);
+                String dataS = manutenzioniObj.getString(MainActivity.TAG_MANUTENZIONI_DATA);
+                int ord = manutenzioniObj.getInt(MainActivity.TAG_MANUTENZIONI_ORDINARIA);
+                String kmManut = manutenzioniObj.getString(MainActivity.TAG_MANUTENZIONI_KM_MANUTENZIONE);
 
-            //get Veicolo
-            JSONObject veicoloObj = manutenzioniObj.getJSONObject(MainActivity.TAG_MANUTENZIONI_VEICOLO);
+                //get Veicolo
+                JSONObject veicoloObj = manutenzioniObj.getJSONObject(MainActivity.TAG_MANUTENZIONI_VEICOLO);
 
-            String targa = veicoloObj.getString(MainActivity.TAG_AUTOUTENTE_TARGA);
-            int km = veicoloObj.getInt(MainActivity.TAG_AUTOUTENTE_KM);
-            String annoImmatricolazione = veicoloObj.getString(MainActivity.TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE);
-            //String foto = veicoloObj.getString(MainActivity.TAG_AUTOUTENTE_FOTO_AUTO);
+                String targa = veicoloObj.getString(MainActivity.TAG_AUTOUTENTE_TARGA);
+                int km = veicoloObj.getInt(MainActivity.TAG_AUTOUTENTE_KM);
+                String annoImmatricolazione = veicoloObj.getString(MainActivity.TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE);
+                //String foto = veicoloObj.getString(MainActivity.TAG_AUTOUTENTE_FOTO_AUTO);
 
-            //get Utente
-            JSONObject utenteObj = veicoloObj.getJSONObject(MainActivity.TAG_UTENTE);
+                //get Utente
+                JSONObject utenteObj = veicoloObj.getJSONObject(MainActivity.TAG_UTENTE);
 
-            String nome = utenteObj.getString(MainActivity.TAG_UTENTE_NOME);
-            String cognome = utenteObj.getString(MainActivity.TAG_UTENTE_COGNOME);
-            String dataN = utenteObj.getString(MainActivity.TAG_UTENTE_DATANASCITA);
-            //String foto = u.getString(MainActivity.TAG_UTENTE_FOTO);
-            String email = utenteObj.getString(MainActivity.TAG_UTENTE_EMAIL);
+                String nome = utenteObj.getString(MainActivity.TAG_UTENTE_NOME);
+                String cognome = utenteObj.getString(MainActivity.TAG_UTENTE_COGNOME);
+                String dataN = utenteObj.getString(MainActivity.TAG_UTENTE_DATANASCITA);
+                //String foto = u.getString(MainActivity.TAG_UTENTE_FOTO);
+                String email = utenteObj.getString(MainActivity.TAG_UTENTE_EMAIL);
 
-            // creo l'oggetto del singolo Utente
-            Utente utenteAuto = new Utente(nome, cognome, dataN, email);
+                // creo l'oggetto del singolo Utente
+                Utente utenteAuto = new Utente(nome, cognome, dataN, email);
 
-            int selected = veicoloObj.getInt(MainActivity.TAG_AUTOUTENTE_SELECTED);
+                int selected = veicoloObj.getInt(MainActivity.TAG_AUTOUTENTE_SELECTED);
 
-            //get Modello
-            JSONObject modelloObj = veicoloObj.getJSONObject(MainActivity.TAG_AUTOUTENTE_MODELLO);
+                //get Modello
+                JSONObject modelloObj = veicoloObj.getJSONObject(MainActivity.TAG_AUTOUTENTE_MODELLO);
 
-            int idModello = modelloObj.getInt(MainActivity.TAG_MODELLI_IDMODELLO);
-            String nomeModello = modelloObj.getString(MainActivity.TAG_MODELLI_NOME);
-            String segmento = modelloObj.getString(MainActivity.TAG_MODELLI_SEGMENTO);
-            String alimentazione = modelloObj.getString(MainActivity.TAG_MODELLI_ALIMENTAZIONE);
-            String cilindrata = modelloObj.getString(MainActivity.TAG_MODELLI_CILINDRATA);
-            String kw = modelloObj.getString(MainActivity.TAG_MODELLI_KW);
+                int idModello = modelloObj.getInt(MainActivity.TAG_MODELLI_IDMODELLO);
+                String nomeModello = modelloObj.getString(MainActivity.TAG_MODELLI_NOME);
+                String segmento = modelloObj.getString(MainActivity.TAG_MODELLI_SEGMENTO);
+                String alimentazione = modelloObj.getString(MainActivity.TAG_MODELLI_ALIMENTAZIONE);
+                String cilindrata = modelloObj.getString(MainActivity.TAG_MODELLI_CILINDRATA);
+                String kw = modelloObj.getString(MainActivity.TAG_MODELLI_KW);
 
-            //get Marca
-            JSONObject marcaObj = modelloObj.getJSONObject(MainActivity.TAG_MODELLI_MARCA);
+                //get Marca
+                JSONObject marcaObj = modelloObj.getJSONObject(MainActivity.TAG_MODELLI_MARCA);
 
-            int idMarca = marcaObj.getInt(MainActivity.TAG_MARCHE_IDMARCA);
-            String nomeMarca = marcaObj.getString(MainActivity.TAG_MARCHE_NOME);
+                int idMarca = marcaObj.getInt(MainActivity.TAG_MARCHE_IDMARCA);
+                String nomeMarca = marcaObj.getString(MainActivity.TAG_MARCHE_NOME);
 
-            //costruisco gli oggetti
-            Marca marca = new Marca(idMarca, nomeMarca);
-            Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
-            AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, /*R.drawable.ic_menu_gallery*/ utenteAuto, modello, selected);
-            Manutenzione manutenzione = new Manutenzione(id, desc, dataS, ord, kmManut, autoutente);
+                //costruisco gli oggetti
+                Marca marca = new Marca(idMarca, nomeMarca);
+                Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
+                AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, /*R.drawable.ic_menu_gallery*/ utenteAuto, modello, selected);
+                Manutenzione manutenzione = new Manutenzione(id, desc, dataS, ord, kmManut, autoutente);
 
-            // aggiungo la singola manutenzione alla lista di manutenzioni
-            listaManutenzioni.add(manutenzione);
+                // aggiungo la singola manutenzione alla lista di manutenzioni
+                listaManutenzioni.add(manutenzione);
+            }
         }
 
         // Prelevo JSON Array node (Modelli)
@@ -658,136 +678,142 @@ public class UpdateService extends Service  {
             listaMarche.add(marca);
         }
 
-        // Prelevo JSON Array node (Problemi)
-        JSONArray problemiJSON = jsonObj.getJSONArray(MainActivity.TAG_PROBLEMI);
-        // Ciclo tutte le auto degli utenti
-        for (int i = 0; i < problemiJSON.length(); i++) {
-            JSONObject problemaObj = problemiJSON.getJSONObject(i);
+        if(!jsonObj.getString(MainActivity.TAG_PROBLEMI).equalsIgnoreCase("null")) {
+            // Prelevo JSON Array node (Problemi)
+            JSONArray problemiJSON = jsonObj.getJSONArray(MainActivity.TAG_PROBLEMI);
+            // Ciclo tutte le auto degli utenti
+            for (int i = 0; i < problemiJSON.length(); i++) {
+                JSONObject problemaObj = problemiJSON.getJSONObject(i);
 
-            int idProblema = problemaObj.getInt(MainActivity.TAG_PROBLEMI_IDPROBLEMA);
-            String descrizioneProblema = problemaObj.getString(MainActivity.TAG_PROBLEMI_DESCRIZIONE);
+                int idProblema = problemaObj.getInt(MainActivity.TAG_PROBLEMI_IDPROBLEMA);
+                String descrizioneProblema = problemaObj.getString(MainActivity.TAG_PROBLEMI_DESCRIZIONE);
 
 
-            JSONObject autoUtentiObj = problemaObj.getJSONObject(MainActivity.TAG_PROBLEMI_VEICOLO);
+                JSONObject autoUtentiObj = problemaObj.getJSONObject(MainActivity.TAG_PROBLEMI_VEICOLO);
 
-            String targa = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_TARGA);
-            int km = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_KM);
-            String annoImmatricolazione = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE);
-            //String foto = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_FOTO_AUTO);
+                String targa = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_TARGA);
+                int km = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_KM);
+                String annoImmatricolazione = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE);
+                //String foto = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_FOTO_AUTO);
 
-            //get Utente
-            JSONObject utenteObj = autoUtentiObj.getJSONObject(MainActivity.TAG_UTENTE);
+                //get Utente
+                JSONObject utenteObj = autoUtentiObj.getJSONObject(MainActivity.TAG_UTENTE);
 
-            String nome = utenteObj.getString(MainActivity.TAG_UTENTE_NOME);
-            String cognome = utenteObj.getString(MainActivity.TAG_UTENTE_COGNOME);
-            String dataN = utenteObj.getString(MainActivity.TAG_UTENTE_DATANASCITA);
-            //String foto = u.getString(MainActivity.TAG_UTENTE_FOTO);
-            String email = utenteObj.getString(MainActivity.TAG_UTENTE_EMAIL);
+                String nome = utenteObj.getString(MainActivity.TAG_UTENTE_NOME);
+                String cognome = utenteObj.getString(MainActivity.TAG_UTENTE_COGNOME);
+                String dataN = utenteObj.getString(MainActivity.TAG_UTENTE_DATANASCITA);
+                //String foto = u.getString(MainActivity.TAG_UTENTE_FOTO);
+                String email = utenteObj.getString(MainActivity.TAG_UTENTE_EMAIL);
 
-            // creo l'oggetto del singolo Utente
-            Utente utenteAuto = new Utente(nome, cognome, dataN, email);
+                // creo l'oggetto del singolo Utente
+                Utente utenteAuto = new Utente(nome, cognome, dataN, email);
 
-            int selected = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_SELECTED);
+                int selected = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_SELECTED);
 
-            //get Modello
-            JSONObject modelloObj = autoUtentiObj.getJSONObject(MainActivity.TAG_AUTOUTENTE_MODELLO);
+                //get Modello
+                JSONObject modelloObj = autoUtentiObj.getJSONObject(MainActivity.TAG_AUTOUTENTE_MODELLO);
 
-            int idModello = modelloObj.getInt(MainActivity.TAG_MODELLI_IDMODELLO);
-            String nomeModello = modelloObj.getString(MainActivity.TAG_MODELLI_NOME);
-            String segmento = modelloObj.getString(MainActivity.TAG_MODELLI_SEGMENTO);
-            String alimentazione = modelloObj.getString(MainActivity.TAG_MODELLI_ALIMENTAZIONE);
-            String cilindrata = modelloObj.getString(MainActivity.TAG_MODELLI_CILINDRATA);
-            String kw = modelloObj.getString(MainActivity.TAG_MODELLI_KW);
+                int idModello = modelloObj.getInt(MainActivity.TAG_MODELLI_IDMODELLO);
+                String nomeModello = modelloObj.getString(MainActivity.TAG_MODELLI_NOME);
+                String segmento = modelloObj.getString(MainActivity.TAG_MODELLI_SEGMENTO);
+                String alimentazione = modelloObj.getString(MainActivity.TAG_MODELLI_ALIMENTAZIONE);
+                String cilindrata = modelloObj.getString(MainActivity.TAG_MODELLI_CILINDRATA);
+                String kw = modelloObj.getString(MainActivity.TAG_MODELLI_KW);
 
-            //get Marca
-            JSONObject marcaObj = modelloObj.getJSONObject(MainActivity.TAG_MODELLI_MARCA);
+                //get Marca
+                JSONObject marcaObj = modelloObj.getJSONObject(MainActivity.TAG_MODELLI_MARCA);
 
-            int idMarca = marcaObj.getInt(MainActivity.TAG_MARCHE_IDMARCA);
-            String nomeMarca = marcaObj.getString(MainActivity.TAG_MARCHE_NOME);
+                int idMarca = marcaObj.getInt(MainActivity.TAG_MARCHE_IDMARCA);
+                String nomeMarca = marcaObj.getString(MainActivity.TAG_MARCHE_NOME);
 
-            //costruisco gli oggetti
-            Marca marca = new Marca(idMarca, nomeMarca);
-            Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
-            AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione,/* R.drawable.ic_menu_gallery*/  utenteAuto, modello, selected);
-            Problema problema = new Problema(idProblema, descrizioneProblema, autoutente);
+                //costruisco gli oggetti
+                Marca marca = new Marca(idMarca, nomeMarca);
+                Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
+                AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione,/* R.drawable.ic_menu_gallery*/  utenteAuto, modello, selected);
+                Problema problema = new Problema(idProblema, descrizioneProblema, autoutente);
 
-            // aggiungo il singolo problema alla lista dei problemi
-            listaProblemi.add(problema);
+                // aggiungo il singolo problema alla lista dei problemi
+                listaProblemi.add(problema);
+            }
         }
 
-        // Prelevo JSON Array node (Scadenze)
-        JSONArray scadenzeJSON = jsonObj.getJSONArray(MainActivity.TAG_SCADENZE);
-        // Ciclo tutte le auto degli utenti
-        for (int i = 0; i < scadenzeJSON.length(); i++) {
-            JSONObject scadenzaObj = scadenzeJSON.getJSONObject(i);
+        if(!jsonObj.getString(MainActivity.TAG_SCADENZE).equalsIgnoreCase("null")) {
+            // Prelevo JSON Array node (Scadenze)
+            JSONArray scadenzeJSON = jsonObj.getJSONArray(MainActivity.TAG_SCADENZE);
+            // Ciclo tutte le auto degli utenti
+            for (int i = 0; i < scadenzeJSON.length(); i++) {
+                JSONObject scadenzaObj = scadenzeJSON.getJSONObject(i);
 
-            int idScadenza = scadenzaObj.getInt(MainActivity.TAG_SCADENZE_IDSCADENZA);
-            String descrizioneScadenza = scadenzaObj.getString(MainActivity.TAG_SCADENZE_DESCRIZIONE);
-            String dataScadenza = scadenzaObj.getString(MainActivity.TAG_SCADENZE_DATASCADENZA);
-            int inviata = scadenzaObj.getInt(MainActivity.TAG_SCADENZE_INVIATA);
+                int idScadenza = scadenzaObj.getInt(MainActivity.TAG_SCADENZE_IDSCADENZA);
+                String descrizioneScadenza = scadenzaObj.getString(MainActivity.TAG_SCADENZE_DESCRIZIONE);
+                String dataScadenza = scadenzaObj.getString(MainActivity.TAG_SCADENZE_DATASCADENZA);
+                int inviata = scadenzaObj.getInt(MainActivity.TAG_SCADENZE_INVIATA);
 
-            JSONObject autoUtentiObj = scadenzaObj.getJSONObject(MainActivity.TAG_PROBLEMI_VEICOLO);
+                JSONObject autoUtentiObj = scadenzaObj.getJSONObject(MainActivity.TAG_PROBLEMI_VEICOLO);
 
-            String targa = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_TARGA);
-            int km = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_KM);
-            String annoImmatricolazione = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE);
-            //String foto = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_FOTO_AUTO);
+                String targa = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_TARGA);
+                int km = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_KM);
+                String annoImmatricolazione = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_ANNO_IMMATRICOLAZIONE);
+                //String foto = autoUtentiObj.getString(MainActivity.TAG_AUTOUTENTE_FOTO_AUTO);
 
-            //get Utente
-            JSONObject utenteObj = autoUtentiObj.getJSONObject(MainActivity.TAG_UTENTE);
+                //get Utente
+                JSONObject utenteObj = autoUtentiObj.getJSONObject(MainActivity.TAG_UTENTE);
 
-            String nome = utenteObj.getString(MainActivity.TAG_UTENTE_NOME);
-            String cognome = utenteObj.getString(MainActivity.TAG_UTENTE_COGNOME);
-            String dataN = utenteObj.getString(MainActivity.TAG_UTENTE_DATANASCITA);
-            //String foto = u.getString(MainActivity.TAG_UTENTE_FOTO);
-            String email = utenteObj.getString(MainActivity.TAG_UTENTE_EMAIL);
+                String nome = utenteObj.getString(MainActivity.TAG_UTENTE_NOME);
+                String cognome = utenteObj.getString(MainActivity.TAG_UTENTE_COGNOME);
+                String dataN = utenteObj.getString(MainActivity.TAG_UTENTE_DATANASCITA);
+                //String foto = u.getString(MainActivity.TAG_UTENTE_FOTO);
+                String email = utenteObj.getString(MainActivity.TAG_UTENTE_EMAIL);
 
-            // creo l'oggetto del singolo Utente
-            Utente utenteAuto = new Utente(nome, cognome, dataN, email);
+                // creo l'oggetto del singolo Utente
+                Utente utenteAuto = new Utente(nome, cognome, dataN, email);
 
-            int selected = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_SELECTED);
+                int selected = autoUtentiObj.getInt(MainActivity.TAG_AUTOUTENTE_SELECTED);
 
-            //get Modello
-            JSONObject modelloObj = autoUtentiObj.getJSONObject(MainActivity.TAG_AUTOUTENTE_MODELLO);
+                //get Modello
+                JSONObject modelloObj = autoUtentiObj.getJSONObject(MainActivity.TAG_AUTOUTENTE_MODELLO);
 
-            int idModello = modelloObj.getInt(MainActivity.TAG_MODELLI_IDMODELLO);
-            String nomeModello = modelloObj.getString(MainActivity.TAG_MODELLI_NOME);
-            String segmento = modelloObj.getString(MainActivity.TAG_MODELLI_SEGMENTO);
-            String alimentazione = modelloObj.getString(MainActivity.TAG_MODELLI_ALIMENTAZIONE);
-            String cilindrata = modelloObj.getString(MainActivity.TAG_MODELLI_CILINDRATA);
-            String kw = modelloObj.getString(MainActivity.TAG_MODELLI_KW);
+                int idModello = modelloObj.getInt(MainActivity.TAG_MODELLI_IDMODELLO);
+                String nomeModello = modelloObj.getString(MainActivity.TAG_MODELLI_NOME);
+                String segmento = modelloObj.getString(MainActivity.TAG_MODELLI_SEGMENTO);
+                String alimentazione = modelloObj.getString(MainActivity.TAG_MODELLI_ALIMENTAZIONE);
+                String cilindrata = modelloObj.getString(MainActivity.TAG_MODELLI_CILINDRATA);
+                String kw = modelloObj.getString(MainActivity.TAG_MODELLI_KW);
 
-            //get Marca
-            JSONObject marcaObj = modelloObj.getJSONObject(MainActivity.TAG_MODELLI_MARCA);
+                //get Marca
+                JSONObject marcaObj = modelloObj.getJSONObject(MainActivity.TAG_MODELLI_MARCA);
 
-            int idMarca = marcaObj.getInt(MainActivity.TAG_MARCHE_IDMARCA);
-            String nomeMarca = marcaObj.getString(MainActivity.TAG_MARCHE_NOME);
+                int idMarca = marcaObj.getInt(MainActivity.TAG_MARCHE_IDMARCA);
+                String nomeMarca = marcaObj.getString(MainActivity.TAG_MARCHE_NOME);
 
-            //costruisco gli oggetti
-            Marca marca = new Marca(idMarca, nomeMarca);
-            Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
-            AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, /*R.drawable.ic_menu_gallery*/ utenteAuto, modello, selected);
-            Scadenza scadenza = new Scadenza(idScadenza, descrizioneScadenza, dataScadenza, inviata, autoutente);
+                //costruisco gli oggetti
+                Marca marca = new Marca(idMarca, nomeMarca);
+                Modello modello = new Modello(idModello, nomeModello, segmento, alimentazione, cilindrata, kw, marca);
+                AutoUtente autoutente = new AutoUtente(targa, km, annoImmatricolazione, /*R.drawable.ic_menu_gallery*/ utenteAuto, modello, selected);
+                Scadenza scadenza = new Scadenza(idScadenza, descrizioneScadenza, dataScadenza, inviata, autoutente);
 
-            // aggiungo il singolo problema alla lista dei problemi
-            listaScadenze.add(scadenza);
+                // aggiungo il singolo problema alla lista dei problemi
+                listaScadenze.add(scadenza);
+            }
         }
 
-        // Prelevo JSON Array node (Utenti)
-        JSONArray utentiJSON = jsonObj.getJSONArray(MainActivity.TAG_UTENTI);
-        // Ciclo tutti gli utenti
-        for (int i = 0; i < utentiJSON.length(); i++) {
-            JSONObject u = utentiJSON.getJSONObject(i);
+        if(!jsonObj.getString(MainActivity.TAG_UTENTI).equalsIgnoreCase("null")) {
+            // Prelevo JSON Array node (Utenti)
+            JSONArray utentiJSON = jsonObj.getJSONArray(MainActivity.TAG_UTENTI);
+            // Ciclo tutti gli utenti
+            for (int i = 0; i < utentiJSON.length(); i++) {
+                JSONObject u = utentiJSON.getJSONObject(i);
 
-            String nome = u.getString(MainActivity.TAG_UTENTE_NOME);
-            String cognome = u.getString(MainActivity.TAG_UTENTE_COGNOME);
-            String dataN = u.getString(MainActivity.TAG_UTENTE_DATANASCITA);
-            //String foto = u.getString(MainActivity.TAG_UTENTE_FOTO);
-            String email = u.getString(MainActivity.TAG_UTENTE_EMAIL);
+                String nome = u.getString(MainActivity.TAG_UTENTE_NOME);
+                String cognome = u.getString(MainActivity.TAG_UTENTE_COGNOME);
+                String dataN = u.getString(MainActivity.TAG_UTENTE_DATANASCITA);
+                //String foto = u.getString(MainActivity.TAG_UTENTE_FOTO);
+                String email = u.getString(MainActivity.TAG_UTENTE_EMAIL);
 
-            // creo l'oggetto del singolo Utente
-            Utente utente = new Utente(nome, cognome, dataN , email);
-            listaUtenti.add(utente);
+                // creo l'oggetto del singolo Utente
+                Utente utente = new Utente(nome, cognome, dataN , email);
+                listaUtenti.add(utente);
+            }
         }
     }
 

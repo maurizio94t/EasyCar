@@ -67,19 +67,7 @@
     <string name="MessageDialog">Click yes to conferm</string>
     <string name="PositiveButton">Yes</string>
     <string name="NegtiveButton">No</string>
-
-    <string name="gennaio">Gennuary</string>
-    <string name="febbraio">February</string>
-    <string name="marzo">March</string>
-    <string name="aprile">April</string>
-    <string name="maggio">May</string>
-    <string name="giugno">June</string>
-    <string name="luglio">July</string>
-    <string name="agosta">August</string>
-    <string name="settembre">September</string>
-    <string name="ottobre">October</string>
-    <string name="novembre">November</string>
-    <string name="dicembre">Dicember</string>
+    <string name="Problema">Problem reported by another user</string>
 
     <string-array name="menu">
         <item>Edit</item>

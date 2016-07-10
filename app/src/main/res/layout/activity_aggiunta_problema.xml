@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    >
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:background="@color/colorBackground"
@@ -12,55 +12,57 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingTop="@dimen/paddingTop">
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:paddingLeft="@dimen/paddingLeftForm"
-        android:paddingTop="@dimen/paddingTop">
-        <ImageView
-            android:layout_width="wrap_content"
+        android:paddingRight="@dimen/paddingRightIcon"
+        android:paddingTop="@dimen/paddingTop"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_comment_text_outline_grey600_18dp"
-            android:layout_gravity="left|center_vertical"
-            android:paddingRight="@dimen/paddingRightIcon"
-            />
-        <EditText
-            android:layout_width="@dimen/withEditTextForm"
-            android:id="@+id/Problema"
+
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_comment_text_outline_grey600_18dp"
+                android:layout_gravity="left|center_vertical"
+                android:paddingRight="@dimen/paddingRightIcon"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:id="@+id/Problema"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textSize="@dimen/text_size"
+                android:textColor="@color/colorBackground"
+                android:textStyle="bold"
+                android:hint="@string/descrizione"
+
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:textSize="@dimen/text_size"
-            android:textColor="@color/colorBackground"
-            android:textStyle="bold"
-            android:hint="@string/descrizione"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_car_grey600_24dp"
+                android:paddingRight="@dimen/paddingRightIcon"/>
 
-            />
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner_veicolo"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
 
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/paddingLeftForm"
-        android:paddingTop="@dimen/paddingTop">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_car_grey600_24dp"
-            android:paddingRight="@dimen/paddingRightIcon"/>
-
-        <Spinner
-            android:layout_width="237dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinner_veicolo"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-
-    </LinearLayout>
+        </LinearLayout>
 
 
     </LinearLayout>

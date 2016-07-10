@@ -65,24 +65,11 @@
     <string name="AggiuntaScadenza">Aggiunta scadenza</string>
     <string name="PosizioneAuto">Posizione veicolo</string>
     <string name="AggiuntaManutenzione">Aggiunta manutenzione</string>
-
+    <string name="Problema">Problema segnalato da altro utente</string>
     <string name="TitoloDialog">Sei sicuro di voler eliminare?</string>
     <string name="MessageDialog">Click su si per confermare</string>
     <string name="PositiveButton">Si</string>
     <string name="NegtiveButton">No</string>
-
-    <string name="gennaio">GEN</string>
-    <string name="febbraio">Febbraio</string>
-    <string name="marzo">Marzo</string>
-    <string name="aprile">Aprile</string>
-    <string name="maggio">Maggio</string>
-    <string name="giugno">Giugno</string>
-    <string name="luglio">Luglio</string>
-    <string name="agosta">Agosto</string>
-    <string name="settembre">Settembre</string>
-    <string name="ottobre">Ottobre</string>
-    <string name="novembre">Novembre</string>
-    <string name="dicembre">Dicembre</string>
     <string-array name="menu">
         <item>Modifica</item>
         <item>Elimina</item>
