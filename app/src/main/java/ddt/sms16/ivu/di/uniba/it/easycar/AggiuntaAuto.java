@@ -117,6 +117,7 @@ public class AggiuntaAuto extends AppCompatActivity {
         ArrayAdapter<Marca> adapter1 = new ArrayAdapter<Marca>(this,
                 simple_spinner_item, marche);
         mSpinnerMarca.setAdapter(adapter1);
+
         mSpinnerMarca.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             public void onItemSelected(AdapterView<?> parent, View view,
@@ -132,25 +133,24 @@ public class AggiuntaAuto extends AppCompatActivity {
 
                 }
 
-Modello[] modelli = new Modello[listaModelli.size()];
+                Modello[] modelli = new Modello[listaModelli.size()];
                 int i = 0;
               for (Modello a : listaModelli) {
                     modelli[i] = a;
                     i++;
                 }
-
-                ArrayAdapter<Modello> adapter = new ArrayAdapter<Modello>(AggiuntaAuto.super.getApplicationContext(),
+                ArrayAdapter<Modello> adapter = new ArrayAdapter<Modello>(AggiuntaAuto.this,
                         android.R.layout.simple_spinner_item, modelli);
-
                 mSpinnerModello.setAdapter(adapter);
-
             }
 
             public void onNothingSelected(AdapterView<?> parent) {
                 // Do nothing, just another required interface callback
             }
 
-        }); // (optional)
+        });
+
+        // (optional)
         /*
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
