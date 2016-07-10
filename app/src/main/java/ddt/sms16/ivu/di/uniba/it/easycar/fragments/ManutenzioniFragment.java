@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -16,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -86,7 +86,6 @@ public class ManutenzioniFragment extends Fragment {
             }
 
         });
-
         return view;
     }
 
@@ -103,6 +102,7 @@ public class ManutenzioniFragment extends Fragment {
     public boolean onContextItemSelected(MenuItem item) {
         if (item.getTitle() == "Elimina") {
             controlloAlert();
+            Toast.makeText(getContext(),"Elimina",Toast.LENGTH_LONG).show();
         }
         return true;
     }
@@ -120,7 +120,8 @@ public class ManutenzioniFragment extends Fragment {
                 .setCancelable(false)
                 .setPositiveButton("Si",new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
-                       // eliminaManutenzione(manutezione.getIDManutenzione());
+                        eliminaManutenzione(manutezione.getIDManutenzione());
+                         customAdapter.clear();
                         customAdapter = new CustomAdapter_Manutenzione(
                                 thisContext.getApplicationContext(),
                                 R.layout.row_manutenzione,
@@ -128,7 +129,7 @@ public class ManutenzioniFragment extends Fragment {
                         listView = (ListView) view.findViewById(R.id.listView);
                         listView.setAdapter(customAdapter);
 
-                        eliminaManutenzione(manutezione.getIDManutenzione());
+
                         Snackbar snackbar = Snackbar
                                 .make(getActivity().findViewById(android.R.id.content), "Eliminato", Snackbar.LENGTH_LONG);
                         snackbar.show();
@@ -202,5 +203,30 @@ public class ManutenzioniFragment extends Fragment {
         }
 
         return aggiunto[0];
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        customAdapter.clear();
+        customAdapter = new CustomAdapter_Manutenzione(
+                thisContext.getApplicationContext(),
+                R.layout.row_manutenzione,
+                MainActivity.mySQLiteHelper.getAllManutenzioni());
+
+        listView.setAdapter(customAdapter);
+
+    }
+    @Override
+    public void onPause(){
+        super.onPause();
+        customAdapter.clear();
+        customAdapter = new CustomAdapter_Manutenzione(
+                thisContext.getApplicationContext(),
+                R.layout.row_manutenzione,
+                MainActivity.mySQLiteHelper.getAllManutenzioni());
+
+        listView.setAdapter(customAdapter);
+
     }
 }

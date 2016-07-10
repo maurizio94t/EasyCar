@@ -182,10 +182,7 @@ public class AggiuntaManutenzione extends AppCompatActivity {
                 String targa = Utility.estraiTarga(targaVeicolo);
                String data = Utility.convertStringDateToString(datamanutenzione.replace("/"," "));
 
-                Log.d("Response Manutenzione",data);
-                Log.d("Response Manutenzione",chilometraggio);
-                Log.d("Response Manutenzione",String.valueOf(ordinaria));
-                Log.d("Response Manutenzione",targa);
+
 
 
                 String email = MainActivity.sharedpreferences.getString(MainActivity.TAG_UTENTE_EMAIL, "");
@@ -199,9 +196,13 @@ public class AggiuntaManutenzione extends AppCompatActivity {
                             .make(findViewById(android.R.id.content), "Errore nell'aggiunta del problema, controlla la connessione!", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 } else {
-                    Snackbar snackbar = Snackbar
-                            .make(findViewById(android.R.id.content), "Problema aggiunto", Snackbar.LENGTH_LONG);
-                    snackbar.show();
+
+
+                    finish();
+
+
+
+
                 }
 
             }

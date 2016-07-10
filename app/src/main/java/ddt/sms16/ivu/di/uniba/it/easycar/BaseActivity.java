@@ -162,12 +162,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_posizione_auto) {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
             String salvata = preferences.getString("Salvata", "DEFAULT");
-         /* sharedpreferences.getString("Salvata","").toString()
-            SharedPreferences.Editor prefEditor = sharedpreferences.edit();
-         */
-            Log.d("fanculo","fanculoooo");
 
-            Log.d("fanculo",salvata);
+
             if(salvata.equalsIgnoreCase("DEFAULT")){
             Intent posizioneAuto = new Intent(this, PosizioneAuto.class);
             startActivity(posizioneAuto);
