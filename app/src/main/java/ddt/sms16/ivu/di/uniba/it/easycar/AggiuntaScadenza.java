@@ -204,11 +204,11 @@ public class AggiuntaScadenza extends AppCompatActivity {
                 Snackbar snackbar;
              if(aggiunto){
                    snackbar = Snackbar
-                         .make( findViewById(android.R.id.content),"scadenza aggiunta con successo!", Snackbar.LENGTH_LONG);
+                         .make( findViewById(android.R.id.content),"Errore nell'aggiunta della scadenza, controlla la connessione!!", Snackbar.LENGTH_LONG);
                  snackbar.show();
              }else{
                    snackbar = Snackbar
-                         .make( findViewById(android.R.id.content),"errore nell'aggiunta della scadenza, controlla la connessione!", Snackbar.LENGTH_LONG);
+                         .make( findViewById(android.R.id.content),"Scadenza aggiunta", Snackbar.LENGTH_LONG);
                  snackbar.show();
              }
             }

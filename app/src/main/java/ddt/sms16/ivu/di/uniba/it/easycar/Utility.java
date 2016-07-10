@@ -22,7 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class Utility {
+public class Utility{
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -79,6 +79,7 @@ public class Utility {
 
         public static String controllaMese(int m){
             String mese = "";
+
             switch (m){
                 case 1: return "GEN";
                 case 2: return "FEB";

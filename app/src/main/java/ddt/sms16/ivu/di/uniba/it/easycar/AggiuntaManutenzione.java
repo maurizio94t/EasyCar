@@ -196,11 +196,11 @@ public class AggiuntaManutenzione extends AppCompatActivity {
                 Log.d("Response", Boolean.toString(aggiunto));
                 if (aggiunto) {
                     Snackbar snackbar = Snackbar
-                            .make(findViewById(android.R.id.content), "problema aggiunto con successo!", Snackbar.LENGTH_LONG);
+                            .make(findViewById(android.R.id.content), "Errore nell'aggiunta del problema, controlla la connessione!", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 } else {
                     Snackbar snackbar = Snackbar
-                            .make(findViewById(android.R.id.content), "errore nell'aggiunta del problema, controlla la connessione!", Snackbar.LENGTH_LONG);
+                            .make(findViewById(android.R.id.content), "Problema aggiunto", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
 

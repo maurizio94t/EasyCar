@@ -61,15 +61,18 @@ public class SalvaPosizione extends AppCompatActivity implements GoogleApiClient
             SharedPreferences.Editor prefEditor = sharedpreferences.edit();
             prefEditor.putString("Latitude", String.valueOf(mLastLocation.getLatitude()));
             prefEditor.putString("Longitude", String.valueOf(mLastLocation.getLongitude()));
-            prefEditor.commit();
+
             if(HomeFragment.save){
                 Toast.makeText(SalvaPosizione.this, "Posizione salvata correttamente", Toast.LENGTH_SHORT).show();
-                salvata = true;
+                prefEditor.putString("Salvata","DEFAULT");
+                prefEditor.commit();
                 finish();
             }else {
+                prefEditor.putString("Salvata","no");
                 Intent intent = new Intent(getApplicationContext(), PosizioneAuto.class);
-                finish();
                 startActivity(intent);
+                finish();
+
             }
         } else {
             Toast.makeText(getApplicationContext(), "last location è null", Toast.LENGTH_LONG);

@@ -164,18 +164,18 @@ public class MieAutoFragment extends Fragment {
                 getContext());
 
         // set title
-        alertDialogBuilder.setTitle("Sei sicuro di voler eliminare?");
+        alertDialogBuilder.setTitle(R.string.TitoloDialog);
 
         alertDialogBuilder
-                .setMessage("Click su si per confermare")
+                .setMessage(R.string.MessageDialog)
                 .setCancelable(false)
-                .setPositiveButton("Si",new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.PositiveButton,new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
                         eliminaAuto(auto.getTarga());
 
                     }
                 })
-                .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.NegtiveButton,new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                     }

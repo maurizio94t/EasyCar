@@ -1,7 +1,6 @@
 package ddt.sms16.ivu.di.uniba.it.easycar;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,10 +53,11 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
         LinearLayout row = (LinearLayout) convertView.findViewById(R.id.row);
 
         descrizione.setText(childProblema.getDescrizione());
-        img.setImageResource(R.drawable.ic_map);
+
         if(isYourProblema(childProblema)) {
-            row.setBackgroundColor(Color.parseColor("#373fac"));
-            //row.setAlpha((float) 0.4);
+            img.setImageResource(R.drawable.ic_tooltip_text_grey600_24dp);
+        }else{
+            img.setImageResource(R.drawable.ic_comment_alert_grey600_24dp);
         }
 
         return convertView;

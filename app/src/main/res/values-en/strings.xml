@@ -62,6 +62,25 @@
     <string name="MessaggioGps">GPS is disabled in your device. Would you like to enable it?</string>
     <string name="MessaggioGps1">Goto Settings Page To Enable GPS</string>
     <string name="MessaggioGps2">Cancel</string>
+
+    <string name="TitoloDialog">Are you sure you want to delete?</string>
+    <string name="MessageDialog">Click yes to conferm</string>
+    <string name="PositiveButton">Yes</string>
+    <string name="NegtiveButton">No</string>
+
+    <string name="gennaio">Gennuary</string>
+    <string name="febbraio">February</string>
+    <string name="marzo">March</string>
+    <string name="aprile">April</string>
+    <string name="maggio">May</string>
+    <string name="giugno">June</string>
+    <string name="luglio">July</string>
+    <string name="agosta">August</string>
+    <string name="settembre">September</string>
+    <string name="ottobre">October</string>
+    <string name="novembre">November</string>
+    <string name="dicembre">Dicember</string>
+
     <string-array name="menu">
         <item>Edit</item>
         <item>Delete</item>

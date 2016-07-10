@@ -38,8 +38,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
     private Intent intentService;
     private SharedPreferences sharedpreferences;
-
-    public static final String TAG_FRAGMENT = "fragment";
+    public static final String MyPREFERENCES = "MyPreferences";
     public boolean GPSenabled = false;
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
@@ -56,7 +55,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         // controllo se il GPS è attivo
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            Toast.makeText(this, "GPS is Enabled in your devide", Toast.LENGTH_SHORT).show();
             GPSenabled = true;
         } else {
             showGPSDisabledAlertToUser();
@@ -160,11 +158,19 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             fragment = new ProblemiFragment2();
             ok = true;
         } else if (id == R.id.nav_posizione_auto) {
-            if(SalvaPosizione.salvata){
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            String salvata = preferences.getString("Salvata", "DEFAULT");
+         /* sharedpreferences.getString("Salvata","").toString()
+            SharedPreferences.Editor prefEditor = sharedpreferences.edit();
+         */
+            Log.d("fanculo","fanculoooo");
+
+            Log.d("fanculo",salvata);
+            if(salvata.equalsIgnoreCase("DEFAULT")){
             Intent posizioneAuto = new Intent(this, PosizioneAuto.class);
             startActivity(posizioneAuto);
             }else{
-                Toast.makeText(getApplicationContext(),"Non salvata la posizione",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Posizione non salvata",Toast.LENGTH_LONG).show();
             }
         } else if (id == R.id.nav_info) {
             Intent info = new Intent(this, Info.class);

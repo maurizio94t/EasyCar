@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
@@ -40,7 +39,7 @@ public class CustomAdapter_AutoUtente extends ArrayAdapter<AutoUtente> {
         modello.setText(a.getModello().getNome());
         targa.setText(a.getTarga());
         img.setImageResource(R.drawable.ic_car);
-        imgSel.setImageResource(R.drawable.ic_ok);
+        imgSel.setImageResource(R.drawable.star_icon);
         if (a.getSelected() == 1) {
             imgSel.setVisibility(View.VISIBLE);
         }

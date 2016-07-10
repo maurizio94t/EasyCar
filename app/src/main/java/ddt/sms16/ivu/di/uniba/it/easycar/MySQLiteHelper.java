@@ -633,7 +633,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 auto = new AutoUtente(cursor.getString(0), cursor.getInt(1), cursor.getString(2), new Utente(cursor.getString(15),cursor.getString(16),cursor.getString(17),cursor.getString(18)), new Modello( cursor.getInt(5),cursor.getString(7),cursor.getString(8),cursor.getString(9),cursor.getString(10),cursor.getString(11),new Marca( cursor.getInt(12),cursor.getString(14))),cursor.getInt(3));
-
             } while (cursor.moveToNext());
         }
 

@@ -2,6 +2,7 @@ package ddt.sms16.ivu.di.uniba.it.easycar;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -13,7 +14,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -162,12 +162,17 @@ public class AggiuntaAuto extends AppCompatActivity {
         int id = item.getItemId();
         if(campiValidi()) {
             if (id == R.id.done) {
-                Toast.makeText(getApplicationContext(), "Auto aggiunta", Toast.LENGTH_LONG).show();
+                Snackbar snackbar = Snackbar
+                        .make(findViewById(android.R.id.content), "Auto aggiunta", Snackbar.LENGTH_LONG);
+                snackbar.show();
                 Log.d("done", "done");
                 return true;
             }
         }else {
-            Toast.makeText(getApplicationContext(), "Completa l'inserimemnto dei dati", Toast.LENGTH_LONG).show();
+
+            Snackbar snackbar = Snackbar
+                    .make(findViewById(android.R.id.content), "Campi non completi", Snackbar.LENGTH_LONG);
+            snackbar.show();
         }
         return super.onOptionsItemSelected(item);
     }

@@ -46,7 +46,6 @@ import ddt.sms16.ivu.di.uniba.it.easycar.entity.Problema;
 public class ProblemiFragment2 extends Fragment {
     private Context thisContext;
     View view;
-
     private ExpandListAdapter ExpAdapter;
     private ArrayList<Group> ExpListItems;
     private ExpandableListView ExpandList;

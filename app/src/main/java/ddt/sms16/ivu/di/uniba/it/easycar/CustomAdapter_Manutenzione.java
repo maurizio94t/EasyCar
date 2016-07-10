@@ -34,6 +34,9 @@ public class CustomAdapter_Manutenzione extends ArrayAdapter<Manutenzione> {
         TextView giorno = (TextView) convertView.findViewById(R.id.giorno);
         TextView mese = (TextView) convertView.findViewById(R.id.mese);
         TextView anno = (TextView) convertView.findViewById(R.id.anno);
+        TextView km = (TextView)convertView.findViewById(R.id.kmView);
+        TextView ordinaria = (TextView)convertView.findViewById(R.id.valoreOrdinaria);
+
         Manutenzione s = getItem(position);
         int [] dataVector = Utility.getData(s.getData());
         descrizione.setText(s.getDescrizione());
@@ -43,6 +46,11 @@ public class CustomAdapter_Manutenzione extends ArrayAdapter<Manutenzione> {
         anno.setText(String.valueOf(dataVector[0]));
         descrizione.setText(s.getDescrizione());
         auto.setText(s.getAuto().getModello().getMarca().getNome() + " " + s.getAuto().getModello().getNome());
+        km.setText(String.valueOf(s.getAuto().getKm()));
+        if(s.getOrdinaria()==0)
+        ordinaria.setText("SI");
+        else
+        ordinaria.setText("NO");
 
 //        img.setImageResource(R.drawable.ic_menu_gallery);
 

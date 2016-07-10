@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="100dip"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="5dip">
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
             <RelativeLayout
                 android:layout_width="90dp"
@@ -21,7 +22,7 @@
                 >
                 <TextView
                     android:id="@+id/giorno"
-                    android:paddingRight="@dimen/paddingRightIcon"
+                    android:paddingRight="19dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="5dp"
@@ -67,40 +68,90 @@
                     android:layout_alignStart="@+id/giorno"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"></TextView>
+
+                      </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dip"
+                    android:gravity="center"
+                    android:paddingRight="30dp"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/auto"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Auto"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textColor="#000000"></TextView>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/descrizione"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="15dp"
+                        android:text="aaaaaaaaaaaaffffffffffffffffff"                      android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#6b71f1"></TextView>
+                </LinearLayout>
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_width="60dp"
+                android:layout_height="50dp"
+                >
+                <TextView
+                    android:id="@+id/ordinaria"
+                    android:textColor="#000000"
+                    android:textSize="14dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ordinaria"
+                    android:gravity="left"></TextView>
+                <TextView
+                    android:id="@+id/valoreOrdinaria"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Si"
+                    android:textColor="#b61717"
+                    android:gravity="left"
+                    android:layout_below="@+id/ordinaria"
+                    android:layout_centerHorizontal="true"></TextView>
+
             </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="60dp"
+                android:layout_height="50dp"
 
+                android:gravity="center_horizontal">
+                <TextView
+                    android:id="@+id/km"
+                    android:textColor="#000000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Km"
+                    android:textSize="14dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"></TextView>
+                <TextView
+                    android:id="@+id/kmView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20000km"
+                    android:textColor="#b61717"
+                    android:layout_below="@+id/km"
+                    android:gravity="left"></TextView>
+            </RelativeLayout>
         </LinearLayout>
 </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="5dip"
-        android:gravity="center"
-        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/auto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/Auto"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#000000"></TextView>
-
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/descrizione"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/descrizione"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#6b71f1"></TextView>
     </LinearLayout>
-</LinearLayout>

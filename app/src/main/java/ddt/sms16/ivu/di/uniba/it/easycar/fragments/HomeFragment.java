@@ -47,7 +47,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(Utility.checkInternetConnection(thisContext)) {
-                    Intent salvaPos = new Intent(getActivity().getApplicationContext(), SalvaPosizione.class);//getContext()
+                    Intent salvaPos = new Intent(getContext(), SalvaPosizione.class);
                     startActivity(salvaPos);
                     save = true;
                 }
@@ -68,8 +68,8 @@ public class HomeFragment extends Fragment {
 
         listView = (ListView) view.findViewById(R.id.listView);
         listView.setAdapter(customAdapter);
-        //AutoUtente a = MainActivity.mySQLiteHelper.getAutoPreferita();
-        //auto.setText(a.getModello().getMarca().getNome()+" "+a.getModello().getNome());
+        AutoUtente a = MainActivity.mySQLiteHelper.getAutoPreferita();
+        auto.setText(a.getModello().getMarca().getNome()+" "+a.getModello().getNome());
         return view;
     }
 
