@@ -85,7 +85,7 @@
                 android:layout_marginTop="20dp"
                 android:textSize="@dimen/formTextSize"
                 android:layout_gravity="center_horizontal"
-                android:textColor="@color/colorScadenze"
+                android:textColor="@color/colorBackground"
                 android:hint="@string/data"
                />
 

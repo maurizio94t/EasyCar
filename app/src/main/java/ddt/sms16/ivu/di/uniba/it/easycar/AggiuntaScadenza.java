@@ -31,8 +31,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Auto;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Scadenza;
+import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ScadenzeFragment;
 
 public class AggiuntaScadenza extends AppCompatActivity {
     private Calendar myCalendar = Calendar.getInstance();
@@ -45,11 +47,6 @@ public class AggiuntaScadenza extends AppCompatActivity {
     private EditText mDataScadenza;
     int anno, mese, giorno = 0;
     public static final String TAG_UTENTE_EMAIL = "Email";
-    private String tipoModifica = "modifica";
-    private String tipo = "tipo";
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,26 +55,6 @@ public class AggiuntaScadenza extends AppCompatActivity {
         final MySQLiteHelper mySQLiteHelper = new MySQLiteHelper(AggiuntaScadenza.this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-      /* Bundle b = getIntent().getExtras();
-        if(b != null){
-            if(b.getString(tipo).equalsIgnoreCase(tipoModifica)){
-
-               int idScadenza= ScadenzeFragment.scadenza.getIDScadenza();
-               String descrizioneScadenza = ScadenzeFragment.scadenza.getDescrizione();
-               String dataScadenza= ScadenzeFragment.scadenza.getDataScadenza();
-             String targaScadenza= ScadenzeFragment.scadenza.getAuto().getTarga();
-                tipoScadenzaRadioGroupSelected.setText(descrizioneScadenza);
-                editTextDate.setText(dataScadenza);
-
-
-             //   MainActivity.mySQLiteHelper.aggiungiScadenza(new Scadenza(Integer.parseInt(idScadenza), descrizione, dataScadenza, new AutoUtente(targaVeicolo)));
-
-
-            }
-        }
-        */
-
 
         mDataScadenza = (EditText)findViewById(R.id.dataScadenza);
         toolbar.setNavigationIcon(R.drawable.ic_navigate_before_white_24dp);
@@ -124,16 +101,16 @@ public class AggiuntaScadenza extends AppCompatActivity {
         List<AutoUtente> auto = mySQLiteHelper.getAllMieAutoUtente();
 
 
-        String[] automobili = new String[auto.size()];
+        AutoUtente[] automobili = new AutoUtente[auto.size()];
         int i = 0;
         for (AutoUtente a : auto
                 ) {
 
-            automobili[i] = a.getModello().getMarca().getNome()+" "+a.getModello().getNome()+"-"+a.getTarga();
+            automobili[i] = a;
             i++;
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<AutoUtente> adapter = new ArrayAdapter<AutoUtente>(this,
                 android.R.layout.simple_spinner_item, automobili);
         spinnerTarghe.setAdapter(adapter);
 
@@ -181,36 +158,27 @@ public class AggiuntaScadenza extends AppCompatActivity {
 
 
         if (id == R.id.done) {
-
-
             if(tipoScadenzaRadioGroupSelected==null || mDataScadenza == null || spinnerTarghe == null){
                 Snackbar snackbar = Snackbar
                         .make( findViewById(android.R.id.content),"Compila tutti i campi...", Snackbar.LENGTH_LONG);
 
                 snackbar.show();
-            }else
-            {
+            } else {
                 String tipoScadenza  = tipoScadenzaRadioGroupSelected.getText().toString();
-
-
-                String dataS =mDataScadenza.getText().toString();
-
-                String dataScadenza =    Utility.convertStringDateToString(mDataScadenza.getText().toString());
-                String targa = spinnerTarghe.getSelectedItem().toString();
+                String dataScadenza = Utility.convertStringDateToString(mDataScadenza.getText().toString());
+                AutoUtente autoSelezionata = (AutoUtente) spinnerTarghe.getSelectedItem();
+                String targa= autoSelezionata.getTarga();
                 String email =MainActivity.sharedpreferences.getString(TAG_UTENTE_EMAIL,"");
 
-                  boolean aggiunto = aggiungiScadenza(tipoScadenza, dataScadenza, targa,email);
+                boolean aggiunto = aggiungiScadenza(tipoScadenza, dataScadenza, targa, email);
                 Log.d("Response",Boolean.toString(aggiunto));
                 Snackbar snackbar;
-             if(aggiunto){
-                   snackbar = Snackbar
-                         .make( findViewById(android.R.id.content),"Errore nell'aggiunta della scadenza, controlla la connessione!!", Snackbar.LENGTH_LONG);
-                 snackbar.show();
-             }else{
-                   snackbar = Snackbar
-                         .make( findViewById(android.R.id.content),"Scadenza aggiunta", Snackbar.LENGTH_LONG);
-                 snackbar.show();
-             }
+                if(aggiunto) {
+                    snackbar = Snackbar.make(findViewById(android.R.id.content), "Errore nell'aggiunta della scadenza, controlla la connessione!!", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else {
+                    finish();
+                }
             }
 
             return true;
@@ -238,7 +206,10 @@ private boolean aggiungiScadenza(final String descrizione, final String dataScad
                         String targaVeicolo = dati.getString(MainActivity.TAG_SCADENZE_VEICOLO);
 
                         MainActivity.mySQLiteHelper.aggiungiScadenza(new Scadenza(Integer.parseInt(idScadenza), descrizione, dataScadenza, new AutoUtente(targaVeicolo)));
-
+                        //aggiorno la listview
+                        ScadenzeFragment.customAdapter.clear();
+                        ScadenzeFragment.customAdapter.addAll(MainActivity.mySQLiteHelper.getAllScadenzeOrdinate());
+                        ScadenzeFragment.customAdapter.notifyDataSetChanged();
                         aggiunto[0] = true;
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -254,14 +225,18 @@ private boolean aggiungiScadenza(final String descrizione, final String dataScad
             }) {
 
         protected Map<String, String> getParams() throws com.android.volley.AuthFailureError {
+            Log.d("SCADENZAAGG >", descrizione);
+            Log.d("SCADENZAAGG >", dataScadenza);
+            Log.d("SCADENZAAGG >", targa);
+            Log.d("SCADENZAAGG >", email);
 
             Map<String, String> params = new HashMap<String, String>();
             params.put("operation", "c");
-            params.put("email", MainActivity.TAG_UTENTE_EMAIL);
+            params.put("email", email);
             params.put("table", MainActivity.TAG_SCADENZE);
             params.put("descrizione", descrizione);
             params.put("data", dataScadenza);
-            params.put("targa", Utility.estraiTarga(targa));
+            params.put("targa", targa);
 
             return params;
         };

@@ -34,6 +34,7 @@ import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Marca;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Modello;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Utente;
+import ddt.sms16.ivu.di.uniba.it.easycar.fragments.MieAutoFragment;
 
 import static android.R.layout.simple_spinner_item;
 
@@ -41,7 +42,7 @@ import static android.R.layout.simple_spinner_item;
 public class AggiuntaAuto extends AppCompatActivity {
     private EditText mTarga ;
     private EditText mEmail ;
-    private EditText mAnnoimmatricolazione ;
+    private EditText mAnno ;
     private EditText mChilometraggio;
     private Spinner mSpinnerMarca ;
     private Spinner mSpinnerModello;
@@ -59,7 +60,7 @@ public class AggiuntaAuto extends AppCompatActivity {
         setSupportActionBar(toolbar);
         mTarga = (EditText) findViewById(R.id.autoTarga);
         mEmail = (EditText) findViewById(R.id.editTxtEmail);
-        mAnnoimmatricolazione = (EditText) findViewById(R.id.anno_immatricolazione);
+        mAnno = (EditText) findViewById(R.id.anno_imm);
         mChilometraggio = (EditText) findViewById(R.id.chilometraggio_auto);
         mSpinnerMarca = (Spinner)findViewById(R.id.spinner_marca);
         mSpinnerModello = (Spinner)findViewById(R.id.spinner_modello);
@@ -75,52 +76,7 @@ public class AggiuntaAuto extends AppCompatActivity {
 
 
 
-
-
-        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
-                anno = year;
-                mese = monthOfYear;
-                giorno = dayOfMonth;
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel();
-            }
-
-        };
-
-
-        mAnnoimmatricolazione.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    new DatePickerDialog(AggiuntaAuto.this, date,
-                            myCalendar.get(Calendar.YEAR),
-                            myCalendar.get(Calendar.MONTH),
-                            myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-                }
-            }
-        });
-
-        mAnnoimmatricolazione.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new DatePickerDialog(AggiuntaAuto.this, date,
-                        myCalendar.get(Calendar.YEAR),
-                        myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH))
-                        .show();
-            }
-        });
-
-
-
-
-          List<Marca> marca = MainActivity.mySQLiteHelper.getAllMarche();
+        List<Marca> marca = MainActivity.mySQLiteHelper.getAllMarche();
         Marca[] marche = new Marca[marca.size()];
 
         int j = 0;
@@ -179,20 +135,9 @@ public class AggiuntaAuto extends AppCompatActivity {
         });
     }
 
-
-
-    private void updateLabel() {
-
-        String myFormat = "dd/MM/yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ITALY);
-
-        dataN = sdf.format(myCalendar.getTime());
-        mAnnoimmatricolazione.setText(dataN);
-
-    }
     public boolean campiValidi(){
         if(mTarga.getText().toString().equalsIgnoreCase("")|| mEmail.getText().toString().equalsIgnoreCase("")
-                || mAnnoimmatricolazione.toString().equalsIgnoreCase("")|| mChilometraggio.toString().equalsIgnoreCase("")
+                || mAnno.toString().equalsIgnoreCase("")|| mChilometraggio.toString().equalsIgnoreCase("")
                  ){
             return false;
         }
@@ -208,19 +153,15 @@ public class AggiuntaAuto extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-       Log.d("ResponseAggiuntaAuto","sono dentro");
        // if(campiValidi()) {
             if (id == R.id.done) {
 
                 final String email =MainActivity.sharedpreferences.getString(MainActivity.TAG_UTENTE_EMAIL,"");
                 final String targa = mTarga.getText().toString();
-                final String annoImm = mAnnoimmatricolazione.getText().toString();
+                final String annoImm = mAnno.getText().toString();
                 final String km = mChilometraggio.getText().toString();
                 //idMarca
                 //idModello
-
-
-
 
                 StringRequest myReq = new StringRequest(Request.Method.POST,
                         MainActivity.urlOperations,
@@ -230,30 +171,26 @@ public class AggiuntaAuto extends AppCompatActivity {
                                 Log.d("ResponseAggiuntaAuto ",response);
                                 try {
                                     JSONObject jsonObj = new JSONObject(response);
-                                    JSONObject dati = jsonObj.getJSONObject("dati");
-                                    Log.d("ResponseAggiuntaAuto ",response);
-
-                                    String targa=dati.getString("targa");
-                                    String km = dati.getString("km");
-                                    String anno= dati.getString("anno");
-                                    String email= dati.getString("utente");
-                                    String modello= dati.getString("modello");
-
-                                    Snackbar snackbar;
-                                    if ( !targa.equalsIgnoreCase("")) {
-                                        MainActivity.mySQLiteHelper.aggiungiAutoUtente(new AutoUtente(targa,Integer.parseInt(km),anno,new Utente(email),new Modello(Integer.parseInt(modello))));
-                                        MainActivity.mySQLiteHelper.getAllMieAutoUtente();
-                                        finish();
-
-
+                                    if(jsonObj.getString("dati") == null) {
+                                        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Errore: targa già presente!", Snackbar.LENGTH_LONG);
+                                        snackbar.show();
                                     } else {
-
-                                            snackbar = Snackbar
-                                                    .make(findViewById(android.R.id.content), "Errore: auto non aggiunta!", Snackbar.LENGTH_LONG);
-                                            snackbar.show();
+                                        JSONObject dati = jsonObj.getJSONObject("dati");
+                                        Log.d("ResponseAggiuntaAuto ",response);
 
 
+                                        String targa = dati.getString("targa");
+                                        String km = dati.getString("km");
+                                        String anno= dati.getString("anno");
+                                        String email= dati.getString("utente");
+                                        String modello= dati.getString("modello");
 
+                                        MainActivity.mySQLiteHelper.aggiungiAutoUtente(new AutoUtente(targa,Integer.parseInt(km),anno,new Utente(email),new Modello(Integer.parseInt(modello))));
+                                        //aggiorno la listview
+                                        MieAutoFragment.customAdapter.clear();
+                                        MieAutoFragment.customAdapter.addAll(MainActivity.mySQLiteHelper.getAllMieAutoUtente());
+                                        MieAutoFragment.customAdapter.notifyDataSetChanged();
+                                        finish();
 
                                     }
 
@@ -274,19 +211,17 @@ public class AggiuntaAuto extends AppCompatActivity {
                         Map<String, String> params = new HashMap<String, String>();
                         params.put("operation", "c");
                         params.put("table", MainActivity.TAG_AUTOUTENTE);
-                        Log.d("ResponseAggiuntaAuto",targa);
-                        Log.d("ResponseAggiuntaAuto",km);
-                        Log.d("ResponseAggiuntaAuto",annoImm);
-                        Log.d("ResponseAggiuntaAuto",email);
-                        Log.d("ResponseAggiuntaAuto",String.valueOf(idModello));
-
-
 
                         params.put("targa",targa  );
                         params.put("km", km );
                         params.put("anno",annoImm );
                         params.put("utente", email );
                         params.put("modello", String.valueOf(idModello) );
+
+                        Log.d("ResponseAggiuntaAuto ", targa);
+                        Log.d("ResponseAggiuntaAuto ", km);
+                        Log.d("ResponseAggiuntaAuto ", annoImm);
+                        Log.d("ResponseAggiuntaAuto ", email);
 
                         return params;
                     }

@@ -33,6 +33,7 @@ import java.util.Map;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Manutenzione;
+import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ManutenzioniFragment;
 
 
 public class AggiuntaManutenzione extends AppCompatActivity {
@@ -121,15 +122,15 @@ public class AggiuntaManutenzione extends AppCompatActivity {
         List<AutoUtente> auto = MainActivity.mySQLiteHelper.getAllMieAutoUtente();
 
 
-        String[] automobili = new String[auto.size()];
+        AutoUtente[] automobili = new AutoUtente[auto.size()];
         int i = 0;
         for (AutoUtente a : auto
                 ) {
-            automobili[i] = a.getModello().getMarca().getNome()+" "+a.getModello().getNome()+"-"+a.getTarga();
+            automobili[i] = a;
             i++;
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<AutoUtente> adapter = new ArrayAdapter<AutoUtente>(this,
                 android.R.layout.simple_spinner_item, automobili);
         mSpinnerVeicolo.setAdapter(adapter);
     }
@@ -178,12 +179,8 @@ public class AggiuntaManutenzione extends AppCompatActivity {
                 String descrizioneManutenzione = mDescrizioneManutenzione.getText().toString();
                 String datamanutenzione = mData.getText().toString();
                 String chilometraggio = mChilometraggio.getText().toString();
-                String targaVeicolo = mSpinnerVeicolo.getSelectedItem().toString();
-                String targa = Utility.estraiTarga(targaVeicolo);
-               String data = Utility.convertStringDateToString(datamanutenzione.replace("/"," "));
-
-
-
+                String targa = ((AutoUtente) mSpinnerVeicolo.getSelectedItem()).getTarga();
+                String data = Utility.convertStringDateToString(datamanutenzione.replace("/"," "));
 
                 String email = MainActivity.sharedpreferences.getString(MainActivity.TAG_UTENTE_EMAIL, "");
 
@@ -196,13 +193,7 @@ public class AggiuntaManutenzione extends AppCompatActivity {
                             .make(findViewById(android.R.id.content), "Errore nell'aggiunta del problema, controlla la connessione!", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 } else {
-
-
                     finish();
-
-
-
-
                 }
 
             }
@@ -234,16 +225,13 @@ public class AggiuntaManutenzione extends AppCompatActivity {
                             int ordinaria= dati.getInt(MainActivity.TAG_MANUTENZIONI_ORDINARIA );
                             String kmManutenzione= dati.getString(MainActivity.TAG_MANUTENZIONI_KM_MANUTENZIONE );
                             String targa = dati.getString(MainActivity.TAG_MANUTENZIONI_VEICOLO);
-                            Log.d("ResponseManutenzione",String.valueOf(idManutenzione));
-                            Log.d("ResponseManutenzione",descrizione);
-                            Log.d("ResponseManutenzione",data);
-                            Log.d("ResponseManutenzione",String.valueOf(ordinaria));
-                            Log.d("ResponseManutenzione",kmManutenzione);
-                            Log.d("ResponseManutenzione",targa);
 
-                            MainActivity.mySQLiteHelper.aggiungiManutenzione(new Manutenzione(idManutenzione,descrizione,data,ordinaria,kmManutenzione,new AutoUtente(targa)));
-                            MainActivity.mySQLiteHelper.getAllManutenzioni();
-                            aggiunto[0] =true;
+                            MainActivity.mySQLiteHelper.aggiungiManutenzione(new Manutenzione(idManutenzione, descrizione, data, ordinaria, kmManutenzione, new AutoUtente(targa)));
+                            //aggiorno la listview
+                            ManutenzioniFragment.customAdapter.clear();
+                            ManutenzioniFragment.customAdapter.addAll(MainActivity.mySQLiteHelper.getAllManutenzioniOrdinate());
+                            ManutenzioniFragment.customAdapter.notifyDataSetChanged();
+                            aggiunto[0] = true;
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -269,7 +257,7 @@ public class AggiuntaManutenzione extends AppCompatActivity {
                 params.put("data", data );
                 params.put("ordinaria", String.valueOf(ordinaria) );
                 params.put("km", kmManutezione );
-                params.put("targa",targa );
+                params.put("targa", targa );
 
                 return params;
             };

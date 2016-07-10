@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -42,7 +43,7 @@ public class MieAutoFragment extends Fragment {
 
     private Context thisContext;
     private View view;
-    private CustomAdapter_AutoUtente customAdapter;
+    public static CustomAdapter_AutoUtente customAdapter;
     private ListView listView;
     private AutoUtente auto;
 
@@ -149,8 +150,11 @@ public class MieAutoFragment extends Fragment {
             };
             MainActivity.queue.add(myReq);
         } else if (item.getTitle() == "Elimina") {
-            
-            controlloAlert();
+            if(auto.getSelected() == 0) {
+                controlloAlert();
+            } else {
+                Toast.makeText(thisContext, "Impossibile restare senza auto preferita!", Toast.LENGTH_SHORT).show();;
+            }
         } else {
             return false;
         }
@@ -200,11 +204,13 @@ public class MieAutoFragment extends Fragment {
                         try {
                             JSONObject jsonObj = new JSONObject(response);
                             JSONObject dati = jsonObj.getJSONObject("dati");
-                            boolean effettuato = dati.getBoolean("Delete");
-                            //Log.d("ResponseEliminaManutenzione ", effettuato);
-                            if(effettuato){
-                                //Log.d("ResponseEliminaManutenzione ",effettuato);
+                            boolean delete = dati.getBoolean("Delete");
+                            if(delete){
                                 MainActivity.mySQLiteHelper.deleteAutoUtente(new AutoUtente(Targa));
+                                //aggiorno la listview
+                                customAdapter.clear();
+                                customAdapter.addAll(MainActivity.mySQLiteHelper.getAllMieAutoUtente());
+                                customAdapter.notifyDataSetChanged();
                             }
                             aggiunto[0] = true;
                         } catch (JSONException e) {

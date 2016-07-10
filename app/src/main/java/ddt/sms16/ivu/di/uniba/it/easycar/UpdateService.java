@@ -163,8 +163,6 @@ public class UpdateService extends Service  {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Toast.makeText(getApplicationContext(),"Destroy Service",Toast.LENGTH_LONG).show();
-
     }
 
     protected class GetData extends AsyncTask<String, Void, Void> {
@@ -173,7 +171,6 @@ public class UpdateService extends Service  {
         protected Void doInBackground(String... params) {
             Log.e("SERVICE >", "doInBackground");
             try {
-                Log.e("SERVICE-RESP >", params[0]);
                 JSONObject jsonObj = new JSONObject(params[0]);
                 parseService(jsonObj);
             } catch (Exception e) {
@@ -187,14 +184,12 @@ public class UpdateService extends Service  {
         protected void onPostExecute(Void requestresult) {
             super.onPostExecute(requestresult);
             Log.e("SERVICE >", "onPostExecute");
-            //aggiornaDataBaseLocale(context, ENABLE_NOTIFICATIONS);
             try {
                 aggiornaDataBaseLocaleService();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-
     }
 
     public static void parse(JSONObject jsonObj) throws JSONException {

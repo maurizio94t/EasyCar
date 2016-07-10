@@ -40,7 +40,7 @@ import ddt.sms16.ivu.di.uniba.it.easycar.entity.Manutenzione;
 public class ManutenzioniFragment extends Fragment {
     private Context thisContext;
     private View view;
-    private CustomAdapter_Manutenzione customAdapter;
+    public static CustomAdapter_Manutenzione customAdapter;
     private ListView listView;
     private boolean alert;
     Manutenzione manutezione;
@@ -53,7 +53,7 @@ public class ManutenzioniFragment extends Fragment {
         customAdapter = new CustomAdapter_Manutenzione(
                 thisContext.getApplicationContext(),
                 R.layout.row_manutenzione,
-                MainActivity.mySQLiteHelper.getAllManutenzioni());
+                MainActivity.mySQLiteHelper.getAllManutenzioniOrdinate());
 
         //utilizzo dell'adapter
         listView = (ListView) view.findViewById(R.id.listView);
@@ -93,9 +93,7 @@ public class ManutenzioniFragment extends Fragment {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-    //    menu.setHeaderTitle("Select The Action");
-        menu.add(0, v.getId(), 0, "Elimina");//groupId, itemId, order, title
-     //   menu.add(0, v.getId(), 0, "Modifica");
+        menu.add(0, v.getId(), 0, "Elimina");
     }
 
 
@@ -103,7 +101,6 @@ public class ManutenzioniFragment extends Fragment {
     public boolean onContextItemSelected(MenuItem item) {
         if (item.getTitle() == "Elimina") {
             controlloAlert();
-            Toast.makeText(getContext(),"Elimina",Toast.LENGTH_LONG).show();
         }
         return true;
     }
@@ -122,23 +119,11 @@ public class ManutenzioniFragment extends Fragment {
                 .setPositiveButton("Si",new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
                         eliminaManutenzione(manutezione.getIDManutenzione());
-                         customAdapter.clear();
-                        customAdapter = new CustomAdapter_Manutenzione(
-                                thisContext.getApplicationContext(),
-                                R.layout.row_manutenzione,
-                                MainActivity.mySQLiteHelper.getAllManutenzioni());
-                        listView = (ListView) view.findViewById(R.id.listView);
-                        listView.setAdapter(customAdapter);
-
-
-                        Snackbar snackbar = Snackbar
-                                .make(getActivity().findViewById(android.R.id.content), "Eliminato", Snackbar.LENGTH_LONG);
-                        snackbar.show();
                     }
                 })
                 .setNegativeButton("No",new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                       alert = false;
+                        alert = false;
                         dialog.cancel();
                     }
                 });
@@ -162,11 +147,13 @@ public class ManutenzioniFragment extends Fragment {
                         try {
                             JSONObject jsonObj = new JSONObject(response);
                             JSONObject dati = jsonObj.getJSONObject("dati");
-                            String effettuato =dati.getString("Delete");
-                            Log.d("ResponseEliminaManutenzione ", effettuato);
-                            if(effettuato.equalsIgnoreCase("true")){
-                                Log.d("ResponseEliminaManutenzione ",effettuato);
+                            boolean delete =dati.getBoolean("Delete");
+                            if(delete){
                                 MainActivity.mySQLiteHelper.deleteManutezione(new Manutenzione(idManutenzione));
+                                //aggiorno la listview
+                                customAdapter.clear();
+                                customAdapter.addAll(MainActivity.mySQLiteHelper.getAllManutenzioniOrdinate());
+                                customAdapter.notifyDataSetChanged();
                             }
 
                             aggiunto[0] = true;
@@ -191,7 +178,6 @@ public class ManutenzioniFragment extends Fragment {
                 params.put("table", MainActivity.TAG_MANUTENZIONI);
                 params.put("id", String.valueOf(idManutenzione));
 
-
                 return params;
             }
 
@@ -204,30 +190,5 @@ public class ManutenzioniFragment extends Fragment {
         }
 
         return aggiunto[0];
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        customAdapter.clear();
-        customAdapter = new CustomAdapter_Manutenzione(
-                thisContext.getApplicationContext(),
-                R.layout.row_manutenzione,
-                MainActivity.mySQLiteHelper.getAllManutenzioni());
-
-        listView.setAdapter(customAdapter);
-
-    }
-    @Override
-    public void onPause(){
-        super.onPause();
-        customAdapter.clear();
-        customAdapter = new CustomAdapter_Manutenzione(
-                thisContext.getApplicationContext(),
-                R.layout.row_manutenzione,
-                MainActivity.mySQLiteHelper.getAllManutenzioni());
-
-        listView.setAdapter(customAdapter);
-
     }
 }

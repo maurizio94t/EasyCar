@@ -49,8 +49,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="5dip"
-        android:gravity="center"
-        android:layout_weight="1"
+
+        android:layout_weight="5"
         android:orientation="vertical">
 
         <LinearLayout

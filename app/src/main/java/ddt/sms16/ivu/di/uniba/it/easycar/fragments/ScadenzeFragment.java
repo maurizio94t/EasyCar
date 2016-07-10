@@ -38,13 +38,10 @@ import ddt.sms16.ivu.di.uniba.it.easycar.entity.Scadenza;
 public class ScadenzeFragment extends Fragment {
     private Context thisContext;
     private View view;
-    private CustomAdapter_Scadenze customAdapter;
+    public static CustomAdapter_Scadenze customAdapter;
     private ListView listView;
-    private int idSelected;
     public Scadenza scadenza;
 
-    private String tipo = "tipo";
-    private String tipoModifica = "modifica";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         thisContext = container.getContext();
@@ -53,7 +50,7 @@ public class ScadenzeFragment extends Fragment {
         customAdapter = new CustomAdapter_Scadenze(
                 thisContext.getApplicationContext(),
                 R.layout.row_scadenza,
-                MainActivity.mySQLiteHelper.getAllScadenze());
+                MainActivity.mySQLiteHelper.getAllScadenzeOrdinate());
 
         listView = (ListView) view.findViewById(R.id.listView);
         listView.setAdapter(customAdapter);
@@ -70,9 +67,9 @@ public class ScadenzeFragment extends Fragment {
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent,View myView, int myItemInt, long mylng) {
-                Scadenza selectedFromList =(Scadenza) (listView.getItemAtPosition(myItemInt));
-                scadenza=selectedFromList;
+            public boolean onItemLongClick(AdapterView<?> parent, View myView, int myItemInt, long mylng) {
+                Scadenza selectedFromList = (Scadenza) (listView.getItemAtPosition(myItemInt));
+                scadenza = selectedFromList;
                 return false;
             }
 
@@ -84,30 +81,12 @@ public class ScadenzeFragment extends Fragment {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
         super.onCreateContextMenu(menu, v, menuInfo);
         menu.add(0, v.getId(), 0, "Elimina");
-       // menu.add(0, v.getId(), 0, "Modifica");
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         if(item.getTitle()=="Elimina"){
             controlloAlert();
-            /*
-            customAdapter = new CustomAdapter_Scadenze(
-                    thisContext.getApplicationContext(),
-                    R.layout.row_scadenza,
-                    MainActivity.mySQLiteHelper.getAllScadenze());
-            listView.setAdapter(customAdapter);*/
-        }
-         else if(item.getTitle()=="Modifica") {
-
-            // lanciare update da aggiuntaScadenza
-            /*
-                        Intent intent = new Intent(getActivity(), AggiuntaScadenza.class);
-                        intent.putExtra(tipo,tipoModifica);
-
-                        startActivity(intent);
-
-            */
         } else {
             return false;
         }
@@ -127,7 +106,6 @@ public class ScadenzeFragment extends Fragment {
                 .setPositiveButton("Si",new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
                         eliminaScadenza(scadenza.getIDScadenza());
-
                     }
                 })
                 .setNegativeButton("No",new DialogInterface.OnClickListener() {
@@ -154,7 +132,14 @@ public class ScadenzeFragment extends Fragment {
                         try {
                             JSONObject jsonObj = new JSONObject(response);
                             JSONObject dati = jsonObj.getJSONObject("dati");
-                            MainActivity.mySQLiteHelper.deleteScadenza(new Scadenza(idScadenza));
+                            boolean delete =dati.getBoolean("Delete");
+                            if(delete) {
+                                MainActivity.mySQLiteHelper.deleteScadenza(new Scadenza(idScadenza));
+                                //aggiorno la listview
+                                customAdapter.clear();
+                                customAdapter.addAll(MainActivity.mySQLiteHelper.getAllScadenzeOrdinate());
+                                customAdapter.notifyDataSetChanged();
+                            }
                             aggiunto[0] = true;
                         } catch (JSONException e) {
                             e.printStackTrace();

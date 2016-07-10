@@ -31,7 +31,8 @@ tools:context="ddt.sms16.ivu.di.uniba.it.easycar.fragments.ScadenzeFragment">
         android:layout_alignBottom="@+id/linearL"
         android:layout_alignRight="@+id/linearL"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_input_add" />
+        android:src="@android:drawable/ic_input_add"
+        android:tint="@color/colorTitle" />
 </RelativeLayout>
 
 </FrameLayout>

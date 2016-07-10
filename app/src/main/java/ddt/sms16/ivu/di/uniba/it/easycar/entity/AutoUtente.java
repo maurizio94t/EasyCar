@@ -66,8 +66,7 @@ public class AutoUtente implements Comparable<AutoUtente> {
 
     @Override
     public String toString() {
-        return "AutoUtente [targa=" + targa + ", km=" + km + ", anno imm= " + annoImmatricolazione + ", Utente_Email= " + utente.toString() + ", Modello_id= " + modello.toString()
-                + ", selected= " + selected + "]";
+        return modello.getMarca().getNome()+" "+modello.getNome()+" - "+targa;
     }
 
     @Override

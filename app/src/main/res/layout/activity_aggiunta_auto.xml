@@ -37,7 +37,7 @@
                         android:inputType="text"
                         android:layout_marginTop="20dp"
                         android:textSize="@dimen/text_size"
-                        android:textColor="@color/colorAuto"
+                        android:textColor="@color/colorBackground"
                         android:textStyle="bold"
                         android:hint="@string/targa"
                         />
@@ -59,13 +59,13 @@
 
                />
                     <EditText
-                        android:id="@+id/anno_immatricolazione"
+                        android:id="@+id/anno_imm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
+                        android:inputType="number"
                         android:layout_marginTop="20dp"
                         android:textSize="@dimen/text_size"
-                        android:textColor="@color/colorAuto"
+                        android:textColor="@color/colorBackground"
                         android:textStyle="bold"
                         android:hint="@string/immatricolazione"
                         android:singleLine="true" />
@@ -90,7 +90,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="numberDecimal"
                         android:layout_marginTop="20dp"
-                        android:textColor="@color/colorAuto"
+                        android:textColor="@color/colorBackground"
                         android:textSize="@dimen/text_size"
                         android:textStyle="bold"
                         android:hint="@string/chilometraggio"

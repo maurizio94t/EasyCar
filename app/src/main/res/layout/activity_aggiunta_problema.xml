@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:inputType="text"
             android:textSize="@dimen/text_size"
-            android:textColor="@color/colorProblemi"
+            android:textColor="@color/colorBackground"
             android:textStyle="bold"
             android:hint="@string/descrizione"
 
