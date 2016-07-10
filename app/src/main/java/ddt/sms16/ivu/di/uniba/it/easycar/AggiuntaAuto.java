@@ -11,18 +11,29 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Marca;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Modello;
+import ddt.sms16.ivu.di.uniba.it.easycar.entity.Utente;
 
 import static android.R.layout.simple_spinner_item;
 
@@ -34,7 +45,9 @@ public class AggiuntaAuto extends AppCompatActivity {
     private EditText mChilometraggio;
     private Spinner mSpinnerMarca ;
     private Spinner mSpinnerModello;
-    private Button inviaAuto;
+    private int idMarca;
+    private int idModello;
+
     int anno, mese, giorno = 0;
     String dataN;
     Calendar myCalendar = Calendar.getInstance();
@@ -44,6 +57,12 @@ public class AggiuntaAuto extends AppCompatActivity {
         setContentView(R.layout.activity_aggiunta_auto);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mTarga = (EditText) findViewById(R.id.autoTarga);
+        mEmail = (EditText) findViewById(R.id.editTxtEmail);
+        mAnnoimmatricolazione = (EditText) findViewById(R.id.anno_immatricolazione);
+        mChilometraggio = (EditText) findViewById(R.id.chilometraggio_auto);
+        mSpinnerMarca = (Spinner)findViewById(R.id.spinner_marca);
+        mSpinnerModello = (Spinner)findViewById(R.id.spinner_modello);
 
 
         toolbar.setNavigationIcon(R.drawable.ic_navigate_before_white_24dp);
@@ -54,12 +73,7 @@ public class AggiuntaAuto extends AppCompatActivity {
             }
         });
 
-        mTarga = (EditText) findViewById(R.id.autoTarga);
-        mEmail = (EditText) findViewById(R.id.editTxtEmail);
-        mAnnoimmatricolazione = (EditText) findViewById(R.id.anno_immatricolazione);
-        mChilometraggio = (EditText) findViewById(R.id.chilometraggio_auto);
-        mSpinnerMarca = (Spinner)findViewById(R.id.spinner_marca);
-        mSpinnerModello = (Spinner)findViewById(R.id.spinner_modello);
+
 
 
 
@@ -106,7 +120,7 @@ public class AggiuntaAuto extends AppCompatActivity {
 
 
 
-        final List<Marca> marca = MainActivity.mySQLiteHelper.getAllMarche();
+          List<Marca> marca = MainActivity.mySQLiteHelper.getAllMarche();
         Marca[] marche = new Marca[marca.size()];
 
         int j = 0;
@@ -117,21 +131,16 @@ public class AggiuntaAuto extends AppCompatActivity {
         ArrayAdapter<Marca> adapter1 = new ArrayAdapter<Marca>(this,
                 simple_spinner_item, marche);
         mSpinnerMarca.setAdapter(adapter1);
-
         mSpinnerMarca.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int pos, long id) {
 
                  Marca marcaSelezionata= (Marca) mSpinnerMarca.getSelectedItem();
-                Log.d("marcaSelezionata",marcaSelezionata.getIDMarca() +" "+marcaSelezionata.getNome());
+                idMarca=marcaSelezionata.getIDMarca();
 
                 List<Modello> listaModelli = MainActivity.mySQLiteHelper.getAllModelliDiMarca(marcaSelezionata);
-                for (Modello m : listaModelli
-                     ) {
-                    Log.d("marcaSelezionata",m.getNome());
 
-                }
 
                 Modello[] modelli = new Modello[listaModelli.size()];
                 int i = 0;
@@ -139,37 +148,27 @@ public class AggiuntaAuto extends AppCompatActivity {
                     modelli[i] = a;
                     i++;
                 }
+
                 ArrayAdapter<Modello> adapter = new ArrayAdapter<Modello>(AggiuntaAuto.this,
                         android.R.layout.simple_spinner_item, modelli);
+
                 mSpinnerModello.setAdapter(adapter);
+
+
             }
 
             public void onNothingSelected(AdapterView<?> parent) {
-                // Do nothing, just another required interface callback
+
             }
 
         });
 
-        // (optional)
-        /*
+        mSpinnerModello.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-              // Marca marcaSelezionata= (Marca) mSpinnerMarca.getSelectedItem();
-              //  List<Modello> modello = MainActivity.mySQLiteHelper.getAllModelliDiMarca(marcaSelezionata);
 
-
-           //     String[] modelli = new String[modello.size()];
-                int i = 0;
-          /*      for (Modello a : modello) {
-                    modelli[i] = a.getNome();
-                    i++;
-                }*/
-
-              /*  ArrayAdapter<String> adapter = new ArrayAdapter<String>(AggiuntaAuto.super.getApplicationContext(),
-                        android.R.layout.simple_spinner_item, modelli);
-
-                mSpinnerModello.setAdapter(adapter);
-
+                Modello modelloSelezionato= (Modello) mSpinnerModello.getSelectedItem();
+                idModello=modelloSelezionato.getIDModello();
 
             }
 
@@ -178,37 +177,9 @@ public class AggiuntaAuto extends AppCompatActivity {
 
             }
         });
-        */
-
-/*
-        mSpinnerMarca.setOnItemClickListener((new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-             List<Modello> modello = MainActivity.mySQLiteHelper.getAllModelli();
-
-
-                String[] modelli = new String[modello.size()];
-                int i = 0;
-                for (Modello a : modello) {
-                    modelli[i] = a.getNome();
-                    i++;
-                }
-
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(AggiuntaAuto.super.getApplicationContext(),
-                        android.R.layout.simple_spinner_item, modelli);
-                mSpinnerModello.setAdapter(adapter);
-
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        }));
-        */
     }
+
+
 
     private void updateLabel() {
 
@@ -220,8 +191,8 @@ public class AggiuntaAuto extends AppCompatActivity {
 
     }
     public boolean campiValidi(){
-        if(mTarga.getText().toString().compareTo("")==0 || mEmail.getText().toString().compareTo("")==0
-                || mAnnoimmatricolazione.getText().toString().compareTo("")==0 || mChilometraggio.getText().toString().compareTo("")==0
+        if(mTarga.getText().toString().equalsIgnoreCase("")|| mEmail.getText().toString().equalsIgnoreCase("")
+                || mAnnoimmatricolazione.toString().equalsIgnoreCase("")|| mChilometraggio.toString().equalsIgnoreCase("")
                  ){
             return false;
         }
@@ -236,22 +207,101 @@ public class AggiuntaAuto extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         int id = item.getItemId();
-        if(campiValidi()) {
+       Log.d("ResponseAggiuntaAuto","sono dentro");
+       // if(campiValidi()) {
             if (id == R.id.done) {
-                Snackbar snackbar = Snackbar
-                        .make(findViewById(android.R.id.content), "Auto aggiunta", Snackbar.LENGTH_LONG);
-                snackbar.show();
-                Log.d("done", "done");
+
+                final String email =MainActivity.sharedpreferences.getString(MainActivity.TAG_UTENTE_EMAIL,"");
+                final String targa = mTarga.getText().toString();
+                final String annoImm = mAnnoimmatricolazione.getText().toString();
+                final String km = mChilometraggio.getText().toString();
+                //idMarca
+                //idModello
+
+
+
+
+                StringRequest myReq = new StringRequest(Request.Method.POST,
+                        MainActivity.urlOperations,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                Log.d("ResponseAggiuntaAuto ",response);
+                                try {
+                                    JSONObject jsonObj = new JSONObject(response);
+                                    JSONObject dati = jsonObj.getJSONObject("dati");
+                                    Log.d("ResponseAggiuntaAuto ",response);
+
+                                    String targa=dati.getString("targa");
+                                    String km = dati.getString("km");
+                                    String anno= dati.getString("anno");
+                                    String email= dati.getString("utente");
+                                    String modello= dati.getString("modello");
+
+                                    Snackbar snackbar;
+                                    if ( !targa.equalsIgnoreCase("")) {
+                                        MainActivity.mySQLiteHelper.aggiungiAutoUtente(new AutoUtente(targa,Integer.parseInt(km),anno,new Utente(email),new Modello(Integer.parseInt(modello))));
+                                        MainActivity.mySQLiteHelper.getAllMieAutoUtente();
+                                        finish();
+
+
+                                    } else {
+
+                                            snackbar = Snackbar
+                                                    .make(findViewById(android.R.id.content), "Errore: auto non aggiunta!", Snackbar.LENGTH_LONG);
+                                            snackbar.show();
+
+
+
+
+                                    }
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d("ResponseAggiuntaAuto","errore");
+                            }
+                        }) {
+
+                    protected Map<String, String> getParams() throws com.android.volley.AuthFailureError {
+
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put("operation", "c");
+                        params.put("table", MainActivity.TAG_AUTOUTENTE);
+                        Log.d("ResponseAggiuntaAuto",targa);
+                        Log.d("ResponseAggiuntaAuto",km);
+                        Log.d("ResponseAggiuntaAuto",annoImm);
+                        Log.d("ResponseAggiuntaAuto",email);
+                        Log.d("ResponseAggiuntaAuto",String.valueOf(idModello));
+
+
+
+                        params.put("targa",targa  );
+                        params.put("km", km );
+                        params.put("anno",annoImm );
+                        params.put("utente", email );
+                        params.put("modello", String.valueOf(idModello) );
+
+                        return params;
+                    }
+
+                    ;
+                };
+                if (Utility.checkInternetConnection(getApplicationContext())) {
+                    MainActivity.queue.add(myReq);
+                } else {
+                    UpdateService.requests.add(myReq);
+                }
+
+
                 return true;
             }
-        }else {
-
-            Snackbar snackbar = Snackbar
-                    .make(findViewById(android.R.id.content), "Campi non completi", Snackbar.LENGTH_LONG);
-            snackbar.show();
-        }
         return super.onOptionsItemSelected(item);
     }
 

@@ -1,18 +1,12 @@
 package ddt.sms16.ivu.di.uniba.it.easycar;
 
-import android.app.Fragment;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -24,8 +18,6 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,11 +30,6 @@ import ddt.sms16.ivu.di.uniba.it.easycar.entity.Modello;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Problema;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Scadenza;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Utente;
-import ddt.sms16.ivu.di.uniba.it.easycar.fragments.HomeFragment;
-import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ManutenzioniFragment;
-import ddt.sms16.ivu.di.uniba.it.easycar.fragments.MieAutoFragment;
-import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment2;
-import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ScadenzeFragment;
 
 /**
  * Created by Maurizio on 01/06/16.

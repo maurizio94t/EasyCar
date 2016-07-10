@@ -224,6 +224,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 auto.add(autoUtente);
             } while (cursor.moveToNext());
         }
+
         return auto;
     }
 

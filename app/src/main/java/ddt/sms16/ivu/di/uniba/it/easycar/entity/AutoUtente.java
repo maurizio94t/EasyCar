@@ -22,6 +22,15 @@ public class AutoUtente implements Comparable<AutoUtente> {
         this.selected = selected;
 
     }
+    public AutoUtente(String targa, int km, String annoImmatricolazione, Utente utente, Modello modello) {
+        this.targa = targa;
+        this.km = km;
+        this.annoImmatricolazione = annoImmatricolazione;
+        this.utente = utente;
+        this.modello = modello;
+
+
+    }
     public AutoUtente(String targa) {
         this.targa = targa;
 
