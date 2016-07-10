@@ -44,11 +44,11 @@ import ddt.sms16.ivu.di.uniba.it.easycar.entity.Problema;
  * Created by Maurizio on 01/06/16.
  */
 public class ProblemiFragment2 extends Fragment {
-    private Context thisContext;
+    public static Context thisContext;
     View view;
-    private ExpandListAdapter ExpAdapter;
-    private ArrayList<Group> ExpListItems;
-    private ExpandableListView ExpandList;
+    public static ExpandListAdapter ExpAdapter;
+    public static ArrayList<Group> ExpListItems;
+    public static ExpandableListView ExpandList;
     private Problema problema;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,8 +77,7 @@ public class ProblemiFragment2 extends Fragment {
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 Problema selectedFromList = (Problema) ExpAdapter.getChild(groupPosition, childPosition);
                 problema=selectedFromList;
-                if(MainActivity.sharedpreferences.getString(MainActivity.TAG_UTENTE_EMAIL, "")
-                        .equalsIgnoreCase(problema.getAuto().getUtente().getEmail())) {
+                if(MainActivity.sharedpreferences.getString(MainActivity.TAG_UTENTE_EMAIL, "").equalsIgnoreCase(problema.getAuto().getUtente().getEmail())) {
                     controlloAlert();
                 }else{
                     Toast.makeText(getContext(),"Problema segnalato da altro utente",Toast.LENGTH_LONG).show();
@@ -129,9 +128,6 @@ public class ProblemiFragment2 extends Fragment {
                 .setPositiveButton(R.string.PositiveButton,new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
                       eliminaProblema(problema.getIDProblema());
-                        Snackbar snackbar = Snackbar
-                                .make(getActivity().findViewById(android.R.id.content), "Eliminato", Snackbar.LENGTH_LONG);
-                        snackbar.show();
                     }
                 })
                 .setNegativeButton(R.string.NegtiveButton,new DialogInterface.OnClickListener() {
@@ -158,7 +154,17 @@ public class ProblemiFragment2 extends Fragment {
                         try {
                             JSONObject jsonObj = new JSONObject(response);
                             JSONObject dati = jsonObj.getJSONObject("dati");
-                            MainActivity.mySQLiteHelper.deleteProblema(new Problema(idProblema));
+                            boolean delete = dati.getBoolean("Delete");
+                            if(delete) {
+                                MainActivity.mySQLiteHelper.deleteProblema(new Problema(idProblema));
+
+                                //aggiorno la listview
+                                Log.d("AGGIORNAMENTO", "OKK");
+                                ExpListItems = SetStandardGroups();
+                                ExpAdapter = new ExpandListAdapter(thisContext, ExpListItems);
+                                ExpandList.setAdapter(ExpAdapter);
+                                ExpAdapter.notifyDataSetChanged();
+                            }
                             aggiunto[0] = true;
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -200,7 +206,7 @@ public class ProblemiFragment2 extends Fragment {
         return (int) (pixels * scale + 0.5f);
     }
 
-    public ArrayList<Group> SetStandardGroups() {
+    public static ArrayList<Group> SetStandardGroups() {
 
         List<AutoUtente> listaAutoUtente = MainActivity.mySQLiteHelper.getAllMieAutoUtente();
 

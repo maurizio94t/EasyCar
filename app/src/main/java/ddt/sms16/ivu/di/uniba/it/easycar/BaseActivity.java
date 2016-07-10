@@ -160,14 +160,14 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             fragment = new ProblemiFragment2();
             ok = true;
         } else if (id == R.id.nav_posizione_auto) {
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-            String salvata = preferences.getString("Salvata", "DEFAULT");
-
+            SharedPreferences preferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+            String salvata = preferences.getString("Salvata", " ");
+            Log.d("SalvataPos > ", salvata);
 
             if(salvata.equalsIgnoreCase("DEFAULT")){
-            Intent posizioneAuto = new Intent(this, PosizioneAuto.class);
-            startActivity(posizioneAuto);
-            }else{
+                Intent posizioneAuto = new Intent(BaseActivity.this, PosizioneAuto.class);
+                startActivity(posizioneAuto);
+            } else {
                 Toast.makeText(getApplicationContext(),"Posizione non salvata",Toast.LENGTH_LONG).show();
             }
         } else if (id == R.id.nav_info) {

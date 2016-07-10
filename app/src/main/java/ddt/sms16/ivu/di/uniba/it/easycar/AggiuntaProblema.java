@@ -26,6 +26,7 @@ import java.util.Map;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Problema;
+import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment2;
 
 public class AggiuntaProblema extends AppCompatActivity {
     private EditText dettagliProblema;
@@ -131,7 +132,15 @@ public class AggiuntaProblema extends AppCompatActivity {
                             String idProblema= dati.getString(MainActivity.TAG_PROBLEMI_IDPROBLEMA);
                             String descrizione= dati.getString(MainActivity.TAG_PROBLEMI_DESCRIZIONE);
                             String targaVeicolo = dati.getString(MainActivity.TAG_PROBLEMI_VEICOLO);
-                            MainActivity.mySQLiteHelper.aggiungiProblema(new Problema(Integer.parseInt(idProblema),descrizione, new AutoUtente(targaVeicolo)));
+
+                            MainActivity.mySQLiteHelper.aggiungiProblema(new Problema(Integer.parseInt(idProblema), descrizione, new AutoUtente(targaVeicolo)));
+                            finish();
+                            //aggiorno la listview
+                            Log.d("AGGIORNAMENTO", "OKK");
+                            ProblemiFragment2.ExpListItems = ProblemiFragment2.SetStandardGroups();
+                            ProblemiFragment2.ExpAdapter = new ExpandListAdapter(ProblemiFragment2.thisContext, ProblemiFragment2.ExpListItems);
+                            ProblemiFragment2.ExpandList.setAdapter(ProblemiFragment2.ExpAdapter);
+                            ProblemiFragment2.ExpAdapter.notifyDataSetChanged();
                             aggiunto[0] =true;
                         } catch (JSONException e) {
                             e.printStackTrace();

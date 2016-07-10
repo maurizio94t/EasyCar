@@ -104,8 +104,6 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG_UTENTE_EMAIL = "Email";
     public static final String TAG_UTENTE_PSW = "Psw";
 
-    public static final String TAG_FRAGMENT = "fragment";
-
     // Hashmap per la ListView
     public static ArrayList<AutoUtente> listaAutoUtente;
     public static ArrayList<Manutenzione> listaManutenzioni;
@@ -151,9 +149,6 @@ public class MainActivity extends AppCompatActivity {
 
         boolean loginSalvato = sharedpreferences.getBoolean(TAG_UTENTE_VERIFICATO, false);
         if (loginSalvato) {
-            //if(checkNotification()) {
-            //    openNotification();
-            //} else
             if (Utility.checkInternetConnection(getApplicationContext())) {
                 StringRequest myReq = new StringRequest(Request.Method.POST,
                         url,

@@ -106,25 +106,8 @@ public class PosizioneAuto extends AppCompatActivity implements GoogleApiClient.
         Geocoder geocoder;
         List<Address> addresses = new ArrayList<>();
         geocoder = new Geocoder(this, Locale.getDefault());
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
-       /* mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (mLastLocation != null) {
-
-            Geocoder geocoder;
-            List<Address> addresses = new ArrayList<>();
-            geocoder = new Geocoder(this, Locale.getDefault());
-
-            try {
-                addresses = geocoder.getFromLocation(mLastLocation.getLatitude(),mLastLocation.getLongitude(), 1);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            mLocation.setText(addresses.get(0).getAddressLine(0));
-        } else {
-            Toast.makeText(this, R.string.no_location_detected, Toast.LENGTH_LONG).show();
-        }*/
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, 0);
-       SharedPreferences.Editor prefEditor = sharedpreferences.edit();
         String latitude = sharedpreferences.getString("Latitude","");
         String longitude = sharedpreferences.getString("Longitude","");
         double latitudeP = Double.parseDouble(latitude);

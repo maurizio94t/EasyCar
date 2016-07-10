@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -47,9 +48,11 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(Utility.checkInternetConnection(thisContext)) {
-                    Intent salvaPos = new Intent(getContext(), SalvaPosizione.class);
+                    Intent salvaPos = new Intent(thisContext, SalvaPosizione.class);
                     startActivity(salvaPos);
                     save = true;
+                } else {
+                    Toast.makeText(thisContext, "Connessione assente!", Toast.LENGTH_SHORT).show();
                 }
             }
         });

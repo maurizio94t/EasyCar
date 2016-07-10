@@ -69,13 +69,12 @@ public class SalvaPosizione extends AppCompatActivity implements GoogleApiClient
                 finish();
             }else {
                 prefEditor.putString("Salvata","no");
-                Intent intent = new Intent(getApplicationContext(), PosizioneAuto.class);
+                prefEditor.commit();
+                Intent intent = new Intent(this, PosizioneAuto.class);
                 startActivity(intent);
                 finish();
 
             }
-        } else {
-            Toast.makeText(getApplicationContext(), "last location è null", Toast.LENGTH_LONG);
         }
     }
 
@@ -89,28 +88,6 @@ public class SalvaPosizione extends AppCompatActivity implements GoogleApiClient
     public void onConnectionFailed(ConnectionResult connectionResult) {
         Toast.makeText(SalvaPosizione.this, "Connetion failed", Toast.LENGTH_SHORT)
                 .show();
-    }
-
-    private void showGPSDisabledAlertToUser() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("GPS is disabled in your device. Would you like to enable it?")
-                .setCancelable(false)
-                .setPositiveButton("Goto Settings Page To Enable GPS",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Intent callGPSSettingIntent = new Intent(
-                                        android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                                startActivity(callGPSSettingIntent);
-                            }
-                        });
-        alertDialogBuilder.setNegativeButton("Cancel",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alert = alertDialogBuilder.create();
-        alert.show();
     }
 
 }
