@@ -68,8 +68,8 @@ public class HomeFragment extends Fragment {
 
         listView = (ListView) view.findViewById(R.id.listView);
         listView.setAdapter(customAdapter);
-       AutoUtente a = MainActivity.mySQLiteHelper.getAutoPreferita();
-    auto.setText(a.getModello().getMarca().getNome()+" "+a.getModello().getNome());
+        //AutoUtente a = MainActivity.mySQLiteHelper.getAutoPreferita();
+        //auto.setText(a.getModello().getMarca().getNome()+" "+a.getModello().getNome());
         return view;
     }
 

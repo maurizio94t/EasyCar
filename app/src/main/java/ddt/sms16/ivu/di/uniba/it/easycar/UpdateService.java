@@ -39,6 +39,9 @@ import ddt.sms16.ivu.di.uniba.it.easycar.entity.Modello;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Problema;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Scadenza;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Utente;
+import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment;
+import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment2;
+import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ScadenzeFragment;
 
 /**
  * Created by Maurizio on 03/07/16.
@@ -1258,9 +1261,23 @@ public class UpdateService extends Service  {
             if(!trovato) {
                 mySQLiteHelper.aggiungiProblema(problemaE);
                 NotificationCompat.Builder mBuilder = new android.support.v4.app.NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setSmallIcon(R.drawable.ic_alert_octagon_grey600_24dp)
+                        .setAutoCancel(true)
                         .setContentTitle("Nuova segnalazione!")
                         .setContentText("Nuovo problema riguardate la tua " + problemaE.getAuto().getModello().getMarca().getNome() + " " + problemaE.getAuto().getModello().getNome());
+
+                Intent resultIntent = new Intent(this, MainActivity.class);
+                // Because clicking the notification opens a new ("special") activity, there's
+                // no need to create an artificial back stack.
+                PendingIntent resultPendingIntent =
+                        PendingIntent.getActivity(
+                                this,
+                                0,
+                                resultIntent,
+                                PendingIntent.FLAG_UPDATE_CURRENT
+                        );
+                mBuilder.setContentIntent(resultPendingIntent);
+
                 // Gets an instance of the NotificationManager service
                 NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 // Builds the notification and issues it.
@@ -1344,9 +1361,23 @@ public class UpdateService extends Service  {
         for(Scadenza scadenza : listScadenzeLocal) {
             if(scadenza.lastDay() && scadenza.getInviata() == 0) {
                 NotificationCompat.Builder mBuilder = new android.support.v4.app.NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setSmallIcon(R.drawable.ic_calendar_clock_grey600_24dp)
+                        .setAutoCancel(true)
                         .setContentTitle("Scadenza imminente!")
-                        .setContentText(scadenza.getDescrizione() + " " + scadenza.getAuto().getModello().getMarca().getNome() + " " + scadenza.getAuto().getModello().getNome() + "scade domani.");
+                        .setContentText(scadenza.getDescrizione() + " " + scadenza.getAuto().getModello().getMarca().getNome() + " " + scadenza.getAuto().getModello().getNome() + " scade domani.");
+
+                Intent resultIntent = new Intent(this, MainActivity.class);
+                // Because clicking the notification opens a new ("special") activity, there's
+                // no need to create an artificial back stack.
+                PendingIntent resultPendingIntent =
+                        PendingIntent.getActivity(
+                                this,
+                                0,
+                                resultIntent,
+                                PendingIntent.FLAG_UPDATE_CURRENT
+                        );
+                mBuilder.setContentIntent(resultPendingIntent);
+
                 // Gets an instance of the NotificationManager service
                 NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 // Builds the notification and issues it.
@@ -1357,7 +1388,7 @@ public class UpdateService extends Service  {
                 // inizio request
                 scadenzaNot = scadenza;
                 StringRequest myReq = new StringRequest(Request.Method.POST,
-                        MainActivity.url,
+                        MainActivity.urlOperations,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
@@ -1384,6 +1415,10 @@ public class UpdateService extends Service  {
 
                     protected Map<String, String> getParams() throws com.android.volley.AuthFailureError {
                         Map<String, String> params = new HashMap<String, String>();
+                        //update into Scadenze
+                        params.put("operation", "u");
+                        params.put("table", "Scadenze");
+
                         params.put("id", String.valueOf(scadenzaNot.getIDScadenza()));
                         params.put("inviata", String.valueOf(1));
                         return params;

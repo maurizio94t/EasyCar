@@ -39,7 +39,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     private Intent intentService;
     private SharedPreferences sharedpreferences;
 
-    public static String TAG_FRAGMENT = "fragment";
+    public static final String TAG_FRAGMENT = "fragment";
     public boolean GPSenabled = false;
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
@@ -113,43 +113,13 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        /*
-        Bundle bundle = getIntent().getExtras();
-        Fragment fragment = null;
-        if(bundle != null) {
-            String fragmentStr = bundle.getString(TAG_FRAGMENT);
-            if (fragmentStr.equalsIgnoreCase(MieAutoFragment.class.getSimpleName())) {
-                fragment = new MieAutoFragment();
-                navigationView.getMenu().getItem(1).setChecked(true);
-            } else if (fragmentStr.equalsIgnoreCase(ManutenzioniFragment.class.getSimpleName())) {
-                fragment = new ManutenzioniFragment();
-                navigationView.getMenu().getItem(2).setChecked(true);
-            } else if (fragmentStr.equalsIgnoreCase(ScadenzeFragment.class.getSimpleName())) {
-                fragment = new ScadenzeFragment();
-                navigationView.getMenu().getItem(3).setChecked(true);
-            } else if (fragmentStr.equalsIgnoreCase(ProblemiFragment2.class.getSimpleName())) {
-                fragment = new ProblemiFragment2();
-                navigationView.getMenu().getItem(4).setChecked(true);
-            } else {
-                fragment = new HomeFragment();
-                navigationView.getMenu().getItem(0).setChecked(true);
-            }
-        } else {
-            fragment = new HomeFragment();
-            navigationView.getMenu().getItem(0).setChecked(true);
-        }
-
-        // Faccio partire il primo Fragment
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, fragment);
-        ft.commit();
-        */
-
         // Faccio partire il primo Fragment
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, new HomeFragment());
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         ft.commit();
         navigationView.getMenu().getItem(0).setChecked(true);
+
     }
 
     @Override

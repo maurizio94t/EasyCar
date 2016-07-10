@@ -1,5 +1,6 @@
 package ddt.sms16.ivu.di.uniba.it.easycar;
 
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -37,6 +38,11 @@ import ddt.sms16.ivu.di.uniba.it.easycar.entity.Modello;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Problema;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Scadenza;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Utente;
+import ddt.sms16.ivu.di.uniba.it.easycar.fragments.HomeFragment;
+import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ManutenzioniFragment;
+import ddt.sms16.ivu.di.uniba.it.easycar.fragments.MieAutoFragment;
+import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment2;
+import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ScadenzeFragment;
 
 /**
  * Created by Maurizio on 01/06/16.
@@ -111,6 +117,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG_UTENTE_EMAIL = "Email";
     public static final String TAG_UTENTE_PSW = "Psw";
 
+    public static final String TAG_FRAGMENT = "fragment";
+
     // Hashmap per la ListView
     public static ArrayList<AutoUtente> listaAutoUtente;
     public static ArrayList<Manutenzione> listaManutenzioni;
@@ -156,6 +164,9 @@ public class MainActivity extends AppCompatActivity {
 
         boolean loginSalvato = sharedpreferences.getBoolean(TAG_UTENTE_VERIFICATO, false);
         if (loginSalvato) {
+            //if(checkNotification()) {
+            //    openNotification();
+            //} else
             if (Utility.checkInternetConnection(getApplicationContext())) {
                 StringRequest myReq = new StringRequest(Request.Method.POST,
                         url,
@@ -228,4 +239,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /*
+    public boolean checkNotification() {
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null)
+            return true;
+        return  false;
+    }
+
+    public void openNotification() {
+        Bundle bundle = getIntent().getExtras();
+        String fragmentStr = bundle.getString(TAG_FRAGMENT);
+
+        Intent intentBaseForFragment = new Intent(this, BaseActivity.class);
+        intentBaseForFragment.putExtra(TAG_FRAGMENT, fragmentStr);
+        startActivity(intentBaseForFragment);
+    }
+    */
 }

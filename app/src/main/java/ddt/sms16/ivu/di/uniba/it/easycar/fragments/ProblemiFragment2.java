@@ -56,8 +56,9 @@ public class ProblemiFragment2 extends Fragment {
         thisContext = container.getContext();
         view = inflater.inflate(R.layout.fragment_problemi, container, false);
 
+        Log.d("ProblemiFragment2 >", "ENTRA");
+
         ExpandList = (ExpandableListView) view.findViewById(R.id.exp_list);
-        // inizio prova
 
         // get the listview
         DisplayMetrics metrics = new DisplayMetrics();
@@ -66,7 +67,6 @@ public class ProblemiFragment2 extends Fragment {
 
         ExpandList.setIndicatorBounds(width - GetPixelFromDips(50), width - GetPixelFromDips(10));
 
-        //fine prova
         ExpListItems = SetStandardGroups();
         ExpAdapter = new ExpandListAdapter(thisContext, ExpListItems);
         ExpandList.setAdapter(ExpAdapter);

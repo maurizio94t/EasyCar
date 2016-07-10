@@ -84,16 +84,17 @@ public class Scadenza implements Comparable<Scadenza> {
     }
 
     public boolean lastDay() {
-        Date a = Utility.convertStringToDate(dataScadenza);
-        Date b = new Date();
-        Calendar c =  Calendar.getInstance();
+        Date date = Utility.convertStringToDate(dataScadenza);
+        Calendar dataScadenza = Calendar.getInstance();
+        dataScadenza.setTime(date);
+        Calendar today =  Calendar.getInstance();
 
         //portare tutto in calendar e poi continuare
-        Log.d("ResponseInviata a>", a.getYear() + " - " + a.getMonth() + " - " + a.getDay());
-        Log.d("ResponseInviata b>", b.getYear() + " - " + b.getMonth() + " - " +  c.get(Calendar.DAY_OF_MONTH));
+        //Log.d("DataCalendar scadenza>", dataScadenza.get(Calendar.YEAR) + " - " + dataScadenza.get(Calendar.MONTH) + " - " +  dataScadenza.get(Calendar.DAY_OF_MONTH));
+        //Log.d("DataCalendar oggi >", today.get(Calendar.YEAR) + " - " + today.get(Calendar.MONTH) + " - " +  today.get(Calendar.DAY_OF_MONTH));
 
-        if(a.getYear() == b.getYear() && a.getMonth() == b.getMonth()) {
-            if(a.getDay()+1 == b.getDay()) {
+        if(dataScadenza.get(Calendar.YEAR) == today.get(Calendar.YEAR) && dataScadenza.get(Calendar.MONTH) == today.get(Calendar.MONTH)) {
+            if(dataScadenza.get(Calendar.DAY_OF_MONTH)+1 == today.get(Calendar.DAY_OF_MONTH)) {
                 return true;
             }
         }

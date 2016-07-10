@@ -323,10 +323,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
+        /*
         for (Scadenza s : scadenze) {
             Log.d("getAllScadenze()", s.toString());
         }
-
+        */
 
         return scadenze;
     }
@@ -568,6 +569,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         cv.put("Descrizione", scadenza.getDescrizione());
         cv.put("Inviata", scadenza.getInviata());
         cv.put("Targa", scadenza.getAuto().getTarga());
+
+        Log.d("updateScadenza() >", scadenza.toString());
 
         String id="'"+scadenza.getIDScadenza()+"'";
         db.update(TABELLA_SCADENZE, cv, "IDScadenza="+id, null);
