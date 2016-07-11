@@ -159,10 +159,8 @@ public class AggiuntaScadenza extends AppCompatActivity {
 
 
         if (id == R.id.done) {
-            if(tipoScadenzaRadioGroupSelected==null || mDataScadenza == null || spinnerTarghe == null){
-                Snackbar snackbar = Snackbar
-                        .make( findViewById(android.R.id.content),"Compila tutti i campi...", Snackbar.LENGTH_LONG);
-
+            if(tipoScadenzaRadioGroupSelected==null || mDataScadenza.getText().toString().equalsIgnoreCase("")) {
+                Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Compila tutti i campi...", Snackbar.LENGTH_LONG);
                 snackbar.show();
             } else {
                 String tipoScadenza  = tipoScadenzaRadioGroupSelected.getText().toString();

@@ -125,14 +125,12 @@ public class AggiuntaManutenzione extends AppCompatActivity {
 
         AutoUtente[] automobili = new AutoUtente[auto.size()];
         int i = 0;
-        for (AutoUtente a : auto
-                ) {
+        for (AutoUtente a : auto) {
             automobili[i] = a;
             i++;
         }
 
-        ArrayAdapter<AutoUtente> adapter = new ArrayAdapter<AutoUtente>(this,
-                android.R.layout.simple_spinner_item, automobili);
+        ArrayAdapter<AutoUtente> adapter = new ArrayAdapter<AutoUtente>(this, android.R.layout.simple_spinner_item, automobili);
         mSpinnerVeicolo.setAdapter(adapter);
     }
 
@@ -145,15 +143,7 @@ public class AggiuntaManutenzione extends AppCompatActivity {
         mData.setText(dataN);
 
     }
-    public boolean campiValidi(){
 
-        if(mDescrizioneManutenzione.getText().toString().compareTo("")==0 || mData.getText().toString().compareTo("")==0
-                || mChilometraggio.toString().compareTo("")==0 || mSpinnerVeicolo.toString().compareTo("")==0
-                ){
-            return false;
-        }
-        return true;
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -167,16 +157,10 @@ public class AggiuntaManutenzione extends AppCompatActivity {
 
 
         if (id == R.id.done) {
-
-
-            if (!campiValidi()) {
-                Snackbar snackbar = Snackbar
-                        .make(findViewById(android.R.id.content), "Compila tutti i campi...", Snackbar.LENGTH_LONG);
-
+            if (mDescrizioneManutenzione.getText().toString().equalsIgnoreCase("") || mDescrizioneManutenzione.getText().toString().equalsIgnoreCase("") || mChilometraggio.getText().toString().equalsIgnoreCase("")) {
+                Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Compila tutti i campi...", Snackbar.LENGTH_LONG);
                 snackbar.show();
             } else {
-
-
                 String descrizioneManutenzione = mDescrizioneManutenzione.getText().toString();
                 String datamanutenzione = mData.getText().toString();
                 String chilometraggio = mChilometraggio.getText().toString();
@@ -196,7 +180,6 @@ public class AggiuntaManutenzione extends AppCompatActivity {
                 } else {
                     finish();
                 }
-
             }
             return true;
 

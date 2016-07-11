@@ -43,7 +43,7 @@ import ddt.sms16.ivu.di.uniba.it.easycar.entity.Problema;
 /**
  * Created by Maurizio on 01/06/16.
  */
-public class ProblemiFragment2 extends Fragment {
+public class ProblemiFragment extends Fragment {
     public static Context thisContext;
     View view;
     public static ExpandListAdapter ExpAdapter;

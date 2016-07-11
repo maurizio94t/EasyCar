@@ -27,7 +27,7 @@ import java.util.Map;
 
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.AutoUtente;
 import ddt.sms16.ivu.di.uniba.it.easycar.entity.Problema;
-import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment2;
+import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment;
 
 public class AggiuntaProblema extends AppCompatActivity {
     private EditText dettagliProblema;
@@ -52,26 +52,19 @@ public class AggiuntaProblema extends AppCompatActivity {
 
         List<AutoUtente> auto = MainActivity.mySQLiteHelper.getAllMieAutoUtente();
 
-        String[] automobili = new String[auto.size()];
+        AutoUtente[] automobili = new AutoUtente[auto.size()];
         int i = 0;
-        for (AutoUtente a : auto
-                ) {
-            automobili[i] = a.getModello().getMarca().getNome()+" "+a.getModello().getNome()+"-"+a.getTarga();
+        for (AutoUtente a : auto) {
+            automobili[i] = a;
             i++;
         }
 
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, automobili);
+        ArrayAdapter<AutoUtente> adapter = new ArrayAdapter<AutoUtente>(this, android.R.layout.simple_spinner_item, automobili);
         mSpinnerVeicolo.setAdapter(adapter);
     }
 
 
-    public boolean controllaCampi(){
-
-        if(dettagliProblema.getText().toString()==null || mSpinnerVeicolo.getSelectedItem().toString()==null) return false;
-        else return true;
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar, menu);
@@ -79,41 +72,21 @@ public class AggiuntaProblema extends AppCompatActivity {
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         int id = item.getItemId();
-        if(controllaCampi()) {
-            if (id == R.id.done) {
+        if (id == R.id.done) {
+            if(dettagliProblema.getText().toString().equalsIgnoreCase("")) {
+                Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Compila tutti i campi...", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            } else {
+                String dettaglioProblema  = dettagliProblema.getText().toString();
+                String targa = ((AutoUtente) mSpinnerVeicolo.getSelectedItem()).getTarga();
+                String email = MainActivity.sharedpreferences.getString(MainActivity.TAG_UTENTE_EMAIL,"");
 
-                if(!controllaCampi()){
-                    Snackbar snackbar = Snackbar
-                            .make( findViewById(android.R.id.content),"Compila tutti i campi...", Snackbar.LENGTH_LONG);
-
-                    snackbar.show();
-                }else
-                {
-                    String dettaglioProblema  = dettagliProblema.getText().toString();
-
-                     String targa = mSpinnerVeicolo.getSelectedItem().toString();
-                 String email =MainActivity.sharedpreferences.getString(MainActivity.TAG_UTENTE_EMAIL,"");
-
-                   boolean aggiunto = aggiungiProblema(dettaglioProblema, targa,email);
-
-                    Log.d("Response",Boolean.toString(aggiunto));
-                    if(aggiunto){
-                        Snackbar snackbar = Snackbar
-                                .make( findViewById(android.R.id.content),"Errore nell'aggiunta del problema, controlla la connessione", Snackbar.LENGTH_LONG);
-                        snackbar.show();
-                    }else{
-                        Snackbar snackbar = Snackbar
-                                .make( findViewById(android.R.id.content),"Problema aggiunto", Snackbar.LENGTH_LONG);
-                        snackbar.show();
-                    }
-                }
-
-                return true;
-            }
+                aggiungiProblema(dettaglioProblema, targa, email);
             }
 
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -138,10 +111,10 @@ public class AggiuntaProblema extends AppCompatActivity {
                             finish();
                             //aggiorno la listview
                             Log.d("AGGIORNAMENTO", "OKK");
-                            ProblemiFragment2.ExpListItems = ProblemiFragment2.SetStandardGroups();
-                            ProblemiFragment2.ExpAdapter = new ExpandListAdapter(ProblemiFragment2.thisContext, ProblemiFragment2.ExpListItems);
-                            ProblemiFragment2.ExpandList.setAdapter(ProblemiFragment2.ExpAdapter);
-                            ProblemiFragment2.ExpAdapter.notifyDataSetChanged();
+                            ProblemiFragment.ExpListItems = ProblemiFragment.SetStandardGroups();
+                            ProblemiFragment.ExpAdapter = new ExpandListAdapter(ProblemiFragment.thisContext, ProblemiFragment.ExpListItems);
+                            ProblemiFragment.ExpandList.setAdapter(ProblemiFragment.ExpAdapter);
+                            ProblemiFragment.ExpAdapter.notifyDataSetChanged();
                             aggiunto[0] =true;
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -159,15 +132,15 @@ public class AggiuntaProblema extends AppCompatActivity {
             protected Map<String, String> getParams() throws com.android.volley.AuthFailureError {
 
                 Map<String, String> params = new HashMap<String, String>();
-                Log.d("Response","getParams");
-                Log.d("Response",descrizione);
-                Log.d("Response",Utility.estraiTarga(targa));
+                Log.d("Response", "getParams");
+                Log.d("Response", descrizione);
+                Log.d("Response", targa);
 
                 params.put("operation", "c");
                 params.put("email", email);
                 params.put("table", MainActivity.TAG_PROBLEMI);
                 params.put("descrizione", descrizione );
-                params.put("targa",Utility.estraiTarga(targa) );
+                params.put("targa", targa);
 
                 return params;
             };

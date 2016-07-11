@@ -154,15 +154,15 @@ public class AggiuntaAuto extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-       // if(campiValidi()) {
-            if (id == R.id.done) {
-
-                final String email =MainActivity.sharedpreferences.getString(MainActivity.TAG_UTENTE_EMAIL,"");
+        if (id == R.id.done) {
+            if(mTarga.getText().toString().equalsIgnoreCase("") || mAnno.getText().toString().equalsIgnoreCase("") || mChilometraggio.getText().toString().equalsIgnoreCase("")) {
+                Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Compila tutti i campi...", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            } else {
+                final String email = MainActivity.sharedpreferences.getString(MainActivity.TAG_UTENTE_EMAIL,"");
                 final String targa = mTarga.getText().toString();
                 final String annoImm = mAnno.getText().toString();
                 final String km = mChilometraggio.getText().toString();
-                //idMarca
-                //idModello
 
                 StringRequest myReq = new StringRequest(Request.Method.POST,
                         MainActivity.urlOperations,
@@ -237,10 +237,9 @@ public class AggiuntaAuto extends AppCompatActivity {
                     finish();
                     Toast.makeText(getApplicationContext(), "Quando sarà presente la connessione, aggiorneremo i tuoi dati!", Toast.LENGTH_LONG).show();
                 }
-
-
-                return true;
             }
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 

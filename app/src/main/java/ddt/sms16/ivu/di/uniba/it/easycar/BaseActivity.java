@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -32,7 +31,7 @@ import java.util.ArrayList;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.HomeFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ManutenzioniFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.MieAutoFragment;
-import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment2;
+import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ProblemiFragment;
 import ddt.sms16.ivu.di.uniba.it.easycar.fragments.ScadenzeFragment;
 
 
@@ -157,7 +156,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             fragment = new ScadenzeFragment();
             ok = true;
         } else if (id == R.id.nav_problemi) {
-            fragment = new ProblemiFragment2();
+            fragment = new ProblemiFragment();
             ok = true;
         } else if (id == R.id.nav_posizione_auto) {
             SharedPreferences preferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
