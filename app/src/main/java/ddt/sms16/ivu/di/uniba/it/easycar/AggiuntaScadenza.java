@@ -104,9 +104,7 @@ public class AggiuntaScadenza extends AppCompatActivity {
 
         AutoUtente[] automobili = new AutoUtente[auto.size()];
         int i = 0;
-        for (AutoUtente a : auto
-                ) {
-
+        for (AutoUtente a : auto) {
             automobili[i] = a;
             i++;
         }

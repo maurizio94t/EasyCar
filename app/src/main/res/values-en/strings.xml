@@ -28,7 +28,7 @@
     <string name="cognomeUtente">Surname</string>
     <string name="dataNascita">Date of birth</string>
     <string name="immatricolazione">Year of registration</string>
-    <string name="manutenzione">Maintenance</string>
+    <string name="manutenzione">Date</string>
     <string name="aggiungiFoto"> add photo </string>
     <string name="album_name"> EasyCar photo</string>
     <string name="cannot">Cannot</string>
